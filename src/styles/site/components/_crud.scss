@@ -1,0 +1,52 @@
+.crud {
+  .pt-table {
+    width: 100%;
+    border: 1px solid #dfdfdf;
+  }
+
+  .pt-tab {
+    font-size: 16px;
+  }
+}
+
+.crud-actions {
+  @include clearfix;
+  margin-bottom: 15px;
+
+  .pt-button-group {
+    float: left;
+
+    &.right {
+      float: right;
+    }
+  }
+}
+
+.crud-index {
+  .paginator {
+    float: right;
+  }
+
+  .bp-table-container {
+    min-height: 430px;
+  }
+
+  .text-box {
+    float: left;
+  }
+}
+
+.crud-form-container {
+  .pt-form-content {
+    input {
+      width: 100%;
+    }
+  }
+}
+
+.crud-form-actions {
+  .pt-button {
+    min-width: 120px;
+    margin-right: 15px;
+  }
+}

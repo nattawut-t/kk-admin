@@ -1,0 +1,32 @@
+.item-list {
+  &.empty {
+    padding-top: 50px;
+  }
+
+  > .item {
+    min-height: 90px;
+    padding: 10px;
+    border-bottom: 1px solid #dfdfdf;
+    background-color: #ffffff;
+
+    &.active {
+      background-color: #F5F8FA;
+    }
+  }
+
+  .item-title {
+    margin-bottom: 3px;
+    color: $dark-gray2;
+  }
+
+  .item-subtitle {
+    color: $dark-gray5;
+    margin-bottom: 10px;
+  }
+
+  .item-description {
+    color: $gray3;
+    font-size: 12px;
+    margin-bottom: 0;
+  }
+}

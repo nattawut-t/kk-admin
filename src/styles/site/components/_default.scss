@@ -1,0 +1,40 @@
+body {
+  min-height: 1024px;
+}
+
+main {
+  position: relative;
+}
+
+.page-title {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid $primary-border-color;
+}
+
+.section-title {
+  margin-bottom: 15px;
+  border-bottom: 1px solid $primary-border-color;
+}
+
+.button-group {
+  .pt-button {
+    margin-right: 10px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.non-ideal {
+  padding: 15px;
+
+  &.info {
+    background-color: #ebf1f5;
+  }
+}
+
+.error {
+  color: #a82a2a;
+}

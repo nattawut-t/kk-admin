@@ -1,0 +1,39 @@
+.layout-full {
+  width: 100%;
+  padding: 30px;
+}
+
+.layout-master-detail {
+  .content {
+    padding: 15px;
+  }
+}
+
+.master-view {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  max-height: 100%;
+  width: 300px;
+  border-right: 1px solid #dfdfdf;
+  background-color: $light-gray5;
+  overflow-y: scroll;
+}
+
+.master-view-search {
+  padding: 10px 5px;
+  background-color: $light-gray1;
+}
+
+.master-view-content {
+  height: 100%;
+
+  &.loading {
+    padding-top: 50px;
+  }
+}
+
+.detail-view {
+  width: 100%;
+  padding-left: 300px;
+}

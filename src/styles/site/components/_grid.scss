@@ -1,0 +1,19 @@
+.row {
+  margin-left: -15px;
+  margin-right: -15px;
+  margin-bottom: 15px;
+
+  @include clearfix;
+}
+
+*[class^=col-] {
+  float: left;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    width: percentage($i/12);
+  }
+}

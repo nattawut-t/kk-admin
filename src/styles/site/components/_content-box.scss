@@ -1,0 +1,15 @@
+.content-header {
+  padding: 10px;
+  background-color: $dark-gray5;
+  color: $white;
+  font-weight: 600;
+}
+
+.content-body {
+  @include clearfix;
+
+  position: relative;
+  padding: 10px;
+  border: 1px solid $primary-border-color;
+  border-top: 0;
+}
