@@ -27,43 +27,85 @@ class PersonalInfo extends Component {
     dateReq: moment().format('YYYY-MM-DD'),
     prefixTH: '',
     firstNameTH: '',
+    firstNameTHmsg: '',
     lastNameTH: '',
+    lastNameTHmsg: '',
     prefixEn: '',
     firstNameEN: '',
+    firstNameENmsg: '',
     lastNameEN: '',
+    lastNameENmsg: '',
     valid: false,
   };
 
   validate = () => {
-    const invalid = Object.keys(this.state)
-      .map(key => this.state[key])
-      .find(value => !value);
+    const { prefixTH } = this.state;
+    console.log('>>> prefixTH: ', prefixTH);
+
+    const keys = [
+      'dateReq',
+      'prefixTH',
+      'firstNameTH',
+      'lastNameTH',
+      'prefixEn',
+      'firstNameEN',
+      'lastNameEN',
+    ];
+    const invalid = keys
+      .map(key => ({
+        key,
+        value: this.state[key],
+      }))
+      .find(({ key, value }) => {
+        console.log('>>> validate.find: ', key, value);
+        return !value;
+      });
+
+    console.log('invalid: ', invalid);
 
     return !invalid;
   }
 
-  handleChange = e => {
+  handleChange = (e, required = false, label = 'value') => {
     const { name, value } = e.target;
-    const required = this.state[`${name}Required`];
+    const msgKey = `${name}msg`;
+    let msg = this.state[msgKey];
+
+    if (msg === '') {
+      msg = (required && !value)
+        ? `Please fill ${label}`
+        : '';
+
+      this.setState({ [msgKey]: msg });
+    }
 
     this.setState({
       [name]: value,
       [`${name}Valid`]: !required || (required && value),
-    },
-      this.setState({ valid: this.validate() }),
-    );
-
-    // console.log('>>> entry: ', entry[name]);
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
   };
+
+  handleLookupChange = (value, text, key) => {
+    this.setState({ [key]: value }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
   render() {
     const {
       dateReq,
       prefixTH,
       firstNameTH,
+      firstNameTHmsg,
       lastNameTH,
       prefixEn,
       firstNameEN,
       lastNameEN,
+      lastNameENmsg,
       valid,
     } = this.state;
 
@@ -129,8 +171,9 @@ class PersonalInfo extends Component {
                 id="firstNameEN"
                 name="firstNameEN"
                 value={firstNameEN}
-                floatingLabelText="First Name (TH)"
-                onChange={this.handleChange}
+                floatingLabelText="First Name (EN)"
+                errorText={firstNameTHmsg}
+                onChange={e => this.handleChange(e, true)}
                 fullWidth
               />
             </div>
@@ -139,8 +182,9 @@ class PersonalInfo extends Component {
                 id="lastNameEN"
                 name="lastNameEN"
                 value={lastNameEN}
-                floatingLabelText="Last Name (TH)"
-                onChange={this.handleChange}
+                floatingLabelText="Last Name (EN)"
+                errorText={lastNameENmsg}
+                onChange={e => this.handleChange(e, true)}
                 fullWidth
               />
             </div>

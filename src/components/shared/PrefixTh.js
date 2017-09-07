@@ -73,8 +73,6 @@ class PrefixTh extends Component {
         _value = prefix[fieldName.value];
       }
 
-      // console.log('>>> onSelectItem: ', id, index, key, dataSource, prefix);
-
       this.setState({ key: _key });
       onSelectItem(_key, _value, id);
     }
