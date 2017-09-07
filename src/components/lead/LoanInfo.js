@@ -5,7 +5,6 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
 // import PrefixEn from '../shared/PrefixEn';
 
 const styles = {
@@ -27,54 +26,92 @@ const styles = {
 class LoanInfo extends Component {
   state = {
     loanAmount: '',
+    loanAmountMsg: '',
     installmentNumber: '',
+    installmentNumberMsg: '',
     beneficiary: 'myself',
     loanBeneficiaryName: '',
+    loanBeneficiaryNameMsg: '',
     valid: false,
   };
 
   validate = () => {
-    const invalid = Object.keys(this.state)
-      .map(key => this.state[key])
-      .find(value => !value);
+    const { prefixTH } = this.state;
+    console.log('>>> prefixTH: ', prefixTH);
+
+    const keys = [
+      'loanAmount',
+      'loanAmountMsg',
+      'installmentNumber',
+      'installmentNumberMsg',
+      'loanBeneficiaryName',
+      'loanBeneficiaryNameMsg',
+    ];
+
+    const invalid = keys
+      .map(key => ({
+        key,
+        value: this.state[key],
+      }))
+      .find(({ key, value }) => {
+        console.log('>>> validate.find: ', key, value);
+        return !value;
+      });
+
+    console.log('>>> invalid: ', invalid);
 
     return !invalid;
   }
 
-  handleChange = e => {
+  handleChange = (e, required = false, label = '') => {
     const { name, value } = e.target;
-    const required = this.state[`${name}Required`];
+    const msgKey = `${name}Msg`;
+    let msg = this.state[msgKey];
+
+    console.log('>>> handleChange: ', name, value, required);
+
+    if (msg === '') {
+      msg = (required && !value)
+        ? `กรุณากรอก ${label}`
+        : '';
+
+      this.setState({ [msgKey]: msg });
+    }
 
     this.setState({
       [name]: value,
       [`${name}Valid`]: !required || (required && value),
-    },
-      this.setState({ valid: this.validate() }),
-    );
-
-    // console.log('>>> entry: ', entry[name]);
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
   };
+
   render() {
     const {
       loanAmount,
+      loanAmountMsg,
       installmentNumber,
+      installmentNumberMsg,
       beneficiary,
       loanBeneficiaryName,
+      loanBeneficiaryNameMsg,
       valid,
     } = this.state;
 
     return (
       <div>
-        <form className="crud-form" onSubmit={e => this.handleAction(e, 'submit')}>
+        xxx
+        <form className="crud-form">
           <div className="row">
             <div className="col">
               <TextField
                 id="loanAmount"
                 name="loanAmount"
                 value={loanAmount}
-                required
                 floatingLabelText="จำนวนที่ต้องการกู้"
-                onChange={this.handleChange}
+                onChange={e => this.handleChange(e, true)}
+                errorText={loanAmountMsg}
                 fullWidth
               />
             </div>
@@ -83,8 +120,8 @@ class LoanInfo extends Component {
                 id="installmentNumber"
                 name="installmentNumber"
                 value={installmentNumber}
-                onChange={this.handleChange}
-                required
+                onChange={e => this.handleChange(e, true)}
+                errorText={installmentNumberMsg}
                 floatingLabelText="ระยะเวลาผ่อนชำระ(งวด)"
                 fullWidth
               >
@@ -103,7 +140,7 @@ class LoanInfo extends Component {
             <div className="col-3">
               <RadioButtonGroup
                 name="beneficiary"
-                defaultSelected={{ beneficiary }}
+                defaultSelected={beneficiary}
                 style={{ display: 'flex' }}
               >
                 <RadioButton
@@ -111,7 +148,7 @@ class LoanInfo extends Component {
                   label="ตนเอง"
                 />
                 <RadioButton
-                  value="other"
+                  value="others"
                   label="ผู้อื่น(โปรดระบุ)"
                 />
               </RadioButtonGroup>
@@ -124,7 +161,8 @@ class LoanInfo extends Component {
                 value={loanBeneficiaryName}
                 required
                 floatingLabelText="ผู้รับผลประโยชน์ที่แท้จริง"
-                onChange={this.handleChange}
+                onChange={e => this.handleChange(e)}
+                errorText={loanBeneficiaryNameMsg}
                 fullWidth
               />
             </div>
@@ -147,22 +185,6 @@ class LoanInfo extends Component {
               />
             </div>
           </div>
-          <Card>
-            <CardHeader
-              title="Without Avatar"
-              subtitle="Subtitle"
-              actAsExpander
-              showExpandableButton
-              titleColor="red"
-              titleStyle={{ backgroundColor: 'blue' }}
-            />
-            <CardText expandable>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-              Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-              Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-            </CardText>
-          </Card>
         </form>
       </div>
     );
