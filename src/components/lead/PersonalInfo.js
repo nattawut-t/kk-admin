@@ -79,7 +79,7 @@ class PersonalInfo extends Component {
 
     if (msg === '') {
       msg = (required && !value)
-        ? `Please fill ${label}`
+        ? `กรุณากรอก ${label}`
         : '';
 
       this.setState({ [msgKey]: msg });
@@ -128,8 +128,10 @@ class PersonalInfo extends Component {
       firstNameTH,
       firstNameTHmsg,
       lastNameTH,
+      lastNameTHmsg,
       prefixEn,
       firstNameEN,
+      firstNameENmsg,
       lastNameEN,
       lastNameENmsg,
       idCard,
@@ -139,7 +141,7 @@ class PersonalInfo extends Component {
 
     return (
       <div>
-        <form className="crud-form" onSubmit={e => this.handleAction(e, 'submit')}>
+        <form className="crud-form">
           <div className="row">
             <div className="col-12">
               <TextField
@@ -147,7 +149,6 @@ class PersonalInfo extends Component {
                 name="dateReq"
                 value={dateReq}
                 floatingLabelText="วันที่คำขอ"
-                onChange={this.handleChange}
                 fullWidth
                 disabled
               />
@@ -170,7 +171,8 @@ class PersonalInfo extends Component {
                 name="firstNameTH"
                 value={firstNameTH}
                 floatingLabelText="ชื่อ (TH)"
-                onChange={this.handleChange}
+                errorText={firstNameTHmsg}
+                onChange={e => this.handleChange(e, true)}
                 fullWidth
               />
             </div>
@@ -180,7 +182,8 @@ class PersonalInfo extends Component {
                 name="lastNameTH"
                 value={lastNameTH}
                 floatingLabelText="นามสกุล (TH)"
-                onChange={this.handleChange}
+                errorText={lastNameTHmsg}
+                onChange={e => this.handleChange(e, true)}
                 fullWidth
               />
             </div>
@@ -202,7 +205,7 @@ class PersonalInfo extends Component {
                 name="firstNameEN"
                 value={firstNameEN}
                 floatingLabelText="First Name (EN)"
-                errorText={firstNameTHmsg}
+                errorText={firstNameENmsg}
                 onChange={e => this.handleChange(e, true)}
                 fullWidth
               />
