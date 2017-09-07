@@ -4,7 +4,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import PrefixTh from '../shared/PrefixTh';
-// import PrefixEn from '../shared/PrefixEn';
+import PrefixEn from '../shared/PrefixEn';
 
 const styles = {
   button: {
@@ -131,6 +131,7 @@ class PersonalInfo extends Component {
                 id="prefixTH"
                 name="prefixTH"
                 value={prefixTH}
+                label="Prefix (TH)"
                 required
                 onSelectItem={this.handleLookupChange}
               />
@@ -158,10 +159,11 @@ class PersonalInfo extends Component {
           </div>
           <div className="row">
             <div className="col">
-              <PrefixTh
+              <PrefixEn
                 id="prefixEn"
                 name="prefixEn"
                 value={prefixEn}
+                label="Prefix (EN)"
                 required
                 onSelectItem={this.handleLookupChange}
               />

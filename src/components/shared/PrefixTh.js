@@ -16,14 +16,14 @@ class PrefixTh extends Component {
     id: PropTypes.string.isRequired,
     value: PropTypes.string,
     onSelectItem: PropTypes.func,
-    placeHolder: PropTypes.string,
+    label: PropTypes.string,
     required: PropTypes.bool,
   };
 
   static defaultProps = {
     value: '',
     onSelectItem: null,
-    placeHolder: 'Prefix',
+    label: 'Prefix',
     required: false,
   };
 
@@ -91,15 +91,15 @@ class PrefixTh extends Component {
 
   render() {
     const { itemList, key } = this.state;
-    const { id, placeHolder, value, required } = this.props;
-    const errorText = (required && !value) ? `Please select ${placeHolder}` : '';
+    const { id, label, required } = this.props;
+    const errorText = (required && !key) ? `Please select ${label}` : '';
 
     return (
       <SelectField
         id={id}
         name={name}
         value={key}
-        floatingLabelText={placeHolder}
+        floatingLabelText={label}
         errorText={errorText}
         onChange={this.handleChange}
       >
