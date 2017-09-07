@@ -5,6 +5,7 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 // import PrefixEn from '../shared/PrefixEn';
 
 const styles = {
@@ -27,6 +28,8 @@ class LoanInfo extends Component {
   state = {
     loanAmount: '',
     installmentNumber: '',
+    beneficiary: 'myself',
+    loanBeneficiaryName: '',
     valid: false,
   };
 
@@ -55,6 +58,8 @@ class LoanInfo extends Component {
     const {
       loanAmount,
       installmentNumber,
+      beneficiary,
+      loanBeneficiaryName,
       valid,
     } = this.state;
 
@@ -70,6 +75,7 @@ class LoanInfo extends Component {
                 required
                 floatingLabelText="จำนวนที่ต้องการกู้"
                 onChange={this.handleChange}
+                fullWidth
               />
             </div>
             <div className="col">
@@ -82,42 +88,47 @@ class LoanInfo extends Component {
                 floatingLabelText="ระยะเวลาผ่อนชำระ(งวด)"
                 fullWidth
               >
-                <MenuItem value="12" primaryText="12งวด" />
-                <MenuItem value="18" primaryText="18งวด" />
-                <MenuItem value="24" primaryText="24งวด" />
-                <MenuItem value="30" primaryText="30งวด" />
-                <MenuItem value="36" primaryText="36งวด" />
-                <MenuItem value="42" primaryText="42งวด" />
-                <MenuItem value="48" primaryText="48งวด" />
-                <MenuItem value="60" primaryText="60งวด" />
+                <MenuItem value="12" primaryText="12 งวด" />
+                <MenuItem value="18" primaryText="18 งวด" />
+                <MenuItem value="24" primaryText="24 งวด" />
+                <MenuItem value="30" primaryText="30 งวด" />
+                <MenuItem value="36" primaryText="36 งวด" />
+                <MenuItem value="42" primaryText="42 งวด" />
+                <MenuItem value="48" primaryText="48 งวด" />
+                <MenuItem value="60" primaryText="60 งวด" />
               </SelectField>
             </div>
           </div>
-
           <div className="row">
-            <div className="col">
-              <div className="row">
-                <RadioButtonGroup name="beneficiary" defaultSelected="myself">
-                  <div className="col">
-                    <RadioButton
-                      value="myself"
-                      label="ตนเอง"
-                    />
-                  </div>
-                  <div className="col">
-                    <RadioButton
-                      value="other"
-                      label="ผู้อื่น(โปรดระบุ)"
-                    />
-                  </div>
-                </RadioButtonGroup>
-              </div>
+            <div className="col-3">
+              <RadioButtonGroup
+                name="beneficiary"
+                defaultSelected={{ beneficiary }}
+                style={{ display: 'flex' }}
+              >
+                <RadioButton
+                  value="myself"
+                  label="ตนเอง"
+                />
+                <RadioButton
+                  value="other"
+                  label="ผู้อื่น(โปรดระบุ)"
+                />
+              </RadioButtonGroup>
             </div>
-            <div className="col">
-              ssss
+            <div className="col-3" />
+            <div className="col-6">
+              <TextField
+                id="loanBeneficiaryName"
+                name="loanBeneficiaryName"
+                value={loanBeneficiaryName}
+                required
+                floatingLabelText="ผู้รับผลประโยชน์ที่แท้จริง"
+                onChange={this.handleChange}
+                fullWidth
+              />
+            </div>
           </div>
-          </div>
-
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
@@ -136,6 +147,22 @@ class LoanInfo extends Component {
               />
             </div>
           </div>
+          <Card>
+            <CardHeader
+              title="Without Avatar"
+              subtitle="Subtitle"
+              actAsExpander
+              showExpandableButton
+              titleColor="red"
+              titleStyle={{ backgroundColor: 'blue' }}
+            />
+            <CardText expandable>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
+              Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
+              Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+            </CardText>
+          </Card>
         </form>
       </div>
     );
