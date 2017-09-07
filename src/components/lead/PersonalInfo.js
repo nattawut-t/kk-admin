@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
+import Identity from '../shared/Identity';
 
 const styles = {
   button: {
@@ -26,15 +27,18 @@ class PersonalInfo extends Component {
   state = {
     dateReq: moment().format('YYYY-MM-DD'),
     prefixTH: '',
-    firstNameTH: '',
+    firstNameTH: 'ณัฐ',
     firstNameTHmsg: '',
-    lastNameTH: '',
+    lastNameTH: 'ธรรม',
     lastNameTHmsg: '',
-    prefixEn: '',
-    firstNameEN: '',
+    prefixEn: 'Mr.',
+    firstNameEN: 'Nat',
     firstNameENmsg: '',
-    lastNameEN: '',
+    lastNameEN: 'Tam',
     lastNameENmsg: '',
+    idCard: '',
+    idCardmsg: '',
+    idCardValid: true,
     valid: false,
   };
 
@@ -50,6 +54,8 @@ class PersonalInfo extends Component {
       'prefixEn',
       'firstNameEN',
       'lastNameEN',
+      'idCard',
+      'idCardValid',
     ];
     const invalid = keys
       .map(key => ({
@@ -61,7 +67,7 @@ class PersonalInfo extends Component {
         return !value;
       });
 
-    console.log('invalid: ', invalid);
+    console.log('>>> invalid: ', invalid);
 
     return !invalid;
   }
@@ -88,6 +94,26 @@ class PersonalInfo extends Component {
     });
   };
 
+  handleIdentityChange = (name, value, errorMessage = '') => {
+    const msgKey = `${name}msg`;
+    const msg = this.state[msgKey];
+
+    if (msg === '') {
+      this.setState({ [msgKey]: errorMessage });
+    }
+
+    console.log('>>> handleIdentityChange.valid: ', name, errorMessage.trim() === '', errorMessage);
+
+    this.setState({
+      [name]: value,
+      [`${name}Valid`]: !errorMessage,
+      // [`${name}Valid`]: !required || (required && value),
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
   handleLookupChange = (value, text, key) => {
     this.setState({ [key]: value }, () => {
       const valid = this.validate();
@@ -106,6 +132,8 @@ class PersonalInfo extends Component {
       firstNameEN,
       lastNameEN,
       lastNameENmsg,
+      idCard,
+      idCardmsg,
       valid,
     } = this.state;
 
@@ -118,7 +146,7 @@ class PersonalInfo extends Component {
                 id="dateReq"
                 name="dateReq"
                 value={dateReq}
-                floatingLabelText="Request Date"
+                floatingLabelText="วันที่คำขอ"
                 onChange={this.handleChange}
                 fullWidth
                 disabled
@@ -131,7 +159,7 @@ class PersonalInfo extends Component {
                 id="prefixTH"
                 name="prefixTH"
                 value={prefixTH}
-                label="Prefix (TH)"
+                label="คำนำหน้าชื่อ (TH)"
                 required
                 onSelectItem={this.handleLookupChange}
               />
@@ -141,7 +169,7 @@ class PersonalInfo extends Component {
                 id="firstNameTH"
                 name="firstNameTH"
                 value={firstNameTH}
-                floatingLabelText="First Name (TH)"
+                floatingLabelText="ชื่อ (TH)"
                 onChange={this.handleChange}
                 fullWidth
               />
@@ -151,7 +179,7 @@ class PersonalInfo extends Component {
                 id="lastNameTH"
                 name="lastNameTH"
                 value={lastNameTH}
-                floatingLabelText="Last Name (TH)"
+                floatingLabelText="นามสกุล (TH)"
                 onChange={this.handleChange}
                 fullWidth
               />
@@ -163,7 +191,7 @@ class PersonalInfo extends Component {
                 id="prefixEn"
                 name="prefixEn"
                 value={prefixEn}
-                label="Prefix (EN)"
+                label="คำนำหน้าชื่อ (EN)"
                 required
                 onSelectItem={this.handleLookupChange}
               />
@@ -188,6 +216,19 @@ class PersonalInfo extends Component {
                 errorText={lastNameENmsg}
                 onChange={e => this.handleChange(e, true)}
                 fullWidth
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <Identity
+                id="idCard"
+                name="idCard"
+                label="เลขบัตรประชาชน"
+                value={idCard}
+                handleChange={this.handleIdentityChange}
+                errorText={idCardmsg}
+                required
               />
             </div>
           </div>
