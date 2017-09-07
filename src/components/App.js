@@ -5,6 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import PersonalInfo from './lead/PersonalInfo';
 import LeadStep from './lead/LeadStep';
+import LoanInfo from './lead/LoanInfo';
 
 const App = () =>
   <Router>
@@ -28,6 +29,7 @@ const App = () =>
               </div>
               <div className="col-9">
                 <Switch>
+                  <Route path="/loan-info" component={LoanInfo} />
                   <Route path="/" component={PersonalInfo} />
                 </Switch>
               </div>
