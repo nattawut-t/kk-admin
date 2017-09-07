@@ -15,10 +15,10 @@ const App = () =>
           iconClassNameRight="muidocs-icon-navigation-expand-more"
         />
         <main>
-          <div className="main-content">
+          <div className="container">
             <div className="row">
-              <div className="col-4">
-                <Drawer open>
+              <div className="col-3">
+                <Drawer open width={250}>
                   <AppBar
                     title="MoneyTable"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
@@ -26,8 +26,7 @@ const App = () =>
                   <LeadStep />
                 </Drawer>
               </div>
-              <div className="col-8">
-                Test
+              <div className="col-9">
                 <Switch>
                   <Route path="/" component={PersonalInfo} />
                 </Switch>
