@@ -25,16 +25,7 @@ const styles = {
   },
 };
 
-const emptyValue = value => {
-  const emptyString = typeof value === 'string' && !value;
-  const emptyDate = typeof value === 'object' && Object.keys(value).length <= 1;
-  return emptyString || emptyDate;
-};
-
-const requiredMessage = (required, value) => {
-  const _emptyValue = emptyValue(value);
-  return (required && _emptyValue) ? 'กรุณากรอก' : '';
-};
+const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอก' : '';
 
 class PersonalInfo extends Component {
   // state = {
@@ -71,7 +62,7 @@ class PersonalInfo extends Component {
     idCard: '',
     idCardmsg: '',
     idCardValid: true,
-    dateExp: {},
+    dateExp: null,
     dateExpmsg: '',
     valid: false,
   };
@@ -81,6 +72,7 @@ class PersonalInfo extends Component {
   }
 
   validate = () => {
+    console.log('>>> validate');
     const keys = [
       'dateReq',
       'prefixTH',
@@ -98,10 +90,9 @@ class PersonalInfo extends Component {
         key,
         value: this.state[key],
       }))
-      .find(({ key, value }) => {
-        console.log('>>> validate.find: ', key, value);
-        const _emptyValue = emptyValue(value);
-        return !_emptyValue;
+      .find(({ value }) => {
+        console.log('');
+        return !value;
       });
 
     console.log('>>> invalid: ', invalid);
@@ -151,6 +142,20 @@ class PersonalInfo extends Component {
       const valid = this.validate();
       this.setState({ valid });
     });
+  };
+
+  handleDateExpChange = (e, value) => {
+    console.log('>>> handleDateExpChange:');
+    this.setState({ dateExp: value },
+      () => {
+        const msg = requiredMessage(true, value);
+        this.setState({ dateExpmsg: msg },
+          () => {
+            const valid = this.validate();
+            this.setState({ valid });
+          },
+        );
+      });
   };
 
   handleIdentityChange = (name, value, errorMessage = '') => {
@@ -301,12 +306,7 @@ class PersonalInfo extends Component {
                 floatingLabelText="วันหมดอายุบัตรประชาชน"
                 value={dateExp}
                 errorText={dateExpmsg}
-                onChange={() => this.handleChange({
-                  target: {
-                    name: 'dateExp',
-                    value: dateExp,
-                  },
-                }, true)}
+                onChange={this.handleDateExpChange}
                 fullWidth
                 autoOk
               />
