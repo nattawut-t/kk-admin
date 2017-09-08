@@ -3,6 +3,8 @@ import moment from 'moment';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
+import DatePicker from 'material-ui/DatePicker';
+
 import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
 import Identity from '../shared/Identity';
@@ -23,7 +25,37 @@ const styles = {
   },
 };
 
+const emptyValue = value => {
+  const emptyString = typeof value === 'string' && !value;
+  const emptyDate = typeof value === 'object' && Object.keys(value).length <= 1;
+  return emptyString || emptyDate;
+};
+
+const requiredMessage = (required, value) => {
+  const _emptyValue = emptyValue(value);
+  return (required && _emptyValue) ? 'กรุณากรอก' : '';
+};
+
 class PersonalInfo extends Component {
+  // state = {
+  //   dateReq: moment().format('YYYY-MM-DD'),
+  //   prefixTH: '',
+  //   firstNameTH: '',
+  //   firstNameTHmsg: '',
+  //   lastNameTH: '',
+  //   lastNameTHmsg: '',
+  //   prefixEn: '',
+  //   firstNameEN: '',
+  //   firstNameENmsg: '',
+  //   lastNameEN: '',
+  //   lastNameENmsg: '',
+  //   idCard: '',
+  //   idCardmsg: '',
+  //   idCardValid: true,
+  //   dateExp: {},
+  //   dateExpmsg: '',
+  //   valid: false,
+  // };
   state = {
     dateReq: moment().format('YYYY-MM-DD'),
     prefixTH: '',
@@ -39,13 +71,16 @@ class PersonalInfo extends Component {
     idCard: '',
     idCardmsg: '',
     idCardValid: true,
+    dateExp: {},
+    dateExpmsg: '',
     valid: false,
   };
 
-  validate = () => {
-    const { prefixTH } = this.state;
-    console.log('>>> prefixTH: ', prefixTH);
+  componentWillMount() {
+    this.initialErrorMessage();
+  }
 
+  validate = () => {
     const keys = [
       'dateReq',
       'prefixTH',
@@ -56,6 +91,7 @@ class PersonalInfo extends Component {
       'lastNameEN',
       'idCard',
       'idCardValid',
+      'dateExp',
     ];
     const invalid = keys
       .map(key => ({
@@ -64,7 +100,8 @@ class PersonalInfo extends Component {
       }))
       .find(({ key, value }) => {
         console.log('>>> validate.find: ', key, value);
-        return !value;
+        const _emptyValue = emptyValue(value);
+        return !_emptyValue;
       });
 
     console.log('>>> invalid: ', invalid);
@@ -72,16 +109,38 @@ class PersonalInfo extends Component {
     return !invalid;
   }
 
-  handleChange = (e, required = false, label = 'value') => {
+  initialErrorMessage = () => {
+    const keys = [
+      'prefixTH',
+      'firstNameTH',
+      'lastNameTH',
+      'prefixEn',
+      'firstNameEN',
+      'lastNameEN',
+      'idCard',
+      'dateExp',
+    ];
+    keys
+      .map(key => ({
+        key,
+        value: this.state[key],
+      }))
+      .forEach(({ key, value }) => {
+        const msgKey = `${key}msg`;
+        const msg = requiredMessage(true, value);
+        this.setState({ [msgKey]: msg });
+      });
+  };
+
+  handleChange = (e, required = false) => {
     const { name, value } = e.target;
     const msgKey = `${name}msg`;
     let msg = this.state[msgKey];
 
-    if (msg === '') {
-      msg = (required && !value)
-        ? `กรุณากรอก ${label}`
-        : '';
+    console.log('>>> handleChange: ', name, value);
 
+    if (msg === '') {
+      msg = requiredMessage(required, value);
       this.setState({ [msgKey]: msg });
     }
 
@@ -101,8 +160,6 @@ class PersonalInfo extends Component {
     if (msg === '') {
       this.setState({ [msgKey]: errorMessage });
     }
-
-    console.log('>>> handleIdentityChange.valid: ', name, errorMessage.trim() === '', errorMessage);
 
     this.setState({
       [name]: value,
@@ -136,12 +193,14 @@ class PersonalInfo extends Component {
       lastNameENmsg,
       idCard,
       idCardmsg,
+      dateExp,
+      dateExpmsg,
       valid,
     } = this.state;
 
     return (
       <div>
-        <form className="crud-form">
+        <form>
           <div className="row">
             <div className="col-12">
               <TextField
@@ -204,7 +263,7 @@ class PersonalInfo extends Component {
                 id="firstNameEN"
                 name="firstNameEN"
                 value={firstNameEN}
-                floatingLabelText="First Name (EN)"
+                floatingLabelText="ชื่อ (EN)"
                 errorText={firstNameENmsg}
                 onChange={e => this.handleChange(e, true)}
                 fullWidth
@@ -215,7 +274,7 @@ class PersonalInfo extends Component {
                 id="lastNameEN"
                 name="lastNameEN"
                 value={lastNameEN}
-                floatingLabelText="Last Name (EN)"
+                floatingLabelText="นามสกุล (EN)"
                 errorText={lastNameENmsg}
                 onChange={e => this.handleChange(e, true)}
                 fullWidth
@@ -232,6 +291,24 @@ class PersonalInfo extends Component {
                 handleChange={this.handleIdentityChange}
                 errorText={idCardmsg}
                 required
+              />
+            </div>
+            <div className="col">
+              <DatePicker
+                id="dateExp"
+                name="dateExp"
+                mode="landscape"
+                floatingLabelText="วันหมดอายุบัตรประชาชน"
+                value={dateExp}
+                errorText={dateExpmsg}
+                onChange={() => this.handleChange({
+                  target: {
+                    name: 'dateExp',
+                    value: dateExp,
+                  },
+                }, true)}
+                fullWidth
+                autoOk
               />
             </div>
           </div>
