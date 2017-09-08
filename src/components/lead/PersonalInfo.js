@@ -9,7 +9,7 @@ import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
 import Identity from '../shared/Identity';
 import MaritalStatus from '../shared/MaritalStatus';
-import Mobile from '../shared/Mobile';
+// import Mobile from '../shared/Mobile';
 import Tel from '../shared/Tel';
 import AddressStatus from '../shared/AddressStatus';
 
@@ -80,6 +80,14 @@ class PersonalInfo extends Component {
     homeTel2msg: '',
     homeTel2Valid: false,
     detailRent: '',
+    workTel: '',
+    workTelmsg: '',
+    telExtension: '',
+    number: '',
+    moo: '',
+    village: '',
+    soi: '',
+    road: '',
     valid: false,
   };
 
@@ -106,6 +114,7 @@ class PersonalInfo extends Component {
       'homeTel2',
       'homeTel2Valid',
       'detailRent',
+      'workTel',
     ];
     const invalid = keys
       .map(key => ({
@@ -135,6 +144,8 @@ class PersonalInfo extends Component {
       'status',
       'workTel2',
       'homeTel2',
+      'workTel',
+      'telExtension',
     ];
     keys
       .map(key => ({
@@ -235,6 +246,14 @@ class PersonalInfo extends Component {
       homeTel2,
       homeTel2msg,
       detailRent,
+      workTel,
+      workTelmsg,
+      telExtension,
+      number,
+      moo,
+      village,
+      soi,
+      road,
       valid,
     } = this.state;
 
@@ -383,8 +402,88 @@ class PersonalInfo extends Component {
             </div>
           </div>
           <div className="row">
+            <div className="col">
+              <Tel
+                id="workTel"
+                name="workTel"
+                label="โทรศัพท์ที่ทำงาน (เบอร์ตรง)"
+                value={workTel}
+                handleChange={this.handleNumberChange}
+                errorText={workTelmsg}
+                required
+              />
+            </div>
+            <div className="col">
+              <TextField
+                id="telExtension"
+                name="telExtension"
+                floatingLabelText="เบอร์ต่อ"
+                value={telExtension}
+                onChange={e => this.handleChange(e, true)}
+                maxLength="10"
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <TextField
+                id="number"
+                name="number"
+                floatingLabelText="บ้านเลขที่"
+                value={number}
+                onChange={e => this.handleChange(e, true)}
+                maxLength="10"
+              />
+            </div>
+            <div className="col">
+              <TextField
+                id="moo"
+                name="moo"
+                floatingLabelText="หมู่ที่"
+                value={moo}
+                onChange={e => this.handleChange(e, true)}
+                maxLength="3"
+              />
+            </div>
+            <div className="col">
+              <TextField
+                id="village"
+                name="village"
+                floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+                value={village}
+                onChange={e => this.handleChange(e, true)}
+                maxLength="100"
+                fullWidth
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="col">
+                <TextField
+                  id="soi"
+                  name="soi"
+                  floatingLabelText="ซอย"
+                  value={soi}
+                  onChange={e => this.handleChange(e, true)}
+                  maxLength="100"
+                />
+              </div>
+              <div className="col">
+                <TextField
+                  id="road"
+                  name="road"
+                  floatingLabelText="ถนน"
+                  value={road}
+                  onChange={e => this.handleChange(e, true)}
+                  maxLength="100"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="row">
             <div className="col" >
-              <Mobile
+              <Tel
                 id="workTel2"
                 name="workTel2"
                 label="เบอร์โทรศัพท์มือถือ"
