@@ -12,6 +12,7 @@ import MaritalStatus from '../shared/MaritalStatus';
 // import Mobile from '../shared/Mobile';
 import Tel from '../shared/Tel';
 import AddressStatus from '../shared/AddressStatus';
+import Location from '../shared/Location';
 
 const styles = {
   button: {
@@ -88,6 +89,12 @@ class PersonalInfo extends Component {
     village: '',
     soi: '',
     road: '',
+    province: '',
+    amphurCode: '',
+    tambolCode: '',
+    provinceName: '',
+    amphurCodeName: '',
+    tambolCodeName: '',
     valid: false,
   };
 
@@ -212,6 +219,20 @@ class PersonalInfo extends Component {
     });
   };
 
+  handleLocationChange = (valueField, nameField, value, name) => {
+    console.log('>>> handleLocationChange: ', valueField, nameField, value, name);
+
+    this.setState({
+      [valueField]: value,
+      [nameField]: name,
+    },
+      () => {
+        const valid = this.validate();
+        this.setState({ valid });
+      },
+    );
+  };
+
   handleLookupChange = (value, text, key) => {
     this.setState({ [key]: value }, () => {
       const valid = this.validate();
@@ -254,6 +275,12 @@ class PersonalInfo extends Component {
       village,
       soi,
       road,
+      province,
+      amphurCode,
+      tambolCode,
+      provinceName,
+      amphurCodeName,
+      tambolCodeName,
       valid,
     } = this.state;
 
@@ -479,6 +506,27 @@ class PersonalInfo extends Component {
                   maxLength="100"
                 />
               </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <Location
+                id="location1"
+                name="location1"
+                provinceValueField="province"
+                provinceNameField="provinceName"
+                amphurValueField="amphurCode"
+                amphurNameField="amphurCodeName"
+                tambolValueField="tambolCode"
+                tambolNameField="tambolCodeName"
+                provinceValue={province}
+                amphurValue={amphurCode}
+                tambolValue={tambolCode}
+                provinceName={provinceName}
+                amphurName={amphurCodeName}
+                tambolName={tambolCodeName}
+                handleChange={this.handleLocationChange}
+              />
             </div>
           </div>
           <div className="row">
