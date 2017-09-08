@@ -11,6 +11,7 @@ import Identity from '../shared/Identity';
 import MaritalStatus from '../shared/MaritalStatus';
 import Mobile from '../shared/Mobile';
 import Tel from '../shared/Tel';
+import AddressStatus from '../shared/AddressStatus';
 
 const styles = {
   button: {
@@ -28,7 +29,7 @@ const styles = {
   },
 };
 
-const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอก' : '';
+const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
 
 class PersonalInfo extends Component {
   // state = {
@@ -62,22 +63,23 @@ class PersonalInfo extends Component {
     firstNameENmsg: '',
     lastNameEN: 'Tam',
     lastNameENmsg: '',
-    idCard: '',
+    idCard: '1720900004217',
     idCardmsg: '',
     idCardValid: true,
     dateExp: null,
     dateExpmsg: '',
-    status: '',
-    department: '',
+    status: 'โสด',
+    department: 'IT',
     departmentmsg: '',
-    position: '',
+    position: 'SE',
     positionmsg: '',
-    workTel2: '',
+    workTel2: '0627609997',
     workTel2Valid: false,
     workTel2msg: '',
-    homeTel2: '',
+    homeTel2: '035591291',
     homeTel2msg: '',
     homeTel2Valid: false,
+    detailRent: '',
     valid: false,
   };
 
@@ -103,6 +105,7 @@ class PersonalInfo extends Component {
       'workTel2Valid',
       'homeTel2',
       'homeTel2Valid',
+      'detailRent',
     ];
     const invalid = keys
       .map(key => ({
@@ -231,6 +234,7 @@ class PersonalInfo extends Component {
       workTel2msg,
       homeTel2,
       homeTel2msg,
+      detailRent,
       valid,
     } = this.state;
 
@@ -256,8 +260,9 @@ class PersonalInfo extends Component {
                 name="prefixTH"
                 value={prefixTH}
                 label="คำนำหน้าชื่อ (TH)"
-                required
                 onSelectItem={this.handleLookupChange}
+                required
+                fullWidth
               />
             </div>
             <div className="col">
@@ -398,6 +403,16 @@ class PersonalInfo extends Component {
                 handleChange={this.handleNumberChange}
                 errorText={homeTel2msg}
                 required
+              />
+            </div>
+            <div className="col" >
+              <AddressStatus
+                id="detailRent"
+                name="detailRent"
+                value={detailRent}
+                label="สถานภาพที่อยู่อาศัย"
+                required
+                onSelectItem={this.handleLookupChange}
               />
             </div>
           </div>

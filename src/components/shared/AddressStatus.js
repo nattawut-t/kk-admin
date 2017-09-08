@@ -4,13 +4,15 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 const maritalStatus = [
-  'โสด',
-  'สมรส',
-  'หย่าร้าง',
-  'หม้าย',
+  'ของตนเอง',
+  'ของบิดามารดา',
+  'ของญาติ',
+  'กำลังผ่อนชำระ',
+  'เช่าอยู่',
+  'อื่นๆ',
 ];
 
-class MaritalStatus extends Component {
+class AddressStatus extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     value: PropTypes.string,
@@ -36,7 +38,7 @@ class MaritalStatus extends Component {
     const itemList = maritalStatus
       .map(value =>
         <MenuItem key={value} value={value} primaryText={value} />,
-    );
+      );
     const { value } = this.props;
     this.setState({
       key: value,
@@ -73,4 +75,4 @@ class MaritalStatus extends Component {
   }
 }
 
-export default MaritalStatus;
+export default AddressStatus;
