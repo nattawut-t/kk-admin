@@ -1,4 +1,4 @@
 env: dev
 
-domain_adminapp: dev-admin-v2.moneytable.com
-mtc_server_root: /var/www/{{ env }}-admin-v2.dashboard
+domain_app: dev-mtwork.moneytble.com 
+mtc_server_root: /var/www/{{ env }}-mtwork.dashboard
