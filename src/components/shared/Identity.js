@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 
-const errorMessage = (value = '', required = false, label = '') => {
+const errorMessage = (value = '', required = false) => {
   let msg = '';
 
   if (required && !value.trim()) {
-    msg = `กรุณากรอก ${label}`;
+    msg = 'กรุณากรอก';
   } else {
     msg = !value.trim() || /^\d{13}$/.test(value)
       ? ''
-      : `กรุณากรอก ${label} ให้ถูกฟอแมท เช่น 1234567890123`;
+      : 'รูปแบบไม่ถูกต้อง กรุณาระบุตัวเลข 13 หลัก';
   }
 
   return msg;

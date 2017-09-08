@@ -42,7 +42,7 @@ class PrefixEn extends Component {
   render() {
     const { key } = this.state;
     const { id, label, required } = this.props;
-    const errorText = (required && !key) ? `กรุณากรอก ${label}` : '';
+    const errorText = (required && !key) ? 'กรุณากรอก' : '';
 
     return (
       <SelectField
