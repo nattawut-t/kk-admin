@@ -4,6 +4,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import DatePicker from 'material-ui/DatePicker';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
@@ -95,6 +96,13 @@ class PersonalInfo extends Component {
     provinceName: '',
     amphurCodeName: '',
     tambolCodeName: '',
+    zipCode: '',
+    number2: '',
+    moo2: '',
+    village2: '',
+    soi2: '',
+    road2: '',
+    zipCode2: '',
     valid: false,
   };
 
@@ -281,6 +289,13 @@ class PersonalInfo extends Component {
       provinceName,
       amphurCodeName,
       tambolCodeName,
+      zipCode,
+      number2,
+      moo2,
+      village2,
+      soi2,
+      road2,
+      zipCode2,
       valid,
     } = this.state;
 
@@ -451,84 +466,198 @@ class PersonalInfo extends Component {
               />
             </div>
           </div>
-          <div className="row">
-            <div className="col">
-              <TextField
-                id="number"
-                name="number"
-                floatingLabelText="บ้านเลขที่"
-                value={number}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="10"
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="moo"
-                name="moo"
-                floatingLabelText="หมู่ที่"
-                value={moo}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="3"
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="village"
-                name="village"
-                floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
-                value={village}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="100"
-                fullWidth
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <div className="col">
-                <TextField
-                  id="soi"
-                  name="soi"
-                  floatingLabelText="ซอย"
-                  value={soi}
-                  onChange={e => this.handleChange(e, true)}
-                  maxLength="100"
-                />
+          <Card>
+            <CardHeader
+              title="ที่อยู่ปัจจุบัน"
+            />
+            <CardText >
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="number"
+                    name="number"
+                    floatingLabelText="บ้านเลขที่"
+                    value={number}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="10"
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="moo"
+                    name="moo"
+                    floatingLabelText="หมู่ที่"
+                    value={moo}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="3"
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="village"
+                    name="village"
+                    floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+                    value={village}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="100"
+                    fullWidth
+                  />
+                </div>
               </div>
-              <div className="col">
-                <TextField
-                  id="road"
-                  name="road"
-                  floatingLabelText="ถนน"
-                  value={road}
-                  onChange={e => this.handleChange(e, true)}
-                  maxLength="100"
-                />
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="soi"
+                    name="soi"
+                    floatingLabelText="ซอย"
+                    value={soi}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="100"
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="road"
+                    name="road"
+                    floatingLabelText="ถนน"
+                    value={road}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="100"
+                  />
+                </div>
               </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <Location
-                id="location1"
-                name="location1"
-                provinceValueField="province"
-                provinceNameField="provinceName"
-                amphurValueField="amphurCode"
-                amphurNameField="amphurCodeName"
-                tambolValueField="tambolCode"
-                tambolNameField="tambolCodeName"
-                provinceValue={province}
-                amphurValue={amphurCode}
-                tambolValue={tambolCode}
-                provinceName={provinceName}
-                amphurName={amphurCodeName}
-                tambolName={tambolCodeName}
-                handleChange={this.handleLocationChange}
-              />
-            </div>
-          </div>
+              <div className="row">
+                <div className="col">
+                  <Location
+                    id="location1"
+                    name="location1"
+                    provinceValueField="province"
+                    provinceNameField="provinceName"
+                    amphurValueField="amphurCode"
+                    amphurNameField="amphurCodeName"
+                    tambolValueField="tambolCode"
+                    tambolNameField="tambolCodeName"
+                    provinceValue={province}
+                    amphurValue={amphurCode}
+                    tambolValue={tambolCode}
+                    provinceName={provinceName}
+                    amphurName={amphurCodeName}
+                    tambolName={tambolCodeName}
+                    handleChange={this.handleLocationChange}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="zipCode"
+                    name="zipCode"
+                    floatingLabelText="รหัสไปรษณีย์"
+                    value={zipCode}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="5"
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
+          <br />
+          <Card>
+            <CardHeader
+              title="ที่ตามทะเบียนบ้าน"
+            />
+            <CardText >
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="number2"
+                    name="number2"
+                    floatingLabelText="บ้านเลขที่"
+                    value={number2}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="10"
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="moo2"
+                    name="moo2"
+                    floatingLabelText="หมู่ที่"
+                    value={moo2}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="3"
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="village2"
+                    name="village2"
+                    floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+                    value={village2}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="100"
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="soi2"
+                    name="soi2"
+                    floatingLabelText="ซอย"
+                    value={soi2}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="100"
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="road2"
+                    name="road2"
+                    floatingLabelText="ถนน"
+                    value={road2}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="100"
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <Location
+                    id="location1"
+                    name="location1"
+                    provinceValueField="province2"
+                    provinceNameField="province2Name"
+                    amphurValueField="amphurCode2"
+                    amphurNameField="amphurCode2Name"
+                    tambolValueField="tambolCode2"
+                    tambolNameField="tambolCode2Name"
+                    provinceValue={province}
+                    amphurValue={amphurCode}
+                    tambolValue={tambolCode}
+                    provinceName={provinceName}
+                    amphurName={amphurCodeName}
+                    tambolName={tambolCodeName}
+                    handleChange={this.handleLocationChange}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="zipCode2"
+                    name="zipCode2"
+                    floatingLabelText="รหัสไปรษณีย์"
+                    value={zipCode2}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="5"
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
+
           <div className="row">
             <div className="col" >
               <Tel
