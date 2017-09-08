@@ -17,18 +17,18 @@ const App = () =>
           iconClassNameRight="muidocs-icon-navigation-expand-more"
         />
         <main>
-          <div className="container">
-            <div className="row">
-              <div className="col-3">
-                <Drawer open width={250}>
-                  <AppBar
-                    title="MoneyTable"
-                    iconClassNameRight="muidocs-icon-navigation-expand-more"
-                  />
-                  <LeadStep />
-                </Drawer>
-              </div>
-              <div className="col-9" style={{ paddingTop: '25px' }}>
+          <div className="row">
+            <div className="col-3">
+              <Drawer open width={250}>
+                <AppBar
+                  title="MoneyTable"
+                  iconClassNameRight="muidocs-icon-navigation-expand-more"
+                />
+                <LeadStep />
+              </Drawer>
+            </div>
+            <div className="col-9" style={{ paddingTop: '25px' }}>
+              <div className="container">
                 <Switch>
                   <Route path="/loan-info" component={LoanInfo} />
                   <Route path="/personal-info" component={PersonalInfo} />
