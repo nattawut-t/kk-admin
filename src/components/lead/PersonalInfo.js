@@ -8,6 +8,7 @@ import DatePicker from 'material-ui/DatePicker';
 import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
 import Identity from '../shared/Identity';
+import MaritalStatus from '../shared/MaritalStatus';
 
 const styles = {
   button: {
@@ -64,6 +65,7 @@ class PersonalInfo extends Component {
     idCardValid: true,
     dateExp: null,
     dateExpmsg: '',
+    status: '',
     valid: false,
   };
 
@@ -84,6 +86,7 @@ class PersonalInfo extends Component {
       'idCard',
       'idCardValid',
       'dateExp',
+      'status',
     ];
     const invalid = keys
       .map(key => ({
@@ -110,6 +113,7 @@ class PersonalInfo extends Component {
       'lastNameEN',
       'idCard',
       'dateExp',
+      'status',
     ];
     keys
       .map(key => ({
@@ -200,6 +204,7 @@ class PersonalInfo extends Component {
       idCardmsg,
       dateExp,
       dateExpmsg,
+      status,
       valid,
     } = this.state;
 
@@ -309,6 +314,16 @@ class PersonalInfo extends Component {
                 onChange={this.handleDateExpChange}
                 fullWidth
                 autoOk
+              />
+            </div>
+            <div className="col">
+              <MaritalStatus
+                id="status"
+                name="status"
+                value={status}
+                label="สถานภาพสมรส"
+                required
+                onSelectItem={this.handleLookupChange}
               />
             </div>
           </div>
