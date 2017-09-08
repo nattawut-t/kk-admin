@@ -1,5 +1,5 @@
 import Immutable, { Record } from 'immutable';
-import { adminUrl, APIRequest } from '../libs/request';
+import { url, request } from '../libs/request';
 import { limit, loadingTime } from './config';
 import {
   approveSuccess,
@@ -61,8 +61,8 @@ function _searchData(offset = 1) {
     if (sortField) {
       path += `&sortBy=${sortField}&orderBy=${sortDirection}`;
     }
-    const url = adminUrl(path);
-    const promise = APIRequest(url);
+    const _url = url(path);
+    const promise = request(_url);
 
     setTimeout(() =>
       promise.then(response => {
@@ -99,8 +99,8 @@ function _loadNextPage(offset = limit) {
       if (sortField) {
         path += `&sortBy=${sortField}&orderBy=${sortDirection}`;
       }
-      const url = adminUrl(path);
-      const promise = APIRequest(url);
+      const _url = url(path);
+      const promise = request(_url);
 
       setTimeout(() =>
         promise.then(response => {
@@ -122,7 +122,7 @@ export function approve(dispatch, id) {
   dispatch(setLoading(true));
 
   const path = `${apiPath}/${id}/approve`;
-  const url = adminUrl(path);
+  const _url = url(path);
   const options = {
     method: 'post',
     data: {
@@ -130,7 +130,7 @@ export function approve(dispatch, id) {
       status: 'verified',
     },
   };
-  const promise = APIRequest(url, options);
+  const promise = request(_url, options);
 
   setTimeout(() =>
     promise.then(() => {
