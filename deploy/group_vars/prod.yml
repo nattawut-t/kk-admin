@@ -1,4 +1,4 @@
-env: dev
+env: prod
 
 domain_app: mtwork.moneytable.com
 mtc_server_root: /var/www/{{ env }}-mtwork.dashboard
