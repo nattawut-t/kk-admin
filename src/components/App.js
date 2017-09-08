@@ -6,6 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import PersonalInfo from './lead/PersonalInfo';
 import LeadStep from './lead/LeadStep';
 import LoanInfo from './lead/LoanInfo';
+import Agreement from './lead/Agreement';
 
 const App = () =>
   <Router>
@@ -27,10 +28,11 @@ const App = () =>
                   <LeadStep />
                 </Drawer>
               </div>
-              <div className="col-9">
+              <div className="col-9" style={{ paddingTop: '25px' }}>
                 <Switch>
                   <Route path="/loan-info" component={LoanInfo} />
-                  <Route path="/" component={PersonalInfo} />
+                  <Route path="/personal-info" component={PersonalInfo} />
+                  <Route path="/" component={Agreement} />
                 </Switch>
               </div>
             </div>
