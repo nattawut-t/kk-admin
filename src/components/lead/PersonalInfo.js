@@ -9,6 +9,8 @@ import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
 import Identity from '../shared/Identity';
 import MaritalStatus from '../shared/MaritalStatus';
+import Mobile from '../shared/Mobile';
+import Tel from '../shared/Tel';
 
 const styles = {
   button: {
@@ -66,6 +68,16 @@ class PersonalInfo extends Component {
     dateExp: null,
     dateExpmsg: '',
     status: '',
+    department: '',
+    departmentmsg: '',
+    position: '',
+    positionmsg: '',
+    workTel2: '',
+    workTel2Valid: false,
+    workTel2msg: '',
+    homeTel2: '',
+    homeTel2msg: '',
+    homeTel2Valid: false,
     valid: false,
   };
 
@@ -87,6 +99,10 @@ class PersonalInfo extends Component {
       'idCardValid',
       'dateExp',
       'status',
+      'workTel2',
+      'workTel2Valid',
+      'homeTel2',
+      'homeTel2Valid',
     ];
     const invalid = keys
       .map(key => ({
@@ -114,6 +130,8 @@ class PersonalInfo extends Component {
       'idCard',
       'dateExp',
       'status',
+      'workTel2',
+      'homeTel2',
     ];
     keys
       .map(key => ({
@@ -162,18 +180,18 @@ class PersonalInfo extends Component {
       });
   };
 
-  handleIdentityChange = (name, value, errorMessage = '') => {
+  handleNumberChange = (name, value, errorMessage = '') => {
     const msgKey = `${name}msg`;
-    const msg = this.state[msgKey];
+    // const msg = this.state[msgKey];
 
-    if (msg === '') {
-      this.setState({ [msgKey]: errorMessage });
-    }
+    // if (msg === '') {
+    //   this.setState({ [msgKey]: errorMessage });
+    // }
 
     this.setState({
       [name]: value,
+      [msgKey]: errorMessage,
       [`${name}Valid`]: !errorMessage,
-      // [`${name}Valid`]: !required || (required && value),
     }, () => {
       const valid = this.validate();
       this.setState({ valid });
@@ -205,6 +223,14 @@ class PersonalInfo extends Component {
       dateExp,
       dateExpmsg,
       status,
+      department,
+      departmentmsg,
+      position,
+      positionmsg,
+      workTel2,
+      workTel2msg,
+      homeTel2,
+      homeTel2msg,
       valid,
     } = this.state;
 
@@ -298,7 +324,7 @@ class PersonalInfo extends Component {
                 name="idCard"
                 label="เลขบัตรประชาชน"
                 value={idCard}
-                handleChange={this.handleIdentityChange}
+                handleChange={this.handleNumberChange}
                 errorText={idCardmsg}
                 required
               />
@@ -324,6 +350,54 @@ class PersonalInfo extends Component {
                 label="สถานภาพสมรส"
                 required
                 onSelectItem={this.handleLookupChange}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <TextField
+                id="department"
+                name="department"
+                value={department}
+                floatingLabelText="แผนก / ฝ่าย"
+                errorText={departmentmsg}
+                onChange={e => this.handleChange(e, true)}
+                fullWidth
+              />
+            </div>
+            <div className="col">
+              <TextField
+                id="position"
+                name="position"
+                value={position}
+                floatingLabelText="ตำแหน่ง"
+                errorText={positionmsg}
+                onChange={e => this.handleChange(e, true)}
+                fullWidth
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col" >
+              <Mobile
+                id="workTel2"
+                name="workTel2"
+                label="เบอร์โทรศัพท์มือถือ"
+                value={workTel2}
+                handleChange={this.handleNumberChange}
+                errorText={workTel2msg}
+                required
+              />
+            </div>
+            <div className="col" >
+              <Tel
+                id="homeTel2"
+                name="homeTel2"
+                label="เบอร์โทรศัพท์บ้าน"
+                value={homeTel2}
+                handleChange={this.handleNumberChange}
+                errorText={homeTel2msg}
+                required
               />
             </div>
           </div>
