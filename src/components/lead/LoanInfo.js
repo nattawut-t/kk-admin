@@ -239,6 +239,19 @@ class LoanInfo extends Component {
                   />
                 </div>
               </div>
+              <div className="row">
+                <div className="col-12">&nbsp;</div>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <span>
+                    บุคคลที่ได้รับผลประโยชน์จากการทำธุรกรรมที่แท้จริง หมายถึง
+                    บุคคลธรรมดาผู้เป็นเจ้าของบัญชีที่แท้จริง หรือ
+                    มีอำนาจควบคุมความสัมพันธ์ทางธุรกิจของลูกค้ากับสถาบันการเงิน
+                    หรือบุคคลที่ลูกค้าทำธุรกรรมแทน หรือ บุคคลผู้ใช้อำนาจควบคุมนิติบุคคล
+                  </span>
+                </div>
+              </div>
             </CardText>
           </Card>
           <Card style={styles.marginBottom}>

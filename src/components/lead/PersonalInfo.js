@@ -338,170 +338,190 @@ class PersonalInfo extends Component {
     return (
       <div>
         <form onSubmit={this.handleNext}>
-          <div className="row">
-            <div className="col-12">
-              <TextField
-                id="dateReq"
-                name="dateReq"
-                value={dateReq}
-                floatingLabelText="วันที่คำขอ"
-                fullWidth
-                disabled
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="ข้อมูลทั่วไป"
+                titleStyle={styles.TitleText}
               />
             </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <PrefixTh
-                id="prefixTH"
-                name="prefixTH"
-                value={prefixTH}
-                label="คำนำหน้าชื่อ (TH)"
-                onSelectItem={this.handleLookupChange}
-                required
-                fullWidth
+            <CardText>
+              <div className="row">
+                <div className="col-12">
+                  <TextField
+                    id="dateReq"
+                    name="dateReq"
+                    value={dateReq}
+                    floatingLabelText="วันที่คำขอ"
+                    fullWidth
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <PrefixTh
+                    id="prefixTH"
+                    name="prefixTH"
+                    value={prefixTH}
+                    label="คำนำหน้าชื่อ (TH)"
+                    onSelectItem={this.handleLookupChange}
+                    required
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="firstNameTH"
+                    name="firstNameTH"
+                    value={firstNameTH}
+                    floatingLabelText="ชื่อ (TH)"
+                    errorText={firstNameTHmsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="lastNameTH"
+                    name="lastNameTH"
+                    value={lastNameTH}
+                    floatingLabelText="นามสกุล (TH)"
+                    errorText={lastNameTHmsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <PrefixEn
+                    id="prefixEn"
+                    name="prefixEn"
+                    value={prefixEn}
+                    label="คำนำหน้าชื่อ (EN)"
+                    required
+                    onSelectItem={this.handleLookupChange}
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="firstNameEN"
+                    name="firstNameEN"
+                    value={firstNameEN}
+                    floatingLabelText="ชื่อ (EN)"
+                    errorText={firstNameENmsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="lastNameEN"
+                    name="lastNameEN"
+                    value={lastNameEN}
+                    floatingLabelText="นามสกุล (EN)"
+                    errorText={lastNameENmsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <Identity
+                    id="idCard"
+                    name="idCard"
+                    label="เลขบัตรประชาชน"
+                    value={idCard}
+                    handleChange={this.handleNumberChange}
+                    errorText={idCardmsg}
+                    required
+                  />
+                </div>
+                <div className="col">
+                  <DatePicker
+                    id="dateExp"
+                    name="dateExp"
+                    mode="landscape"
+                    floatingLabelText="วันหมดอายุบัตรประชาชน"
+                    value={dateExp}
+                    errorText={dateExpmsg}
+                    onChange={this.handleDateExpChange}
+                    fullWidth
+                    autoOk
+                  />
+                </div>
+                <div className="col">
+                  <MaritalStatus
+                    id="status"
+                    name="status"
+                    value={status}
+                    label="สถานภาพสมรส"
+                    required
+                    onSelectItem={this.handleLookupChange}
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="ข้อมูลการทำงาน"
+                titleStyle={styles.TitleText}
               />
             </div>
-            <div className="col">
-              <TextField
-                id="firstNameTH"
-                name="firstNameTH"
-                value={firstNameTH}
-                floatingLabelText="ชื่อ (TH)"
-                errorText={firstNameTHmsg}
-                onChange={e => this.handleChange(e, true)}
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="lastNameTH"
-                name="lastNameTH"
-                value={lastNameTH}
-                floatingLabelText="นามสกุล (TH)"
-                errorText={lastNameTHmsg}
-                onChange={e => this.handleChange(e, true)}
-                fullWidth
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <PrefixEn
-                id="prefixEn"
-                name="prefixEn"
-                value={prefixEn}
-                label="คำนำหน้าชื่อ (EN)"
-                required
-                onSelectItem={this.handleLookupChange}
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="firstNameEN"
-                name="firstNameEN"
-                value={firstNameEN}
-                floatingLabelText="ชื่อ (EN)"
-                errorText={firstNameENmsg}
-                onChange={e => this.handleChange(e, true)}
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="lastNameEN"
-                name="lastNameEN"
-                value={lastNameEN}
-                floatingLabelText="นามสกุล (EN)"
-                errorText={lastNameENmsg}
-                onChange={e => this.handleChange(e, true)}
-                fullWidth
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <Identity
-                id="idCard"
-                name="idCard"
-                label="เลขบัตรประชาชน"
-                value={idCard}
-                handleChange={this.handleNumberChange}
-                errorText={idCardmsg}
-                required
-              />
-            </div>
-            <div className="col">
-              <DatePicker
-                id="dateExp"
-                name="dateExp"
-                mode="landscape"
-                floatingLabelText="วันหมดอายุบัตรประชาชน"
-                value={dateExp}
-                errorText={dateExpmsg}
-                onChange={this.handleDateExpChange}
-                fullWidth
-                autoOk
-              />
-            </div>
-            <div className="col">
-              <MaritalStatus
-                id="status"
-                name="status"
-                value={status}
-                label="สถานภาพสมรส"
-                required
-                onSelectItem={this.handleLookupChange}
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <TextField
-                id="department"
-                name="department"
-                value={department}
-                floatingLabelText="แผนก / ฝ่าย"
-                errorText={departmentmsg}
-                onChange={e => this.handleChange(e, true)}
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="position"
-                name="position"
-                value={position}
-                floatingLabelText="ตำแหน่ง"
-                errorText={positionmsg}
-                onChange={e => this.handleChange(e, true)}
-                fullWidth
-              />
-            </div>
-          </div>
-          <div className="row">
-            <div className="col">
-              <Tel
-                id="workTel"
-                name="workTel"
-                label="โทรศัพท์ที่ทำงาน (เบอร์ตรง)"
-                value={workTel}
-                handleChange={this.handleNumberChange}
-                errorText={workTelmsg}
-                required
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="telExtension"
-                name="telExtension"
-                floatingLabelText="เบอร์ต่อ"
-                value={telExtension}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="10"
-              />
-            </div>
-          </div>
+            <CardText>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="department"
+                    name="department"
+                    value={department}
+                    floatingLabelText="แผนก / ฝ่าย"
+                    errorText={departmentmsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="position"
+                    name="position"
+                    value={position}
+                    floatingLabelText="ตำแหน่ง"
+                    errorText={positionmsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <Tel
+                    id="workTel"
+                    name="workTel"
+                    label="โทรศัพท์ที่ทำงาน (เบอร์ตรง)"
+                    value={workTel}
+                    handleChange={this.handleNumberChange}
+                    errorText={workTelmsg}
+                    required
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="telExtension"
+                    name="telExtension"
+                    floatingLabelText="เบอร์ต่อ"
+                    value={telExtension}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="10"
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -509,7 +529,7 @@ class PersonalInfo extends Component {
                 titleStyle={styles.TitleText}
               />
             </div>
-            <CardText >
+            <CardText>
               <div className="row">
                 <div className="col">
                   <TextField
@@ -716,41 +736,50 @@ class PersonalInfo extends Component {
               </div>
             </CardText>
           </Card>
-
-          <div className="row">
-            <div className="col" >
-              <Tel
-                id="workTel2"
-                name="workTel2"
-                label="เบอร์โทรศัพท์มือถือ"
-                value={workTel2}
-                handleChange={this.handleNumberChange}
-                errorText={workTel2msg}
-                required
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="ข้อมูลติดต่อ"
+                titleStyle={styles.TitleText}
               />
             </div>
-            <div className="col" >
-              <Tel
-                id="homeTel2"
-                name="homeTel2"
-                label="เบอร์โทรศัพท์บ้าน"
-                value={homeTel2}
-                handleChange={this.handleNumberChange}
-                errorText={homeTel2msg}
-                required
-              />
-            </div>
-            <div className="col" >
-              <AddressStatus
-                id="detailRent"
-                name="detailRent"
-                value={detailRent}
-                label="สถานภาพที่อยู่อาศัย"
-                required
-                onSelectItem={this.handleLookupChange}
-              />
-            </div>
-          </div>
+            <CardText>
+              <div className="row">
+                <div className="col" >
+                  <Tel
+                    id="workTel2"
+                    name="workTel2"
+                    label="เบอร์โทรศัพท์มือถือ"
+                    value={workTel2}
+                    handleChange={this.handleNumberChange}
+                    errorText={workTel2msg}
+                    required
+                  />
+                </div>
+                <div className="col" >
+                  <Tel
+                    id="homeTel2"
+                    name="homeTel2"
+                    label="เบอร์โทรศัพท์บ้าน"
+                    value={homeTel2}
+                    handleChange={this.handleNumberChange}
+                    errorText={homeTel2msg}
+                    required
+                  />
+                </div>
+                <div className="col" >
+                  <AddressStatus
+                    id="detailRent"
+                    name="detailRent"
+                    value={detailRent}
+                    label="สถานภาพที่อยู่อาศัย"
+                    required
+                    onSelectItem={this.handleLookupChange}
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
