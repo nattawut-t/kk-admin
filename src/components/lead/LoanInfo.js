@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
@@ -19,46 +21,43 @@ const styles = {
   },
 };
 
+const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+
 class LoanInfo extends Component {
   state = {
-    loanAmount: '',
+    loanAmount: 0,
     loanAmountMsg: '',
     installmentNumber: '',
     installmentNumberMsg: '',
     beneficiary: 'myself',
     loanBeneficiaryName: '',
     loanBeneficiaryNameMsg: '',
-    accumulateDebt: '',
-    accumulateDebtMsg: '',
-    creditCardTotal: '',
-    creditCardTotalMsg: '',
+    accumulateDebt: 0,
+    accumulateDebtMsg: 0,
+    creditCardTotal: 0,
+    creditCardTotalMsg: 0,
     valid: false,
   };
 
-  validate = () => {
-    const { prefixTH } = this.state;
-    console.log('>>> prefixTH: ', prefixTH);
+  componentWillMount() {
+    this.initialState();
+    this.validate();
+  }
 
+  validate = () => {
     const keys = [
       'loanAmount',
-      'loanAmountMsg',
       'installmentNumber',
-      'installmentNumberMsg',
-      'loanBeneficiaryName',
-      'loanBeneficiaryNameMsg',
       'accumulateDebt',
-      'accumulateDebtMsg',
       'creditCardTotal',
-      'creditCardTotalMsg',
     ];
-
     const invalid = keys
       .map(key => ({
         key,
         value: this.state[key],
       }))
-      .find(({ key, value }) => {
-        console.log('>>> validate.find: ', key, value);
+      .find(({ value }) => {
+        console.log('');
         return !value;
       });
 
@@ -67,18 +66,34 @@ class LoanInfo extends Component {
     return !invalid;
   }
 
-  handleChange = (e, required = false, label = '') => {
+  initialState = () => {
+    const keys = [
+      'loanAmount',
+      'installmentNumber',
+      'accumulateDebt',
+      'creditCardTotal',
+    ];
+    keys
+      .map(key => ({
+        key,
+        value: this.state[key],
+      }))
+      .forEach(({ key, value }) => {
+        const msgKey = `${key}Msg`;
+        const msg = requiredMessage(true, value);
+        this.setState({ [msgKey]: msg });
+      });
+  };
+
+  handleChange = (e, required = false) => {
     const { name, value } = e.target;
     const msgKey = `${name}Msg`;
     let msg = this.state[msgKey];
 
-    console.log('>>> handleChange: ', name, value, required);
+    console.log('>>> handleChange: ', name, value);
 
     if (msg === '') {
-      msg = (required && !value)
-        ? `กรุณากรอก ${label}`
-        : '';
-
+      msg = requiredMessage(required, value);
       this.setState({ [msgKey]: msg });
     }
 
@@ -89,6 +104,29 @@ class LoanInfo extends Component {
       const valid = this.validate();
       this.setState({ valid });
     });
+  };
+
+  handleNumberChange = (name, value, errorMessage = '') => {
+    const msgKey = `${name}msg`;
+
+    this.setState({
+      [name]: value,
+      [msgKey]: errorMessage,
+      [`${name}Valid`]: !errorMessage,
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
+  handleBack = () => {
+    const { history } = this.props;
+    history.push('/personal-info');
+  };
+
+  handleNext = () => {
+    const { history } = this.props;
+    history.push('/test');
   };
 
   render() {
@@ -109,7 +147,7 @@ class LoanInfo extends Component {
 
     return (
       <div>
-        <form className="crud-form">
+        <form onSubmit={this.handleNext}>
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -123,6 +161,7 @@ class LoanInfo extends Component {
                   <TextField
                     id="loanAmount"
                     name="loanAmount"
+                    type="number"
                     value={loanAmount}
                     floatingLabelText="จำนวนที่ต้องการกู้"
                     onChange={e => this.handleChange(e, true)}
@@ -184,7 +223,6 @@ class LoanInfo extends Component {
               </div>
             </CardText>
           </Card>
-
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -219,7 +257,6 @@ class LoanInfo extends Component {
               </div>
             </CardText>
           </Card>
-
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -255,7 +292,6 @@ class LoanInfo extends Component {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="col-8">
                   <label htmlFor="pLoanApplicationHositoryExists">มีประวัติการสมัครสินเชื่อส่วนบุคคล</label>
@@ -283,7 +319,6 @@ class LoanInfo extends Component {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="col-8">
                   <label htmlFor="pLoanApplicationHositoryExists">มีประวัติการสมัครสินเชื่อส่วนบุคคล</label>
@@ -313,18 +348,19 @@ class LoanInfo extends Component {
               </div>
             </CardText>
           </Card>
-
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
-                label="Cancel"
-                labelPosition="กลับ"
+                label="กลับ"
+                labelPosition="before"
                 style={styles.button}
                 containerElement="label"
+                onClick={this.handleBack}
               />
               <RaisedButton
-                label="Next"
-                labelPosition="ดำเนินการต่อ"
+                type="submit"
+                label="ดำเนินการต่อ"
+                labelPosition="before"
                 primary
                 style={styles.button}
                 disabled={!valid}
@@ -338,13 +374,8 @@ class LoanInfo extends Component {
   }
 }
 
-// LoanInfo.propTypes = {
-//   loading: PropTypes.bool,
-// };
+LoanInfo.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
-// LoanInfo.defaultProps = {
-//   loading: false,
-// };
-
-
-export default LoanInfo;
+export default withRouter(LoanInfo);

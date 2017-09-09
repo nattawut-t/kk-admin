@@ -3,7 +3,7 @@ import {
   Step,
   Stepper,
   StepButton,
-  StepContent,
+  // StepContent,
 } from 'material-ui/Stepper';
 
 class LeadStep extends Component {
@@ -41,9 +41,6 @@ class LeadStep extends Component {
             <StepButton onClick={() => this.setState({ stepIndex: 0 })}>
               ข้อตกลงและเงื่อนไข
             </StepButton>
-            <StepContent>
-              {this.renderStepActions(0)}
-            </StepContent>
           </Step>
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 1 })}>

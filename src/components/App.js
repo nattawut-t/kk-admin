@@ -28,7 +28,7 @@ const App = () =>
               </Drawer>
             </div>
             <div className="col-9" style={{ paddingTop: '25px' }}>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div style={{ float: 'none', margin: '0 auto' }}>
                 <LeadStep />
               </div>
               <div className="container">

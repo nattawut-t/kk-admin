@@ -115,7 +115,6 @@ class PersonalInfo extends Component {
   }
 
   validate = () => {
-    console.log('>>> validate');
     const keys = [
       'dateReq',
       'prefixTH',
@@ -225,13 +224,6 @@ class PersonalInfo extends Component {
 
   handleNumberChange = (name, value, errorMessage = '') => {
     const msgKey = `${name}msg`;
-    // const msg = this.state[msgKey];
-
-    // if (msg === '') {
-    //   this.setState({ [msgKey]: errorMessage });
-    // }
-
-    console.log('>>> handleNumberChange: ', errorMessage);
 
     this.setState({
       [name]: value,
@@ -263,6 +255,11 @@ class PersonalInfo extends Component {
       const valid = this.validate();
       this.setState({ valid });
     });
+  };
+
+  handleBack = () => {
+    const { history } = this.props;
+    history.push('/');
   };
 
   handleNext = () => {
@@ -717,16 +714,15 @@ class PersonalInfo extends Component {
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
-                label="Cancel"
+                label="กลับ"
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-              >
-                <input type="file" style={styles.exampleImageInput} />
-              </RaisedButton>
+                onClick={this.handleBack}
+              />
               <RaisedButton
                 type="submit"
-                label="Next"
+                label="ดำเนินการต่อ"
                 labelPosition="before"
                 primary
                 style={styles.button}
