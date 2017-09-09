@@ -83,22 +83,27 @@ class LoanInfo extends Component {
         const msg = requiredMessage(true, value);
         this.setState({ [msgKey]: msg });
       });
+
+    ['workTel', 'workTel2', 'homeTel2']
+      .map(key => ({
+        key,
+        value: this.state[key],
+      }))
+      .forEach(({ key, value }) => {
+        const valid = /^\d{9,10}$/.test(value);
+        this.setState({ [`${key}Valid`]: valid });
+      });
   };
 
   handleChange = (e, required = false) => {
     const { name, value } = e.target;
     const msgKey = `${name}Msg`;
-    let msg = this.state[msgKey];
-
-    console.log('>>> handleChange: ', name, value);
-
-    if (msg === '') {
-      msg = requiredMessage(required, value);
-      this.setState({ [msgKey]: msg });
-    }
+    const msg = requiredMessage(required, value);
+    const number = Number.parseFloat(value) || 0;
 
     this.setState({
-      [name]: value,
+      [name]: number,
+      [msgKey]: msg,
       [`${name}Valid`]: !required || (required && value),
     }, () => {
       const valid = this.validate();
@@ -106,13 +111,10 @@ class LoanInfo extends Component {
     });
   };
 
-  handleNumberChange = (name, value, errorMessage = '') => {
-    const msgKey = `${name}msg`;
-
+  handleLookupChange = (e, index, value) => {
     this.setState({
-      [name]: value,
-      [msgKey]: errorMessage,
-      [`${name}Valid`]: !errorMessage,
+      installmentNumber: value,
+      installmentNumberMsg: requiredMessage(true, value),
     }, () => {
       const valid = this.validate();
       this.setState({ valid });
@@ -161,7 +163,6 @@ class LoanInfo extends Component {
                   <TextField
                     id="loanAmount"
                     name="loanAmount"
-                    type="number"
                     value={loanAmount}
                     floatingLabelText="จำนวนที่ต้องการกู้"
                     onChange={e => this.handleChange(e, true)}
@@ -174,7 +175,7 @@ class LoanInfo extends Component {
                     id="installmentNumber"
                     name="installmentNumber"
                     value={installmentNumber}
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={this.handleLookupChange}
                     errorText={installmentNumberMsg}
                     floatingLabelText="ระยะเวลาผ่อนชำระ(งวด)"
                     fullWidth
