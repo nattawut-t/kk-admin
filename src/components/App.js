@@ -6,9 +6,9 @@ import Drawer from 'material-ui/Drawer';
 
 import Agreement from '../containers/lead/Agreement';
 import PersonalInfo from '../containers/lead/PersonalInfo';
+import LoanInfo from '../containers/lead/LoanInfo';
+import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import LeadStep from './lead/LeadStep';
-import LoanInfo from './lead/LoanInfo';
-import AdditionalInfo from './lead/AdditionalInfo';
 import Test from './test/Test';
 
 class App extends React.Component {

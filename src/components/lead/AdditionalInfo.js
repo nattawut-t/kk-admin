@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import TextField from 'material-ui/TextField';
-// import SelectField from 'material-ui/SelectField';
-// import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-// import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 import PrefixTh from '../shared/PrefixTh';
 import Relationship from '../shared/Relationship';
-// import PrefixEn from '../shared/PrefixEn';
-// import Identity from '../shared/Identity';
 
 const styles = {
   marginBottom: {
@@ -24,30 +21,110 @@ const styles = {
   },
 };
 
+const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+
 class AdditionalInfo extends Component {
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    data: PropTypes.object,
+    completeAdditionalInfo: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    data: null,
+  };
+
   state = {
-    prefixTH: '',
-    prefixTHMsg: '',
-    firstnameTH: '',
-    firstnameTHMsg: '',
-    lastnameTH: '',
-    lastnameTHMsg: '',
-    relationship: '',
+    ref1Prefix: '',
+    ref1PrefixMsg: '',
+    ref1Firstname: 'xx',
+    ref1FirstnameMsg: '',
+    ref1Lastname: 'xx',
+    ref1LastnameMsg: '',
+    ref1Relationship: '',
+    ref1Mobile: '0670000000',
+    ref1MobileMsg: '',
+    ref1WorkTelephone: '020000000',
+    ref1WorkTelephoneMsg: '',
+    ref1HomeTelephone: '',
+    ref1HomeTelephoneMsg: '',
+    ref2Prefix: '',
+    ref2PrefixMsg: '',
+    ref2Firstname: '',
+    ref2FirstnameMsg: '',
+    ref2Lastname: '',
+    ref2LastnameMsg: '',
+    ref2Relationship: '',
+    ref2Mobile: '',
+    ref2MobileMsg: '',
+    ref2WorkTelephone: '',
+    ref2WorkTelephoneMsg: '',
+    ref2HomeTelephone: '',
+    ref2HomeTelephoneMsg: '',
+    conjugalPrefix: '',
+    conjugalPrefixMsg: '',
+    conjugalFirstname: '',
+    conjugalFirstnameMsg: '',
+    conjugalLastname: '',
+    conjugalLastnameMsg: '',
+    conjugalOccupation: '',
+    conjugalOccupationMsg: '',
+    conjugalIncome: '',
+    conjugalIncomeMsg: '',
+    children: '',
+    childrenMsg: '',
     valid: false,
   };
 
-  validate = () => {
-    const { prefixTH } = this.state;
-    console.log('>>> prefixTH: ', prefixTH);
+  componentWillMount() {
+    const { data } = this.props;
+    if (data) {
+      this.setState(data);
+    }
+    this.initialState();
+    this.validate();
+  }
 
+  validate = () => {
     const keys = [
-      'prefixTH',
-      'prefixTHMsg',
-      'firstNameTH',
-      'firstNameTHmsg',
-      'lastNameTH',
-      'lastNameTHmsg',
-      'relationship',
+      'ref1Prefix',
+      // 'ref1PrefixMsg',
+      'ref1Firstname',
+      // 'ref1FirstnameMsg',
+      'ref1Lastname',
+      // 'ref1LastnameMsg',
+      'ref1Relationship',
+      'ref1Mobile',
+      // 'ref1MobileMsg',
+      'ref1WorkTelephone',
+      // 'ref1WorkTelephoneMsg',
+      'ref1HomeTelephone',
+      // 'ref1HomeTelephoneMsg',
+      'ref2Prefix',
+      // 'ref2PrefixMsg',
+      'ref2Firstname',
+      // 'ref2FirstnameMsg',
+      'ref2Lastname',
+      // 'ref2LastnameMsg',
+      'ref2Relationship',
+      'ref2Mobile',
+      // 'ref2MobileMsg',
+      'ref2WorkTelephone',
+      // 'ref2WorkTelephoneMsg',
+      'ref2HomeTelephone',
+      // 'ref2HomeTelephoneMsg',
+      'conjugalPrefix',
+      // 'conjugalPrefixMsg',
+      'conjugalFirstname',
+      // 'conjugalFirstnameMsg',
+      'conjugalLastname',
+      // 'conjugalLastnameMsg',
+      'conjugalOccupation',
+      // 'conjugalOccupationMsg',
+      'conjugalIncome',
+      // 'conjugalIncomeMsg',
+      'children',
+      // 'childrenMsg',
     ];
 
     const invalid = keys
@@ -63,25 +140,50 @@ class AdditionalInfo extends Component {
     console.log('>>> invalid: ', invalid);
 
     return !invalid;
-  }
+  };
 
-  handleChange = (e, required = false, label = '') => {
+  initialState = () => {
+    const keys = [
+      'ref1Prefix',
+      'ref1Firstname',
+      'ref1Lastname',
+      // 'ref1Relationship',
+      'ref1Mobile',
+      'ref1WorkTelephone',
+      // 'ref1HomeTelephone',
+      // 'ref2Prefix',
+      // 'ref2Firstname',
+      // 'ref2Lastname',
+      // 'ref2Relationship',
+      // 'ref2Mobile',
+      // 'ref2WorkTelephone',
+      // 'ref2HomeTelephone',
+      // 'conjugalPrefix',
+      // 'conjugalFirstname',
+      // 'conjugalLastname',
+      // 'conjugalOccupation',
+      // 'conjugalIncome',
+      // 'children',
+    ];
+    keys
+      .map(key => ({
+        key,
+        value: this.state[key],
+      }))
+      .forEach(({ key, value }) => {
+        const msgKey = `${key}Msg`;
+        const msg = requiredMessage(true, value);
+        this.setState({ [msgKey]: msg });
+      });
+  };
+
+  handleChange = (e, required = false) => {
     const { name, value } = e.target;
     const msgKey = `${name}Msg`;
-    let msg = this.state[msgKey];
-
-    console.log('>>> handleChange: ', name, value, required);
-
-    if (msg === '') {
-      msg = (required && !value)
-        ? `กรุณากรอก ${label}`
-        : '';
-
-      this.setState({ [msgKey]: msg });
-    }
 
     this.setState({
       [name]: value,
+      [msgKey]: requiredMessage(required, value),
       [`${name}Valid`]: !required || (required && value),
     }, () => {
       const valid = this.validate();
@@ -89,14 +191,144 @@ class AdditionalInfo extends Component {
     });
   };
 
+  handleLookupChange = (value, name, id) => {
+    console.log('>>> handleLookupChange: ', value, name, id);
+    this.setState({ [id]: value }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
+  handleBack = () => {
+    const { history } = this.props;
+    history.push('/loan-info');
+  };
+
+  handleNext = e => {
+    e.preventDefault();
+    const { completeAdditionalInfo } = this.props;
+    const {
+      ref1Prefix,
+      ref1PrefixMsg,
+      ref1Firstname,
+      ref1FirstnameMsg,
+      ref1Lastname,
+      ref1LastnameMsg,
+      ref1Relationship,
+      ref1Mobile,
+      ref1MobileMsg,
+      ref1WorkTelephone,
+      ref1WorkTelephoneMsg,
+      ref1HomeTelephone,
+      ref1HomeTelephoneMsg,
+      ref2Prefix,
+      ref2PrefixMsg,
+      ref2Firstname,
+      ref2FirstnameMsg,
+      ref2Lastname,
+      ref2LastnameMsg,
+      ref2Relationship,
+      ref2Mobile,
+      ref2MobileMsg,
+      ref2WorkTelephone,
+      ref2WorkTelephoneMsg,
+      ref2HomeTelephone,
+      ref2HomeTelephoneMsg,
+      conjugalPrefix,
+      conjugalPrefixMsg,
+      conjugalFirstname,
+      conjugalFirstnameMsg,
+      conjugalLastname,
+      conjugalLastnameMsg,
+      conjugalOccupation,
+      conjugalOccupationMsg,
+      conjugalIncome,
+      conjugalIncomeMsg,
+      children,
+    } = this.state;
+
+    completeAdditionalInfo({
+      ref1Prefix,
+      ref1PrefixMsg,
+      ref1Firstname,
+      ref1FirstnameMsg,
+      ref1Lastname,
+      ref1LastnameMsg,
+      ref1Relationship,
+      ref1Mobile,
+      ref1MobileMsg,
+      ref1WorkTelephone,
+      ref1WorkTelephoneMsg,
+      ref1HomeTelephone,
+      ref1HomeTelephoneMsg,
+      ref2Prefix,
+      ref2PrefixMsg,
+      ref2Firstname,
+      ref2FirstnameMsg,
+      ref2Lastname,
+      ref2LastnameMsg,
+      ref2Relationship,
+      ref2Mobile,
+      ref2MobileMsg,
+      ref2WorkTelephone,
+      ref2WorkTelephoneMsg,
+      ref2HomeTelephone,
+      ref2HomeTelephoneMsg,
+      conjugalPrefix,
+      conjugalPrefixMsg,
+      conjugalFirstname,
+      conjugalFirstnameMsg,
+      conjugalLastname,
+      conjugalLastnameMsg,
+      conjugalOccupation,
+      conjugalOccupationMsg,
+      conjugalIncome,
+      conjugalIncomeMsg,
+      children,
+    });
+
+    // const { history } = this.props;
+    // history.push('/loan-info');
+  };
+
   render() {
     const {
-      prefixTH,
-      firstNameTH,
-      firstNameTHmsg,
-      lastNameTH,
-      lastNameTHmsg,
-      relationship,
+      ref1Prefix,
+      ref1Firstname,
+      ref1FirstnameMsg,
+      ref1Lastname,
+      ref1LastnameMsg,
+      ref1Relationship,
+      ref1Mobile,
+      ref1MobileMsg,
+      ref1WorkTelephone,
+      ref1WorkTelephoneMsg,
+      ref1HomeTelephone,
+      ref1HomeTelephoneMsg,
+      ref2Prefix,
+      ref2Firstname,
+      ref2FirstnameMsg,
+      ref2Lastname,
+      ref2LastnameMsg,
+      ref2Relationship,
+      ref2Mobile,
+      ref2MobileMsg,
+      ref2WorkTelephone,
+      ref2WorkTelephoneMsg,
+      ref2HomeTelephone,
+      ref2HomeTelephoneMsg,
+      conjugalPrefix,
+      conjugalPrefixMsg,
+      conjugalFirstname,
+      conjugalFirstnameMsg,
+      conjugalLastname,
+      conjugalLastnameMsg,
+      conjugalOccupation,
+      conjugalOccupationMsg,
+      conjugalIncome,
+      conjugalIncomeMsg,
+      children,
+      childrenMsg,
       valid,
     } = this.state;
 
@@ -116,13 +348,17 @@ class AdditionalInfo extends Component {
               />
             </div>
             <CardText>
-              <span>บุคคลอ้างอิง 1</span>
+              <div className="row">
+                <div className="col">
+                  <span>บุคคลอ้างอิง 1</span>
+                </div>
+              </div>
               <div className="row">
                 <div className="col">
                   <PrefixTh
-                    id="prefixTH"
-                    name="prefixTH"
-                    value={prefixTH}
+                    id="ref1Prefix"
+                    name="ref1Prefix"
+                    value={ref1Prefix}
                     label="คำนำหน้าชื่อ (TH)"
                     required
                     onSelectItem={this.handleLookupChange}
@@ -130,22 +366,208 @@ class AdditionalInfo extends Component {
                 </div>
                 <div className="col">
                   <TextField
-                    id="firstNameTH"
-                    name="firstNameTH"
-                    value={firstNameTH}
+                    id="ref1Firstname"
+                    name="ref1Firstname"
+                    value={ref1Firstname}
                     floatingLabelText="ชื่อ (TH)"
-                    errorText={firstNameTHmsg}
+                    errorText={ref1FirstnameMsg}
                     onChange={e => this.handleChange(e, true)}
                     fullWidth
                   />
                 </div>
                 <div className="col">
                   <TextField
-                    id="lastNameTH"
-                    name="lastNameTH"
-                    value={lastNameTH}
+                    id="ref1Lastname"
+                    name="ref1Lastname"
+                    value={ref1Lastname}
                     floatingLabelText="นามสกุล (TH)"
-                    errorText={lastNameTHmsg}
+                    errorText={ref1LastnameMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-4">
+                  <Relationship
+                    id="ref1Relationship"
+                    name="ref1Relationship"
+                    value={ref1Relationship}
+                    floatingLabelText="ความสัมพันธ์"
+                    label="ความสัมพันธ์"
+                    required
+                    onSelectItem={this.handleLookupChange}
+                  />
+                </div>
+                <div className="col-8">
+                  <div className="row">
+                    <div className="col">
+                      <TextField
+                        id="ref1Mobile"
+                        name="ref1Mobile"
+                        value={ref1Mobile}
+                        floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                        errorText={ref1MobileMsg}
+                        onChange={e => this.handleChange(e, true)}
+                        fullWidth
+                      />
+                    </div>
+                    <div className="col">
+                      <TextField
+                        id="ref1WorkTelephone"
+                        name="ref1WorkTelephone"
+                        value={ref1WorkTelephone}
+                        floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                        errorText={ref1WorkTelephoneMsg}
+                        onChange={e => this.handleChange(e, true)}
+                        fullWidth
+                      />
+                    </div>
+                    <div className="col">
+                      <TextField
+                        id="ref1HomeTelephone"
+                        name="ref1HomeTelephone"
+                        value={ref1HomeTelephone}
+                        floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                        errorText={ref1HomeTelephoneMsg}
+                        onChange={e => this.handleChange(e, true)}
+                        fullWidth
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <span>บุคคลอ้างอิง 2</span>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <PrefixTh
+                    id="ref2Prefix"
+                    name="ref2Prefix"
+                    value={ref2Prefix}
+                    label="คำนำหน้าชื่อ (TH)"
+                    required
+                    onSelectItem={this.handleLookupChange}
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="ref2Firstname"
+                    name="ref2Firstname"
+                    value={ref2Firstname}
+                    floatingLabelText="ชื่อ (TH)"
+                    errorText={ref2FirstnameMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="ref2Lastname"
+                    name="ref2Lastname"
+                    value={ref2Lastname}
+                    floatingLabelText="นามสกุล (TH)"
+                    errorText={ref2LastnameMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-4">
+                  <Relationship
+                    id="ref2Relationship"
+                    name="ref2Relationship"
+                    value={ref2Relationship}
+                    floatingLabelText="ความสัมพันธ์"
+                    label="ความสัมพันธ์"
+                    required
+                    onSelectItem={this.handleLookupChange}
+                  />
+                </div>
+                <div className="col-8">
+                  <div className="row">
+                    <div className="col">
+                      <TextField
+                        id="ref2Mobile"
+                        name="ref2Mobile"
+                        value={ref2Mobile}
+                        floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                        errorText={ref2MobileMsg}
+                        onChange={e => this.handleChange(e, true)}
+                        fullWidth
+                      />
+                    </div>
+                    <div className="col">
+                      <TextField
+                        id="ref2WorkTelephone"
+                        name="ref2WorkTelephone"
+                        value={ref2WorkTelephone}
+                        floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                        errorText={ref2WorkTelephoneMsg}
+                        onChange={e => this.handleChange(e, true)}
+                        fullWidth
+                      />
+                    </div>
+                    <div className="col">
+                      <TextField
+                        id="ref2HomeTelephone"
+                        name="ref2HomeTelephone"
+                        value={ref2HomeTelephone}
+                        floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                        errorText={ref2HomeTelephoneMsg}
+                        onChange={e => this.handleChange(e, true)}
+                        fullWidth
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardText>
+          </Card>
+
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="ข้อมูลคู่สมรส"
+                titleStyle={styles.TitleText}
+              />
+            </div>
+            <CardText>
+              <div className="row">
+                <div className="col">
+                  <PrefixTh
+                    id="conjugalPrefix"
+                    name="conjugalPrefix"
+                    value={conjugalPrefix}
+                    label="คำนำหน้าชื่อ"
+                    required
+                    onSelectItem={this.handleLookupChange}
+                    errorText={conjugalPrefixMsg}
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="conjugalFirstname"
+                    name="conjugalFirstname"
+                    value={conjugalFirstname}
+                    floatingLabelText="ชื่อ"
+                    errorText={conjugalFirstnameMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="conjugalLastname"
+                    name="conjugalLastname"
+                    value={conjugalLastname}
+                    floatingLabelText="นามสกุล"
+                    errorText={conjugalLastnameMsg}
                     onChange={e => this.handleChange(e, true)}
                     fullWidth
                   />
@@ -153,15 +575,47 @@ class AdditionalInfo extends Component {
               </div>
               <div className="row">
                 <div className="col">
-                  <Relationship
-                    id="relationship"
-                    name="relationship"
-                    value={relationship}
-                    floatingLabelText="ความสัมพันธ์"
-                    label="ความสัมพันธ์"
-                    required
-                    onSelectItem={this.handleLookupChange}
-                    fullwitdh
+                  <TextField
+                    id="conjugalOccupation"
+                    name="conjugalOccupation"
+                    value={conjugalOccupation}
+                    floatingLabelText="อาชีพ"
+                    errorText={conjugalOccupationMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="conjugalIncome"
+                    name="conjugalIncome"
+                    value={conjugalIncome}
+                    floatingLabelText="รายได้ต่อเดือน"
+                    errorText={conjugalIncomeMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="children"
+                    name="children"
+                    value={children}
+                    floatingLabelText="จำนวนบุตร/ธิดา"
+                    errorText={childrenMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="children"
+                    name="children"
+                    value={children}
+                    floatingLabelText="จำนวนบุตร/ธิดา"
+                    errorText={childrenMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
                   />
                 </div>
               </div>
@@ -171,7 +625,7 @@ class AdditionalInfo extends Component {
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
-                title="ประวัติการชำระหนี้"
+                title=""
                 titleStyle={styles.TitleText}
               />
             </div>
@@ -195,14 +649,16 @@ class AdditionalInfo extends Component {
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
-                label="Cancel"
-                labelPosition="กลับ"
+                label="กลับ"
+                labelPosition="before"
                 style={styles.button}
                 containerElement="label"
+                onClick={this.handleBack}
               />
               <RaisedButton
-                label="Next"
-                labelPosition="ดำเนินการต่อ"
+                type="submit"
+                label="ดำเนินการต่อ"
+                labelPosition="before"
                 primary
                 style={styles.button}
                 disabled={!valid}
@@ -224,4 +680,4 @@ class AdditionalInfo extends Component {
 //   loading: false,
 // };
 
-export default AdditionalInfo;
+export default withRouter(AdditionalInfo);
