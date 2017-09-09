@@ -21,6 +21,7 @@ class Location extends Component {
     amphurValue: PropTypes.string,
     tambolValue: PropTypes.string,
     handleChange: PropTypes.func,
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -31,6 +32,7 @@ class Location extends Component {
     amphurValue: '',
     tambolValue: '',
     handleChange: null,
+    disabled: false,
   };
 
   constructor(props) {
@@ -188,6 +190,7 @@ class Location extends Component {
       provinceLabel,
       amphurLabel,
       tambolLabel,
+      disabled,
     } = this.props;
     const provinceErrorText = '';
     const amphurErrorText = '';
@@ -204,6 +207,7 @@ class Location extends Component {
               floatingLabelText={provinceLabel}
               errorText={provinceErrorText}
               onChange={this.handleProvinceChange}
+              disabled={disabled}
             >
               {provinceList}
             </SelectField>
@@ -216,6 +220,7 @@ class Location extends Component {
               floatingLabelText={amphurLabel}
               errorText={amphurErrorText}
               onChange={this.handleAmphurChange}
+              disabled={disabled}
             >
               {amphurList}
             </SelectField>
@@ -228,6 +233,7 @@ class Location extends Component {
               floatingLabelText={tambolLabel}
               errorText={tambolErrorText}
               onChange={this.handleTambolChange}
+              disabled={disabled}
             >
               {tambolList}
             </SelectField>

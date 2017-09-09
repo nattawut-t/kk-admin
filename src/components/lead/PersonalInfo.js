@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import DatePicker from 'material-ui/DatePicker';
+import Checkbox from 'material-ui/Checkbox';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 import PrefixTh from '../shared/PrefixTh';
@@ -30,6 +31,15 @@ const styles = {
     left: 0,
     width: '100%',
     opacity: 0,
+  },
+  marginBottom: {
+    marginBottom: '20px',
+  },
+  sectionTitle: {
+    backgroundColor: 'rgb(0, 188, 212)',
+  },
+  TitleText: {
+    color: 'white',
   },
 };
 
@@ -106,6 +116,7 @@ class PersonalInfo extends Component {
     soi2: '',
     road2: '',
     zipCode2: '',
+    isSameAddress: false,
     valid: false,
   };
 
@@ -257,6 +268,11 @@ class PersonalInfo extends Component {
     });
   };
 
+  handleSameAddressChange = () => {
+    const { isSameAddress } = this.state;
+    this.setState({ isSameAddress: !isSameAddress });
+  };
+
   handleBack = () => {
     const { history } = this.props;
     history.push('/');
@@ -315,6 +331,7 @@ class PersonalInfo extends Component {
       soi2,
       road2,
       zipCode2,
+      isSameAddress,
       valid,
     } = this.state;
 
@@ -485,10 +502,13 @@ class PersonalInfo extends Component {
               />
             </div>
           </div>
-          <Card>
-            <CardHeader
-              title="ที่อยู่ปัจจุบัน"
-            />
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="ที่อยู่ปัจจุบัน"
+                titleStyle={styles.TitleText}
+              />
+            </div>
             <CardText >
               <div className="row">
                 <div className="col">
@@ -581,11 +601,24 @@ class PersonalInfo extends Component {
             </CardText>
           </Card>
           <br />
-          <Card>
-            <CardHeader
-              title="ที่ตามทะเบียนบ้าน"
-            />
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="ที่อยู่ตามทะเบียนบ้าน"
+                titleStyle={styles.TitleText}
+              />
+            </div>
             <CardText >
+              <div className="row">
+                <div className="col-12">
+                  <Checkbox
+                    label="ที่อยู่เดียวกับที่อยู่ปัจจุบัน"
+                    checked={isSameAddress}
+                    onCheck={this.handleSameAddressChange}
+                    style={styles.checkbox}
+                  />
+                </div>
+              </div>
               <div className="row">
                 <div className="col">
                   <TextField
@@ -594,6 +627,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="บ้านเลขที่"
                     value={number2}
                     onChange={e => this.handleChange(e, true)}
+                    disabled={isSameAddress}
                     maxLength="10"
                   />
                 </div>
@@ -604,6 +638,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="หมู่ที่"
                     value={moo2}
                     onChange={e => this.handleChange(e, true)}
+                    disabled={isSameAddress}
                     maxLength="3"
                   />
                 </div>
@@ -614,6 +649,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
                     value={village2}
                     onChange={e => this.handleChange(e, true)}
+                    disabled={isSameAddress}
                     maxLength="100"
                     fullWidth
                   />
@@ -627,6 +663,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="ซอย"
                     value={soi2}
                     onChange={e => this.handleChange(e, true)}
+                    disabled={isSameAddress}
                     maxLength="100"
                   />
                 </div>
@@ -637,6 +674,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="ถนน"
                     value={road2}
                     onChange={e => this.handleChange(e, true)}
+                    disabled={isSameAddress}
                     maxLength="100"
                   />
                 </div>
@@ -659,6 +697,7 @@ class PersonalInfo extends Component {
                     amphurName={amphurCodeName}
                     tambolName={tambolCodeName}
                     handleChange={this.handleLocationChange}
+                    disabled={isSameAddress}
                   />
                 </div>
               </div>
@@ -670,6 +709,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="รหัสไปรษณีย์"
                     value={zipCode2}
                     onChange={e => this.handleChange(e, true)}
+                    disabled={isSameAddress}
                     maxLength="5"
                   />
                 </div>

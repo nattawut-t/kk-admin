@@ -121,6 +121,11 @@ class LoanInfo extends Component {
     });
   };
 
+  handleBeneficiaryChange = () => {
+    const { beneficiary } = this.state;
+    this.setState({ beneficiary: beneficiary === 'myself' ? 'others' : 'myself' });
+  };
+
   handleBack = () => {
     const { history } = this.props;
     history.push('/personal-info');
@@ -159,7 +164,7 @@ class LoanInfo extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="loanAmount"
                     name="loanAmount"
@@ -170,6 +175,15 @@ class LoanInfo extends Component {
                     fullWidth
                   />
                 </div>
+                <div className="col-8" style={{ verticalAlign: 'middle' }}>
+                  <span>
+                    โปรดระบุจำนวนเงินที่ต้องการกู้ไม่ต่ำกว่า 20,000 บาท และสุงสุด 5
+                    เท่าของรายได้เฉลี่ยต่อเดือน ไม่เกิน 1,000,000 บาท
+                    อนึ่งธนาคารจะพิจารณาให้วงเงินกู้ตามจำนวนที่ธนาคารเห็นสมควร
+                  </span>
+                </div>
+              </div>
+              <div className="row">
                 <div className="col">
                   <SelectField
                     id="installmentNumber"
@@ -193,10 +207,13 @@ class LoanInfo extends Component {
               </div>
               <div className="row">
                 <div className="col-3">
+                  <label htmlFor="beneficiary">ผู้ได้รับผลประโยชน์ที่แท้จริง</label>
+                </div>
+                <div className="col-3">
                   <RadioButtonGroup
                     name="beneficiary"
                     defaultSelected={beneficiary}
-                    style={{ display: 'flex' }}
+                    onChange={this.handleBeneficiaryChange}
                   >
                     <RadioButton
                       value="myself"
@@ -208,7 +225,6 @@ class LoanInfo extends Component {
                     />
                   </RadioButtonGroup>
                 </div>
-                <div className="col-3" />
                 <div className="col-6">
                   <TextField
                     id="loanBeneficiaryName"
@@ -218,6 +234,7 @@ class LoanInfo extends Component {
                     floatingLabelText="ผู้รับผลประโยชน์ที่แท้จริง"
                     onChange={e => this.handleChange(e)}
                     errorText={loanBeneficiaryNameMsg}
+                    disabled={beneficiary === 'myself'}
                     fullWidth
                   />
                 </div>
