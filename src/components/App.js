@@ -8,6 +8,7 @@ import Agreement from '../containers/lead/Agreement';
 import PersonalInfo from '../containers/lead/PersonalInfo';
 import LeadStep from './lead/LeadStep';
 import LoanInfo from './lead/LoanInfo';
+import AdditionalInfo from './lead/AdditionalInfo';
 import Test from './test/Test';
 
 const App = () =>
@@ -34,6 +35,7 @@ const App = () =>
               </div>
               <div className="container">
                 <Switch>
+                  <Route path="/additional-info" component={AdditionalInfo} />
                   <Route path="/test" component={Test} />
                   <Route path="/loan-info" component={LoanInfo} />
                   <Route path="/personal-info" component={PersonalInfo} />
