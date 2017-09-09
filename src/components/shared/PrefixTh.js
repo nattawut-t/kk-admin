@@ -102,6 +102,7 @@ class PrefixTh extends Component {
         floatingLabelText={label}
         errorText={errorText}
         onChange={this.handleChange}
+        fullWidth
       >
         {itemList}
       </SelectField>
