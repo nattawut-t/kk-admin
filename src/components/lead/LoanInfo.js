@@ -24,6 +24,12 @@ const styles = {
 const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
 
 class LoanInfo extends Component {
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
+    completeLoanInfo: PropTypes.func.isRequired,
+  };
+
   state = {
     loanAmount: 0,
     loanAmountMsg: '',
@@ -40,6 +46,10 @@ class LoanInfo extends Component {
   };
 
   componentWillMount() {
+    const { data } = this.props;
+    if (data) {
+      this.setState(data);
+    }
     this.initialState();
     this.validate();
   }
@@ -132,6 +142,35 @@ class LoanInfo extends Component {
   };
 
   handleNext = () => {
+    const { completeLoanInfo } = this.props;
+    const {
+      loanAmount,
+      // loanAmountMsg,
+      installmentNumber,
+      // installmentNumberMsg,
+      beneficiary,
+      loanBeneficiaryName,
+      // loanBeneficiaryNameMsg,
+      accumulateDebt,
+      // accumulateDebtMsg,
+      creditCardTotal,
+      // creditCardTotalMsg,
+      // valid,
+    } = this.state;
+
+    completeLoanInfo({
+      loanAmount,
+      // loanAmountMsg,
+      installmentNumber,
+      // installmentNumberMsg,
+      beneficiary,
+      loanBeneficiaryName,
+      // loanBeneficiaryNameMsg,
+      accumulateDebt,
+      // accumulateDebtMsg,
+      creditCardTotal,
+    });
+
     const { history } = this.props;
     history.push('/test');
   };

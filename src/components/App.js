@@ -6,8 +6,8 @@ import Drawer from 'material-ui/Drawer';
 
 import Agreement from '../containers/lead/Agreement';
 import PersonalInfo from '../containers/lead/PersonalInfo';
+import LoanInfo from '../containers/lead/LoanInfo';
 import LeadStep from './lead/LeadStep';
-import LoanInfo from './lead/LoanInfo';
 import AdditionalInfo from './lead/AdditionalInfo';
 import Test from './test/Test';
 
