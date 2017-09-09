@@ -199,7 +199,7 @@ class Location extends Component {
     return (
       <div>
         <div className="row">
-          <div className="col">
+          <div className="col-4">
             <SelectField
               id="province"
               name="province"
@@ -208,11 +208,12 @@ class Location extends Component {
               errorText={provinceErrorText}
               onChange={this.handleProvinceChange}
               disabled={disabled}
+              fullWidth
             >
               {provinceList}
             </SelectField>
           </div>
-          <div className="col">
+          <div className="col-4">
             <SelectField
               id="amphur"
               name="amphur"
@@ -221,11 +222,12 @@ class Location extends Component {
               errorText={amphurErrorText}
               onChange={this.handleAmphurChange}
               disabled={disabled}
+              fullWidth
             >
               {amphurList}
             </SelectField>
           </div>
-          <div className="col">
+          <div className="col-4">
             <SelectField
               id="tambol"
               name="tambol"
@@ -234,6 +236,7 @@ class Location extends Component {
               errorText={tambolErrorText}
               onChange={this.handleTambolChange}
               disabled={disabled}
+              fullWidth
             >
               {tambolList}
             </SelectField>

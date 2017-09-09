@@ -17,3 +17,11 @@
     width: percentage($i/12);
   }
 }
+
+@media #{$mobile} {
+  [class*="col-"] {
+    width: 100%;
+    max-width: 100%;
+    flex: auto;
+  }
+}

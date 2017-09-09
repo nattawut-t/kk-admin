@@ -10,6 +10,9 @@ import FontIcon from 'material-ui/FontIcon';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 const styles = {
+  button: {
+    margin: 12,
+  },
   marginBottom: {
     marginBottom: '20px',
   },

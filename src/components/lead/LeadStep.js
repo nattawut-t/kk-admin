@@ -32,7 +32,7 @@ class LeadStep extends Component {
     const { stepIndex } = this.state;
 
     return (
-      <div style={{ maxWidth: 380, maxHeight: 400, margin: 'auto' }}>
+      <div style={{ width: '100%', maxHeight: 400, margin: 'auto' }}>
         <Stepper
           activeStep={stepIndex}
           linear={false}

@@ -22,6 +22,9 @@ const styles = {
   button: {
     margin: 12,
   },
+  input: {
+    width: '100%',
+  },
   exampleImageInput: {
     cursor: 'pointer',
     position: 'absolute',
@@ -479,7 +482,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <PrefixTh
                     id="prefixTH"
                     name="prefixTH"
@@ -487,10 +490,9 @@ class PersonalInfo extends Component {
                     label="คำนำหน้าชื่อ (TH)"
                     onSelectItem={this.handleLookupChange}
                     required
-                    fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="firstNameTH"
                     name="firstNameTH"
@@ -501,7 +503,7 @@ class PersonalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="lastNameTH"
                     name="lastNameTH"
@@ -514,7 +516,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <PrefixEn
                     id="prefixEn"
                     name="prefixEn"
@@ -524,7 +526,7 @@ class PersonalInfo extends Component {
                     onSelectItem={this.handleLookupChange}
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="firstNameEN"
                     name="firstNameEN"
@@ -535,7 +537,7 @@ class PersonalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="lastNameEN"
                     name="lastNameEN"
@@ -548,7 +550,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <Identity
                     id="idCard"
                     name="idCard"
@@ -559,7 +561,7 @@ class PersonalInfo extends Component {
                     required
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <DatePicker
                     id="dateExp"
                     name="dateExp"
@@ -572,7 +574,7 @@ class PersonalInfo extends Component {
                     autoOk
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <MaritalStatus
                     id="status"
                     name="status"
@@ -618,7 +620,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-6">
                   <Tel
                     id="workTel"
                     name="workTel"
@@ -629,7 +631,7 @@ class PersonalInfo extends Component {
                     required
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="telExtension"
                     name="telExtension"
@@ -637,6 +639,7 @@ class PersonalInfo extends Component {
                     value={telExtension}
                     onChange={e => this.handleChange(e, true)}
                     maxLength="10"
+                    fullWidth
                   />
                 </div>
               </div>
@@ -651,7 +654,7 @@ class PersonalInfo extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="number"
                     name="number"
@@ -659,9 +662,10 @@ class PersonalInfo extends Component {
                     value={number}
                     onChange={e => this.handleChange(e, true)}
                     maxLength="10"
+                    fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="moo"
                     name="moo"
@@ -669,9 +673,10 @@ class PersonalInfo extends Component {
                     value={moo}
                     onChange={e => this.handleChange(e, true)}
                     maxLength="3"
+                    fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="village"
                     name="village"
@@ -684,7 +689,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="soi"
                     name="soi"
@@ -692,9 +697,10 @@ class PersonalInfo extends Component {
                     value={soi}
                     onChange={e => this.handleChange(e, true)}
                     maxLength="100"
+                    fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="road"
                     name="road"
@@ -702,6 +708,7 @@ class PersonalInfo extends Component {
                     value={road}
                     onChange={e => this.handleChange(e, true)}
                     maxLength="100"
+                    fullWidth
                   />
                 </div>
               </div>
@@ -727,7 +734,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="zipCode"
                     name="zipCode"
@@ -735,6 +742,7 @@ class PersonalInfo extends Component {
                     value={zipCode}
                     onChange={e => this.handleChange(e, true)}
                     maxLength="5"
+                    fullWidth
                   />
                 </div>
               </div>
@@ -760,7 +768,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="number2"
                     name="number2"
@@ -769,9 +777,10 @@ class PersonalInfo extends Component {
                     onChange={e => this.handleChange(e, true)}
                     disabled={isSameAddress}
                     maxLength="10"
+                    fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="moo2"
                     name="moo2"
@@ -780,9 +789,10 @@ class PersonalInfo extends Component {
                     onChange={e => this.handleChange(e, true)}
                     disabled={isSameAddress}
                     maxLength="3"
+                    fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="village2"
                     name="village2"
@@ -796,7 +806,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="soi2"
                     name="soi2"
@@ -805,9 +815,10 @@ class PersonalInfo extends Component {
                     onChange={e => this.handleChange(e, true)}
                     disabled={isSameAddress}
                     maxLength="100"
+                    fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="road2"
                     name="road2"
@@ -816,6 +827,7 @@ class PersonalInfo extends Component {
                     onChange={e => this.handleChange(e, true)}
                     disabled={isSameAddress}
                     maxLength="100"
+                    fullWidth
                   />
                 </div>
               </div>
@@ -842,7 +854,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="zipCode2"
                     name="zipCode2"
@@ -851,6 +863,7 @@ class PersonalInfo extends Component {
                     onChange={e => this.handleChange(e, true)}
                     disabled={isSameAddress}
                     maxLength="5"
+                    fullWidth
                   />
                 </div>
               </div>
@@ -865,7 +878,7 @@ class PersonalInfo extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col" >
+                <div className="col-4" >
                   <Tel
                     id="workTel2"
                     name="workTel2"
@@ -876,7 +889,7 @@ class PersonalInfo extends Component {
                     required
                   />
                 </div>
-                <div className="col" >
+                <div className="col-4" >
                   <Tel
                     id="homeTel2"
                     name="homeTel2"
@@ -887,7 +900,7 @@ class PersonalInfo extends Component {
                     required
                   />
                 </div>
-                <div className="col" >
+                <div className="col-4" >
                   <AddressStatus
                     id="detailRent"
                     name="detailRent"

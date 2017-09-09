@@ -52,6 +52,7 @@ class PrefixEn extends Component {
         floatingLabelText={label}
         errorText={errorText}
         onChange={this.handleChange}
+        fullWidth
       >
         <MenuItem value="Mr." primaryText="Mr." />
         <MenuItem value="Ms." primaryText="Ms." />
