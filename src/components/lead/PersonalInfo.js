@@ -216,17 +216,10 @@ class PersonalInfo extends Component {
   handleChange = (e, required = false) => {
     const { name, value } = e.target;
     const msgKey = `${name}msg`;
-    let msg = this.state[msgKey];
-
-    console.log('>>> handleChange: ', name, value);
-
-    if (msg === '') {
-      msg = requiredMessage(required, value);
-      this.setState({ [msgKey]: msg });
-    }
 
     this.setState({
       [name]: value,
+      [msgKey]: requiredMessage(required, value),
       [`${name}Valid`]: !required || (required && value),
     }, () => {
       const valid = this.validate();

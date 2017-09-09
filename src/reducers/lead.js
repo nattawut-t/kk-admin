@@ -3,15 +3,18 @@ import {
   ACCEPT_AGREEMENT_SUCCESS,
   COMPLETE_PERSONAL_INFO_SUCCESS,
   COMPLETE_LOAN_INFO_SUCCESS,
+  COMPLETE_ADDITIONAL_INFO_SUCCESS,
   acceptAgreementSuccess,
   completePersonalInfoSuccess,
   completeLoanInfoSuccess,
+  completeAdditionalInfoSuccess,
 } from '../actions/lead';
 
 const State = Record({
   isConsent: false,
   personalInfo: null,
   loanInfo: null,
+  additionalInfo: null,
   loading: false,
 });
 const initialState = new State();
@@ -27,6 +30,10 @@ export function completePersonalInfo(data) {
 
 export function completeLoanInfo(data) {
   return dispatch => dispatch(completeLoanInfoSuccess(data));
+}
+
+export function completeAdditionalInfo(data) {
+  return dispatch => dispatch(completeAdditionalInfoSuccess(data));
 }
 
 const lead = (state = initialState, action) => {
@@ -53,6 +60,13 @@ const lead = (state = initialState, action) => {
         loanInfo: action.data,
       });
       console.log('>>> COMPLETE_LOAN_INFO_SUCCESS', action.data);
+      return state.merge(_state);
+
+    case COMPLETE_ADDITIONAL_INFO_SUCCESS:
+      _state = Immutable.fromJS({
+        additionalInfo: action.data,
+      });
+      console.log('>>> COMPLETE_ADDITIONAL_INFO_SUCCESS', action.data);
       return state.merge(_state);
 
     default:

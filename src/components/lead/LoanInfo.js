@@ -172,7 +172,7 @@ class LoanInfo extends Component {
     });
 
     const { history } = this.props;
-    history.push('/test');
+    history.push('/additional-info');
   };
 
   render() {
