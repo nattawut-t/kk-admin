@@ -36,7 +36,6 @@ class LeadStep extends Component {
         <Stepper
           activeStep={stepIndex}
           linear={false}
-          orientation="vertical"
         >
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 0 })}>
@@ -50,33 +49,21 @@ class LeadStep extends Component {
             <StepButton onClick={() => this.setState({ stepIndex: 1 })}>
               ข้อมูลส่วนตัว
             </StepButton>
-            <StepContent>
-              {this.renderStepActions(1)}
-            </StepContent>
           </Step>
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
               ความต้องการกู้
             </StepButton>
-            <StepContent>
-              {this.renderStepActions(2)}
-            </StepContent>
           </Step>
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
               ข้อมูลเพิ่มเติมเพื่อการกู้
             </StepButton>
-            <StepContent>
-              {this.renderStepActions(3)}
-            </StepContent>
           </Step>
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
               ส่งคำขอกู้
             </StepButton>
-            <StepContent>
-              {this.renderStepActions(4)}
-            </StepContent>
           </Step>
         </Stepper>
       </div>

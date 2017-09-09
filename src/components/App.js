@@ -25,10 +25,12 @@ const App = () =>
                   title="MoneyTable"
                   iconClassNameRight="muidocs-icon-navigation-expand-more"
                 />
-                <LeadStep />
               </Drawer>
             </div>
             <div className="col-9" style={{ paddingTop: '25px' }}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <LeadStep />
+              </div>
               <div className="container">
                 <Switch>
                   <Route path="/test" component={Test} />
