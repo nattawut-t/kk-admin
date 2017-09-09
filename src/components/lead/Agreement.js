@@ -6,7 +6,6 @@ import FontIcon from 'material-ui/FontIcon';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
 
-// import PrefixEn from '../shared/PrefixEn';
 const styles = {
   button: {
     margin: 12,
@@ -24,36 +23,15 @@ const styles = {
 };
 
 class Agreement extends Component {
-  state = {
-    isConsent: false,
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+    isConsent: PropTypes.bool.isRequired,
+    acceptAgreement: PropTypes.func.isRequired,
   };
 
-  // validate = () => {
-  //   const { prefixTH } = this.state;
-  //   console.log('>>> prefixTH: ', prefixTH);
-
-  //   const keys = [
-  //     'isConsent',
-  //   ];
-
-  //   const invalid = keys
-  //     .map(key => ({
-  //       key,
-  //       value: this.state[key],
-  //     }))
-  //     .find(({ key, value }) => {
-  //       console.log('>>> validate.find: ', key, value);
-  //       return !value;
-  //     });
-
-  //   console.log('>>> invalid: ', invalid);
-
-  //   return !invalid;
-  // }
-
   handleChange = () => {
-    const { isConsent } = this.state;
-    this.setState({ isConsent: !isConsent });
+    const { isConsent, acceptAgreement } = this.props;
+    acceptAgreement(!isConsent);
   };
 
   handleNext = () => {
@@ -64,8 +42,8 @@ class Agreement extends Component {
   render() {
     const {
       isConsent,
-      // valid,
-    } = this.state;
+    } = this.props;
+    console.log('>>> render: ', isConsent);
 
     return (
       <div>
@@ -119,14 +97,5 @@ class Agreement extends Component {
     );
   }
 }
-
-Agreement.propTypes = {
-  // loading: PropTypes.bool,
-  history: PropTypes.object.isRequired,
-};
-
-// Agreement.defaultProps = {
-//   loading: false,
-// };
 
 export default withRouter(Agreement);

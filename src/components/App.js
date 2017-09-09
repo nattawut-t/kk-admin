@@ -3,10 +3,11 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import PersonalInfo from './lead/PersonalInfo';
+
+import Agreement from '../containers/lead/Agreement';
+import PersonalInfo from '../containers/lead/PersonalInfo';
+import LoanInfo from '../containers/lead/LoanInfo';
 import LeadStep from './lead/LeadStep';
-import LoanInfo from './lead/LoanInfo';
-import Agreement from './lead/Agreement';
 import AdditionalInfo from './lead/AdditionalInfo';
 import Test from './test/Test';
 
