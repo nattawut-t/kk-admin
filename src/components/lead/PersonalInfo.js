@@ -84,6 +84,7 @@ class PersonalInfo extends Component {
     detailRent: '',
     workTel: '',
     workTelmsg: '',
+    workTelValid: false,
     telExtension: '',
     number: '',
     moo: '',
@@ -107,7 +108,8 @@ class PersonalInfo extends Component {
   };
 
   componentWillMount() {
-    this.initialErrorMessage();
+    this.initialState();
+    this.validate();
   }
 
   validate = () => {
@@ -146,7 +148,7 @@ class PersonalInfo extends Component {
     return !invalid;
   }
 
-  initialErrorMessage = () => {
+  initialState = () => {
     const keys = [
       'prefixTH',
       'firstNameTH',
@@ -171,6 +173,16 @@ class PersonalInfo extends Component {
         const msgKey = `${key}msg`;
         const msg = requiredMessage(true, value);
         this.setState({ [msgKey]: msg });
+      });
+
+    ['workTel', 'workTel2', 'homeTel2']
+      .map(key => ({
+        key,
+        value: this.state[key],
+      }))
+      .forEach(({ key, value }) => {
+        const valid = /^\d{9,10}$/.test(value);
+        this.setState({ [`${key}Valid`]: valid });
       });
   };
 
@@ -217,6 +229,8 @@ class PersonalInfo extends Component {
     //   this.setState({ [msgKey]: errorMessage });
     // }
 
+    console.log('>>> handleNumberChange: ', errorMessage);
+
     this.setState({
       [name]: value,
       [msgKey]: errorMessage,
@@ -241,8 +255,9 @@ class PersonalInfo extends Component {
     );
   };
 
-  handleLookupChange = (value, text, key) => {
-    this.setState({ [key]: value }, () => {
+  handleLookupChange = (value, name, id) => {
+    console.log('>>> handleLookupChange: ', value, name, id);
+    this.setState({ [id]: value }, () => {
       const valid = this.validate();
       this.setState({ valid });
     });
