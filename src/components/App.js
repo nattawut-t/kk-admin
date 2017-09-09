@@ -7,6 +7,7 @@ import PersonalInfo from './lead/PersonalInfo';
 import LeadStep from './lead/LeadStep';
 import LoanInfo from './lead/LoanInfo';
 import Agreement from './lead/Agreement';
+import Test from './test/Test';
 
 const App = () =>
   <Router>
@@ -30,6 +31,7 @@ const App = () =>
             <div className="col-9" style={{ paddingTop: '25px' }}>
               <div className="container">
                 <Switch>
+                  <Route path="/test" component={Test} />
                   <Route path="/loan-info" component={LoanInfo} />
                   <Route path="/personal-info" component={PersonalInfo} />
                   <Route path="/" component={Agreement} />

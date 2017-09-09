@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import moment from 'moment';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -81,8 +83,8 @@ class PersonalInfo extends Component {
     homeTel2: '035591291',
     homeTel2msg: '',
     homeTel2Valid: false,
-    detailRent: '',
-    workTel: '',
+    detailRent: 'ของตนเอง',
+    workTel: '020002222',
     workTelmsg: '',
     workTelValid: false,
     telExtension: '',
@@ -263,6 +265,11 @@ class PersonalInfo extends Component {
     });
   };
 
+  handleNext = () => {
+    const { history } = this.props;
+    history.push('/loan-info');
+  };
+
   render() {
     const {
       dateReq,
@@ -316,7 +323,7 @@ class PersonalInfo extends Component {
 
     return (
       <div>
-        <form>
+        <form onSubmit={this.handleNext}>
           <div className="row">
             <div className="col-12">
               <TextField
@@ -718,6 +725,7 @@ class PersonalInfo extends Component {
                 <input type="file" style={styles.exampleImageInput} />
               </RaisedButton>
               <RaisedButton
+                type="submit"
                 label="Next"
                 labelPosition="before"
                 primary
@@ -733,12 +741,13 @@ class PersonalInfo extends Component {
   }
 }
 
-// PersonalInfo.propTypes = {
-//   loading: PropTypes.bool,
-// };
+PersonalInfo.propTypes = {
+  // loading: PropTypes.bool,
+  history: PropTypes.object.isRequired,
+};
 
 // PersonalInfo.defaultProps = {
 //   loading: false,
 // };
 
-export default PersonalInfo;
+export default withRouter(PersonalInfo);
