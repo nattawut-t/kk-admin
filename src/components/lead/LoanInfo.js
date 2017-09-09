@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
@@ -19,46 +21,43 @@ const styles = {
   },
 };
 
+const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+
 class LoanInfo extends Component {
   state = {
-    loanAmount: '',
+    loanAmount: 0,
     loanAmountMsg: '',
     installmentNumber: '',
     installmentNumberMsg: '',
     beneficiary: 'myself',
     loanBeneficiaryName: '',
     loanBeneficiaryNameMsg: '',
-    accumulateDebt: '',
-    accumulateDebtMsg: '',
-    creditCardTotal: '',
-    creditCardTotalMsg: '',
+    accumulateDebt: 0,
+    accumulateDebtMsg: 0,
+    creditCardTotal: 0,
+    creditCardTotalMsg: 0,
     valid: false,
   };
 
-  validate = () => {
-    const { prefixTH } = this.state;
-    console.log('>>> prefixTH: ', prefixTH);
+  componentWillMount() {
+    this.initialState();
+    this.validate();
+  }
 
+  validate = () => {
     const keys = [
       'loanAmount',
-      'loanAmountMsg',
       'installmentNumber',
-      'installmentNumberMsg',
-      'loanBeneficiaryName',
-      'loanBeneficiaryNameMsg',
       'accumulateDebt',
-      'accumulateDebtMsg',
       'creditCardTotal',
-      'creditCardTotalMsg',
     ];
-
     const invalid = keys
       .map(key => ({
         key,
         value: this.state[key],
       }))
-      .find(({ key, value }) => {
-        console.log('>>> validate.find: ', key, value);
+      .find(({ value }) => {
+        console.log('');
         return !value;
       });
 
@@ -67,28 +66,74 @@ class LoanInfo extends Component {
     return !invalid;
   }
 
-  handleChange = (e, required = false, label = '') => {
+  initialState = () => {
+    const keys = [
+      'loanAmount',
+      'installmentNumber',
+      'accumulateDebt',
+      'creditCardTotal',
+    ];
+    keys
+      .map(key => ({
+        key,
+        value: this.state[key],
+      }))
+      .forEach(({ key, value }) => {
+        const msgKey = `${key}Msg`;
+        const msg = requiredMessage(true, value);
+        this.setState({ [msgKey]: msg });
+      });
+
+    ['workTel', 'workTel2', 'homeTel2']
+      .map(key => ({
+        key,
+        value: this.state[key],
+      }))
+      .forEach(({ key, value }) => {
+        const valid = /^\d{9,10}$/.test(value);
+        this.setState({ [`${key}Valid`]: valid });
+      });
+  };
+
+  handleChange = (e, required = false) => {
     const { name, value } = e.target;
     const msgKey = `${name}Msg`;
-    let msg = this.state[msgKey];
-
-    console.log('>>> handleChange: ', name, value, required);
-
-    if (msg === '') {
-      msg = (required && !value)
-        ? `กรุณากรอก ${label}`
-        : '';
-
-      this.setState({ [msgKey]: msg });
-    }
+    const msg = requiredMessage(required, value);
+    const number = Number.parseFloat(value) || 0;
 
     this.setState({
-      [name]: value,
+      [name]: number,
+      [msgKey]: msg,
       [`${name}Valid`]: !required || (required && value),
     }, () => {
       const valid = this.validate();
       this.setState({ valid });
     });
+  };
+
+  handleLookupChange = (e, index, value) => {
+    this.setState({
+      installmentNumber: value,
+      installmentNumberMsg: requiredMessage(true, value),
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
+  handleBeneficiaryChange = () => {
+    const { beneficiary } = this.state;
+    this.setState({ beneficiary: beneficiary === 'myself' ? 'others' : 'myself' });
+  };
+
+  handleBack = () => {
+    const { history } = this.props;
+    history.push('/personal-info');
+  };
+
+  handleNext = () => {
+    const { history } = this.props;
+    history.push('/test');
   };
 
   render() {
@@ -109,7 +154,7 @@ class LoanInfo extends Component {
 
     return (
       <div>
-        <form className="crud-form">
+        <form onSubmit={this.handleNext}>
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -119,7 +164,7 @@ class LoanInfo extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="loanAmount"
                     name="loanAmount"
@@ -130,12 +175,21 @@ class LoanInfo extends Component {
                     fullWidth
                   />
                 </div>
+                <div className="col-8" style={{ verticalAlign: 'middle' }}>
+                  <span>
+                    โปรดระบุจำนวนเงินที่ต้องการกู้ไม่ต่ำกว่า 20,000 บาท และสุงสุด 5
+                    เท่าของรายได้เฉลี่ยต่อเดือน ไม่เกิน 1,000,000 บาท
+                    อนึ่งธนาคารจะพิจารณาให้วงเงินกู้ตามจำนวนที่ธนาคารเห็นสมควร
+                  </span>
+                </div>
+              </div>
+              <div className="row">
                 <div className="col">
                   <SelectField
                     id="installmentNumber"
                     name="installmentNumber"
                     value={installmentNumber}
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={this.handleLookupChange}
                     errorText={installmentNumberMsg}
                     floatingLabelText="ระยะเวลาผ่อนชำระ(งวด)"
                     fullWidth
@@ -153,10 +207,13 @@ class LoanInfo extends Component {
               </div>
               <div className="row">
                 <div className="col-3">
+                  <label htmlFor="beneficiary">ผู้ได้รับผลประโยชน์ที่แท้จริง</label>
+                </div>
+                <div className="col-3">
                   <RadioButtonGroup
                     name="beneficiary"
                     defaultSelected={beneficiary}
-                    style={{ display: 'flex' }}
+                    onChange={this.handleBeneficiaryChange}
                   >
                     <RadioButton
                       value="myself"
@@ -168,7 +225,6 @@ class LoanInfo extends Component {
                     />
                   </RadioButtonGroup>
                 </div>
-                <div className="col-3" />
                 <div className="col-6">
                   <TextField
                     id="loanBeneficiaryName"
@@ -178,13 +234,26 @@ class LoanInfo extends Component {
                     floatingLabelText="ผู้รับผลประโยชน์ที่แท้จริง"
                     onChange={e => this.handleChange(e)}
                     errorText={loanBeneficiaryNameMsg}
+                    disabled={beneficiary === 'myself'}
                     fullWidth
                   />
                 </div>
               </div>
+              <div className="row">
+                <div className="col-12">&nbsp;</div>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <span>
+                    บุคคลที่ได้รับผลประโยชน์จากการทำธุรกรรมที่แท้จริง หมายถึง
+                    บุคคลธรรมดาผู้เป็นเจ้าของบัญชีที่แท้จริง หรือ
+                    มีอำนาจควบคุมความสัมพันธ์ทางธุรกิจของลูกค้ากับสถาบันการเงิน
+                    หรือบุคคลที่ลูกค้าทำธุรกรรมแทน หรือ บุคคลผู้ใช้อำนาจควบคุมนิติบุคคล
+                  </span>
+                </div>
+              </div>
             </CardText>
           </Card>
-
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -219,7 +288,6 @@ class LoanInfo extends Component {
               </div>
             </CardText>
           </Card>
-
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -255,7 +323,6 @@ class LoanInfo extends Component {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="col-8">
                   <label htmlFor="pLoanApplicationHositoryExists">มีประวัติการสมัครสินเชื่อส่วนบุคคล</label>
@@ -283,7 +350,6 @@ class LoanInfo extends Component {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="col-8">
                   <label htmlFor="pLoanApplicationHositoryExists">มีประวัติการสมัครสินเชื่อส่วนบุคคล</label>
@@ -313,18 +379,19 @@ class LoanInfo extends Component {
               </div>
             </CardText>
           </Card>
-
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
-                label="Cancel"
-                labelPosition="กลับ"
+                label="กลับ"
+                labelPosition="before"
                 style={styles.button}
                 containerElement="label"
+                onClick={this.handleBack}
               />
               <RaisedButton
-                label="Next"
-                labelPosition="ดำเนินการต่อ"
+                type="submit"
+                label="ดำเนินการต่อ"
+                labelPosition="before"
                 primary
                 style={styles.button}
                 disabled={!valid}
@@ -338,13 +405,8 @@ class LoanInfo extends Component {
   }
 }
 
-// LoanInfo.propTypes = {
-//   loading: PropTypes.bool,
-// };
+LoanInfo.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
-// LoanInfo.defaultProps = {
-//   loading: false,
-// };
-
-
-export default LoanInfo;
+export default withRouter(LoanInfo);

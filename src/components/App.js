@@ -8,6 +8,7 @@ import LeadStep from './lead/LeadStep';
 import LoanInfo from './lead/LoanInfo';
 import Agreement from './lead/Agreement';
 import AdditionalInfo from './lead/AdditionalInfo';
+import Test from './test/Test';
 
 const App = () =>
   <Router>
@@ -25,13 +26,16 @@ const App = () =>
                   title="MoneyTable"
                   iconClassNameRight="muidocs-icon-navigation-expand-more"
                 />
-                <LeadStep />
               </Drawer>
             </div>
             <div className="col-9" style={{ paddingTop: '25px' }}>
+              <div style={{ float: 'none', margin: '0 auto' }}>
+                <LeadStep />
+              </div>
               <div className="container">
                 <Switch>
                   <Route path="/additional-info" component={AdditionalInfo} />
+                  <Route path="/test" component={Test} />
                   <Route path="/loan-info" component={LoanInfo} />
                   <Route path="/personal-info" component={PersonalInfo} />
                   <Route path="/" component={Agreement} />

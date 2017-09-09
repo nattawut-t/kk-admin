@@ -73,7 +73,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
-      title: 'KK Admin Application',
+      title: 'Money Table',
       template: '../webpack/template.html',
     }),
     new webpack.DefinePlugin({
