@@ -6,7 +6,7 @@ import Drawer from 'material-ui/Drawer';
 import PersonalInfo from './lead/PersonalInfo';
 import LeadStep from './lead/LeadStep';
 import LoanInfo from './lead/LoanInfo';
-import Agreement from './lead/Agreement';
+import Agreement from '../containers/lead/Agreement';
 import Test from './test/Test';
 
 const App = () =>
