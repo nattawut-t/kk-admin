@@ -120,6 +120,12 @@ class PersonalInfo extends Component {
     village2: '',
     soi2: '',
     road2: '',
+    province2: '',
+    amphurCode2: '',
+    tambolCode2: '',
+    province2Name: '',
+    amphurCode2Name: '',
+    tambolCode2Name: '',
     zipCode2: '',
     isSameAddress: false,
     valid: false,
@@ -450,6 +456,12 @@ class PersonalInfo extends Component {
       village2,
       soi2,
       road2,
+      province2,
+      amphurCode2,
+      tambolCode2,
+      province2Name,
+      amphurCode2Name,
+      tambolCode2Name,
       zipCode2,
       isSameAddress,
       valid,
@@ -830,12 +842,12 @@ class PersonalInfo extends Component {
                     amphurNameField="amphurCode2Name"
                     tambolValueField="tambolCode2"
                     tambolNameField="tambolCode2Name"
-                    provinceValue={province}
-                    amphurValue={amphurCode}
-                    tambolValue={tambolCode}
-                    provinceName={provinceName}
-                    amphurName={amphurCodeName}
-                    tambolName={tambolCodeName}
+                    provinceValue={province2}
+                    amphurValue={amphurCode2}
+                    tambolValue={tambolCode2}
+                    provinceName={province2Name}
+                    amphurName={amphurCode2Name}
+                    tambolName={tambolCode2Name}
                     handleChange={this.handleLocationChange}
                     disabled={isSameAddress}
                   />
