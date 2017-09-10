@@ -9,6 +9,7 @@ import {
   completeLoanInfoSuccess,
   completeAdditionalInfoSuccess,
 } from '../actions/lead';
+import { portalUrl, post } from '../libs/request';
 
 const State = Record({
   isConsent: false,
@@ -34,6 +35,24 @@ export function completeLoanInfo(data) {
 
 export function completeAdditionalInfo(data) {
   return dispatch => dispatch(completeAdditionalInfoSuccess(data));
+}
+
+export function uploadDocument(name, data) {
+  return () => {
+    const _url = portalUrl('/api/work/leads/doc');
+
+    console.log('>>> actionCreater.uploadDocument: ', _url, data, name);
+
+    post(_url, data, false)
+      .then(response => {
+        // const { data } = response;
+        console.log('>>> uploadFile.response: ', response);
+      })
+      .catch(error => {
+        console.log('>>> uploadFile.error: ', error);
+        // Toaster.show({ message: err.message, intent: Intent.DANGER });
+      });
+  };
 }
 
 const lead = (state = initialState, action) => {

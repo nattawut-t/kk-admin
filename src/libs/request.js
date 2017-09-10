@@ -19,7 +19,7 @@ function addQuery(url, params = {}) {
   return _url;
 }
 
-export function url(endpoint) {
+export function adminUrl(endpoint) {
   const { NODE_ENV } = process.env;
 
   switch (NODE_ENV) {
@@ -30,7 +30,19 @@ export function url(endpoint) {
   }
 }
 
-export function uploadFile(url, data, authenticate = true) {
+export function portalUrl(endpoint) {
+  const { NODE_ENV } = process.env;
+
+  switch (NODE_ENV) {
+    case 'prod':
+      return `https://portal.moneytable.com${endpoint}`;
+
+    default:
+      return `http://dev-portal.moneytable.com${endpoint}`;
+  }
+}
+
+export function post(url, data, authenticate = true) {
   if (authenticate) {
     axios.defaults.headers.common.Authorization = localStorage.getItem('token');
   }
@@ -80,5 +92,5 @@ export function request(url, options = {}, authenticate = false) {
 
 export default {
   request,
-  url,
+  adminUrl,
 };

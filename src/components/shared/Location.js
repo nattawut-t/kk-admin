@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import { url, request } from '../../libs/request';
+import { adminUrl, request } from '../../libs/request';
 
 class Location extends Component {
   static propTypes = {
@@ -49,7 +49,7 @@ class Location extends Component {
   }
 
   componentWillMount() {
-    const _url = url('/location/province');
+    const _url = adminUrl('/location/province');
     const { provinceValue, amphurValue, tambolValue } = this.props;
     console.log('>>> geo: ', provinceValue, amphurValue, tambolValue);
     this.setState({ provinceValue, amphurValue, tambolValue });
@@ -87,7 +87,7 @@ class Location extends Component {
       provinceValueField,
       provinceNameField,
     } = this.props;
-    const _url = url(`/location/city/${value}`);
+    const _url = adminUrl(`/location/city/${value}`);
 
     if (handleChange) {
       const { provinceDataList } = this.state;
@@ -121,7 +121,7 @@ class Location extends Component {
       amphurValueField,
       amphurNameField,
     } = this.props;
-    const _url = url(`/location/district/${provinceValue}/${value}`);
+    const _url = adminUrl(`/location/district/${provinceValue}/${value}`);
 
     if (handleChange) {
       const { amphurDataList } = this.state;

@@ -34,6 +34,7 @@ class AdditionalInfo extends Component {
     history: PropTypes.object.isRequired,
     data: PropTypes.object,
     personalInfo: PropTypes.object,
+    uploadFile: PropTypes.func.isRequired,
     completeAdditionalInfo: PropTypes.func.isRequired,
   };
 
@@ -287,6 +288,38 @@ class AdditionalInfo extends Component {
   handleIsConsent2Change = () => {
     const { isConsent2 } = this.state;
     this.setState({ isConsent2: !isConsent2 });
+  };
+
+  handleFileChange = (e, required = false, docType) => {
+    const { target: { files, name, value } } = e;
+
+    if (files && files.length > 0) {
+      const file = files[0];
+
+      console.log('>>> handleFileChange: ', value, file, docType);
+
+      const formData = new FormData();
+      formData.append('filename', value);
+      formData.append('file', file);
+      formData.append('docType', docType);
+
+      this.setState({
+        [name]: value,
+        [`${name}Data`]: formData,
+      });
+    }
+  };
+
+  handleUploadFile = _name => {
+    if (_name) {
+      const { uploadFile } = this.props;
+      const name = `${_name}Data`;
+      const formData = this.state[name];
+
+      console.log('>>> handleUploadFile: ', name, formData, uploadFile);
+
+      uploadFile(_name, formData);
+    }
   };
 
   handleBack = () => {
@@ -654,6 +687,8 @@ class AdditionalInfo extends Component {
       children,
       childrenMsg,
       shippingAddress,
+      fileName0,
+      fileName0Msg,
       isConsent2,
       //
       // shippingHouseNo,
@@ -1003,7 +1038,9 @@ class AdditionalInfo extends Component {
                     type="file"
                     id="fileName0"
                     name="fileName0"
-                    onChange={e => this.handleChange(e, true)}
+                    filename={fileName0}
+                    errorText={fileName0Msg}
+                    onChange={e => this.handleFileChange(e, true, 'identity')}
                     fullWidth
                   />
                 </div>
@@ -1013,6 +1050,7 @@ class AdditionalInfo extends Component {
                     labelPosition="before"
                     style={styles.button}
                     containerElement="label"
+                    onClick={() => this.handleUploadFile('fileName0')}
                     primary
                   />
                 </div>
