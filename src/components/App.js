@@ -5,16 +5,11 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import withWidth, { LARGE } from 'material-ui/utils/withWidth';
-
-import Agreement from '../containers/lead/Agreement';
-import PersonalInfo from '../containers/lead/PersonalInfo';
-import LoanInfo from '../containers/lead/LoanInfo';
-import AdditionalInfo from '../containers/lead/AdditionalInfo';
-import LeadStep from './lead/LeadStep';
-import Test from './test/Test';
 import ProductInfo from './ProductInfo';
 import BorrowStatus from './BorrowStatus';
+import Main from './Main';
 import Login from './Login';
+import History from './History';
 
 class App extends React.Component {
   static propTypes = {
@@ -76,25 +71,18 @@ class App extends React.Component {
                     <NavLink to="/borrow-status">
                       <MenuItem>สถานะการกู้</MenuItem>
                     </NavLink>
-                    <NavLink to="/">
+                    <NavLink to="/history">
                       <MenuItem>ประวัติการกู้</MenuItem>
                     </NavLink>
                   </Drawer>
                 </div>
                 <div className="col-9">
-                  <div style={{ float: 'none', margin: '0 auto' }}>
-                    <LeadStep />
-                  </div>
                   <div className="container">
                     <Switch>
-                      <Route path="/additional-info" component={AdditionalInfo} />
-                      <Route path="/test" component={Test} />
-                      <Route path="/loan-info" component={LoanInfo} />
-                      <Route path="/personal-info" component={PersonalInfo} />
-                      <Route path="/borrow-request" component={Agreement} />
-
+                      <Route path="/borrow-request" component={Main} />
                       <Route path="/product-info" component={ProductInfo} />
                       <Route path="/borrow-status" component={BorrowStatus} />
+                      <Route path="/history" component={History} />
                       <Route path="/" component={Login} />
                     </Switch>
                   </div>
