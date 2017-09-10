@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 import PrefixTh from '../shared/PrefixTh';
 import Relationship from '../shared/Relationship';
+import Location from '../shared/Location';
 
 const styles = {
   marginBottom: {
@@ -73,7 +75,10 @@ class AdditionalInfo extends Component {
     conjugalIncomeMsg: '',
     children: '',
     childrenMsg: '',
+    // not to send
+    shippingAddress: 'current',
     valid: false,
+    // not to send
   };
 
   componentWillMount() {
@@ -197,6 +202,26 @@ class AdditionalInfo extends Component {
       const valid = this.validate();
       this.setState({ valid });
     });
+  };
+
+  handleShippingAddressChange = e => {
+    const { target: { value } } = e;
+    console.log(value);
+    this.setState({ shippingAddress: value });
+  };
+
+  handleLocationChange = (valueField, nameField, value, name) => {
+    console.log('>>> handleLocationChange: ', valueField, nameField, value, name);
+
+    this.setState({
+      [valueField]: value,
+      [nameField]: name,
+    },
+      () => {
+        const valid = this.validate();
+        this.setState({ valid });
+      },
+    );
   };
 
   handleBack = () => {
@@ -329,8 +354,26 @@ class AdditionalInfo extends Component {
       conjugalIncomeMsg,
       children,
       childrenMsg,
+      shippingAddress,
+      //
+      shippingHouseNo,
+      shippingAlley,
+      shippingVillage,
+      shippingFloor,
+      shippingSoi,
+      shippingRoad,
+      shippingPostalCode,
+      shippingProvinceCode,
+      shippingAmphurCode,
+      shippingTambolCode,
+      shippingProvinceCodeName,
+      shippingAmphurCodeName,
+      shippingTambolCodeName,
+      //
       valid,
     } = this.state;
+
+    const disabledAddress = shippingAddress === 'office';
 
     return (
       <div>
@@ -625,12 +668,145 @@ class AdditionalInfo extends Component {
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
-                title=""
+                title="สถานที่จัดส่งเอกสาร"
                 titleStyle={styles.TitleText}
               />
             </div>
             <CardText>
-              s
+              <div className="row">
+                <div className="col-2">
+                  <RadioButtonGroup
+                    name="shippingAddress"
+                    defaultSelected={shippingAddress}
+                    onChange={e => this.handleShippingAddressChange(e)}
+                  >
+                    <RadioButton
+                      value="current"
+                      label="ที่อยู่ปัจจุบัย"
+                    />
+                    <RadioButton
+                      value="office"
+                      label="ที่อยู่ที่ทำงาน"
+                    />
+                    <RadioButton
+                      value="others"
+                      label="อื่นๆ"
+                    />
+                  </RadioButtonGroup>
+                </div>
+                <div className="col-10">
+                  <div className="row">
+                    <div className="col">
+                      <TextField
+                        id="shippingHouseNo"
+                        name="shippingHouseNo"
+                        floatingLabelText="บ้านเลขที่"
+                        value={shippingHouseNo}
+                        onChange={e => this.handleChange(e, true)}
+                        disabled={disabledAddress}
+                        maxLength="10"
+                      />
+                    </div>
+                    <div className="col">
+                      <TextField
+                        id="shippingAlley"
+                        name="shippingAlley"
+                        floatingLabelText="หมู่ที่"
+                        value={shippingAlley}
+                        onChange={e => this.handleChange(e, true)}
+                        disabled={disabledAddress}
+                        maxLength="3"
+                      />
+                    </div>
+                    <div className="col">
+                      {(shippingAddress === 'office' || shippingAddress === 'others')
+                        ? <TextField
+                          id="shippingFloor"
+                          name="shippingFloor"
+                          floatingLabelText="ชั้น"
+                          value={shippingFloor}
+                          onChange={e => this.handleChange(e, true)}
+                          disabled={disabledAddress}
+                          maxLength="3"
+                        />
+                        : <div />
+                      }
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-12">
+                      <TextField
+                        id="shippingVillage"
+                        name="shippingVillage"
+                        floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+                        value={shippingVillage}
+                        onChange={e => this.handleChange(e, true)}
+                        disabled={disabledAddress}
+                        maxLength="100"
+                        fullWidth
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col">
+                      <TextField
+                        id="shippingSoi"
+                        name="shippingSoi"
+                        floatingLabelText="ซอย"
+                        value={shippingSoi}
+                        onChange={e => this.handleChange(e, true)}
+                        disabled={disabledAddress}
+                        maxLength="100"
+                      />
+                    </div>
+                    <div className="col">
+                      <TextField
+                        id="shippingRoad"
+                        name="shippingRoad"
+                        floatingLabelText="ถนน"
+                        value={shippingRoad}
+                        onChange={e => this.handleChange(e, true)}
+                        disabled={disabledAddress}
+                        maxLength="100"
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col">
+                      <Location
+                        id="location1"
+                        name="location1"
+                        provinceValueField="shippingProvinceCode"
+                        provinceNameField="shippingProvinceCodeName"
+                        amphurValueField="shippingAmphurCode"
+                        amphurNameField="shippingAmphurCodeName"
+                        tambolValueField="shippingTambolCode"
+                        tambolNameField="shippingTambolCodeName"
+                        provinceValue={shippingProvinceCode}
+                        amphurValue={shippingAmphurCode}
+                        tambolValue={shippingTambolCode}
+                        provinceName={shippingProvinceCodeName}
+                        amphurName={shippingAmphurCodeName}
+                        tambolName={shippingTambolCodeName}
+                        handleChange={this.handleLocationChange}
+                        disabled={disabledAddress}
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col">
+                      <TextField
+                        id="shippingPostalCode"
+                        name="shippingPostalCode"
+                        floatingLabelText="รหัสไปรษณีย์"
+                        value={shippingPostalCode}
+                        onChange={e => this.handleChange(e, true)}
+                        maxLength="5"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </CardText>
           </Card>
 
@@ -667,7 +843,7 @@ class AdditionalInfo extends Component {
             </div>
           </div>
         </form>
-      </div>
+      </div >
     );
   }
 }
