@@ -93,6 +93,13 @@ class Summary extends Component {
       tambolCode2Name,
       zipCode2,
       isSameAddress,
+
+      loanAmount,
+      installmentNumber,
+      beneficiary,
+      loanBeneficiaryName,
+      accumulateDebt,
+      creditCardTotal,
     } = data;
 
     this.setState({
@@ -139,6 +146,13 @@ class Summary extends Component {
       tambolCode2Name,
       zipCode2,
       isSameAddress,
+      //
+      loanAmount,
+      installmentNumber,
+      beneficiary,
+      loanBeneficiaryName,
+      accumulateDebt,
+      creditCardTotal,
     });
   }
 
@@ -205,6 +219,13 @@ class Summary extends Component {
       zipCode2,
       // isSameAddress,
       //
+      loanAmount,
+      installmentNumber,
+      beneficiary,
+      loanBeneficiaryName,
+      accumulateDebt,
+      creditCardTotal,
+      //
       isConsent,
     } = this.state;
 
@@ -252,23 +273,17 @@ class Summary extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col-12">
+                <div className="col">
                   <TextField
-                    id="dateReq"
-                    name="dateReq"
-                    value="test"
+                    value={loanAmount}
                     floatingLabelText="จำนวนเงินที่ต้องการกู้"
                     fullWidth
                     readOnly
                   />
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-12">
+                <div className="col">
                   <TextField
-                    id="dateReq"
-                    name="dateReq"
-                    value="test"
+                    value={installmentNumber}
                     floatingLabelText="ระยะเวลาผ่อนชำระ (งวด)"
                     fullWidth
                     readOnly
@@ -287,23 +302,17 @@ class Summary extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col-12">
+                <div className="col">
                   <TextField
-                    id="dateReq"
-                    name="dateReq"
-                    value="test"
+                    value={accumulateDebt}
                     floatingLabelText="รวมภาระหนี้ (บ้าน + รถ + สินเชื่อส่วนบุคคล)"
                     fullWidth
                     readOnly
                   />
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-12">
+                <div className="col">
                   <TextField
-                    id="dateReq"
-                    name="dateReq"
-                    value={dateReq}
+                    value={creditCardTotal}
                     floatingLabelText="ยอดหนี้บัตรเครดิตคงค้างเดือนล่าสุด"
                     fullWidth
                     readOnly
@@ -316,23 +325,24 @@ class Summary extends Component {
                 </div>
                 <div className="col-3">
                   <RadioButtonGroup
-                    name="beneficiary"
-                    readOnly
+                    defaultSelected={beneficiary}
+                    disabled
                   >
                     <RadioButton
                       value="myself"
                       label="ตนเอง"
+                      disabled
                     />
                     <RadioButton
                       value="others"
                       label="ผู้อื่น(โปรดระบุ)"
+                      disabled
                     />
                   </RadioButtonGroup>
                 </div>
                 <div className="col-6">
                   <TextField
-                    id="loanBeneficiaryName"
-                    name="loanBeneficiaryName"
+                    value={loanBeneficiaryName}
                     floatingLabelText="ผู้รับผลประโยชน์ที่แท้จริง"
                     fullWidth
                     readOnly
