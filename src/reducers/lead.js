@@ -60,6 +60,32 @@ export function uploadDocument(name, data, docType) {
   };
 }
 
+export function save() {
+  return (dispatch, getState) => {
+    const _state = getState();
+    const { personalInfo, loanInfo, additionalInfo } = _state.toJS();
+    const data = Object.assign(personalInfo, loanInfo, additionalInfo);
+
+    console.log('>>> actionCreater.save: ', data);
+
+    const _url = portalUrl('/api/work/leads/');
+
+    console.log('>>> actionCreater.save: ', _url);
+
+    post(_url, data, false)
+      .then(response => {
+        const { data } = response;
+
+        console.log('>>> save.response: ', data);
+
+        // return dispatch(uploadDocumentSuccess(name, id, filename, docType));
+      })
+      .catch(error => {
+        console.log('>>> save.error: ', error);
+      });
+  };
+}
+
 const lead = (state = initialState, action) => {
   let _state;
 
