@@ -30,7 +30,7 @@ class ProductInfo extends Component {
               onClick={this.handleNext}
             />
           </a>
-          <NavLink to="/borrow-status">
+          <NavLink to="/borrow-request">
             <RaisedButton
               label="สนใจส่งคำขอสินเชื่อส่วนบุคคล"
               labelPosition="before"
