@@ -75,7 +75,7 @@ class PersonalInfo extends Component {
   // };
   state = {
     dateReq: moment().format('YYYY-MM-DD'),
-    prefixTH: '',
+    prefixTH: 'MR',
     firstNameTH: 'ณัฐ',
     firstNameTHmsg: '',
     lastNameTH: 'ธรรม',
@@ -88,7 +88,7 @@ class PersonalInfo extends Component {
     idCard: '1720900004217',
     idCardmsg: '',
     idCardValid: true,
-    dateExp: null,
+    dateExp: new Date(),
     dateExpmsg: '',
     status: 'โสด',
     department: 'IT',
@@ -106,18 +106,18 @@ class PersonalInfo extends Component {
     workTelmsg: '',
     workTelValid: false,
     telExtension: '',
-    number: '',
-    moo: '',
-    village: '',
-    soi: '',
-    road: '',
+    number: '88/46',
+    moo: '1',
+    village: 'Apple Condo',
+    soi: 'แบริ่ง 34/2',
+    road: 'สุขุมวิท 107',
     province: '',
     amphurCode: '',
     tambolCode: '',
     provinceName: '',
     amphurCodeName: '',
     tambolCodeName: '',
-    zipCode: '',
+    zipCode: '10270',
     number2: '',
     moo2: '',
     village2: '',
@@ -140,7 +140,8 @@ class PersonalInfo extends Component {
       this.setState(data);
     }
     this.initialState();
-    this.validate();
+    const valid = this.validate();
+    this.setState({ valid });
   }
 
   validate = () => {

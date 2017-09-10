@@ -54,7 +54,8 @@ class LoanInfo extends Component {
       this.setState(data);
     }
     this.initialState();
-    this.validate();
+    const valid = this.validate();
+    this.setState({ valid });
   }
 
   validate = () => {
