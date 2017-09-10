@@ -45,9 +45,9 @@ class LoanInfo extends Component {
     accumulateDebtMsg: '',
     creditCardTotal: 10,
     creditCardTotalMsg: '',
-    paymentHistoryExists: 0,
-    pLoanApplicationHositoryExists: 0,
-    overdueDebtExists: 0,
+    paymentHistoryExists: '0',
+    pLoanApplicationHositoryExists: '0',
+    overdueDebtExists: '0',
     valid: false,
   };
 
@@ -99,16 +99,6 @@ class LoanInfo extends Component {
         const msgKey = `${key}Msg`;
         const msg = requiredMessage(true, value);
         this.setState({ [msgKey]: msg });
-      });
-
-    ['workTel', 'workTel2', 'homeTel2']
-      .map(key => ({
-        key,
-        value: this.state[key],
-      }))
-      .forEach(({ key, value }) => {
-        const valid = /^\d{9,10}$/.test(value);
-        this.setState({ [`${key}Valid`]: valid });
       });
   };
 
@@ -403,12 +393,12 @@ class LoanInfo extends Component {
                       onChange={e => this.handleRadioButtonChange(e, 'paymentHistoryExists')}
                     >
                       <RadioButton
-                        value={1}
+                        value="1"
                         label="มี"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
                       <RadioButton
-                        value={0}
+                        value="0"
                         label="ไม่มี"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
@@ -431,12 +421,12 @@ class LoanInfo extends Component {
                       onChange={e => this.handleRadioButtonChange(e, 'pLoanApplicationHositoryExists')}
                     >
                       <RadioButton
-                        value={1}
+                        value="1"
                         label="มี"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
                       <RadioButton
-                        value={0}
+                        value="0"
                         label="ไม่มี"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
@@ -459,12 +449,12 @@ class LoanInfo extends Component {
                       onChange={e => this.handleRadioButtonChange(e, 'overdueDebtExists')}
                     >
                       <RadioButton
-                        value={1}
+                        value="1"
                         label="เคย"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
                       <RadioButton
-                        value={0}
+                        value="0"
                         label="ไม่เคย"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
