@@ -4,10 +4,12 @@ import {
   COMPLETE_PERSONAL_INFO_SUCCESS,
   COMPLETE_LOAN_INFO_SUCCESS,
   COMPLETE_ADDITIONAL_INFO_SUCCESS,
+  UPLOAD_DOCUMENT_SUCCESS,
   acceptAgreementSuccess,
   completePersonalInfoSuccess,
   completeLoanInfoSuccess,
   completeAdditionalInfoSuccess,
+  uploadDocumentSuccess,
 } from '../actions/lead';
 import { portalUrl, post } from '../libs/request';
 
@@ -37,20 +39,49 @@ export function completeAdditionalInfo(data) {
   return dispatch => dispatch(completeAdditionalInfoSuccess(data));
 }
 
-export function uploadDocument(name, data) {
-  return () => {
+export function uploadDocument(name, data, docType) {
+  return dispatch => {
     const _url = portalUrl('/api/work/leads/doc');
 
     console.log('>>> actionCreater.uploadDocument: ', _url, data, name);
 
     post(_url, data, false)
       .then(response => {
-        // const { data } = response;
-        console.log('>>> uploadFile.response: ', response);
+        const { data: { id, filename } } = response;
+
+        console.log('>>> uploadFile.response: ', name, id, filename);
+
+        return dispatch(uploadDocumentSuccess(name, id, filename, docType));
       })
       .catch(error => {
         console.log('>>> uploadFile.error: ', error);
         // Toaster.show({ message: err.message, intent: Intent.DANGER });
+      });
+  };
+}
+
+export function save() {
+  return (dispatch, getState) => {
+    const _state = getState();
+    const { personalInfo, loanInfo, additionalInfo } = _state.toJS();
+    const data = Object.assign(personalInfo, loanInfo, additionalInfo);
+
+    console.log('>>> actionCreater.save: ', data);
+
+    const _url = portalUrl('/api/work/leads/');
+
+    console.log('>>> actionCreater.save: ', _url);
+
+    post(_url, data, false)
+      .then(response => {
+        const { data } = response;
+
+        console.log('>>> save.response: ', data);
+
+        // return dispatch(uploadDocumentSuccess(name, id, filename, docType));
+      })
+      .catch(error => {
+        console.log('>>> save.error: ', error);
       });
   };
 }
@@ -86,6 +117,19 @@ const lead = (state = initialState, action) => {
         additionalInfo: action.data,
       });
       console.log('>>> COMPLETE_ADDITIONAL_INFO_SUCCESS', action.data);
+      return state.merge(_state);
+
+    case UPLOAD_DOCUMENT_SUCCESS:
+      _state = Immutable.fromJS({
+        [action.docType]: {
+          fileName: action.fileName,
+          id: action.id,
+          name: action.name,
+        },
+      });
+
+      console.log('>>> COMPLETE_ADDITIONAL_INFO_SUCCESS', _state);
+
       return state.merge(_state);
 
     default:
