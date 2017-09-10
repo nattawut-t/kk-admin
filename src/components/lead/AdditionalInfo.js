@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+import Checkbox from 'material-ui/Checkbox';
 
 import PrefixTh from '../shared/PrefixTh';
 import Relationship from '../shared/Relationship';
@@ -1103,6 +1104,15 @@ class AdditionalInfo extends Component {
               </div>
             </CardText>
           </Card>
+
+          <div className="row">
+            <div className="col">
+              <Checkbox
+                label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
+                style={styles.checkbox}
+              />
+            </div>
+          </div>
 
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
