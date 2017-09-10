@@ -32,34 +32,34 @@ class LeadStep extends Component {
     const { stepIndex } = this.state;
 
     return (
-      <div style={{ width: '100%', maxHeight: 400, margin: 'auto' }}>
+      <div className="stepper">
         <Stepper
           activeStep={stepIndex}
           linear={false}
         >
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 0 })}>
-              ข้อตกลงและเงื่อนไข
+              <div className="step-text">ข้อตกลงและเงื่อนไข</div>
             </StepButton>
           </Step>
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 1 })}>
-              ข้อมูลส่วนตัว
+              <div className="step-text">ข้อมูลส่วนตัว</div>
             </StepButton>
           </Step>
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
-              ความต้องการกู้
+              <div className="step-text">ความต้องการกู้</div>
             </StepButton>
           </Step>
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
-              ข้อมูลเพิ่มเติมเพื่อการกู้
+              <div className="step-text">ข้อมูลเพิ่มเติมเพื่อการกู้</div>
             </StepButton>
           </Step>
           <Step>
             <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
-              ส่งคำขอกู้
+              <div className="step-text">ส่งคำขอกู้</div>
             </StepButton>
           </Step>
         </Stepper>

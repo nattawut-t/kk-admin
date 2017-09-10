@@ -1,0 +1,21 @@
+@media #{$mobile} {
+  [class*="col-"] {
+    width: 100%;
+    max-width: 100%;
+    flex: auto;
+  }
+  .stepper {
+    padding-bottom: 25px;
+    margin-top: -11px;
+    .step-text {
+      position: absolute;
+      font-size: 11px;
+      width: 100%;
+      top: 50px;
+      left: 4px;
+      float: left;
+      font-weight: bold;
+      text-align: left;
+    }
+  }
+}

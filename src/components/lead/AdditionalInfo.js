@@ -10,6 +10,9 @@ import PrefixTh from '../shared/PrefixTh';
 import Relationship from '../shared/Relationship';
 
 const styles = {
+  button: {
+    margin: 12,
+  },
   marginBottom: {
     marginBottom: '20px',
   },
@@ -334,11 +337,6 @@ class AdditionalInfo extends Component {
 
     return (
       <div>
-        <div className="row">
-          <div className="col">
-            <h3>ข้อมูลเพิ่มเติมเพื่อการกู้</h3>
-          </div>
-        </div>
         <form className="crud-form">
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
@@ -354,7 +352,7 @@ class AdditionalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <PrefixTh
                     id="ref1Prefix"
                     name="ref1Prefix"
@@ -364,7 +362,7 @@ class AdditionalInfo extends Component {
                     onSelectItem={this.handleLookupChange}
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="ref1Firstname"
                     name="ref1Firstname"
@@ -375,7 +373,7 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="ref1Lastname"
                     name="ref1Lastname"
@@ -388,7 +386,7 @@ class AdditionalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-4">
+                <div className="col-3">
                   <Relationship
                     id="ref1Relationship"
                     name="ref1Relationship"
@@ -399,52 +397,48 @@ class AdditionalInfo extends Component {
                     onSelectItem={this.handleLookupChange}
                   />
                 </div>
-                <div className="col-8">
-                  <div className="row">
-                    <div className="col">
-                      <TextField
-                        id="ref1Mobile"
-                        name="ref1Mobile"
-                        value={ref1Mobile}
-                        floatingLabelText="เบอร์โทรศัพท์มือถือ"
-                        errorText={ref1MobileMsg}
-                        onChange={e => this.handleChange(e, true)}
-                        fullWidth
-                      />
-                    </div>
-                    <div className="col">
-                      <TextField
-                        id="ref1WorkTelephone"
-                        name="ref1WorkTelephone"
-                        value={ref1WorkTelephone}
-                        floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
-                        errorText={ref1WorkTelephoneMsg}
-                        onChange={e => this.handleChange(e, true)}
-                        fullWidth
-                      />
-                    </div>
-                    <div className="col">
-                      <TextField
-                        id="ref1HomeTelephone"
-                        name="ref1HomeTelephone"
-                        value={ref1HomeTelephone}
-                        floatingLabelText="เบอร์โทรศัพท์บ้าน"
-                        errorText={ref1HomeTelephoneMsg}
-                        onChange={e => this.handleChange(e, true)}
-                        fullWidth
-                      />
-                    </div>
-                  </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref1Mobile"
+                    name="ref1Mobile"
+                    value={ref1Mobile}
+                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                    errorText={ref1MobileMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref1WorkTelephone"
+                    name="ref1WorkTelephone"
+                    value={ref1WorkTelephone}
+                    floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                    errorText={ref1WorkTelephoneMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref1HomeTelephone"
+                    name="ref1HomeTelephone"
+                    value={ref1HomeTelephone}
+                    floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                    errorText={ref1HomeTelephoneMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
                 </div>
               </div>
 
               <div className="row">
-                <div className="col">
+                <div className="col-12">
                   <span>บุคคลอ้างอิง 2</span>
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <PrefixTh
                     id="ref2Prefix"
                     name="ref2Prefix"
@@ -454,7 +448,7 @@ class AdditionalInfo extends Component {
                     onSelectItem={this.handleLookupChange}
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="ref2Firstname"
                     name="ref2Firstname"
@@ -465,7 +459,7 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="ref2Lastname"
                     name="ref2Lastname"
@@ -478,7 +472,7 @@ class AdditionalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-4">
+                <div className="col-3">
                   <Relationship
                     id="ref2Relationship"
                     name="ref2Relationship"
@@ -489,42 +483,38 @@ class AdditionalInfo extends Component {
                     onSelectItem={this.handleLookupChange}
                   />
                 </div>
-                <div className="col-8">
-                  <div className="row">
-                    <div className="col">
-                      <TextField
-                        id="ref2Mobile"
-                        name="ref2Mobile"
-                        value={ref2Mobile}
-                        floatingLabelText="เบอร์โทรศัพท์มือถือ"
-                        errorText={ref2MobileMsg}
-                        onChange={e => this.handleChange(e, true)}
-                        fullWidth
-                      />
-                    </div>
-                    <div className="col">
-                      <TextField
-                        id="ref2WorkTelephone"
-                        name="ref2WorkTelephone"
-                        value={ref2WorkTelephone}
-                        floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
-                        errorText={ref2WorkTelephoneMsg}
-                        onChange={e => this.handleChange(e, true)}
-                        fullWidth
-                      />
-                    </div>
-                    <div className="col">
-                      <TextField
-                        id="ref2HomeTelephone"
-                        name="ref2HomeTelephone"
-                        value={ref2HomeTelephone}
-                        floatingLabelText="เบอร์โทรศัพท์บ้าน"
-                        errorText={ref2HomeTelephoneMsg}
-                        onChange={e => this.handleChange(e, true)}
-                        fullWidth
-                      />
-                    </div>
-                  </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref2Mobile"
+                    name="ref2Mobile"
+                    value={ref2Mobile}
+                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                    errorText={ref2MobileMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref2WorkTelephone"
+                    name="ref2WorkTelephone"
+                    value={ref2WorkTelephone}
+                    floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                    errorText={ref2WorkTelephoneMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref2HomeTelephone"
+                    name="ref2HomeTelephone"
+                    value={ref2HomeTelephone}
+                    floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                    errorText={ref2HomeTelephoneMsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
                 </div>
               </div>
             </CardText>
@@ -539,7 +529,7 @@ class AdditionalInfo extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <PrefixTh
                     id="conjugalPrefix"
                     name="conjugalPrefix"
@@ -550,7 +540,7 @@ class AdditionalInfo extends Component {
                     errorText={conjugalPrefixMsg}
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="conjugalFirstname"
                     name="conjugalFirstname"
@@ -561,7 +551,7 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-4">
                   <TextField
                     id="conjugalLastname"
                     name="conjugalLastname"
@@ -574,7 +564,7 @@ class AdditionalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-3">
                   <TextField
                     id="conjugalOccupation"
                     name="conjugalOccupation"
@@ -585,7 +575,7 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-3">
                   <TextField
                     id="conjugalIncome"
                     name="conjugalIncome"
@@ -596,7 +586,7 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-3">
                   <TextField
                     id="children"
                     name="children"
@@ -607,7 +597,7 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-3">
                   <TextField
                     id="children"
                     name="children"
