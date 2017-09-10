@@ -34,17 +34,17 @@ class LoanInfo extends Component {
   };
 
   state = {
-    loanAmount: 0,
+    loanAmount: 10,
     loanAmountMsg: '',
-    installmentNumber: '',
+    installmentNumber: '12',
     installmentNumberMsg: '',
     beneficiary: 'myself',
     loanBeneficiaryName: '',
     loanBeneficiaryNameMsg: '',
-    accumulateDebt: 0,
-    accumulateDebtMsg: 0,
-    creditCardTotal: 0,
-    creditCardTotalMsg: 0,
+    accumulateDebt: 10,
+    accumulateDebtMsg: '',
+    creditCardTotal: 10,
+    creditCardTotalMsg: '',
     valid: false,
   };
 
