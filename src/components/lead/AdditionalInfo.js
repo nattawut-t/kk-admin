@@ -108,7 +108,7 @@ class AdditionalInfo extends Component {
       'ref1Relationship',
       'ref1Mobile',
       'ref1HomeTelephone',
-      'fileName0',
+      // 'fileName0',
       'isConsent2',
     ];
 
@@ -387,8 +387,8 @@ class AdditionalInfo extends Component {
       children,
     });
 
-    // const { history } = this.props;
-    // history.push('/loan-info');
+    const { history } = this.props;
+    history.push('/summary');
   };
 
   renderShippingAddress = type => {

@@ -3,6 +3,7 @@ export const COMPLETE_PERSONAL_INFO_SUCCESS = 'lead/COMPLETE_PERSONAL_INFO_SUCCE
 export const COMPLETE_LOAN_INFO_SUCCESS = 'lead/COMPLETE_LOAN_INFO_SUCCESS';
 export const COMPLETE_ADDITIONAL_INFO_SUCCESS = 'lead/COMPLETE_ADDITIONAL_INFO_SUCCESS';
 export const UPLOAD_DOCUMENT_SUCCESS = 'lead/UPLOAD_DOCUMENT_SUCCESS';
+export const SAVE_SUCCESS = 'lead/SAVE_SUCCESS';
 export const SET_LOADING = 'lead/SET_LOADING';
 
 export const acceptAgreementSuccess = isConsent => ({
@@ -36,4 +37,8 @@ export const uploadDocumentSuccess = (name, id, fileName, docType) => ({
   id,
   fileName,
   docType,
+});
+
+export const saveSuccess = () => ({
+  type: SAVE_SUCCESS,
 });

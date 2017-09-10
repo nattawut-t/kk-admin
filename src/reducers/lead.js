@@ -5,11 +5,13 @@ import {
   COMPLETE_LOAN_INFO_SUCCESS,
   COMPLETE_ADDITIONAL_INFO_SUCCESS,
   UPLOAD_DOCUMENT_SUCCESS,
+  SAVE_SUCCESS,
   acceptAgreementSuccess,
   completePersonalInfoSuccess,
   completeLoanInfoSuccess,
   completeAdditionalInfoSuccess,
   uploadDocumentSuccess,
+  saveSuccess,
 } from '../actions/lead';
 import { portalUrl, postForm, postJson } from '../libs/request';
 
@@ -18,11 +20,12 @@ const State = Record({
   personalInfo: null,
   loanInfo: null,
   additionalInfo: null,
+  data: null,
   loading: false,
 });
 const initialState = new State();
 
-function save() {
+export function save() {
   return (dispatch, getState) => {
     const _state = getState().lead;
     const personalInfo = _state.get('personalInfo').toJS();
@@ -34,7 +37,7 @@ function save() {
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
     console.log('>>> actionCreater.data: ', data);
 
-    const _url = portalUrl('/api/work/leads/');
+    const _url = portalUrl('/api/work/leads');
     console.log('>>> actionCreater.save: ', _url);
 
     postJson(_url, data, false)
@@ -43,7 +46,7 @@ function save() {
 
         console.log('>>> save.response: ', data);
 
-        // return dispatch(uploadDocumentSuccess(name, id, filename, docType));
+        return dispatch(saveSuccess());
       })
       .catch(error => {
         console.log('>>> save.error: ', error);
@@ -65,11 +68,7 @@ export function completeLoanInfo(data) {
 }
 
 export function completeAdditionalInfo(data) {
-  return dispatch => {
-    dispatch(completeAdditionalInfoSuccess(data));
-    // .then(response => console.log('completeAdditionalInfo'));
-    return dispatch(save());
-  };
+  return dispatch => dispatch(completeAdditionalInfoSuccess(data));
 }
 
 export function uploadDocument(name, data, docType) {
@@ -95,6 +94,10 @@ export function uploadDocument(name, data, docType) {
 
 const lead = (state = initialState, action) => {
   let _state;
+  let personalInfo;
+  let loanInfo;
+  let additionalInfo;
+  let data;
 
   switch (action.type) {
     case ACCEPT_AGREEMENT_SUCCESS:
@@ -120,10 +123,19 @@ const lead = (state = initialState, action) => {
       return state.merge(_state);
 
     case COMPLETE_ADDITIONAL_INFO_SUCCESS:
+
+      personalInfo = state.get('personalInfo').toJS();
+      loanInfo = state.get('loanInfo').toJS();
+      additionalInfo = action.data;
+      data = Object.assign(personalInfo, loanInfo, additionalInfo);
+
       _state = Immutable.fromJS({
-        additionalInfo: action.data,
+        additionalInfo,
+        data,
       });
-      console.log('>>> xxx COMPLETE_ADDITIONAL_INFO_SUCCESS', action.data);
+
+      console.log('>>> xxx COMPLETE_ADDITIONAL_INFO_SUCCESS', additionalInfo, data);
+
       return state.merge(_state);
 
     case UPLOAD_DOCUMENT_SUCCESS:
@@ -138,6 +150,9 @@ const lead = (state = initialState, action) => {
       console.log('>>> UPLOAD_DOCUMENT_SUCCESS', _state);
 
       return state.merge(_state);
+
+    case SAVE_SUCCESS:
+      return state;
 
     default:
       return state;

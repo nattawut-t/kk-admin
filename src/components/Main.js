@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
 import Agreement from '../containers/lead/Agreement';
@@ -12,13 +12,13 @@ import BorrowStatus from './BorrowStatus';
 import Login from './Login';
 
 class Main extends React.Component {
-  static propTypes = {
-    width: PropTypes.number,
-  };
+  // static propTypes = {
+  //   width: PropTypes.number,
+  // };
 
-  static defaultProps = {
-    width: 1000,
-  };
+  // static defaultProps = {
+  //   width: 1000,
+  // };
 
   state = {
     open: false,
