@@ -39,13 +39,108 @@ const styles = {
 class Summary extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    // data: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
     save: PropTypes.func.isRequired,
   };
 
   state = {
     isConsent: false,
   };
+
+  componentWillMount() {
+    const { data } = this.props;
+    const {
+      dateReq,
+      prefixTH,
+      firstNameTH,
+      lastNameTH,
+      prefixEn,
+      firstNameEN,
+      lastNameEN,
+      idCard,
+      idCardValid,
+      dateExp,
+      status,
+      department,
+      position,
+      workTel2,
+      homeTel2,
+      detailRent,
+      workTel,
+      telExtension,
+      number,
+      moo,
+      village,
+      soi,
+      road,
+      province,
+      amphurCode,
+      tambolCode,
+      provinceName,
+      amphurCodeName,
+      tambolCodeName,
+      zipCode,
+      number2,
+      moo2,
+      village2,
+      soi2,
+      road2,
+      province2,
+      amphurCode2,
+      tambolCode2,
+      province2Name,
+      amphurCode2Name,
+      tambolCode2Name,
+      zipCode2,
+      isSameAddress,
+    } = data;
+
+    this.setState({
+      dateReq,
+      prefixTH,
+      firstNameTH,
+      lastNameTH,
+      prefixEn,
+      firstNameEN,
+      lastNameEN,
+      idCard,
+      idCardValid,
+      dateExp,
+      status,
+      department,
+      position,
+      workTel2,
+      homeTel2,
+      detailRent,
+      workTel,
+      telExtension,
+      number,
+      moo,
+      village,
+      soi,
+      road,
+      province,
+      amphurCode,
+      tambolCode,
+      provinceName,
+      amphurCodeName,
+      tambolCodeName,
+      zipCode,
+      number2,
+      moo2,
+      village2,
+      soi2,
+      road2,
+      province2,
+      amphurCode2,
+      tambolCode2,
+      province2Name,
+      amphurCode2Name,
+      tambolCode2Name,
+      zipCode2,
+      isSameAddress,
+    });
+  }
 
   handleChange = () => {
     const { isConsent } = this.state;
@@ -65,7 +160,53 @@ class Summary extends Component {
   };
 
   render() {
-    const { isConsent } = this.state;
+    const {
+      dateReq,
+      prefixTH,
+      firstNameTH,
+      lastNameTH,
+      prefixEn,
+      firstNameEN,
+      lastNameEN,
+      idCard,
+      // idCardValid,
+      dateExp,
+      status,
+      department,
+      position,
+      workTel2,
+      homeTel2,
+      detailRent,
+      workTel,
+      telExtension,
+      number,
+      moo,
+      village,
+      soi,
+      road,
+      // province,
+      // amphurCode,
+      // tambolCode,
+      provinceName,
+      amphurCodeName,
+      tambolCodeName,
+      zipCode,
+      number2,
+      moo2,
+      village2,
+      soi2,
+      road2,
+      // province2,
+      // amphurCode2,
+      // tambolCode2,
+      province2Name,
+      amphurCode2Name,
+      tambolCode2Name,
+      zipCode2,
+      // isSameAddress,
+      //
+      isConsent,
+    } = this.state;
 
     return (
       <div>
@@ -162,7 +303,7 @@ class Summary extends Component {
                   <TextField
                     id="dateReq"
                     name="dateReq"
-                    value="test"
+                    value={dateReq}
                     floatingLabelText="ยอดหนี้บัตรเครดิตคงค้างเดือนล่าสุด"
                     fullWidth
                     readOnly
@@ -306,8 +447,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-12">
                   <TextField
-                    id="dateReq"
-                    name="dateReq"
+                    value={dateReq}
                     floatingLabelText="วันที่คำขอ"
                     fullWidth
                     readOnly
@@ -317,8 +457,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-4">
                   <TextField
-                    id="dateReq"
-                    name="dateReq"
+                    value={prefixTH}
                     floatingLabelText="คำนำหน้าชื่อ (TH)"
                     fullWidth
                     readOnly
@@ -326,8 +465,7 @@ class Summary extends Component {
                 </div>
                 <div className="col-4">
                   <TextField
-                    id="firstNameTH"
-                    name="firstNameTH"
+                    value={firstNameTH}
                     floatingLabelText="ชื่อ (TH)"
                     fullWidth
                     readOnly
@@ -335,8 +473,7 @@ class Summary extends Component {
                 </div>
                 <div className="col-4">
                   <TextField
-                    id="lastNameTH"
-                    name="lastNameTH"
+                    value={lastNameTH}
                     floatingLabelText="นามสกุล (TH)"
                     fullWidth
                     readOnly
@@ -346,8 +483,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-4">
                   <TextField
-                    id="lastNameTH"
-                    name="lastNameTH"
+                    value={prefixEn}
                     floatingLabelText="คำนำหน้าชื่อ (EN)"
                     fullWidth
                     readOnly
@@ -355,8 +491,7 @@ class Summary extends Component {
                 </div>
                 <div className="col-4">
                   <TextField
-                    id="firstNameEN"
-                    name="firstNameEN"
+                    value={firstNameEN}
                     floatingLabelText="ชื่อ (EN)"
                     fullWidth
                     readOnly
@@ -364,8 +499,7 @@ class Summary extends Component {
                 </div>
                 <div className="col-4">
                   <TextField
-                    id="lastNameEN"
-                    name="lastNameEN"
+                    value={lastNameEN}
                     floatingLabelText="นามสกุล (EN)"
                     fullWidth
                     readOnly
@@ -375,8 +509,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-4">
                   <TextField
-                    id="lastNameEN"
-                    name="lastNameEN"
+                    value={idCard}
                     floatingLabelText="เลขบัตรประชาชน"
                     fullWidth
                     readOnly
@@ -384,8 +517,7 @@ class Summary extends Component {
                 </div>
                 <div className="col-4">
                   <TextField
-                    id="lastNameEN"
-                    name="lastNameEN"
+                    value={dateExp}
                     floatingLabelText="วันหมดอายุบัตรประชาชน"
                     fullWidth
                     readOnly
@@ -393,8 +525,7 @@ class Summary extends Component {
                 </div>
                 <div className="col-4">
                   <TextField
-                    id="lastNameEN"
-                    name="lastNameEN"
+                    value={status}
                     floatingLabelText="สถานภาพสมรส"
                     fullWidth
                     readOnly
@@ -414,8 +545,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="department"
-                    name="department"
+                    value={department}
                     floatingLabelText="แผนก / ฝ่าย"
                     fullWidth
                     readOnly
@@ -423,8 +553,7 @@ class Summary extends Component {
                 </div>
                 <div className="col">
                   <TextField
-                    id="position"
-                    name="position"
+                    value={position}
                     floatingLabelText="ตำแหน่ง"
                     fullWidth
                     readOnly
@@ -434,8 +563,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-6">
                   <TextField
-                    id="workTel"
-                    name="workTel"
+                    value={workTel}
                     floatingLabelText="โทรศัพท์ที่ทำงาน (เบอร์ตรง)"
                     fullWidth
                     readOnly
@@ -443,8 +571,7 @@ class Summary extends Component {
                 </div>
                 <div className="col-4">
                   <TextField
-                    id="telExtension"
-                    name="telExtension"
+                    value={telExtension}
                     floatingLabelText="เบอร์ต่อ"
                     fullWidth
                     readOnly
@@ -465,20 +592,16 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingHouseNo"
-                    name="shippingHouseNo"
+                    value={number}
                     floatingLabelText="บ้านเลขที่"
-                    maxLength="10"
                     fullWidth
                     readOnly
                   />
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingAlley"
-                    name="shippingAlley"
+                    value={moo}
                     floatingLabelText="หมู่ที่"
-                    maxLength="3"
                     fullWidth
                     readOnly
                   />
@@ -487,8 +610,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-12">
                   <TextField
-                    id="shippingVillage"
-                    name="shippingVillage"
+                    value={village}
                     floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
                     maxLength="100"
                     fullWidth
@@ -499,8 +621,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingSoi"
-                    name="shippingSoi"
+                    value={soi}
                     floatingLabelText="ซอย"
                     maxLength="100"
                     fullWidth
@@ -509,8 +630,7 @@ class Summary extends Component {
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingRoad"
-                    name="shippingRoad"
+                    value={road}
                     floatingLabelText="ถนน"
                     maxLength="100"
                     fullWidth
@@ -521,8 +641,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={provinceName}
                     floatingLabelText="จังหวัด"
                     maxLength="5"
                     fullWidth
@@ -531,8 +650,7 @@ class Summary extends Component {
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={amphurCodeName}
                     floatingLabelText="อำเภอ / เขต"
                     maxLength="5"
                     fullWidth
@@ -541,8 +659,7 @@ class Summary extends Component {
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={tambolCodeName}
                     floatingLabelText="ตำบล / แขวง"
                     maxLength="5"
                     fullWidth
@@ -553,10 +670,8 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={zipCode}
                     floatingLabelText="รหัสไปรษณีย์"
-                    maxLength="5"
                     fullWidth
                     readOnly
                   />
@@ -576,20 +691,16 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingHouseNo"
-                    name="shippingHouseNo"
+                    value={number2}
                     floatingLabelText="บ้านเลขที่"
-                    maxLength="10"
                     fullWidth
                     readOnly
                   />
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingAlley"
-                    name="shippingAlley"
+                    value={moo2}
                     floatingLabelText="หมู่ที่"
-                    maxLength="3"
                     fullWidth
                     readOnly
                   />
@@ -598,8 +709,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-12">
                   <TextField
-                    id="shippingVillage"
-                    name="shippingVillage"
+                    value={village2}
                     floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
                     maxLength="100"
                     fullWidth
@@ -610,8 +720,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingSoi"
-                    name="shippingSoi"
+                    value={soi2}
                     floatingLabelText="ซอย"
                     maxLength="100"
                     fullWidth
@@ -620,8 +729,7 @@ class Summary extends Component {
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingRoad"
-                    name="shippingRoad"
+                    value={road2}
                     floatingLabelText="ถนน"
                     maxLength="100"
                     fullWidth
@@ -632,8 +740,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={province2Name}
                     floatingLabelText="จังหวัด"
                     maxLength="5"
                     fullWidth
@@ -642,8 +749,7 @@ class Summary extends Component {
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={amphurCode2Name}
                     floatingLabelText="อำเภอ / เขต"
                     maxLength="5"
                     fullWidth
@@ -652,8 +758,7 @@ class Summary extends Component {
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={tambolCode2Name}
                     floatingLabelText="ตำบล / แขวง"
                     maxLength="5"
                     fullWidth
@@ -664,8 +769,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={zipCode2}
                     floatingLabelText="รหัสไปรษณีย์"
                     maxLength="5"
                     fullWidth
@@ -687,8 +791,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col" >
                   <TextField
-                    id="shippingHouseNo"
-                    name="shippingHouseNo"
+                    value={workTel2}
                     floatingLabelText="เบอร์โทรศัพท์มือถือ"
                     fullWidth
                     readOnly
@@ -696,8 +799,7 @@ class Summary extends Component {
                 </div>
                 <div className="col" >
                   <TextField
-                    id="shippingHouseNo"
-                    name="shippingHouseNo"
+                    value={homeTel2}
                     floatingLabelText="เบอร์โทรศัพท์บ้าน"
                     fullWidth
                     readOnly
@@ -707,8 +809,6 @@ class Summary extends Component {
               <div className="row">
                 <div className="col" >
                   <TextField
-                    id="shippingHouseNo"
-                    name="shippingHouseNo"
                     floatingLabelText="ผ่อนชำระ / ค่าเช่าต่อเดือน"
                     fullWidth
                     readOnly
@@ -716,8 +816,7 @@ class Summary extends Component {
                 </div>
                 <div className="col" >
                   <TextField
-                    id="shippingHouseNo"
-                    name="shippingHouseNo"
+                    value={detailRent}
                     floatingLabelText="สถานภาพที่อยู่อาศัย"
                     fullWidth
                     readOnly
