@@ -22,6 +22,35 @@ const State = Record({
 });
 const initialState = new State();
 
+function save() {
+  return (dispatch, getState) => {
+    const _state = getState().lead;
+    const personalInfo = _state.get('personalInfo').toJS();
+    const loanInfo = _state.get('loanInfo').toJS();
+    const additionalInfo = _state.get('additionalInfo').toJS();
+
+    console.log('>>> actionCreater._state: ', personalInfo, loanInfo, additionalInfo);
+
+    const data = Object.assign(personalInfo, loanInfo, additionalInfo);
+    console.log('>>> actionCreater.data: ', data);
+
+    const _url = portalUrl('/api/work/leads/');
+    console.log('>>> actionCreater.save: ', _url);
+
+    post(_url, data, false)
+      .then(response => {
+        const { data } = response;
+
+        console.log('>>> save.response: ', data);
+
+        // return dispatch(uploadDocumentSuccess(name, id, filename, docType));
+      })
+      .catch(error => {
+        console.log('>>> save.error: ', error);
+      });
+  };
+}
+
 export function acceptAgreement(isConsent = false) {
   // console.log('>>> reducer: ', isConsent);
   return dispatch => dispatch(acceptAgreementSuccess(isConsent));
@@ -36,7 +65,11 @@ export function completeLoanInfo(data) {
 }
 
 export function completeAdditionalInfo(data) {
-  return dispatch => dispatch(completeAdditionalInfoSuccess(data));
+  return dispatch => {
+    dispatch(completeAdditionalInfoSuccess(data));
+    // .then(response => console.log('completeAdditionalInfo'));
+    return dispatch(save());
+  };
 }
 
 export function uploadDocument(name, data, docType) {
@@ -56,37 +89,6 @@ export function uploadDocument(name, data, docType) {
       .catch(error => {
         console.log('>>> uploadFile.error: ', error);
         // Toaster.show({ message: err.message, intent: Intent.DANGER });
-      });
-  };
-}
-
-export function save() {
-  return (dispatch, getState) => {
-    const _state = getState();
-    const personalInfo = _state.get('').toJS('personalInfo');
-    const loanInfo = _state.get('').toJS('loanInfo');
-    const additionalInfo = _state.get('').toJS('additionalInfo');
-
-    console.log('>>> actionCreater._state: ', personalInfo, loanInfo, additionalInfo);
-
-    const data = Object.assign(personalInfo, loanInfo, additionalInfo);
-
-    console.log('>>> actionCreater.save: ', data);
-
-    const _url = portalUrl('/api/work/leads/');
-
-    console.log('>>> actionCreater.save: ', _url);
-
-    post(_url, data, false)
-      .then(response => {
-        const { data } = response;
-
-        console.log('>>> save.response: ', data);
-
-        // return dispatch(uploadDocumentSuccess(name, id, filename, docType));
-      })
-      .catch(error => {
-        console.log('>>> save.error: ', error);
       });
   };
 }
@@ -121,7 +123,7 @@ const lead = (state = initialState, action) => {
       _state = Immutable.fromJS({
         additionalInfo: action.data,
       });
-      console.log('>>> COMPLETE_ADDITIONAL_INFO_SUCCESS', action.data);
+      console.log('>>> xxx COMPLETE_ADDITIONAL_INFO_SUCCESS', action.data);
       return state.merge(_state);
 
     case UPLOAD_DOCUMENT_SUCCESS:
@@ -133,7 +135,7 @@ const lead = (state = initialState, action) => {
         },
       });
 
-      console.log('>>> COMPLETE_ADDITIONAL_INFO_SUCCESS', _state);
+      console.log('>>> UPLOAD_DOCUMENT_SUCCESS', _state);
 
       return state.merge(_state);
 

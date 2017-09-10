@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/AdditionalInfo';
-import { completeLoanInfo, uploadDocument, save } from '../../reducers/lead';
+import { completeAdditionalInfo, uploadDocument, save } from '../../reducers/lead';
 
 const transform = (state, key) => {
   if (state && key) {
@@ -18,7 +18,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   uploadFile: (name, data, docType) => dispatch(uploadDocument(name, data, docType)),
-  completeAdditionalInfo: data => dispatch(completeLoanInfo(data)),
+  completeAdditionalInfo: data => dispatch(completeAdditionalInfo(data)),
   save: data => dispatch(save(data)),
 });
 
