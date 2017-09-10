@@ -73,14 +73,14 @@ class LoanInfo extends Component {
         key,
         value: this.state[key],
       }))
-      .find(({ value }) => {
-        console.log('');
-        return !value;
-      });
+      .find(({ value }) => !value);
 
-    console.log('>>> invalid: ', invalid);
+    // console.log('>>> invalid: ', invalid);
 
-    return !invalid;
+    const { beneficiary, loanBeneficiaryName } = this.state;
+    const _valid = beneficiary === 'myself' || loanBeneficiaryName;
+
+    return !invalid && _valid;
   }
 
   initialState = () => {
@@ -128,6 +128,22 @@ class LoanInfo extends Component {
     });
   };
 
+  handleBeneficiaryNameChange = (e, required = false) => {
+    const { name, value } = e.target;
+    const msgKey = `${name}Msg`;
+    const { beneficiary } = this.state;
+    const msg = beneficiary === 'others' ? requiredMessage(required, value) : '';
+
+    this.setState({
+      [name]: value,
+      [msgKey]: msg,
+      // [`${name}Valid`]: !required || (required && value),
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
   handleLookupChange = (e, index, value) => {
     this.setState({
       installmentNumber: value,
@@ -140,7 +156,22 @@ class LoanInfo extends Component {
 
   handleBeneficiaryChange = () => {
     const { beneficiary } = this.state;
-    this.setState({ beneficiary: beneficiary === 'myself' ? 'others' : 'myself' });
+    this.setState({ beneficiary: beneficiary === 'myself' ? 'others' : 'myself' },
+      () => {
+        const { beneficiary, loanBeneficiaryName } = this.state;
+
+        this.handleBeneficiaryNameChange({
+          target: {
+            name: 'loanBeneficiaryName',
+            value: loanBeneficiaryName,
+          },
+        }, true);
+
+        if (beneficiary === 'myself') {
+          this.setState({ loanBeneficiaryName: '' });
+        }
+      },
+    );
   };
 
   handleRadioButtonChange = e => {
@@ -293,7 +324,7 @@ class LoanInfo extends Component {
                     value={loanBeneficiaryName}
                     required
                     floatingLabelText="ผู้รับผลประโยชน์ที่แท้จริง"
-                    onChange={e => this.handleChange(e)}
+                    onChange={e => this.handleBeneficiaryNameChange(e)}
                     errorText={loanBeneficiaryNameMsg}
                     disabled={beneficiary === 'myself'}
                     fullWidth
