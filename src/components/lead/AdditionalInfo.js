@@ -36,7 +36,7 @@ class AdditionalInfo extends Component {
     personalInfo: PropTypes.object,
     uploadFile: PropTypes.func.isRequired,
     completeAdditionalInfo: PropTypes.func.isRequired,
-    // save: PropTypes.func.isRequired,
+    save: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -385,6 +385,11 @@ class AdditionalInfo extends Component {
       conjugalIncomeMsg,
       children,
     });
+    // .then(res => {
+    const { save } = this.props;
+    save();
+    // console.log('>>> completeAdditionalInfo.done', res, save);
+    // });
 
     // const { history } = this.props;
     // history.push('/loan-info');
@@ -1252,6 +1257,7 @@ class AdditionalInfo extends Component {
                 style={styles.button}
                 disabled={!valid}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
+                onClick={this.handleNext}
               />
             </div>
           </div>
