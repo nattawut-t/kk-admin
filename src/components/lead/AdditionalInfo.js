@@ -731,6 +731,10 @@ class AdditionalInfo extends Component {
       valid,
     } = this.state;
 
+    const { personalInfo } = this.props;
+    const status = personalInfo ? personalInfo.status : '';
+
+    console.log('>>> status: ', status);
     // const disabledAddress = shippingAddress === 'current';
 
     return (
@@ -917,96 +921,100 @@ class AdditionalInfo extends Component {
             </CardText>
           </Card>
 
-          <Card style={styles.marginBottom}>
-            <div style={styles.sectionTitle}>
-              <CardHeader
-                title="ข้อมูลคู่สมรส"
-                titleStyle={styles.TitleText}
-              />
-            </div>
-            <CardText>
-              <div className="row">
-                <div className="col-4">
-                  <PrefixTh
-                    id="conjugalPrefix"
-                    name="conjugalPrefix"
-                    value={conjugalPrefix}
-                    label="คำนำหน้าชื่อ"
-                    onSelectItem={this.handleLookupChange}
-                    errorText={conjugalPrefixMsg}
-                  />
-                </div>
-                <div className="col-4">
-                  <TextField
-                    id="conjugalFirstname"
-                    name="conjugalFirstname"
-                    value={conjugalFirstname}
-                    floatingLabelText="ชื่อ"
-                    errorText={conjugalFirstnameMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-4">
-                  <TextField
-                    id="conjugalLastname"
-                    name="conjugalLastname"
-                    value={conjugalLastname}
-                    floatingLabelText="นามสกุล"
-                    errorText={conjugalLastnameMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
+          {(status !== 'โสด')
+            ? <Card style={styles.marginBottom}>
+              <div style={styles.sectionTitle}>
+                <CardHeader
+                  title="ข้อมูลคู่สมรส"
+                  titleStyle={styles.TitleText}
+                />
               </div>
-              <div className="row">
-                <div className="col-3">
-                  <TextField
-                    id="conjugalOccupation"
-                    name="conjugalOccupation"
-                    value={conjugalOccupation}
-                    floatingLabelText="อาชีพ"
-                    errorText={conjugalOccupationMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
+              <CardText>
+                <div className="row">
+                  <div className="col-4">
+                    <PrefixTh
+                      id="conjugalPrefix"
+                      name="conjugalPrefix"
+                      value={conjugalPrefix}
+                      label="คำนำหน้าชื่อ"
+                      onSelectItem={this.handleLookupChange}
+                      errorText={conjugalPrefixMsg}
+                    />
+                  </div>
+                  <div className="col-4">
+                    <TextField
+                      id="conjugalFirstname"
+                      name="conjugalFirstname"
+                      value={conjugalFirstname}
+                      floatingLabelText="ชื่อ"
+                      errorText={conjugalFirstnameMsg}
+                      onChange={e => this.handleChange(e, true)}
+                      fullWidth
+                    />
+                  </div>
+                  <div className="col-4">
+                    <TextField
+                      id="conjugalLastname"
+                      name="conjugalLastname"
+                      value={conjugalLastname}
+                      floatingLabelText="นามสกุล"
+                      errorText={conjugalLastnameMsg}
+                      onChange={e => this.handleChange(e, true)}
+                      fullWidth
+                    />
+                  </div>
                 </div>
-                <div className="col-3">
-                  <TextField
-                    id="conjugalIncome"
-                    name="conjugalIncome"
-                    value={conjugalIncome}
-                    floatingLabelText="รายได้ต่อเดือน"
-                    errorText={conjugalIncomeMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
+                <div className="row">
+                  <div className="col-3">
+                    <TextField
+                      id="conjugalOccupation"
+                      name="conjugalOccupation"
+                      value={conjugalOccupation}
+                      floatingLabelText="อาชีพ"
+                      errorText={conjugalOccupationMsg}
+                      onChange={e => this.handleChange(e, true)}
+                      fullWidth
+                    />
+                  </div>
+                  <div className="col-3">
+                    <TextField
+                      id="conjugalIncome"
+                      name="conjugalIncome"
+                      value={conjugalIncome}
+                      floatingLabelText="รายได้ต่อเดือน"
+                      errorText={conjugalIncomeMsg}
+                      onChange={e => this.handleChange(e, true)}
+                      fullWidth
+                    />
+                  </div>
+                  <div className="col-3">
+                    <TextField
+                      id="children"
+                      name="children"
+                      value={children}
+                      floatingLabelText="จำนวนบุตร/ธิดา"
+                      errorText={childrenMsg}
+                      onChange={e => this.handleChange(e, true)}
+                      fullWidth
+                    />
+                  </div>
+                  <div className="col-3">
+                    <TextField
+                      id="children"
+                      name="children"
+                      value={children}
+                      floatingLabelText="จำนวนบุตร/ธิดา"
+                      errorText={childrenMsg}
+                      onChange={e => this.handleChange(e, true)}
+                      fullWidth
+                    />
+                  </div>
                 </div>
-                <div className="col-3">
-                  <TextField
-                    id="children"
-                    name="children"
-                    value={children}
-                    floatingLabelText="จำนวนบุตร/ธิดา"
-                    errorText={childrenMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="children"
-                    name="children"
-                    value={children}
-                    floatingLabelText="จำนวนบุตร/ธิดา"
-                    errorText={childrenMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-              </div>
-            </CardText>
-          </Card>
+              </CardText>
+            </Card>
+            : <div />
+          }
+
 
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
