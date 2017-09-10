@@ -282,7 +282,56 @@ class PersonalInfo extends Component {
 
   handleSameAddressChange = () => {
     const { isSameAddress } = this.state;
-    this.setState({ isSameAddress: !isSameAddress });
+    this.setState({ isSameAddress: !isSameAddress },
+      () => {
+        console.log('>>> this.state.isSameAddress: ', this.state.isSameAddress);
+        if (this.state.isSameAddress) {
+          const {
+            number,
+            moo,
+            village,
+            soi,
+            road,
+            province,
+            amphurCode,
+            tambolCode,
+            provinceName,
+            amphurCodeName,
+            tambolCodeName,
+            zipCode,
+          } = this.state;
+
+          this.setState({
+            number2: number,
+            moo2: moo,
+            village2: village,
+            soi2: soi,
+            road2: road,
+            province2: province,
+            amphurCode2: amphurCode,
+            tambolCode2: tambolCode,
+            province2Name: provinceName,
+            amphurCode2Name: amphurCodeName,
+            tambolCode2Name: tambolCodeName,
+            zipCode2: zipCode,
+          });
+        } else {
+          this.setState({
+            number2: '',
+            moo2: '',
+            village2: '',
+            soi2: '',
+            road2: '',
+            province2: '',
+            amphurCode2: '',
+            tambolCode2: '',
+            province2Name: '',
+            amphurCode2Name: '',
+            tambolCode2Name: '',
+            zipCode2: '',
+          });
+        }
+      });
   };
 
   handleBack = () => {
@@ -347,6 +396,8 @@ class PersonalInfo extends Component {
       isSameAddress,
       // valid,
     } = this.state;
+
+    console.log(this.state);
 
     completePersonalInfo({
       dateReq,
