@@ -108,6 +108,7 @@ class AdditionalInfo extends Component {
       'ref1Relationship',
       'ref1Mobile',
       'ref1HomeTelephone',
+      'fileName0',
       'isConsent2',
     ];
 
