@@ -1237,8 +1237,8 @@ class AdditionalInfo extends Component {
                   แสดงรายได้ย้อนหลัง 6 เดือนนับจากปัจจุบัน
                     จะต้องแสดงรายละเอียดของเงินเข้าออก
                     และแสดงรายได้ที่มาจากเงินเดือนครบทั้ง 6 เดือน โดยสามารถใช้ <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;- สำเนาจากสมุดบัญชีเล่มจริง หรือ <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;- สำเนารายการเดินบัญชีจากระบบ
+                  &nbsp;&nbsp;&nbsp;&nbsp;- สำเนาจากสมุดบัญชีเล่มจริง หรือ <br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;- สำเนารายการเดินบัญชีจากระบบ
                     online (online statement)
                       โดยจะต้องมีระบุ ชื่อบัญชี เลขที่บัญชี และธนาคารชัดเจน <br />
                   - กรณีลูกค้าได้รับอนุมัติสินเชื่อ ธนาคารจะนำส่งเงินหลัง
@@ -1251,6 +1251,7 @@ class AdditionalInfo extends Component {
               </div>
             </CardText>
           </Card>
+
           <div className="row">
             <div className="col">
               <Checkbox

@@ -4,8 +4,7 @@ import { withRouter } from 'react-router';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
-// import DatePicker from 'material-ui/DatePicker';
-// import Checkbox from 'material-ui/Checkbox';
+import Checkbox from 'material-ui/Checkbox';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 
@@ -44,6 +43,15 @@ class Summary extends Component {
     save: PropTypes.func.isRequired,
   };
 
+  state = {
+    isConsent: false,
+  };
+
+  handleChange = () => {
+    const { isConsent } = this.state;
+    this.setState({ isConsent: !isConsent });
+  };
+
   handleBack = () => {
     const { history } = this.props;
     history.push('/additional-info');
@@ -51,12 +59,14 @@ class Summary extends Component {
 
   handleNext = e => {
     e.preventDefault();
-    const { save, history } = this.props;
+    const { save } = this.props;
     save();
-    history.push('/loan-info');
+    // history.push('/');
   };
 
   render() {
+    const { isConsent } = this.state;
+
     return (
       <div>
         <form>
@@ -292,27 +302,583 @@ class Summary extends Component {
                 titleStyle={styles.TitleText}
               />
             </div>
-            <CardText />
+            <CardText>
+              <div className="row">
+                <div className="col-12">
+                  <TextField
+                    id="dateReq"
+                    name="dateReq"
+                    floatingLabelText="วันที่คำขอ"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-4">
+                  <TextField
+                    id="dateReq"
+                    name="dateReq"
+                    floatingLabelText="คำนำหน้าชื่อ (TH)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="firstNameTH"
+                    name="firstNameTH"
+                    floatingLabelText="ชื่อ (TH)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="lastNameTH"
+                    name="lastNameTH"
+                    floatingLabelText="นามสกุล (TH)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-4">
+                  <TextField
+                    id="lastNameTH"
+                    name="lastNameTH"
+                    floatingLabelText="คำนำหน้าชื่อ (EN)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="firstNameEN"
+                    name="firstNameEN"
+                    floatingLabelText="ชื่อ (EN)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="lastNameEN"
+                    name="lastNameEN"
+                    floatingLabelText="นามสกุล (EN)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-4">
+                  <TextField
+                    id="lastNameEN"
+                    name="lastNameEN"
+                    floatingLabelText="เลขบัตรประชาชน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="lastNameEN"
+                    name="lastNameEN"
+                    floatingLabelText="วันหมดอายุบัตรประชาชน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="lastNameEN"
+                    name="lastNameEN"
+                    floatingLabelText="สถานภาพสมรส"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="ข้อมูลการทำงาน"
+                titleStyle={styles.TitleText}
+              />
+            </div>
+            <CardText>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="department"
+                    name="department"
+                    floatingLabelText="แผนก / ฝ่าย"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="position"
+                    name="position"
+                    floatingLabelText="ตำแหน่ง"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <TextField
+                    id="workTel"
+                    name="workTel"
+                    floatingLabelText="โทรศัพท์ที่ทำงาน (เบอร์ตรง)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="telExtension"
+                    name="telExtension"
+                    floatingLabelText="เบอร์ต่อ"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+            </CardText>
           </Card>
 
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
-                title="บุคคลอ้างอิงที่ 1"
+                title="ที่อยู่ปัจจุบัน"
                 titleStyle={styles.TitleText}
               />
             </div>
-            <CardText />
+            <CardText>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingHouseNo"
+                    name="shippingHouseNo"
+                    floatingLabelText="บ้านเลขที่"
+                    maxLength="10"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingAlley"
+                    name="shippingAlley"
+                    floatingLabelText="หมู่ที่"
+                    maxLength="3"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <TextField
+                    id="shippingVillage"
+                    name="shippingVillage"
+                    floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+                    maxLength="100"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingSoi"
+                    name="shippingSoi"
+                    floatingLabelText="ซอย"
+                    maxLength="100"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingRoad"
+                    name="shippingRoad"
+                    floatingLabelText="ถนน"
+                    maxLength="100"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="จังหวัด"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="อำเภอ / เขต"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="ตำบล / แขวง"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="รหัสไปรษณีย์"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+            </CardText>
           </Card>
 
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
-                title="บุคคลอ้างอิงที่ 2"
+                title="ที่อยู่ตามทะเบียนบ้าน"
                 titleStyle={styles.TitleText}
               />
             </div>
-            <CardText />
+            <CardText>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingHouseNo"
+                    name="shippingHouseNo"
+                    floatingLabelText="บ้านเลขที่"
+                    maxLength="10"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingAlley"
+                    name="shippingAlley"
+                    floatingLabelText="หมู่ที่"
+                    maxLength="3"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <TextField
+                    id="shippingVillage"
+                    name="shippingVillage"
+                    floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+                    maxLength="100"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingSoi"
+                    name="shippingSoi"
+                    floatingLabelText="ซอย"
+                    maxLength="100"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingRoad"
+                    name="shippingRoad"
+                    floatingLabelText="ถนน"
+                    maxLength="100"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="จังหวัด"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="อำเภอ / เขต"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="ตำบล / แขวง"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="รหัสไปรษณีย์"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
+
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="ข้อมูลติดต่อ"
+                titleStyle={styles.TitleText}
+              />
+            </div>
+            <CardText>
+              <div className="row">
+                <div className="col" >
+                  <TextField
+                    id="shippingHouseNo"
+                    name="shippingHouseNo"
+                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col" >
+                  <TextField
+                    id="shippingHouseNo"
+                    name="shippingHouseNo"
+                    floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col" >
+                  <TextField
+                    id="shippingHouseNo"
+                    name="shippingHouseNo"
+                    floatingLabelText="ผ่อนชำระ / ค่าเช่าต่อเดือน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col" >
+                  <TextField
+                    id="shippingHouseNo"
+                    name="shippingHouseNo"
+                    floatingLabelText="สถานภาพที่อยู่อาศัย"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
+
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="บุคคลอ้างอิง 1"
+                titleStyle={styles.TitleText}
+              />
+            </div>
+            <CardText>
+              <div className="row">
+                <div className="col-4">
+                  <TextField
+                    id="ref1Firstname"
+                    name="ref1Firstname"
+                    floatingLabelText="ชื่อ (TH)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="ref1Firstname"
+                    name="ref1Firstname"
+                    floatingLabelText="ชื่อ (TH)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="ref1Lastname"
+                    name="ref1Lastname"
+                    floatingLabelText="นามสกุล (TH)"
+                    readOnly
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-3">
+                  <TextField
+                    id="ref1Mobile"
+                    name="ref1Mobile"
+                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref1Mobile"
+                    name="ref1Mobile"
+                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref1WorkTelephone"
+                    name="ref1WorkTelephone"
+                    floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref1HomeTelephone"
+                    name="ref1HomeTelephone"
+                    floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
+
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="บุคคลอ้างอิง 2"
+                titleStyle={styles.TitleText}
+              />
+            </div>
+            <CardText>
+              <div className="row">
+                <div className="col-4">
+                  <TextField
+                    floatingLabelText="ชื่อ (TH)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="ref2Firstname"
+                    name="ref2Firstname"
+                    floatingLabelText="ชื่อ (TH)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="ref2Lastname"
+                    name="ref2Lastname"
+                    floatingLabelText="นามสกุล (TH)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-3">
+                  <TextField
+                    id="ref2Mobile"
+                    name="ref2Mobile"
+                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref2Mobile"
+                    name="ref2Mobile"
+                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref2WorkTelephone"
+                    name="ref2WorkTelephone"
+                    floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="ref2HomeTelephone"
+                    name="ref2HomeTelephone"
+                    floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+            </CardText>
           </Card>
 
           <Card style={styles.marginBottom}>
@@ -322,7 +888,118 @@ class Summary extends Component {
                 titleStyle={styles.TitleText}
               />
             </div>
-            <CardText />
+            <CardText>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingHouseNo"
+                    name="shippingHouseNo"
+                    floatingLabelText="บ้านเลขที่"
+                    maxLength="10"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingAlley"
+                    name="shippingAlley"
+                    floatingLabelText="หมู่ที่"
+                    maxLength="3"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingFloor"
+                    name="shippingFloor"
+                    floatingLabelText="ชั้น"
+                    maxLength="3"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <TextField
+                    id="shippingVillage"
+                    name="shippingVillage"
+                    floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+                    maxLength="100"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingSoi"
+                    name="shippingSoi"
+                    floatingLabelText="ซอย"
+                    maxLength="100"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingRoad"
+                    name="shippingRoad"
+                    floatingLabelText="ถนน"
+                    maxLength="100"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="จังหวัด"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="อำเภอ / เขต"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="ตำบล / แขวง"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="shippingPostalCode"
+                    name="shippingPostalCode"
+                    floatingLabelText="รหัสไปรษณีย์"
+                    maxLength="5"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+            </CardText>
           </Card>
 
           <Card style={styles.marginBottom}>
@@ -333,29 +1010,109 @@ class Summary extends Component {
               />
             </div>
             <CardText>
-              รายละเอียดเอกสารที่ต้องแนบ <br />
-              - สำเนาเอกสารที่แนบต้องไม่มีการลงนามรับรองสำเนาถูกต้อง
-                โดยทาง ธนาคารจะจัดเตรียมเอกสารเพื่อให้ท่านทำการลงนามอีกครั้งในภายหลัง <br />
-              - สำเนาเอกสารต้องชัดเจน ไม่ซีดจางหรือเข้มดำ <br />
-              - สำเนาบัตรประชาชน
-                ต้องเป็นสำเนาของบัตรประชาชนที่เป็นปัจจุบันและไม่หมดอายุ <br />
-              - สำเนาทะเบียนบ้านต้องประกอบด้วยหน้าแรกที่มีที่อยู่
-                และหน้าที่มีชื่อของผู้ขอสินเชื่อ <br />
-              - สลิปเงินเดือนต้องเป็นสลิปเงินเดือนล่าสุด
-                มีชื่อผู้ขอสินเชื่อ วันที่ และชื่อบริษัทที่สังกัดชัดเจน <br />
-              - สำเนาบัญชีเงินฝากที่ใช้รับเงินเดือน
-                แสดงรายได้ย้อนหลัง 6 เดือนนับจากปัจจุบัน
-                จะต้องแสดงรายละเอียดของเงินเข้าออก
-                และแสดงรายได้ที่มาจากเงินเดือนครบทั้ง 6 เดือน โดยสามารถใช้ <br />
-              - สำเนาจากสมุดบัญชีเล่มจริง หรือ <br />
-              - สำเนารายการเดินบัญชีจากระบบ online (online statement)
-                โดยจะต้องมีระบุ ชื่อบัญชี เลขที่บัญชี และธนาคารชัดเจน <br />
-              - กรณีลูกค้าได้รับอนุมัติสินเชื่อ ธนาคารจะนำส่งเงินหลัง
-                หักค่าอากรแสตมป์ติดสัญญาและค่าใช้จ่ายอื่นๆตามที่ธนาคารประะกาศ
-                /กำหนด เข้าบัญชีตามสำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน
-                และใช้บัญชีเงินฝากดังกล่าวในการสมัครบริการหักบัญชีเงินฝากอัตโนมัติ
-                เพื่อชำระสินเชื่อรายเดือน <br />
-              - ธนาคารขอสงวนสิทธิ์ในการขอเอกสารประกอบการพิจารณาสินเชื่อเพิ่มเติมในบางกรณี
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="fileName0"
+                    name="fileName0"
+                    floatingLabelText="สำเนาบัตรประชาชน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="fileName1"
+                    name="fileName1"
+                    floatingLabelText="สลิปเงินเดือน (เดือนล่าสุด)"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="fileName2"
+                    name="fileName2"
+                    floatingLabelText="สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="fileName3"
+                    name="fileName3"
+                    floatingLabelText="ทะเบียนบ้าน"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="fileName4"
+                    name="fileName4"
+                    floatingLabelText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #1"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="fileName5"
+                    name="fileName5"
+                    floatingLabelText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #2"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-6">
+                  <TextField
+                    id="fileName6"
+                    name="fileName6"
+                    floatingLabelText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #3"
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-12">
+                  รายละเอียดเอกสารที่ต้องแนบ <br />
+                  - สำเนาเอกสารที่แนบต้องไม่มีการลงนามรับรองสำเนาถูกต้อง
+                  โดยทาง ธนาคารจะจัดเตรียมเอกสารเพื่อให้ท่านทำการลงนามอีกครั้งในภายหลัง <br />
+                  - สำเนาเอกสารต้องชัดเจน ไม่ซีดจางหรือเข้มดำ <br />
+                  - สำเนาบัตรประชาชน
+                  ต้องเป็นสำเนาของบัตรประชาชนที่เป็นปัจจุบันและไม่หมดอายุ <br />
+                  - สำเนาทะเบียนบ้านต้องประกอบด้วยหน้าแรกที่มีที่อยู่
+                  และหน้าที่มีชื่อของผู้ขอสินเชื่อ <br />
+                  - สลิปเงินเดือนต้องเป็นสลิปเงินเดือนล่าสุด
+                  มีชื่อผู้ขอสินเชื่อ วันที่ และชื่อบริษัทที่สังกัดชัดเจน <br />
+                  - สำเนาบัญชีเงินฝากที่ใช้รับเงินเดือน
+                  แสดงรายได้ย้อนหลัง 6 เดือนนับจากปัจจุบัน
+                    จะต้องแสดงรายละเอียดของเงินเข้าออก
+                    และแสดงรายได้ที่มาจากเงินเดือนครบทั้ง 6 เดือน โดยสามารถใช้ <br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;- สำเนาจากสมุดบัญชีเล่มจริง หรือ <br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;- สำเนารายการเดินบัญชีจากระบบ
+                    online (online statement)
+                      โดยจะต้องมีระบุ ชื่อบัญชี เลขที่บัญชี และธนาคารชัดเจน <br />
+                  - กรณีลูกค้าได้รับอนุมัติสินเชื่อ ธนาคารจะนำส่งเงินหลัง
+                    หักค่าอากรแสตมป์ติดสัญญาและค่าใช้จ่ายอื่นๆตามที่ธนาคารประะกาศ
+                    /กำหนด เข้าบัญชีตามสำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน
+                    และใช้บัญชีเงินฝากดังกล่าวในการสมัครบริการหักบัญชีเงินฝากอัตโนมัติ
+                    เพื่อชำระสินเชื่อรายเดือน <br />
+                  - ธนาคารขอสงวนสิทธิ์ในการขอเอกสารประกอบการพิจารณาสินเชื่อเพิ่มเติมในบางกรณี
+                </div>
+              </div>
             </CardText>
           </Card>
 
@@ -368,6 +1125,28 @@ class Summary extends Component {
             </div>
             <CardText />
           </Card>
+
+          <div className="row">
+            <div className="col">
+              ข้าพเจ้ารับทราบและเข้าใจข้อมูล เงื่อนไขผลิตภัณฑ์สินเชื่อ
+              และประสงค์จะขอสินเชื่อกับธนาคารเกียรตินาคิน จำกัด (มหาชน)
+              ทั้งนี้ ข้าพเจ้าได้ตรวจสอบความถูกต้องของข้อมูลในเอกสารประกอบการ
+              ขอสินเชื่อที่แนบมาทั้งหมดนี้แล้ว
+              และขอรับรองว่าข้อมูลทั้งหมดในเอกสารดังกล่าวเป็นจริง
+              ถูกต้อง และเป็นปัจจุบันในทุกประการ
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col">
+              <Checkbox
+                label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
+                checked={isConsent}
+                style={styles.checkbox}
+                onCheck={this.handleChange}
+              />
+            </div>
+          </div>
 
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
@@ -384,8 +1163,9 @@ class Summary extends Component {
                 labelPosition="before"
                 primary
                 style={styles.button}
-                disabled
+                disabled={!isConsent}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
+                onClick={this.handleNext}
               />
             </div>
           </div>
