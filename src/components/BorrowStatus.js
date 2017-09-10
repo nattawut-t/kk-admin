@@ -9,6 +9,7 @@ const styles = {
     width: '100%',
     textAlign: 'left',
     display: 'inline-block',
+    padding: '17px 0 22px 25px',
   },
   button: {
     margin: 12,
@@ -25,11 +26,8 @@ const BorrowStatus = () =>
     </div>
     <div className="col-12">
       <Paper style={styles.paper} zDepth={1}>
-        <div className="col-12">เลขที่เอกสารอ้างอิง</div>
-        <div className="col-3">฿ 1,000.00</div>
-        <div className="col-3">P-Loan สินเชื่อส่วนบุคคล</div>
-        <div className="col-3">11 งวด</div>
-        <div className="col-3">
+        <div className="col-9">เลขที่เอกสารอ้างอิง: 0000000001</div>
+        <div className="col-3 mobile-btn-upload">
           <RaisedButton
             label="รายละเอียด"
             labelPosition="before"
@@ -39,6 +37,9 @@ const BorrowStatus = () =>
             onClick={this.handleNext}
           />
         </div>
+        <div className="col-3" style={{ marginTop: -10 }}>฿ 1,000.00</div>
+        <div className="col-3" style={{ marginTop: -10 }}>P-Loan สินเชื่อส่วนบุคคล</div>
+        <div className="col-3" style={{ marginTop: -10 }}>11 งวด</div>
       </Paper>
     </div>
   </div>;
