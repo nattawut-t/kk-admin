@@ -387,8 +387,8 @@ class AdditionalInfo extends Component {
       children,
     });
 
-    // const { history } = this.props;
-    // history.push('/loan-info');
+    const { history } = this.props;
+    history.push('/summary');
   };
 
   renderShippingAddress = type => {
