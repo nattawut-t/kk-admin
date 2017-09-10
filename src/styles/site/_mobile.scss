@@ -4,9 +4,13 @@
     max-width: 100%;
     flex: auto;
   }
+  .mobile-btn-upload {
+    text-align: right;
+  }
   .stepper {
     padding-bottom: 25px;
     margin-top: -11px;
+    padding-left: 10px;
     .step-text {
       position: absolute;
       font-size: 11px;

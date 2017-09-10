@@ -711,478 +711,504 @@ class AdditionalInfo extends Component {
     // const disabledAddress = shippingAddress === 'current';
 
     return (
-      <div>
-        <form className="crud-form">
-          <Card style={styles.marginBottom}>
-            <div style={styles.sectionTitle}>
-              <CardHeader
-                title="ข้อมูลบุคคลอ้างอิง"
-                titleStyle={styles.TitleText}
-              />
-            </div>
-            <CardText>
-              <div className="row">
-                <div className="col">
-                  <span>บุคคลอ้างอิง 1</span>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-4">
-                  <PrefixTh
-                    id="ref1Prefix"
-                    name="ref1Prefix"
-                    value={ref1Prefix}
-                    label="คำนำหน้าชื่อ (TH)"
-                    required
-                    onSelectItem={this.handleLookupChange}
-                  />
-                </div>
-                <div className="col-4">
-                  <TextField
-                    id="ref1Firstname"
-                    name="ref1Firstname"
-                    value={ref1Firstname}
-                    floatingLabelText="ชื่อ (TH)"
-                    errorText={ref1FirstnameMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-4">
-                  <TextField
-                    id="ref1Lastname"
-                    name="ref1Lastname"
-                    value={ref1Lastname}
-                    floatingLabelText="นามสกุล (TH)"
-                    errorText={ref1LastnameMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-3">
-                  <Relationship
-                    id="ref1Relationship"
-                    name="ref1Relationship"
-                    value={ref1Relationship}
-                    floatingLabelText="ความสัมพันธ์"
-                    label="ความสัมพันธ์"
-                    required
-                    onSelectItem={this.handleLookupChange}
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="ref1Mobile"
-                    name="ref1Mobile"
-                    value={ref1Mobile}
-                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
-                    errorText={ref1MobileMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="ref1WorkTelephone"
-                    name="ref1WorkTelephone"
-                    value={ref1WorkTelephone}
-                    floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
-                    errorText={ref1WorkTelephoneMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="ref1HomeTelephone"
-                    name="ref1HomeTelephone"
-                    value={ref1HomeTelephone}
-                    floatingLabelText="เบอร์โทรศัพท์บ้าน"
-                    errorText={ref1HomeTelephoneMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-12">
-                  <span>บุคคลอ้างอิง 2</span>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-4">
-                  <PrefixTh
-                    id="ref2Prefix"
-                    name="ref2Prefix"
-                    value={ref2Prefix}
-                    label="คำนำหน้าชื่อ (TH)"
-                    required
-                    onSelectItem={this.handleLookupChange}
-                  />
-                </div>
-                <div className="col-4">
-                  <TextField
-                    id="ref2Firstname"
-                    name="ref2Firstname"
-                    value={ref2Firstname}
-                    floatingLabelText="ชื่อ (TH)"
-                    errorText={ref2FirstnameMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-4">
-                  <TextField
-                    id="ref2Lastname"
-                    name="ref2Lastname"
-                    value={ref2Lastname}
-                    floatingLabelText="นามสกุล (TH)"
-                    errorText={ref2LastnameMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-3">
-                  <Relationship
-                    id="ref2Relationship"
-                    name="ref2Relationship"
-                    value={ref2Relationship}
-                    floatingLabelText="ความสัมพันธ์"
-                    label="ความสัมพันธ์"
-                    required
-                    onSelectItem={this.handleLookupChange}
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="ref2Mobile"
-                    name="ref2Mobile"
-                    value={ref2Mobile}
-                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
-                    errorText={ref2MobileMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="ref2WorkTelephone"
-                    name="ref2WorkTelephone"
-                    value={ref2WorkTelephone}
-                    floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
-                    errorText={ref2WorkTelephoneMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="ref2HomeTelephone"
-                    name="ref2HomeTelephone"
-                    value={ref2HomeTelephone}
-                    floatingLabelText="เบอร์โทรศัพท์บ้าน"
-                    errorText={ref2HomeTelephoneMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-              </div>
-            </CardText>
-          </Card>
-
-          <Card style={styles.marginBottom}>
-            <div style={styles.sectionTitle}>
-              <CardHeader
-                title="ข้อมูลคู่สมรส"
-                titleStyle={styles.TitleText}
-              />
-            </div>
-            <CardText>
-              <div className="row">
-                <div className="col-4">
-                  <PrefixTh
-                    id="conjugalPrefix"
-                    name="conjugalPrefix"
-                    value={conjugalPrefix}
-                    label="คำนำหน้าชื่อ"
-                    required
-                    onSelectItem={this.handleLookupChange}
-                    errorText={conjugalPrefixMsg}
-                  />
-                </div>
-                <div className="col-4">
-                  <TextField
-                    id="conjugalFirstname"
-                    name="conjugalFirstname"
-                    value={conjugalFirstname}
-                    floatingLabelText="ชื่อ"
-                    errorText={conjugalFirstnameMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-4">
-                  <TextField
-                    id="conjugalLastname"
-                    name="conjugalLastname"
-                    value={conjugalLastname}
-                    floatingLabelText="นามสกุล"
-                    errorText={conjugalLastnameMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-3">
-                  <TextField
-                    id="conjugalOccupation"
-                    name="conjugalOccupation"
-                    value={conjugalOccupation}
-                    floatingLabelText="อาชีพ"
-                    errorText={conjugalOccupationMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="conjugalIncome"
-                    name="conjugalIncome"
-                    value={conjugalIncome}
-                    floatingLabelText="รายได้ต่อเดือน"
-                    errorText={conjugalIncomeMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="children"
-                    name="children"
-                    value={children}
-                    floatingLabelText="จำนวนบุตร/ธิดา"
-                    errorText={childrenMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-3">
-                  <TextField
-                    id="children"
-                    name="children"
-                    value={children}
-                    floatingLabelText="จำนวนบุตร/ธิดา"
-                    errorText={childrenMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-              </div>
-            </CardText>
-          </Card>
-
-          <Card style={styles.marginBottom}>
-            <div style={styles.sectionTitle}>
-              <CardHeader
-                title="สถานที่จัดส่งเอกสาร"
-                titleStyle={styles.TitleText}
-              />
-            </div>
-            <CardText>
-              <div className="row">
-                <div className="col-2">
-                  <RadioButtonGroup
-                    name="shippingAddress"
-                    defaultSelected={shippingAddress}
-                    onChange={e => this.handleShippingAddressChange(e)}
-                  >
-                    <RadioButton
-                      value="current"
-                      label="ที่อยู่ปัจจุบัย"
-                    />
-                    <RadioButton
-                      value="office"
-                      label="ที่อยู่ที่ทำงาน"
-                    />
-                    <RadioButton
-                      value="others"
-                      label="อื่นๆ"
-                    />
-                  </RadioButtonGroup>
-                </div>
-                {this.renderShippingAddress(shippingAddress)}
-              </div>
-            </CardText>
-          </Card>
-
-          <Card style={styles.marginBottom}>
-            <div style={styles.sectionTitle}>
-              <CardHeader
-                title="ข้อมูลเพิ่มเติม"
-                titleStyle={styles.TitleText}
-              />
-            </div>
-            <CardText>
-              <div className="row">
-                <div className="col-2">
-                  <label htmlFor="fileName0">สำเนาบัตรประชาชน</label>
-                </div>
-                <div className="col-8">
-                  <TextField
-                    type="file"
-                    id="fileName0"
-                    name="fileName0"
-                    filename={fileName0}
-                    errorText={fileName0Msg}
-                    onChange={e => this.handleFileChange(e, true, 'identity')}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-2">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    onClick={() => this.handleUploadFile('fileName0')}
-                    primary
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-2">
-                  <label htmlFor="fileName0">สลิปเงินเดือน (เดือนล่าสุด)</label>
-                </div>
-                <div className="col-8">
-                  <TextField
-                    type="file"
-                    id="fileName1"
-                    name="fileName1"
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-2">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    primary
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-2">
-                  <label htmlFor="fileName0">สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน</label>
-                </div>
-                <div className="col-8">
-                  <TextField
-                    type="file"
-                    id="fileName2"
-                    name="fileName2"
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-2">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    primary
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-2">
-                  <label htmlFor="fileName0">แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน)</label>
-                </div>
-                <div className="col-8">
-                  <TextField
-                    type="file"
-                    id="fileName3"
-                    name="fileName3"
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-2">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    primary
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-2">
-                  <label htmlFor="fileName0">ทะเบียนบ้าน</label>
-                </div>
-                <div className="col-8">
-                  <TextField
-                    type="file"
-                    id="fileName4"
-                    name="fileName4"
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
-                  />
-                </div>
-                <div className="col-2">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    primary
-                  />
-                </div>
-              </div>
-            </CardText>
-          </Card>
-
-          <div className="row">
-            <div className="col">
-              <Checkbox
-                label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
-                style={styles.checkbox}
-                value={isConsent2}
-                onCheck={this.handleIsConsent2Change}
-              />
-            </div>
+      <form className="crud-form">
+        <Card style={styles.marginBottom}>
+          <div style={styles.sectionTitle}>
+            <CardHeader
+              title="ข้อมูลบุคคลอ้างอิง"
+              titleStyle={styles.TitleText}
+            />
           </div>
-
-          <div className="row">
-            <div className="col-12" style={{ textAlign: 'right' }}>
-              <RaisedButton
-                label="กลับ"
-                labelPosition="before"
-                style={styles.button}
-                containerElement="label"
-                onClick={this.handleBack}
-              />
-              <RaisedButton
-                type="submit"
-                label="ดำเนินการต่อ"
-                labelPosition="before"
-                primary
-                style={styles.button}
-                disabled={!valid}
-                icon={<FontIcon className="muidocs-icon-custom-github" />}
-              />
+          <CardText>
+            <div className="row">
+              <div className="col">
+                <span>บุคคลอ้างอิง 1</span>
+              </div>
             </div>
+            <div className="row">
+              <div className="col-4">
+                <PrefixTh
+                  id="ref1Prefix"
+                  name="ref1Prefix"
+                  value={ref1Prefix}
+                  label="คำนำหน้าชื่อ (TH)"
+                  required
+                  onSelectItem={this.handleLookupChange}
+                />
+              </div>
+              <div className="col-4">
+                <TextField
+                  id="ref1Firstname"
+                  name="ref1Firstname"
+                  value={ref1Firstname}
+                  floatingLabelText="ชื่อ (TH)"
+                  errorText={ref1FirstnameMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-4">
+                <TextField
+                  id="ref1Lastname"
+                  name="ref1Lastname"
+                  value={ref1Lastname}
+                  floatingLabelText="นามสกุล (TH)"
+                  errorText={ref1LastnameMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-3">
+                <Relationship
+                  id="ref1Relationship"
+                  name="ref1Relationship"
+                  value={ref1Relationship}
+                  floatingLabelText="ความสัมพันธ์"
+                  label="ความสัมพันธ์"
+                  required
+                  onSelectItem={this.handleLookupChange}
+                />
+              </div>
+              <div className="col-3">
+                <TextField
+                  id="ref1Mobile"
+                  name="ref1Mobile"
+                  value={ref1Mobile}
+                  floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                  errorText={ref1MobileMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3">
+                <TextField
+                  id="ref1WorkTelephone"
+                  name="ref1WorkTelephone"
+                  value={ref1WorkTelephone}
+                  floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                  errorText={ref1WorkTelephoneMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3">
+                <TextField
+                  id="ref1HomeTelephone"
+                  name="ref1HomeTelephone"
+                  value={ref1HomeTelephone}
+                  floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                  errorText={ref1HomeTelephoneMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-12">
+                <span>บุคคลอ้างอิง 2</span>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-4">
+                <PrefixTh
+                  id="ref2Prefix"
+                  name="ref2Prefix"
+                  value={ref2Prefix}
+                  label="คำนำหน้าชื่อ (TH)"
+                  required
+                  onSelectItem={this.handleLookupChange}
+                />
+              </div>
+              <div className="col-4">
+                <TextField
+                  id="ref2Firstname"
+                  name="ref2Firstname"
+                  value={ref2Firstname}
+                  floatingLabelText="ชื่อ (TH)"
+                  errorText={ref2FirstnameMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-4">
+                <TextField
+                  id="ref2Lastname"
+                  name="ref2Lastname"
+                  value={ref2Lastname}
+                  floatingLabelText="นามสกุล (TH)"
+                  errorText={ref2LastnameMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-3">
+                <Relationship
+                  id="ref2Relationship"
+                  name="ref2Relationship"
+                  value={ref2Relationship}
+                  floatingLabelText="ความสัมพันธ์"
+                  label="ความสัมพันธ์"
+                  required
+                  onSelectItem={this.handleLookupChange}
+                />
+              </div>
+              <div className="col-3">
+                <TextField
+                  id="ref2Mobile"
+                  name="ref2Mobile"
+                  value={ref2Mobile}
+                  floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                  errorText={ref2MobileMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3">
+                <TextField
+                  id="ref2WorkTelephone"
+                  name="ref2WorkTelephone"
+                  value={ref2WorkTelephone}
+                  floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                  errorText={ref2WorkTelephoneMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3">
+                <TextField
+                  id="ref2HomeTelephone"
+                  name="ref2HomeTelephone"
+                  value={ref2HomeTelephone}
+                  floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                  errorText={ref2HomeTelephoneMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+            </div>
+          </CardText>
+        </Card>
+
+        <Card style={styles.marginBottom}>
+          <div style={styles.sectionTitle}>
+            <CardHeader
+              title="ข้อมูลคู่สมรส"
+              titleStyle={styles.TitleText}
+            />
           </div>
-        </form>
-      </div >
+          <CardText>
+            <div className="row">
+              <div className="col-4">
+                <PrefixTh
+                  id="conjugalPrefix"
+                  name="conjugalPrefix"
+                  value={conjugalPrefix}
+                  label="คำนำหน้าชื่อ"
+                  required
+                  onSelectItem={this.handleLookupChange}
+                  errorText={conjugalPrefixMsg}
+                />
+              </div>
+              <div className="col-4">
+                <TextField
+                  id="conjugalFirstname"
+                  name="conjugalFirstname"
+                  value={conjugalFirstname}
+                  floatingLabelText="ชื่อ"
+                  errorText={conjugalFirstnameMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-4">
+                <TextField
+                  id="conjugalLastname"
+                  name="conjugalLastname"
+                  value={conjugalLastname}
+                  floatingLabelText="นามสกุล"
+                  errorText={conjugalLastnameMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-3">
+                <TextField
+                  id="conjugalOccupation"
+                  name="conjugalOccupation"
+                  value={conjugalOccupation}
+                  floatingLabelText="อาชีพ"
+                  errorText={conjugalOccupationMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3">
+                <TextField
+                  id="conjugalIncome"
+                  name="conjugalIncome"
+                  value={conjugalIncome}
+                  floatingLabelText="รายได้ต่อเดือน"
+                  errorText={conjugalIncomeMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3">
+                <TextField
+                  id="children"
+                  name="children"
+                  value={children}
+                  floatingLabelText="จำนวนบุตร/ธิดา"
+                  errorText={childrenMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3">
+                <TextField
+                  id="children"
+                  name="children"
+                  value={children}
+                  floatingLabelText="จำนวนบุตร/ธิดา"
+                  errorText={childrenMsg}
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+            </div>
+          </CardText>
+        </Card>
+
+        <Card style={styles.marginBottom}>
+          <div style={styles.sectionTitle}>
+            <CardHeader
+              title="สถานที่จัดส่งเอกสาร"
+              titleStyle={styles.TitleText}
+            />
+          </div>
+          <CardText>
+            <div className="row">
+              <div className="col-12">
+                <RadioButtonGroup
+                  name="shippingAddress"
+                  defaultSelected={shippingAddress}
+                  onChange={e => this.handleShippingAddressChange(e)}
+                >
+                  <RadioButton
+                    value="current"
+                    label="ที่อยู่ปัจจุบัน"
+                  />
+                  <RadioButton
+                    value="office"
+                    label="ที่อยู่ที่ทำงาน"
+                  />
+                  <RadioButton
+                    value="others"
+                    label="อื่นๆ"
+                  />
+                </RadioButtonGroup>
+              </div>
+              {this.renderShippingAddress(shippingAddress)}
+            </div>
+          </CardText>
+        </Card>
+
+        <Card style={styles.marginBottom}>
+          <div style={styles.sectionTitle}>
+            <CardHeader
+              title="ข้อมูลเพิ่มเติม"
+              titleStyle={styles.TitleText}
+            />
+          </div>
+          <CardText>
+            <div className="row">
+              <div className="col-3">
+                <label htmlFor="fileName0">สำเนาบัตรประชาชน</label>
+              </div>
+              <div className="col-6">
+                <TextField
+                  type="file"
+                  id="fileName0"
+                  name="fileName0"
+                  filename={fileName0}
+                  errorText={fileName0Msg}
+                  onChange={e => this.handleFileChange(e, true, 'identity')}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3 mobile-btn-upload">
+                <RaisedButton
+                  label="อัพโหลดไฟล์"
+                  labelPosition="before"
+                  style={styles.button}
+                  containerElement="label"
+                  onClick={() => this.handleUploadFile('fileName0')}
+                  primary
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-3">
+                <label htmlFor="fileName0">สลิปเงินเดือน (เดือนล่าสุด)</label>
+              </div>
+              <div className="col-6">
+                <TextField
+                  type="file"
+                  id="fileName1"
+                  name="fileName1"
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3 mobile-btn-upload">
+                <RaisedButton
+                  label="อัพโหลดไฟล์"
+                  labelPosition="before"
+                  style={styles.button}
+                  containerElement="label"
+                  primary
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-3">
+                <label htmlFor="fileName0">สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน</label>
+              </div>
+              <div className="col-6">
+                <TextField
+                  type="file"
+                  id="fileName2"
+                  name="fileName2"
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3 mobile-btn-upload">
+                <RaisedButton
+                  label="อัพโหลดไฟล์"
+                  labelPosition="before"
+                  style={styles.button}
+                  containerElement="label"
+                  primary
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-3">
+                <label htmlFor="fileName0">แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน)</label>
+              </div>
+              <div className="col-6">
+                <TextField
+                  type="file"
+                  id="fileName3"
+                  name="fileName3"
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3 mobile-btn-upload">
+                <RaisedButton
+                  label="อัพโหลดไฟล์"
+                  labelPosition="before"
+                  style={styles.button}
+                  containerElement="label"
+                  primary
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-3">
+                <label htmlFor="fileName0">ทะเบียนบ้าน</label>
+              </div>
+              <div className="col-6">
+                <TextField
+                  type="file"
+                  id="fileName4"
+                  name="fileName4"
+                  onChange={e => this.handleChange(e, true)}
+                  fullWidth
+                />
+              </div>
+              <div className="col-3 mobile-btn-upload">
+                <RaisedButton
+                  label="อัพโหลดไฟล์"
+                  labelPosition="before"
+                  style={styles.button}
+                  containerElement="label"
+                  primary
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12">
+                  รายละเอียดเอกสารที่ต้องแนบ <br />
+                  - สำเนาเอกสารที่แนบต้องไม่มีการลงนามรับรองสำเนาถูกต้อง
+                  โดยทาง ธนาคารจะจัดเตรียมเอกสารเพื่อให้ท่านทำการลงนามอีกครั้งในภายหลัง <br />
+                  - สำเนาเอกสารต้องชัดเจน ไม่ซีดจางหรือเข้มดำ <br />
+                  - สำเนาบัตรประชาชน
+                  ต้องเป็นสำเนาของบัตรประชาชนที่เป็นปัจจุบันและไม่หมดอายุ <br />
+                  - สำเนาทะเบียนบ้านต้องประกอบด้วยหน้าแรกที่มีที่อยู่
+                  และหน้าที่มีชื่อของผู้ขอสินเชื่อ <br />
+                  - สลิปเงินเดือนต้องเป็นสลิปเงินเดือนล่าสุด
+                  มีชื่อผู้ขอสินเชื่อ วันที่ และชื่อบริษัทที่สังกัดชัดเจน <br />
+                  - สำเนาบัญชีเงินฝากที่ใช้รับเงินเดือน
+                  แสดงรายได้ย้อนหลัง 6 เดือนนับจากปัจจุบัน
+                    จะต้องแสดงรายละเอียดของเงินเข้าออก
+                    และแสดงรายได้ที่มาจากเงินเดือนครบทั้ง 6 เดือน โดยสามารถใช้ <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;- สำเนาจากสมุดบัญชีเล่มจริง หรือ <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;- สำเนารายการเดินบัญชีจากระบบ
+                    online (online statement)
+                      โดยจะต้องมีระบุ ชื่อบัญชี เลขที่บัญชี และธนาคารชัดเจน <br />
+                  - กรณีลูกค้าได้รับอนุมัติสินเชื่อ ธนาคารจะนำส่งเงินหลัง
+                    หักค่าอากรแสตมป์ติดสัญญาและค่าใช้จ่ายอื่นๆตามที่ธนาคารประะกาศ
+                    /กำหนด เข้าบัญชีตามสำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน
+                    และใช้บัญชีเงินฝากดังกล่าวในการสมัครบริการหักบัญชีเงินฝากอัตโนมัติ
+                    เพื่อชำระสินเชื่อรายเดือน <br />
+                  - ธนาคารขอสงวนสิทธิ์ในการขอเอกสารประกอบการพิจารณาสินเชื่อเพิ่มเติมในบางกรณี
+              </div>
+            </div>
+          </CardText>
+        </Card>
+
+        <div className="row">
+          <div className="col">
+            <Checkbox
+              label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
+              style={styles.checkbox}
+              value={isConsent2}
+              onCheck={this.handleIsConsent2Change}
+            />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-12" style={{ textAlign: 'right' }}>
+            <RaisedButton
+              label="กลับ"
+              labelPosition="before"
+              style={styles.button}
+              containerElement="label"
+              onClick={this.handleBack}
+            />
+            <RaisedButton
+              type="submit"
+              label="ดำเนินการต่อ"
+              labelPosition="before"
+              primary
+              style={styles.button}
+              disabled={!valid}
+              icon={<FontIcon className="muidocs-icon-custom-github" />}
+            />
+          </div>
+        </div>
+      </form>
     );
   }
 }
