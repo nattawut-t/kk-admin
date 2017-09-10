@@ -6,7 +6,7 @@ import { grey500, white } from 'material-ui/styles/colors';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import Help from 'material-ui/svg-icons/action/help';
 import TextField from 'material-ui/TextField';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 
 const Login = () => {
   const styles = {
@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <div style={{ padding: '33px 0' }}>
+    <div className="row" style={{ padding: '33px 0' }}>
       <div style={styles.loginContainer}>
         <h4>เข้าสู่ระบบ</h4>
         <Paper style={styles.paper}>
@@ -70,13 +70,13 @@ const Login = () => {
 
             <div>
 
-              <NavLink to="/product-info">
+              <a href="/product-info">
                 <RaisedButton
                   label="เข้าสู่ระบบ"
                   primary
                   style={styles.loginBtn}
                 />
-              </NavLink>
+              </a>
             </div>
           </form>
         </Paper>
