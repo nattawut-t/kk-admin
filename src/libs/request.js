@@ -23,7 +23,7 @@ export function adminUrl(endpoint) {
   const { NODE_ENV } = process.env;
 
   switch (NODE_ENV) {
-    case 'local':
+    case 'prod':
       return `https://api.moneytable.com${endpoint}`;
 
     default:
