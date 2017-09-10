@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  uploadFile: (name, data) => dispatch(uploadDocument(name, data)),
+  uploadFile: (name, data, docType) => dispatch(uploadDocument(name, data, docType)),
   completeAdditionalInfo: data => dispatch(completeLoanInfo(data)),
 });
 
