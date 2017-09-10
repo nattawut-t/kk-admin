@@ -11,7 +11,7 @@ import {
   completeAdditionalInfoSuccess,
   uploadDocumentSuccess,
 } from '../actions/lead';
-import { portalUrl, post } from '../libs/request';
+import { portalUrl, postForm, postJson } from '../libs/request';
 
 const State = Record({
   isConsent: false,
@@ -37,7 +37,7 @@ function save() {
     const _url = portalUrl('/api/work/leads/');
     console.log('>>> actionCreater.save: ', _url);
 
-    post(_url, data, false)
+    postJson(_url, data, false)
       .then(response => {
         const { data } = response;
 
@@ -78,7 +78,7 @@ export function uploadDocument(name, data, docType) {
 
     console.log('>>> actionCreater.uploadDocument: ', _url, data, name);
 
-    post(_url, data, false)
+    postForm(_url, data, false)
       .then(response => {
         const { data: { id, filename } } = response;
 

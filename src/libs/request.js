@@ -42,7 +42,22 @@ export function portalUrl(endpoint) {
   }
 }
 
-export function post(url, data, authenticate = true) {
+export function postJson(url, data, authenticate = true) {
+  if (authenticate) {
+    axios.defaults.headers.common.Authorization = localStorage.getItem('token');
+  }
+  const options = {
+    method: 'POST',
+    url,
+    headers: { 'Content-Type': 'application/json' },
+    data,
+  };
+
+  console.log('>>> options: ', options);
+  return axios(options);
+}
+
+export function postForm(url, data, authenticate = true) {
   if (authenticate) {
     axios.defaults.headers.common.Authorization = localStorage.getItem('token');
   }
