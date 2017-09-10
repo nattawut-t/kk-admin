@@ -138,6 +138,7 @@ class PersonalInfo extends Component {
     const { data } = this.props;
     if (data) {
       this.setState(data);
+      console.log('>>> componentWillMount.prefixTH: ', data, data.prefixTH);
     }
     this.initialState();
     const valid = this.validate();
@@ -169,12 +170,9 @@ class PersonalInfo extends Component {
         key,
         value: this.state[key],
       }))
-      .find(({ value }) => {
-        console.log('');
-        return !value;
-      });
+      .find(({ value }) => !value);
 
-    console.log('>>> invalid: ', invalid);
+    // console.log('>>> invalid: ', invalid);
 
     return !invalid;
   }
@@ -232,7 +230,6 @@ class PersonalInfo extends Component {
   };
 
   handleDateExpChange = (e, value) => {
-    console.log('>>> handleDateExpChange:');
     this.setState({ dateExp: value },
       () => {
         const msg = requiredMessage(true, value);
@@ -259,8 +256,6 @@ class PersonalInfo extends Component {
   };
 
   handleLocationChange = (valueField, nameField, value, name) => {
-    console.log('>>> handleLocationChange: ', valueField, nameField, value, name);
-
     this.setState({
       [valueField]: value,
       [nameField]: name,
@@ -273,7 +268,6 @@ class PersonalInfo extends Component {
   };
 
   handleLookupChange = (value, name, id) => {
-    console.log('>>> handleLookupChange: ', value, name, id);
     this.setState({ [id]: value }, () => {
       const valid = this.validate();
       this.setState({ valid });
@@ -284,7 +278,6 @@ class PersonalInfo extends Component {
     const { isSameAddress } = this.state;
     this.setState({ isSameAddress: !isSameAddress },
       () => {
-        console.log('>>> this.state.isSameAddress: ', this.state.isSameAddress);
         if (this.state.isSameAddress) {
           const {
             number,
@@ -336,7 +329,7 @@ class PersonalInfo extends Component {
 
   handleBack = () => {
     const { history } = this.props;
-    history.push('/');
+    history.push('/borrow-request');
   };
 
   handleNext = e => {
@@ -514,6 +507,8 @@ class PersonalInfo extends Component {
       isSameAddress,
       valid,
     } = this.state;
+
+    console.log('>>> render: ', prefixTH);
 
     return (
       <div>

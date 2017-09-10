@@ -91,14 +91,15 @@ class PrefixTh extends Component {
 
   render() {
     const { itemList, key } = this.state;
-    const { id, label, required } = this.props;
-    const errorText = (required && !key) ? 'กรุณากรอกข้อมูล' : '';
+    const { id, label, required, value } = this.props;
+    const _value = key || value;
+    const errorText = (required && !_value) ? 'กรุณากรอกข้อมูล' : '';
 
     return (
       <SelectField
         id={id}
         name={name}
-        value={key}
+        value={_value}
         floatingLabelText={label}
         errorText={errorText}
         onChange={this.handleChange}
