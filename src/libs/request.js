@@ -24,7 +24,8 @@ export function adminUrl(endpoint) {
 
   switch (NODE_ENV) {
     case 'local':
-      return `http://localhost:4001${endpoint}`;
+      return `https://api.moneytable.com${endpoint}`;
+
     default:
       return `http://dev-api.moneytable.com${endpoint}`;
   }
