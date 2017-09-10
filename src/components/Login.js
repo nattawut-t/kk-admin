@@ -19,6 +19,7 @@ const Login = () => {
       left: 0,
       right: 0,
       margin: 'auto',
+      textAlign: 'center',
     },
     paper: {
       padding: 20,
@@ -83,14 +84,14 @@ const Login = () => {
 
         <div style={styles.buttonsDiv}>
           <FlatButton
-            label="Register"
+            label="ลงทะเบียน"
             href="/"
             style={styles.flatButton}
             icon={<PersonAdd />}
           />
 
           <FlatButton
-            label="Forgot Password?"
+            label="ลืมรหัสผ่าน?"
             href="/"
             style={styles.flatButton}
             icon={<Help />}

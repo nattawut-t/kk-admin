@@ -58,7 +58,7 @@ class App extends React.Component {
             />
             <main>
               <div className="row">
-                <div className="col-3" style={{ margin: 'inherit' }}>
+                <div className={`${!isMatched ? 'col-0' : 'col-3'}`} style={{ margin: 'inherit' }}>
                   <Drawer
                     docked
                     className={`${!isMatched ? 'pc-hide' : ''}`}
@@ -85,7 +85,7 @@ class App extends React.Component {
                     </NavLink>
                   </Drawer>
                 </div>
-                <div className="col-9">
+                <div className={`${!isMatched ? 'col-12' : 'col-9'}`}>
                   <div className="container">
                     <Switch>
                       <Route path="/borrow-request" component={Main} />
