@@ -6,6 +6,7 @@ import { grey500, white } from 'material-ui/styles/colors';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import Help from 'material-ui/svg-icons/action/help';
 import TextField from 'material-ui/TextField';
+import { withRouter } from 'react-router';
 // import { NavLink } from 'react-router-dom';
 
 const Login = () => {
@@ -102,4 +103,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);
