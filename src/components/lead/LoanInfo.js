@@ -172,6 +172,8 @@ class LoanInfo extends Component {
       overdueDebtExists,
     } = this.state;
 
+    console.log(this.state);
+
     completeLoanInfo({
       loanAmount,
       // loanAmountMsg,
