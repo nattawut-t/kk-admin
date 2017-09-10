@@ -8,18 +8,8 @@ import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import Summary from '../containers/lead/Summary';
 import LeadStep from './lead/LeadStep';
 import Test from './test/Test';
-import ProductInfo from './ProductInfo';
-import BorrowStatus from './BorrowStatus';
-import Login from './Login';
 
 class Main extends React.Component {
-  // static propTypes = {
-  //   width: PropTypes.number,
-  // };
-
-  // static defaultProps = {
-  //   width: 1000,
-  // };
 
   state = {
     open: false,
@@ -40,10 +30,6 @@ class Main extends React.Component {
               <Route path="/loan-info" component={LoanInfo} />
               <Route path="/personal-info" component={PersonalInfo} />
               <Route path="/borrow-request" component={Agreement} />
-
-              <Route path="/product-info" component={ProductInfo} />
-              <Route path="/borrow-status" component={BorrowStatus} />
-              <Route path="/" component={Login} />
             </Switch>
           </div>
         </div>
