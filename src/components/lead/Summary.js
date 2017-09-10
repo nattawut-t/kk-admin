@@ -93,13 +93,16 @@ class Summary extends Component {
       tambolCode2Name,
       zipCode2,
       isSameAddress,
-
+      //
       loanAmount,
       installmentNumber,
       beneficiary,
       loanBeneficiaryName,
       accumulateDebt,
       creditCardTotal,
+      paymentHistoryExists,
+      pLoanApplicationHositoryExists,
+      overdueDebtExists,
     } = data;
 
     this.setState({
@@ -153,6 +156,9 @@ class Summary extends Component {
       loanBeneficiaryName,
       accumulateDebt,
       creditCardTotal,
+      paymentHistoryExists,
+      pLoanApplicationHositoryExists,
+      overdueDebtExists,
     });
   }
 
@@ -225,6 +231,9 @@ class Summary extends Component {
       loanBeneficiaryName,
       accumulateDebt,
       creditCardTotal,
+      paymentHistoryExists,
+      pLoanApplicationHositoryExists,
+      overdueDebtExists,
       //
       isConsent,
     } = this.state;
@@ -325,6 +334,7 @@ class Summary extends Component {
                 </div>
                 <div className="col-3">
                   <RadioButtonGroup
+                    name="beneficiary"
                     defaultSelected={beneficiary}
                     disabled
                   >
@@ -369,7 +379,7 @@ class Summary extends Component {
                     <RadioButtonGroup
                       name="paymentHistoryExists"
                       id="paymentHistoryExists"
-                      defaultSelected="0"
+                      defaultSelected={paymentHistoryExists}
                       className="col"
                       style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}
                     >
@@ -377,11 +387,13 @@ class Summary extends Component {
                         value="1"
                         label="มี"
                         style={{ display: 'inline-block', width: '50%' }}
+                        disabled
                       />
                       <RadioButton
                         value="0"
                         label="ไม่มี"
                         style={{ display: 'inline-block', width: '50%' }}
+                        disabled
                       />
                     </RadioButtonGroup>
                   </div>
@@ -396,7 +408,7 @@ class Summary extends Component {
                     <RadioButtonGroup
                       name="pLoanApplicationHositoryExists"
                       id="pLoanApplicationHositoryExists"
-                      defaultSelected="0"
+                      defaultSelected={pLoanApplicationHositoryExists}
                       className="col"
                       style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}
                     >
@@ -404,11 +416,13 @@ class Summary extends Component {
                         value="1"
                         label="มี"
                         style={{ display: 'inline-block', width: '50%' }}
+                        disabled
                       />
                       <RadioButton
                         value="0"
                         label="ไม่มี"
                         style={{ display: 'inline-block', width: '50%' }}
+                        disabled
                       />
                     </RadioButtonGroup>
                   </div>
@@ -416,14 +430,14 @@ class Summary extends Component {
               </div>
               <div className="row">
                 <div className="col-8">
-                  <label htmlFor="pLoanApplicationHositoryExists">มีประวัติการสมัครสินเชื่อส่วนบุคคล</label>
+                  <label htmlFor="overdueDebtExists">ไม่เคยมีการติดค้างชำระหนี้ใน 12 เดือนล่าสุด</label>
                 </div>
                 <div className="col-4">
                   <div className="row" style={{ marginBottom: '0' }}>
                     <RadioButtonGroup
-                      name="pLoanApplicationHositoryExists"
-                      id="pLoanApplicationHositoryExists"
-                      defaultSelected="0"
+                      name="overdueDebtExists"
+                      id="overdueDebtExists"
+                      defaultSelected={overdueDebtExists}
                       className="col"
                       style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}
                     >
@@ -431,13 +445,13 @@ class Summary extends Component {
                         value="1"
                         label="เคย"
                         style={{ display: 'inline-block', width: '50%' }}
-                        readOnly
+                        disabled
                       />
                       <RadioButton
                         value="0"
                         label="ไม่เคย"
                         style={{ display: 'inline-block', width: '50%' }}
-                        readOnly
+                        disabled
                       />
                     </RadioButtonGroup>
                   </div>

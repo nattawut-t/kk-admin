@@ -45,6 +45,9 @@ class LoanInfo extends Component {
     accumulateDebtMsg: '',
     creditCardTotal: 10,
     creditCardTotalMsg: '',
+    paymentHistoryExists: 0,
+    pLoanApplicationHositoryExists: 0,
+    overdueDebtExists: 0,
     valid: false,
   };
 
@@ -140,6 +143,12 @@ class LoanInfo extends Component {
     this.setState({ beneficiary: beneficiary === 'myself' ? 'others' : 'myself' });
   };
 
+  handleRadioButtonChange = e => {
+    const { target: { name, value } } = e;
+    // console.log('>>> handleRadioButtonChange: ', name, value);
+    this.setState({ [name]: value });
+  };
+
   handleBack = () => {
     const { history } = this.props;
     history.push('/personal-info');
@@ -158,8 +167,9 @@ class LoanInfo extends Component {
       accumulateDebt,
       // accumulateDebtMsg,
       creditCardTotal,
-      // creditCardTotalMsg,
-      // valid,
+      paymentHistoryExists,
+      pLoanApplicationHositoryExists,
+      overdueDebtExists,
     } = this.state;
 
     completeLoanInfo({
@@ -173,6 +183,9 @@ class LoanInfo extends Component {
       accumulateDebt,
       // accumulateDebtMsg,
       creditCardTotal,
+      paymentHistoryExists,
+      pLoanApplicationHositoryExists,
+      overdueDebtExists,
     });
 
     const { history } = this.props;
@@ -192,6 +205,9 @@ class LoanInfo extends Component {
       accumulateDebtMsg,
       creditCardTotal,
       creditCardTotalMsg,
+      paymentHistoryExists,
+      pLoanApplicationHositoryExists,
+      overdueDebtExists,
       valid,
     } = this.state;
 
@@ -348,17 +364,18 @@ class LoanInfo extends Component {
                     <RadioButtonGroup
                       name="paymentHistoryExists"
                       id="paymentHistoryExists"
-                      defaultSelected="0"
+                      defaultSelected={paymentHistoryExists}
                       className="col"
                       style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}
+                      onChange={e => this.handleRadioButtonChange(e, 'paymentHistoryExists')}
                     >
                       <RadioButton
-                        value="1"
+                        value={1}
                         label="มี"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
                       <RadioButton
-                        value="0"
+                        value={0}
                         label="ไม่มี"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
@@ -375,17 +392,18 @@ class LoanInfo extends Component {
                     <RadioButtonGroup
                       name="pLoanApplicationHositoryExists"
                       id="pLoanApplicationHositoryExists"
-                      defaultSelected="0"
+                      defaultSelected={pLoanApplicationHositoryExists}
                       className="col"
                       style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}
+                      onChange={e => this.handleRadioButtonChange(e, 'pLoanApplicationHositoryExists')}
                     >
                       <RadioButton
-                        value="1"
+                        value={1}
                         label="มี"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
                       <RadioButton
-                        value="0"
+                        value={0}
                         label="ไม่มี"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
@@ -395,24 +413,25 @@ class LoanInfo extends Component {
               </div>
               <div className="row">
                 <div className="col-8">
-                  <label htmlFor="pLoanApplicationHositoryExists">มีประวัติการสมัครสินเชื่อส่วนบุคคล</label>
+                  <label htmlFor="overdueDebtExists">ไม่เคยมีการติดค้างชำระหนี้ใน 12 เดือนล่าสุด</label>
                 </div>
                 <div className="col-4">
                   <div className="row" style={{ marginBottom: '0' }}>
                     <RadioButtonGroup
-                      name="pLoanApplicationHositoryExists"
-                      id="pLoanApplicationHositoryExists"
-                      defaultSelected="0"
+                      name="overdueDebtExists"
+                      id="overdueDebtExists"
+                      defaultSelected={overdueDebtExists}
                       className="col"
                       style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}
+                      onChange={e => this.handleRadioButtonChange(e, 'overdueDebtExists')}
                     >
                       <RadioButton
-                        value="1"
+                        value={1}
                         label="เคย"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
                       <RadioButton
-                        value="0"
+                        value={0}
                         label="ไม่เคย"
                         style={{ display: 'inline-block', width: '50%' }}
                       />
