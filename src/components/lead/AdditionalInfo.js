@@ -49,16 +49,16 @@ class AdditionalInfo extends Component {
   state = {
     ref1Prefix: '',
     ref1PrefixMsg: '',
-    ref1Firstname: 'xx',
+    ref1Firstname: '',
     ref1FirstnameMsg: '',
-    ref1Lastname: 'xx',
+    ref1Lastname: '',
     ref1LastnameMsg: '',
     ref1Relationship: '',
-    ref1Mobile: '0670000000',
+    ref1Mobile: '',
     ref1MobileMsg: '',
     ref1WorkTelephone: '',
     ref1WorkTelephoneMsg: '',
-    ref1HomeTelephone: '020000000',
+    ref1HomeTelephone: '',
     ref1HomeTelephoneMsg: '',
     ref2Prefix: '',
     ref2PrefixMsg: '',
@@ -87,7 +87,7 @@ class AdditionalInfo extends Component {
     childrenMsg: '',
     isConsent2: false,
     // not to send
-    shippingAddress: 'current',
+    shippingAddress: '',
     valid: false,
     // not to send
   };
