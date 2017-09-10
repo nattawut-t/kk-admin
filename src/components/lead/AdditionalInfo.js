@@ -11,6 +11,8 @@ import Checkbox from 'material-ui/Checkbox';
 import PrefixTh from '../shared/PrefixTh';
 import Relationship from '../shared/Relationship';
 import Location from '../shared/Location';
+import Mobile from '../shared/Mobile';
+import Tel from '../shared/Tel';
 
 const styles = {
   button: {
@@ -297,6 +299,19 @@ class AdditionalInfo extends Component {
 
       uploadFile(_name, formData, docType);
     }
+  };
+
+  handleNumberChange = (name, value, errorMessage = '') => {
+    const msgKey = `${name}msg`;
+
+    this.setState({
+      [name]: value,
+      [msgKey]: errorMessage,
+      [`${name}Valid`]: !errorMessage,
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
   };
 
   handleBack = () => {
@@ -776,35 +791,35 @@ class AdditionalInfo extends Component {
                   />
                 </div>
                 <div className="col-3">
-                  <TextField
+                  <Mobile
                     id="ref1Mobile"
                     name="ref1Mobile"
                     value={ref1Mobile}
-                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                    label="เบอร์โทรศัพท์มือถือ"
                     errorText={ref1MobileMsg}
-                    onChange={e => this.handleChange(e, true)}
-                    fullWidth
+                    onChange={this.handleNumberChange}
+                    required
                   />
                 </div>
                 <div className="col-3">
-                  <TextField
+                  <Tel
                     id="ref1WorkTelephone"
                     name="ref1WorkTelephone"
                     value={ref1WorkTelephone}
-                    floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                    label="เบอร์โทรศัพท์ที่ทำงาน"
                     errorText={ref1WorkTelephoneMsg}
-                    onChange={e => this.handleChange(e)}
+                    onChange={this.handleNumberChange}
                     fullWidth
                   />
                 </div>
                 <div className="col-3">
-                  <TextField
+                  <Tel
                     id="ref1HomeTelephone"
                     name="ref1HomeTelephone"
                     value={ref1HomeTelephone}
-                    floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                    label="เบอร์โทรศัพท์บ้าน"
                     errorText={ref1HomeTelephoneMsg}
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={this.handleNumberChange}
                     fullWidth
                   />
                 </div>
@@ -866,35 +881,35 @@ class AdditionalInfo extends Component {
                   />
                 </div>
                 <div className="col-3">
-                  <TextField
+                  <Mobile
                     id="ref2Mobile"
                     name="ref2Mobile"
                     value={ref2Mobile}
-                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                    label="เบอร์โทรศัพท์มือถือ"
                     errorText={ref2MobileMsg}
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={this.handleLookupChange}
                     fullWidth
                   />
                 </div>
                 <div className="col-3">
-                  <TextField
+                  <Tel
                     id="ref2WorkTelephone"
                     name="ref2WorkTelephone"
                     value={ref2WorkTelephone}
-                    floatingLabelText="เบอร์โทรศัพท์ที่ทำงาน"
+                    label="เบอร์โทรศัพท์ที่ทำงาน"
                     errorText={ref2WorkTelephoneMsg}
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={this.handleLookupChange}
                     fullWidth
                   />
                 </div>
                 <div className="col-3">
-                  <TextField
+                  <Tel
                     id="ref2HomeTelephone"
                     name="ref2HomeTelephone"
                     value={ref2HomeTelephone}
-                    floatingLabelText="เบอร์โทรศัพท์บ้าน"
+                    label="เบอร์โทรศัพท์บ้าน"
                     errorText={ref2HomeTelephoneMsg}
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={this.handleLookupChange}
                     fullWidth
                   />
                 </div>

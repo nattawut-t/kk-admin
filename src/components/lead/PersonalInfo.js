@@ -138,7 +138,6 @@ class PersonalInfo extends Component {
     const { data } = this.props;
     if (data) {
       this.setState(data);
-      console.log('>>> componentWillMount.prefixTH: ', data, data.prefixTH);
     }
     this.initialState();
     const valid = this.validate();
@@ -507,8 +506,6 @@ class PersonalInfo extends Component {
       isSameAddress,
       valid,
     } = this.state;
-
-    console.log('>>> render: ', prefixTH);
 
     return (
       <div>
