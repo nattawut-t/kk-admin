@@ -81,6 +81,7 @@ class AdditionalInfo extends Component {
     conjugalIncomeMsg: '',
     children: '',
     childrenMsg: '',
+    isConsent2: false,
     // not to send
     shippingAddress: 'current',
     valid: false,
@@ -281,6 +282,11 @@ class AdditionalInfo extends Component {
         this.setState({ valid });
       },
     );
+  };
+
+  handleIsConsent2Change = () => {
+    const { isConsent2 } = this.state;
+    this.setState({ isConsent2: !isConsent2 });
   };
 
   handleBack = () => {
@@ -648,6 +654,7 @@ class AdditionalInfo extends Component {
       children,
       childrenMsg,
       shippingAddress,
+      isConsent2,
       //
       // shippingHouseNo,
       // shippingAlley,
@@ -1110,6 +1117,8 @@ class AdditionalInfo extends Component {
               <Checkbox
                 label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
                 style={styles.checkbox}
+                value={isConsent2}
+                onCheck={this.handleIsConsent2Change}
               />
             </div>
           </div>
@@ -1139,13 +1148,5 @@ class AdditionalInfo extends Component {
     );
   }
 }
-
-// AdditionalInfo.propTypes = {
-//   loading: PropTypes.bool,
-// };
-
-// AdditionalInfo.defaultProps = {
-//   loading: false,
-// };
 
 export default withRouter(AdditionalInfo);
