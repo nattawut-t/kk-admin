@@ -986,7 +986,121 @@ class AdditionalInfo extends Component {
               />
             </div>
             <CardText>
-              s
+              <div className="row">
+                <div className="col-2">
+                  <label htmlFor="fileName0">สำเนาบัตรประชาชน</label>
+                </div>
+                <div className="col-8">
+                  <TextField
+                    type="file"
+                    id="fileName0"
+                    name="fileName0"
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-2">
+                  <RaisedButton
+                    label="อัพโหลดไฟล์"
+                    labelPosition="before"
+                    style={styles.button}
+                    containerElement="label"
+                    primary
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-2">
+                  <label htmlFor="fileName0">สลิปเงินเดือน (เดือนล่าสุด)</label>
+                </div>
+                <div className="col-8">
+                  <TextField
+                    type="file"
+                    id="fileName1"
+                    name="fileName1"
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-2">
+                  <RaisedButton
+                    label="อัพโหลดไฟล์"
+                    labelPosition="before"
+                    style={styles.button}
+                    containerElement="label"
+                    primary
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-2">
+                  <label htmlFor="fileName0">สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน</label>
+                </div>
+                <div className="col-8">
+                  <TextField
+                    type="file"
+                    id="fileName2"
+                    name="fileName2"
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-2">
+                  <RaisedButton
+                    label="อัพโหลดไฟล์"
+                    labelPosition="before"
+                    style={styles.button}
+                    containerElement="label"
+                    primary
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-2">
+                  <label htmlFor="fileName0">แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน)</label>
+                </div>
+                <div className="col-8">
+                  <TextField
+                    type="file"
+                    id="fileName3"
+                    name="fileName3"
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-2">
+                  <RaisedButton
+                    label="อัพโหลดไฟล์"
+                    labelPosition="before"
+                    style={styles.button}
+                    containerElement="label"
+                    primary
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-2">
+                  <label htmlFor="fileName0">ทะเบียนบ้าน</label>
+                </div>
+                <div className="col-8">
+                  <TextField
+                    type="file"
+                    id="fileName4"
+                    name="fileName4"
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-2">
+                  <RaisedButton
+                    label="อัพโหลดไฟล์"
+                    labelPosition="before"
+                    style={styles.button}
+                    containerElement="label"
+                    primary
+                  />
+                </div>
+              </div>
             </CardText>
           </Card>
 
