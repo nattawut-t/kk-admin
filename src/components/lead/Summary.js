@@ -118,6 +118,20 @@ class Summary extends Component {
       ref2Mobile,
       ref2WorkTelephone,
       ref2HomeTelephone,
+      //
+      shippingHouseNo,
+      shippingAlley,
+      shippingVillage,
+      shippingFloor,
+      shippingSoi,
+      shippingRoad,
+      shippingPostalCode,
+      shippingProvinceCode,
+      shippingAmphurCode,
+      shippingTambolCode,
+      shippingProvinceCodeName,
+      shippingAmphurCodeName,
+      shippingTambolCodeName,
     } = data;
 
     this.setState({
@@ -189,6 +203,20 @@ class Summary extends Component {
       ref2Mobile,
       ref2WorkTelephone,
       ref2HomeTelephone,
+      //
+      shippingHouseNo,
+      shippingAlley,
+      shippingVillage,
+      shippingFloor,
+      shippingSoi,
+      shippingRoad,
+      shippingPostalCode,
+      shippingProvinceCode,
+      shippingAmphurCode,
+      shippingTambolCode,
+      shippingProvinceCodeName,
+      shippingAmphurCodeName,
+      shippingTambolCodeName,
     });
   }
 
@@ -279,6 +307,20 @@ class Summary extends Component {
       ref2Mobile,
       ref2WorkTelephone,
       ref2HomeTelephone,
+      //
+      shippingHouseNo,
+      shippingAlley,
+      shippingVillage,
+      shippingFloor,
+      shippingSoi,
+      shippingRoad,
+      shippingPostalCode,
+      // shippingProvinceCode,
+      // shippingAmphurCode,
+      // shippingTambolCode,
+      shippingProvinceCodeName,
+      shippingAmphurCodeName,
+      shippingTambolCodeName,
       //
       isConsent,
     } = this.state;
@@ -1076,8 +1118,8 @@ class Summary extends Component {
                   <TextField
                     id="shippingHouseNo"
                     name="shippingHouseNo"
+                    value={shippingHouseNo}
                     floatingLabelText="บ้านเลขที่"
-                    maxLength="10"
                     fullWidth
                     readOnly
                   />
@@ -1086,6 +1128,7 @@ class Summary extends Component {
                   <TextField
                     id="shippingAlley"
                     name="shippingAlley"
+                    value={shippingAlley}
                     floatingLabelText="หมู่ที่"
                     maxLength="3"
                     fullWidth
@@ -1096,6 +1139,7 @@ class Summary extends Component {
                   <TextField
                     id="shippingFloor"
                     name="shippingFloor"
+                    value={shippingFloor}
                     floatingLabelText="ชั้น"
                     maxLength="3"
                     fullWidth
@@ -1108,6 +1152,7 @@ class Summary extends Component {
                   <TextField
                     id="shippingVillage"
                     name="shippingVillage"
+                    value={shippingVillage}
                     floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
                     maxLength="100"
                     fullWidth
@@ -1120,6 +1165,7 @@ class Summary extends Component {
                   <TextField
                     id="shippingSoi"
                     name="shippingSoi"
+                    value={shippingSoi}
                     floatingLabelText="ซอย"
                     maxLength="100"
                     fullWidth
@@ -1130,8 +1176,8 @@ class Summary extends Component {
                   <TextField
                     id="shippingRoad"
                     name="shippingRoad"
+                    value={shippingRoad}
                     floatingLabelText="ถนน"
-                    maxLength="100"
                     fullWidth
                     readOnly
                   />
@@ -1140,28 +1186,23 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={shippingProvinceCodeName}
                     floatingLabelText="จังหวัด"
-                    maxLength="5"
                     fullWidth
                     readOnly
                   />
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={shippingAmphurCodeName}
                     floatingLabelText="อำเภอ / เขต"
-                    maxLength="5"
                     fullWidth
                     readOnly
                   />
                 </div>
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={shippingTambolCodeName}
                     floatingLabelText="ตำบล / แขวง"
                     maxLength="5"
                     fullWidth
@@ -1172,8 +1213,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col">
                   <TextField
-                    id="shippingPostalCode"
-                    name="shippingPostalCode"
+                    value={shippingPostalCode}
                     floatingLabelText="รหัสไปรษณีย์"
                     maxLength="5"
                     fullWidth
