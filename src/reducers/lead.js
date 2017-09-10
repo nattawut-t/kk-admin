@@ -63,7 +63,12 @@ export function uploadDocument(name, data, docType) {
 export function save() {
   return (dispatch, getState) => {
     const _state = getState();
-    const { personalInfo, loanInfo, additionalInfo } = _state.toJS();
+    const personalInfo = _state.get('').toJS('personalInfo');
+    const loanInfo = _state.get('').toJS('loanInfo');
+    const additionalInfo = _state.get('').toJS('additionalInfo');
+
+    console.log('>>> actionCreater._state: ', personalInfo, loanInfo, additionalInfo);
+
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
 
     console.log('>>> actionCreater.save: ', data);
