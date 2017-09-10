@@ -75,7 +75,7 @@ class PersonalInfo extends Component {
   // };
   state = {
     dateReq: moment().format('YYYY-MM-DD'),
-    prefixTH: 'MR',
+    prefixTH: '',
     firstNameTH: 'ณัฐ',
     firstNameTHmsg: '',
     lastNameTH: 'ธรรม',
