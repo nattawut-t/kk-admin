@@ -5,6 +5,7 @@ import Agreement from '../containers/lead/Agreement';
 import PersonalInfo from '../containers/lead/PersonalInfo';
 import LoanInfo from '../containers/lead/LoanInfo';
 import AdditionalInfo from '../containers/lead/AdditionalInfo';
+import Summary from '../containers/lead/Summary';
 import LeadStep from './lead/LeadStep';
 import Test from './test/Test';
 import ProductInfo from './ProductInfo';
@@ -33,6 +34,7 @@ class Main extends React.Component {
           </div>
           <div className="container">
             <Switch>
+              <Route path="/summary" component={Summary} />
               <Route path="/additional-info" component={AdditionalInfo} />
               <Route path="/test" component={Test} />
               <Route path="/loan-info" component={LoanInfo} />
