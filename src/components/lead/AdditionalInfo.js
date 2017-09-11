@@ -7,6 +7,7 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
+import Snackbar from 'material-ui/Snackbar';
 
 import PrefixTh from '../shared/PrefixTh';
 import Relationship from '../shared/Relationship';
@@ -38,12 +39,13 @@ class AdditionalInfo extends Component {
     personalInfo: PropTypes.object,
     uploadFile: PropTypes.func.isRequired,
     completeAdditionalInfo: PropTypes.func.isRequired,
-    // save: PropTypes.func.isRequired,
+    message: PropTypes.string,
   };
 
   static defaultProps = {
     data: null,
     personalInfo: null,
+    message: '',
   };
 
   state = {
@@ -733,7 +735,7 @@ class AdditionalInfo extends Component {
       valid,
     } = this.state;
 
-    const { personalInfo } = this.props;
+    const { personalInfo, message } = this.props;
     const status = personalInfo ? personalInfo.status : '';
 
     console.log('>>> status: ', status);
@@ -1311,6 +1313,11 @@ class AdditionalInfo extends Component {
             </div>
           </div>
         </form>
+        <Snackbar
+          open={message !== ''}
+          message={message}
+          autoHideDuration={4000}
+        />
       </div >
     );
   }

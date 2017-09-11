@@ -24,6 +24,11 @@ const State = Record({
   notify: false,
   message: '',
   loading: false,
+  identity: {},
+  account: {},
+  statement_1: {},
+  statement_2: {},
+  statement_3: {},
 });
 const initialState = new State();
 
@@ -74,7 +79,9 @@ export function completeAdditionalInfo(data) {
 }
 
 export function uploadDocument(name, data, docType) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const _state = getState().lead;
+    const _notify = _state.get('notify');
     const _url = portalUrl('/api/work/leads/doc');
 
     console.log('>>> actionCreater.uploadDocument: ', _url, data, name);
@@ -82,14 +89,13 @@ export function uploadDocument(name, data, docType) {
     postForm(_url, data, false)
       .then(response => {
         const { data: { id, filename } } = response;
-
         console.log('>>> uploadFile.response: ', name, id, filename);
-
-        return dispatch(uploadDocumentSuccess(name, id, filename, docType));
+        dispatch(uploadDocumentSuccess(name, id, filename, docType));
+        return dispatch(notify(!_notify, 'อัพโหลดเอกสารแล้ว'));
       })
       .catch(error => {
         console.log('>>> uploadFile.error: ', error);
-        // Toaster.show({ message: err.message, intent: Intent.DANGER });
+        dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
       });
   };
 }
