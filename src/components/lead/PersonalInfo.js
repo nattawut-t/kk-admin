@@ -134,6 +134,8 @@ class PersonalInfo extends Component {
     jobCompanyName: '',
     jobCompanyNamemsg: '',
     valid: false,
+    rentalFee: '',
+    etc: '',
   };
 
   componentWillMount() {
@@ -463,7 +465,7 @@ class PersonalInfo extends Component {
             id="etc"
             name="etc"
             floatingLabelText="โปรดระบุเหตุผลอื่นๆ"
-            value=""
+            value={this.state.etc}
             onChange={e => this.handleChange(e, true)}
             maxLength="100"
             fullWidth
@@ -477,7 +479,7 @@ class PersonalInfo extends Component {
             id="rentalFee"
             name="rentalFee"
             floatingLabelText="ผ่อนชำระ/ค่าเช่าต่อเดือน"
-            value=""
+            value={this.state.rentalFee}
             onChange={e => this.handleChange(e, true)}
             maxLength="100"
             fullWidth
