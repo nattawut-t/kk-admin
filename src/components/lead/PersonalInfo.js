@@ -131,6 +131,8 @@ class PersonalInfo extends Component {
     tambolCode2Name: '',
     zipCode2: '',
     isSameAddress: false,
+    jobCompanyName: '',
+    jobCompanyNamemsg: '',
     valid: false,
   };
 
@@ -163,6 +165,7 @@ class PersonalInfo extends Component {
       'homeTel2Valid',
       'detailRent',
       'workTel',
+      'jobCompanyName',
     ];
     const invalid = keys
       .map(key => ({
@@ -191,6 +194,7 @@ class PersonalInfo extends Component {
       'homeTel2',
       'workTel',
       'telExtension',
+      'jobCompanyName',
     ];
     keys
       .map(key => ({
@@ -386,6 +390,7 @@ class PersonalInfo extends Component {
       road2,
       zipCode2,
       isSameAddress,
+      jobCompanyName,
       // valid,
     } = this.state;
 
@@ -443,6 +448,7 @@ class PersonalInfo extends Component {
       road2,
       zipCode2,
       isSameAddress,
+      jobCompanyName,
     });
 
     const { history } = this.props;
@@ -536,6 +542,8 @@ class PersonalInfo extends Component {
       tambolCode2Name,
       zipCode2,
       isSameAddress,
+      jobCompanyName,
+      jobCompanyNamemsg,
       valid,
     } = this.state;
 
@@ -677,6 +685,17 @@ class PersonalInfo extends Component {
             </div>
             <CardText>
               <div className="row">
+                <div className="col">
+                  <TextField
+                    id="jobCompanyName"
+                    name="jobCompanyName"
+                    value={jobCompanyName}
+                    floatingLabelText="ชื่อบริษัท"
+                    errorText={jobCompanyNamemsg}
+                    onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
                 <div className="col">
                   <TextField
                     id="department"
