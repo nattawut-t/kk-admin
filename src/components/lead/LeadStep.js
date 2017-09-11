@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { withRouter } from 'react-router';
 import {
   Step,
   Stepper,
@@ -8,9 +9,29 @@ import {
 
 class LeadStep extends Component {
 
+  static propTypes = {
+    location: PropTypes.object.isRequired,
+  };
+
   state = {
     stepIndex: 0,
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location !== nextProps) {
+      if (location.pathname === '/borrow-request') {
+        this.setState({ stepIndex: 0 });
+      } else if (location.pathname === '/personal-info') {
+        this.setState({ stepIndex: 1 });
+      } else if (location.pathname === '/loan-info') {
+        this.setState({ stepIndex: 2 });
+      } else if (location.pathname === '/additional-info') {
+        this.setState({ stepIndex: 3 });
+      } else if (location.pathname === '/summary') {
+        this.setState({ stepIndex: 4 });
+      }
+    }
+  }
 
   handleNext = () => {
     const { stepIndex } = this.state;
@@ -30,7 +51,6 @@ class LeadStep extends Component {
 
   render() {
     const { stepIndex } = this.state;
-    console.log(stepIndex, 'stepIndex');
     return (
       <div className="stepper">
         <Stepper
@@ -53,12 +73,12 @@ class LeadStep extends Component {
             </StepButton>
           </Step>
           <Step>
-            <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
+            <StepButton onClick={() => this.setState({ stepIndex: 3 })}>
               <div className="step-text">ข้อมูลเพิ่มเติมเพื่อการกู้</div>
             </StepButton>
           </Step>
           <Step>
-            <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
+            <StepButton onClick={() => this.setState({ stepIndex: 4 })}>
               <div className="step-text">ส่งคำขอกู้</div>
             </StepButton>
           </Step>
@@ -68,4 +88,4 @@ class LeadStep extends Component {
   }
 }
 
-export default LeadStep;
+export default withRouter(LeadStep);
