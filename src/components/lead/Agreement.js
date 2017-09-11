@@ -72,6 +72,8 @@ class Agreement extends Component {
             <div className="row">
               <div className="col-12">
                 <Checkbox
+                  id="isConsent"
+                  name="isConsent"
                   label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
                   checked={isConsent}
                   disabled={false}
@@ -81,6 +83,8 @@ class Agreement extends Component {
               </div>
               <div className="col" style={{ textAlign: 'right' }}>
                 <RaisedButton
+                  id="next-button"
+                  name="next-button"
                   label="ตกลง"
                   labelPosition="before"
                   primary

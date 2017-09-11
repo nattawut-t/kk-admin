@@ -33,33 +33,64 @@ class LoanInfo extends Component {
     completeLoanInfo: PropTypes.func.isRequired,
   };
 
-  state = {
-    loanAmount: 0,
-    loanAmountMsg: '',
-    installmentNumber: 0,
-    installmentNumberMsg: '',
-    beneficiary: 'myself',
-    loanBeneficiaryName: '',
-    loanBeneficiaryNameMsg: '',
-    accumulateDebt: 0,
-    accumulateDebtMsg: '',
-    creditCardTotal: 0,
-    creditCardTotalMsg: '',
-    paymentHistoryExists: '0',
-    pLoanApplicationHositoryExists: '0',
-    overdueDebtExists: '0',
-    valid: false,
-  };
-
   componentWillMount() {
     const { data } = this.props;
+    this.initialState();
+
     if (data) {
       this.setState(data);
     }
-    this.initialState();
+
+    this.initialRequireMessage();
     const valid = this.validate();
     this.setState({ valid });
   }
+
+  initialState = () => {
+    const env = process.env.NODE_ENV;
+    console.log('>>> env: ', env);
+    switch (env) {
+      case 'test':
+        this.state = {
+          loanAmount: 100000,
+          loanAmountMsg: '',
+          installmentNumber: '12',
+          installmentNumberMsg: '',
+          beneficiary: 'others',
+          loanBeneficiaryName: 'Panit',
+          loanBeneficiaryNameMsg: '',
+          accumulateDebt: 10000,
+          accumulateDebtMsg: '',
+          creditCardTotal: 10000,
+          creditCardTotalMsg: '',
+          paymentHistoryExists: '1',
+          pLoanApplicationHositoryExists: '0',
+          overdueDebtExists: '1',
+          valid: false,
+        };
+        break;
+
+      default:
+        this.state = {
+          loanAmount: 0,
+          loanAmountMsg: '',
+          installmentNumber: 0,
+          installmentNumberMsg: '',
+          beneficiary: 'myself',
+          loanBeneficiaryName: '',
+          loanBeneficiaryNameMsg: '',
+          accumulateDebt: 0,
+          accumulateDebtMsg: '',
+          creditCardTotal: 0,
+          creditCardTotalMsg: '',
+          paymentHistoryExists: '0',
+          pLoanApplicationHositoryExists: '0',
+          overdueDebtExists: '0',
+          valid: false,
+        };
+        break;
+    }
+  };
 
   validate = () => {
     const keys = [
@@ -83,7 +114,7 @@ class LoanInfo extends Component {
     return !invalid && _valid;
   }
 
-  initialState = () => {
+  initialRequireMessage = () => {
     const keys = [
       'loanAmount',
       'installmentNumber',

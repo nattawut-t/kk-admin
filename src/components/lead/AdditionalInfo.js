@@ -48,75 +48,147 @@ class AdditionalInfo extends Component {
     message: '',
   };
 
-  state = {
-    ref1Prefix: '',
-    ref1PrefixMsg: '',
-    ref1Firstname: '',
-    ref1FirstnameMsg: '',
-    ref1Lastname: '',
-    ref1LastnameMsg: '',
-    ref1Relationship: '',
-    ref1Mobile: '',
-    ref1MobileMsg: '',
-    ref1WorkTelephone: '',
-    ref1WorkTelephoneMsg: '',
-    ref1HomeTelephone: '',
-    ref1HomeTelephoneMsg: '',
-    ref2Prefix: '',
-    ref2PrefixMsg: '',
-    ref2Firstname: '',
-    ref2FirstnameMsg: '',
-    ref2Lastname: '',
-    ref2LastnameMsg: '',
-    ref2Relationship: '',
-    ref2Mobile: '',
-    ref2MobileMsg: '',
-    ref2WorkTelephone: '',
-    ref2WorkTelephoneMsg: '',
-    ref2HomeTelephone: '',
-    ref2HomeTelephoneMsg: '',
-    conjugalPrefix: '',
-    conjugalPrefixMsg: '',
-    conjugalFirstname: '',
-    conjugalFirstnameMsg: '',
-    conjugalLastname: '',
-    conjugalLastnameMsg: '',
-    conjugalOccupation: '',
-    conjugalOccupationMsg: '',
-    conjugalIncome: '',
-    conjugalIncomeMsg: '',
-    children: '',
-    childrenMsg: '',
-    isConsent2: false,
-    shippingHouseNo: '',
-    shippingAlley: '',
-    shippingVillage: '',
-    shippingFloor: '',
-    shippingSoi: '',
-    shippingRoad: '',
-    shippingPostalCode: '',
-    shippingProvinceCode: '',
-    shippingAmphurCode: '',
-    shippingTambolCode: '',
-    shippingProvinceCodeName: '',
-    shippingAmphurCodeName: '',
-    shippingTambolCodeName: '',
-    // not to send
-    shippingAddress: 'current',
-    valid: false,
-    // not to send
-  };
-
   componentWillMount() {
     const { data } = this.props;
-    console.log('>>> data', data);
+    this.initialState();
+
     if (data) {
       this.setState(data);
     }
-    this.initialState();
+
+    this.initialRequireMessage();
     const valid = this.validate();
     this.setState({ valid });
   }
+
+  initialState = () => {
+    const env = process.env.NODE_ENV;
+    console.log('>>> env: ', env);
+    switch (env) {
+      case 'test':
+        this.state = {
+          ref1Prefix: 'MR',
+          ref1PrefixMsg: '',
+          ref1Firstname: 'Panit',
+          ref1FirstnameMsg: '',
+          ref1Lastname: 'Tamm',
+          ref1LastnameMsg: '',
+          ref1Relationship: 'คู่สมรส',
+          ref1Mobile: '0627609997',
+          ref1MobileMsg: '',
+          ref1WorkTelephone: '021112222',
+          ref1WorkTelephoneMsg: '',
+          ref1HomeTelephone: '020001111',
+          ref1HomeTelephoneMsg: '',
+          ref2Prefix: 'MRS',
+          ref2PrefixMsg: '',
+          ref2Firstname: 'Jira',
+          ref2FirstnameMsg: '',
+          ref2Lastname: 'Tamm',
+          ref2LastnameMsg: '',
+          ref2Relationship: 'พี่น้อง',
+          ref2Mobile: '0840001111',
+          ref2MobileMsg: '',
+          ref2WorkTelephone: '021112222',
+          ref2WorkTelephoneMsg: '',
+          ref2HomeTelephone: '022223333',
+          ref2HomeTelephoneMsg: '',
+          conjugalPrefix: '',
+          conjugalPrefixMsg: '',
+          conjugalFirstname: '',
+          conjugalFirstnameMsg: '',
+          conjugalLastname: '',
+          conjugalLastnameMsg: '',
+          conjugalOccupation: '',
+          conjugalOccupationMsg: '',
+          conjugalIncome: '',
+          conjugalIncomeMsg: '',
+          children: '',
+          childrenMsg: '',
+          isConsent2: false,
+          shippingHouseNo: '',
+          shippingAlley: '',
+          shippingVillage: '',
+          shippingFloor: '',
+          shippingSoi: '',
+          shippingRoad: '',
+          shippingPostalCode: '',
+          shippingProvinceCode: '',
+          shippingAmphurCode: '',
+          shippingTambolCode: '',
+          shippingProvinceCodeName: '',
+          shippingAmphurCodeName: '',
+          shippingTambolCodeName: '',
+          // not to send
+          shippingAddress: 'current',
+          valid: false,
+          // not to send
+        };
+
+        break;
+
+      default:
+        this.state = {
+          ref1Prefix: '',
+          ref1PrefixMsg: '',
+          ref1Firstname: '',
+          ref1FirstnameMsg: '',
+          ref1Lastname: '',
+          ref1LastnameMsg: '',
+          ref1Relationship: '',
+          ref1Mobile: '',
+          ref1MobileMsg: '',
+          ref1WorkTelephone: '',
+          ref1WorkTelephoneMsg: '',
+          ref1HomeTelephone: '',
+          ref1HomeTelephoneMsg: '',
+          ref2Prefix: '',
+          ref2PrefixMsg: '',
+          ref2Firstname: '',
+          ref2FirstnameMsg: '',
+          ref2Lastname: '',
+          ref2LastnameMsg: '',
+          ref2Relationship: '',
+          ref2Mobile: '',
+          ref2MobileMsg: '',
+          ref2WorkTelephone: '',
+          ref2WorkTelephoneMsg: '',
+          ref2HomeTelephone: '',
+          ref2HomeTelephoneMsg: '',
+          conjugalPrefix: '',
+          conjugalPrefixMsg: '',
+          conjugalFirstname: '',
+          conjugalFirstnameMsg: '',
+          conjugalLastname: '',
+          conjugalLastnameMsg: '',
+          conjugalOccupation: '',
+          conjugalOccupationMsg: '',
+          conjugalIncome: '',
+          conjugalIncomeMsg: '',
+          children: '',
+          childrenMsg: '',
+          isConsent2: false,
+          shippingHouseNo: '',
+          shippingAlley: '',
+          shippingVillage: '',
+          shippingFloor: '',
+          shippingSoi: '',
+          shippingRoad: '',
+          shippingPostalCode: '',
+          shippingProvinceCode: '',
+          shippingAmphurCode: '',
+          shippingTambolCode: '',
+          shippingProvinceCodeName: '',
+          shippingAmphurCodeName: '',
+          shippingTambolCodeName: '',
+          // not to send
+          shippingAddress: 'current',
+          valid: false,
+          // not to send
+        };
+        break;
+    }
+  };
 
   validate = () => {
     const keys = [
@@ -145,7 +217,7 @@ class AdditionalInfo extends Component {
     return !invalid;
   };
 
-  initialState = () => {
+  initialRequireMessage = () => {
     const keys = [
       'ref1Prefix',
       'ref1Firstname',

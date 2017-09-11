@@ -61,7 +61,7 @@ class MaritalStatus extends Component {
     return (
       <SelectField
         id={id}
-        name={name}
+        name={id}
         value={key}
         floatingLabelText={label}
         errorText={errorText}

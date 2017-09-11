@@ -57,88 +57,180 @@ class PersonalInfo extends Component {
     completePersonalInfo: PropTypes.func.isRequired,
   };
 
-  state = {
-    dateReq: moment().format('YYYY-MM-DD'),
-    prefixTH: '',
-    firstNameTH: '',
-    firstNameTHmsg: '',
-    lastNameTH: '',
-    lastNameTHmsg: '',
-    prefixEn: '',
-    firstNameEN: '',
-    firstNameENmsg: '',
-    lastNameEN: '',
-    lastNameENmsg: '',
-    idCard: '',
-    idCardmsg: '',
-    idCardValid: false,
-    dateExp: null,
-    dateExpmsg: '',
-    status: '',
-    department: '',
-    departmentmsg: '',
-    position: '',
-    positionmsg: '',
-    workTel2: '',
-    workTel2Valid: false,
-    workTel2msg: '',
-    homeTel2: '',
-    homeTel2msg: '',
-    homeTel2Valid: false,
-    detailRent: '',
-    workTel: '',
-    workTelmsg: '',
-    workTelValid: false,
-    telExtension: '',
-    number: '',
-    moo: '',
-    village: '',
-    soi: '',
-    road: '',
-    province: '',
-    amphurCode: '',
-    tambolCode: '',
-    provinceName: '',
-    amphurCodeName: '',
-    tambolCodeName: '',
-    zipCode: '',
-    number2: '',
-    moo2: '',
-    village2: '',
-    soi2: '',
-    road2: '',
-    province2: '',
-    amphurCode2: '',
-    tambolCode2: '',
-    province2Name: '',
-    amphurCode2Name: '',
-    tambolCode2Name: '',
-    zipCode2: '',
-    isSameAddress: false,
-    jobCompanyName: '',
-    jobCompanyNamemsg: '',
-    valid: false,
-    rentalFee: '',
-    etc: '',
-    birthDate: null,
-    birthDatemsg: '',
-    email: '',
-    emailmsg: '',
-    employmentDate: null,
-    employmentDatemsg: '',
-    jobSalary: 0,
-    jobSalarymsg: '',
-  };
+  constructor(props) {
+    super(props);
+    const env = process.env.NODE_ENV;
+    console.log('>>> env: ', env);
+  }
 
   componentWillMount() {
     const { data } = this.props;
+    this.initialState();
+
     if (data) {
       this.setState(data);
     }
-    this.initialState();
+
+    this.initialRequireMessage();
     const valid = this.validate();
     this.setState({ valid });
   }
+
+  initialState = () => {
+    const env = process.env.NODE_ENV;
+    console.log('>>> env: ', env);
+    switch (env) {
+      case 'test':
+        this.state = {
+          dateReq: moment().format('YYYY-MM-DD'),
+          prefixTH: 'MR',
+          firstNameTH: 'ณัฐ',
+          firstNameTHmsg: '',
+          lastNameTH: 'ธรรม',
+          lastNameTHmsg: '',
+          prefixEn: 'Mr.',
+          firstNameEN: 'Natt',
+          firstNameENmsg: '',
+          lastNameEN: 'Tamm',
+          lastNameENmsg: '',
+          idCard: '1720900004217',
+          idCardmsg: '',
+          idCardValid: true,
+          dateExp: new Date(2010, 1, 1),
+          dateExpmsg: '',
+          status: 'โสด',
+          department: 'IT',
+          departmentmsg: '',
+          position: 'SE',
+          positionmsg: '',
+          workTel2: '020001111',
+          workTel2Valid: false,
+          workTel2msg: '',
+          homeTel2: '0350001111',
+          homeTel2msg: '',
+          homeTel2Valid: false,
+          detailRent: 'ของตนเอง',
+          workTel: '020001111',
+          workTelmsg: '',
+          workTelValid: false,
+          telExtension: '02',
+          number: '88/46',
+          moo: '5',
+          village: 'Apple Condo',
+          soi: 'Bearing 34/2',
+          road: 'Sukhumvit 107',
+          province: '00001',
+          amphurCode: '00036',
+          tambolCode: '',
+          provinceName: '',
+          amphurCodeName: '',
+          tambolCodeName: '',
+          zipCode: '10270',
+          number2: '',
+          moo2: '',
+          village2: '',
+          soi2: '',
+          road2: '',
+          province2: '',
+          amphurCode2: '',
+          tambolCode2: '',
+          province2Name: '',
+          amphurCode2Name: '',
+          tambolCode2Name: '',
+          zipCode2: '',
+          isSameAddress: false,
+          jobCompanyName: 'Paysbuy',
+          jobCompanyNamemsg: '',
+          valid: false,
+          rentalFee: '',
+          etc: '',
+          birthDate: new Date(1984, 5, 9),
+          birthDatemsg: '',
+          email: 'x@y.com',
+          emailmsg: '',
+          employmentDate: new Date(2017, 1, 1),
+          employmentDatemsg: '',
+          jobSalary: 100000,
+          jobSalarymsg: '',
+        };
+        break;
+
+      default:
+        this.state = {
+          dateReq: moment().format('YYYY-MM-DD'),
+          prefixTH: '',
+          firstNameTH: '',
+          firstNameTHmsg: '',
+          lastNameTH: '',
+          lastNameTHmsg: '',
+          prefixEn: '',
+          firstNameEN: '',
+          firstNameENmsg: '',
+          lastNameEN: '',
+          lastNameENmsg: '',
+          idCard: '',
+          idCardmsg: '',
+          idCardValid: false,
+          dateExp: null,
+          dateExpmsg: '',
+          status: '',
+          department: '',
+          departmentmsg: '',
+          position: '',
+          positionmsg: '',
+          workTel2: '',
+          workTel2Valid: false,
+          workTel2msg: '',
+          homeTel2: '',
+          homeTel2msg: '',
+          homeTel2Valid: false,
+          detailRent: '',
+          workTel: '',
+          workTelmsg: '',
+          workTelValid: false,
+          telExtension: '',
+          number: '',
+          moo: '',
+          village: '',
+          soi: '',
+          road: '',
+          province: '',
+          amphurCode: '',
+          tambolCode: '',
+          provinceName: '',
+          amphurCodeName: '',
+          tambolCodeName: '',
+          zipCode: '',
+          number2: '',
+          moo2: '',
+          village2: '',
+          soi2: '',
+          road2: '',
+          province2: '',
+          amphurCode2: '',
+          tambolCode2: '',
+          province2Name: '',
+          amphurCode2Name: '',
+          tambolCode2Name: '',
+          zipCode2: '',
+          isSameAddress: false,
+          jobCompanyName: '',
+          jobCompanyNamemsg: '',
+          valid: false,
+          rentalFee: '',
+          etc: '',
+          birthDate: null,
+          birthDatemsg: '',
+          email: '',
+          emailmsg: '',
+          employmentDate: null,
+          employmentDatemsg: '',
+          jobSalary: 0,
+          jobSalarymsg: '',
+        };
+        break;
+    }
+  };
 
   validate = () => {
     const keys = [
@@ -179,7 +271,7 @@ class PersonalInfo extends Component {
     return !invalid && valid;
   }
 
-  initialState = () => {
+  initialRequireMessage = () => {
     const keys = [
       'prefixTH',
       'firstNameTH',
@@ -990,6 +1082,8 @@ class PersonalInfo extends Component {
               <div className="row">
                 <div className="col-12">
                   <Checkbox
+                    id="isSameAddress"
+                    name="isSameAddress"
                     label="ที่อยู่เดียวกับที่อยู่ปัจจุบัน"
                     checked={isSameAddress}
                     onCheck={this.handleSameAddressChange}
