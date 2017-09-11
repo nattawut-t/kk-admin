@@ -19,16 +19,28 @@ class LeadStep extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps) {
-      if (location.pathname === '/borrow-request') {
-        this.setState({ stepIndex: 0 });
-      } else if (location.pathname === '/personal-info') {
-        this.setState({ stepIndex: 1 });
-      } else if (location.pathname === '/loan-info') {
-        this.setState({ stepIndex: 2 });
-      } else if (location.pathname === '/additional-info') {
-        this.setState({ stepIndex: 3 });
-      } else if (location.pathname === '/summary') {
-        this.setState({ stepIndex: 4 });
+      switch (location.pathname) {
+        case '/borrow-request':
+          this.setState({ stepIndex: 0 });
+          break;
+
+        case '/personal-info':
+          this.setState({ stepIndex: 1 });
+          break;
+
+        case '/loan-info':
+          this.setState({ stepIndex: 2 });
+          break;
+
+        case '/additional-info':
+          this.setState({ stepIndex: 3 });
+          break;
+
+        case '/summary':
+          this.setState({ stepIndex: 4 });
+          break;
+
+        default: this.setState({ stepIndex: 0 });
       }
     }
   }
