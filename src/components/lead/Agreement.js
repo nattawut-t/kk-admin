@@ -70,7 +70,7 @@ class Agreement extends Component {
               </div>
             </div>
             <div className="row">
-              <div className="col">
+              <div className="col-12">
                 <Checkbox
                   label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
                   checked={isConsent}

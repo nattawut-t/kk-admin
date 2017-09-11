@@ -448,7 +448,39 @@ class PersonalInfo extends Component {
     const { history } = this.props;
     history.push('/loan-info');
   };
-
+  renderDetailRent() {
+    const { detailRent } = this.state;
+    if (detailRent === 'อื่นๆ') {
+      return (
+        <div className="col-4">
+          <TextField
+            id="etc"
+            name="etc"
+            floatingLabelText="โปรดระบุเหตุผลอื่นๆ"
+            value=""
+            onChange={e => this.handleChange(e, true)}
+            maxLength="100"
+            fullWidth
+          />
+        </div>
+      );
+    } else if (detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') {
+      return (
+        <div className="col-4">
+          <TextField
+            id="rentalFee"
+            name="rentalFee"
+            floatingLabelText="ผ่อนชำระ/ค่าเช่าต่อเดือน"
+            value=""
+            onChange={e => this.handleChange(e, true)}
+            maxLength="100"
+            fullWidth
+          />
+        </div>
+      );
+    }
+    return '';
+  }
   render() {
     const {
       dateReq,
@@ -959,6 +991,7 @@ class PersonalInfo extends Component {
                     onSelectItem={this.handleLookupChange}
                   />
                 </div>
+                {this.renderDetailRent()}
               </div>
             </CardText>
           </Card>
