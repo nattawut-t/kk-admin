@@ -52,12 +52,16 @@ export function save() {
     postJson(_url, data, false)
       .then(response => {
         const { data } = response;
+
         console.log('>>> save.response: ', data);
-        return dispatch(notify(!_notify, 'บันทึกข้อมูลเสร็จสมบูรณ์'));
+
+        dispatch(notify(!_notify, 'บันทึกข้อมูลเสร็จสมบูรณ์'));
+        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
       })
       .catch(error => {
         console.log('>>> save.error: ', error);
         dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
       });
   };
 }
@@ -89,13 +93,18 @@ export function uploadDocument(name, data, docType) {
     postForm(_url, data, false)
       .then(response => {
         const { data: { id, filename } } = response;
+
         console.log('>>> uploadFile.response: ', name, id, filename);
+
         dispatch(uploadDocumentSuccess(name, id, filename, docType));
-        return dispatch(notify(!_notify, 'อัพโหลดเอกสารแล้ว'));
+        dispatch(notify(!_notify, 'อัพโหลดเอกสารแล้ว'));
+
+        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
       })
       .catch(error => {
         console.log('>>> uploadFile.error: ', error);
         dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
       });
   };
 }
