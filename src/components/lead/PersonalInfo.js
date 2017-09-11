@@ -124,6 +124,10 @@ class PersonalInfo extends Component {
     birthDatemsg: '',
     email: '',
     emailmsg: '',
+    employmentDate: null,
+    employmentDatemsg: '',
+    jobSalary: 0,
+    jobSalarymsg: '',
   };
 
   componentWillMount() {
@@ -158,6 +162,8 @@ class PersonalInfo extends Component {
       'jobCompanyName',
       'birthDate',
       'email',
+      'employmentDate',
+      'jobSalary',
     ];
     const invalid = keys
       .map(key => ({
@@ -166,8 +172,9 @@ class PersonalInfo extends Component {
       }))
       .find(({ value }) => !value);
 
-    const { email } = this.state;
-    const valid = emailRegex.test(email);
+    const { email, jobSalary } = this.state;
+    const salary = Number.parseFloat(jobSalary) || 0;
+    const valid = emailRegex.test(email) && salary > 0;
 
     return !invalid && valid;
   }
@@ -190,6 +197,8 @@ class PersonalInfo extends Component {
       'jobCompanyName',
       'birthDate',
       'email',
+      'employmentDate',
+      'jobSalary',
     ];
     keys
       .map(key => ({
@@ -227,6 +236,23 @@ class PersonalInfo extends Component {
     });
   };
 
+  handleMoneyChange = (e, required = false) => {
+    const { name, value } = e.target;
+    const msgKey = `${name}msg`;
+    const number = Number.parseFloat(value) || 0;
+    const msg = (required && number <= 0) ? 'กรุณากรอกข้อมูล' : '';
+
+    console.log(name, value, number);
+
+    this.setState({
+      [name]: number,
+      [msgKey]: msg,
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
   handleEmailChange = (e, required = false) => {
     const { name, value } = e.target;
     const msgKey = `${name}msg`;
@@ -254,11 +280,23 @@ class PersonalInfo extends Component {
   };
 
   handleDateExpChange = (e, value) => {
-    console.log(e, value);
     this.setState({ dateExp: value },
       () => {
         const msg = requiredMessage(true, value);
         this.setState({ dateExpmsg: msg },
+          () => {
+            const valid = this.validate();
+            this.setState({ valid });
+          },
+        );
+      });
+  };
+
+  handleEmploymentDateChange = (e, value) => {
+    this.setState({ employmentDate: value },
+      () => {
+        const msg = requiredMessage(true, value);
+        this.setState({ employmentDatemsg: msg },
           () => {
             const valid = this.validate();
             this.setState({ valid });
@@ -428,6 +466,8 @@ class PersonalInfo extends Component {
       jobCompanyName,
       birthDate,
       email,
+      employmentDate,
+      jobSalary,
     } = this.state;
 
     console.log(this.state);
@@ -487,6 +527,8 @@ class PersonalInfo extends Component {
       jobCompanyName,
       birthDate,
       email,
+      employmentDate,
+      jobSalary,
     });
 
     const { history } = this.props;
@@ -587,6 +629,10 @@ class PersonalInfo extends Component {
       birthDatemsg,
       email,
       emailmsg,
+      employmentDate,
+      employmentDatemsg,
+      jobSalary,
+      jobSalarymsg,
       valid,
     } = this.state;
 
@@ -773,6 +819,32 @@ class PersonalInfo extends Component {
                     floatingLabelText="ตำแหน่ง"
                     errorText={positionmsg}
                     onChange={e => this.handleChange(e, true)}
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <DatePicker
+                    id="employmentDate"
+                    name="employmentDate"
+                    mode="landscape"
+                    floatingLabelText="วันที่เริ่มงาน"
+                    value={employmentDate}
+                    errorText={employmentDatemsg}
+                    onChange={this.handleEmploymentDateChange}
+                    fullWidth
+                    autoOk
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="jobSalary"
+                    name="jobSalary"
+                    value={jobSalary}
+                    floatingLabelText="เงินเดือน"
+                    onChange={e => this.handleMoneyChange(e, true)}
+                    errorText={jobSalarymsg}
                     fullWidth
                   />
                 </div>
