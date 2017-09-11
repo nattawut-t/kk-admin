@@ -88,14 +88,28 @@ class AdditionalInfo extends Component {
     children: '',
     childrenMsg: '',
     isConsent2: false,
+    shippingHouseNo: '',
+    shippingAlley: '',
+    shippingVillage: '',
+    shippingFloor: '',
+    shippingSoi: '',
+    shippingRoad: '',
+    shippingPostalCode: '',
+    shippingProvinceCode: '',
+    shippingAmphurCode: '',
+    shippingTambolCode: '',
+    shippingProvinceCodeName: '',
+    shippingAmphurCodeName: '',
+    shippingTambolCodeName: '',
     // not to send
-    shippingAddress: '',
+    shippingAddress: 'current',
     valid: false,
     // not to send
   };
 
   componentWillMount() {
     const { data } = this.props;
+    console.log('>>> data', data);
     if (data) {
       this.setState(data);
     }
@@ -364,7 +378,22 @@ class AdditionalInfo extends Component {
       conjugalIncome,
       conjugalIncomeMsg,
       children,
+      shippingHouseNo,
+      shippingAlley,
+      shippingVillage,
+      shippingFloor,
+      shippingSoi,
+      shippingRoad,
+      shippingPostalCode,
+      shippingProvinceCode,
+      shippingAmphurCode,
+      shippingTambolCode,
+      shippingProvinceCodeName,
+      shippingAmphurCodeName,
+      shippingTambolCodeName,
     } = this.state;
+
+    console.log(this.state);
 
     completeAdditionalInfo({
       ref1Prefix,
@@ -404,6 +433,19 @@ class AdditionalInfo extends Component {
       conjugalIncome,
       conjugalIncomeMsg,
       children,
+      shippingHouseNo,
+      shippingAlley,
+      shippingVillage,
+      shippingFloor,
+      shippingSoi,
+      shippingRoad,
+      shippingPostalCode,
+      shippingProvinceCode,
+      shippingAmphurCode,
+      shippingTambolCode,
+      shippingProvinceCodeName,
+      shippingAmphurCodeName,
+      shippingTambolCodeName,
     });
 
     const { history } = this.props;
