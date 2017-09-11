@@ -50,7 +50,8 @@ class App extends React.Component {
   render() {
     const { location } = this.props;
     const pathList = ['/borrow-request', '/product-info', '/borrow-status',
-      '/history', '/summary', '/additional-info', '/loan-info', '/personal-info', '/borrow-request'];
+      '/history', '/summary', '/additional-info', '/loan-info', '/personal-info',
+      '/borrow-request'];
     const isMatched = pathList.indexOf(location.pathname) !== -1;
     return (
       <Router>
