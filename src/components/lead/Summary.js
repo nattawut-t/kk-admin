@@ -242,7 +242,7 @@ class Summary extends Component {
     e.preventDefault();
     const { save } = this.props;
     save();
-    // history.push('/');
+    history.push('/product-info');
   };
 
   render() {
