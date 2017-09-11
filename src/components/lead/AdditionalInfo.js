@@ -827,6 +827,7 @@ class AdditionalInfo extends Component {
                     errorText={ref1HomeTelephoneMsg}
                     handleChange={this.handleNumberChange}
                     fullWidth
+                    required
                   />
                 </div>
               </div>
