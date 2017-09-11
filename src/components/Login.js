@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
@@ -9,7 +10,11 @@ import TextField from 'material-ui/TextField';
 import { withRouter } from 'react-router';
 // import { NavLink } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ login, getOtp }) => {
+  let username;
+  let password;
+  let otp;
+
   const styles = {
     loginContainer: {
       minWidth: 320,
@@ -57,17 +62,30 @@ const Login = () => {
               hintText="เบอร์โทรศัพท์มือถือ"
               floatingLabelText="เบอร์โทรศัพท์มือถือ"
               fullWidth
+              ref={input => {
+                username = input.input;
+              }}
             />
             <FlatButton
               label="ขอรับรหัส OTP"
               style={styles.loginBtn}
               primary
+              onClick={() => {
+                console.log(username);
+                if (username) {
+                  otp = getOtp(username);
+                  console.log(otp);
+                }
+              }}
             />
             <TextField
               hintText="OTP"
               floatingLabelText="รหัส OTP"
               fullWidth
               type="password"
+              ref={input => {
+                password = input.input;
+              }}
             />
 
             <div>
@@ -96,11 +114,28 @@ const Login = () => {
             href="/"
             style={styles.flatButton}
             icon={<Help />}
+            disabled={username && password}
+            onClick={() => {
+              console.log(username, password);
+              if (username && password) {
+                login(username.value, password.value);
+              }
+            }}
           />
         </div>
       </div>
     </div>
   );
+};
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  getOtp: PropTypes.func.isRequired,
+};
+
+Login.defaultProps = {
+  username: '',
+  notiMessage: '',
 };
 
 export default withRouter(Login);
