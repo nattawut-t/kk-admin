@@ -30,7 +30,7 @@ class LeadStep extends Component {
 
   render() {
     const { stepIndex } = this.state;
-
+    console.log(stepIndex, 'stepIndex');
     return (
       <div className="stepper">
         <Stepper
