@@ -18,6 +18,8 @@ import Tel from '../shared/Tel';
 import AddressStatus from '../shared/AddressStatus';
 import Location from '../shared/Location';
 
+const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
 const styles = {
   button: {
     margin: 12,
@@ -54,25 +56,7 @@ class PersonalInfo extends Component {
     data: PropTypes.object.isRequired,
     completePersonalInfo: PropTypes.func.isRequired,
   };
-  // state = {
-  //   dateReq: moment().format('YYYY-MM-DD'),
-  //   prefixTH: '',
-  //   firstNameTH: '',
-  //   firstNameTHmsg: '',
-  //   lastNameTH: '',
-  //   lastNameTHmsg: '',
-  //   prefixEn: '',
-  //   firstNameEN: '',
-  //   firstNameENmsg: '',
-  //   lastNameEN: '',
-  //   lastNameENmsg: '',
-  //   idCard: '',
-  //   idCardmsg: '',
-  //   idCardValid: true,
-  //   dateExp: {},
-  //   dateExpmsg: '',
-  //   valid: false,
-  // };
+
   state = {
     dateReq: moment().format('YYYY-MM-DD'),
     prefixTH: '',
@@ -136,6 +120,10 @@ class PersonalInfo extends Component {
     valid: false,
     rentalFee: '',
     etc: '',
+    birthDate: null,
+    birthDatemsg: '',
+    email: '',
+    emailmsg: '',
   };
 
   componentWillMount() {
@@ -168,6 +156,8 @@ class PersonalInfo extends Component {
       'detailRent',
       'workTel',
       'jobCompanyName',
+      'birthDate',
+      'email',
     ];
     const invalid = keys
       .map(key => ({
@@ -176,9 +166,10 @@ class PersonalInfo extends Component {
       }))
       .find(({ value }) => !value);
 
-    // console.log('>>> invalid: ', invalid);
+    const { email } = this.state;
+    const valid = emailRegex.test(email);
 
-    return !invalid;
+    return !invalid && valid;
   }
 
   initialState = () => {
@@ -197,6 +188,8 @@ class PersonalInfo extends Component {
       'workTel',
       'telExtension',
       'jobCompanyName',
+      'birthDate',
+      'email',
     ];
     keys
       .map(key => ({
@@ -234,11 +227,51 @@ class PersonalInfo extends Component {
     });
   };
 
+  handleEmailChange = (e, required = false) => {
+    const { name, value } = e.target;
+    const msgKey = `${name}msg`;
+    let msg = '';
+    // const valid = !value || !emailRegex.test(value);
+
+    // console.log(name, valid);
+
+    if (required && !value.trim()) {
+      msg = 'กรุณากรอกข้อมูล';
+    } else {
+      msg = !value.trim() || emailRegex.test(value)
+        ? ''
+        : 'รูปแบบไม่ถูกต้อง';
+    }
+
+    this.setState({
+      [name]: value,
+      [msgKey]: msg,
+      // [`${name}Valid`]: valid,
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
   handleDateExpChange = (e, value) => {
+    console.log(e, value);
     this.setState({ dateExp: value },
       () => {
         const msg = requiredMessage(true, value);
         this.setState({ dateExpmsg: msg },
+          () => {
+            const valid = this.validate();
+            this.setState({ valid });
+          },
+        );
+      });
+  };
+
+  handleBirthDateChange = (e, value) => {
+    this.setState({ birthDate: value },
+      () => {
+        const msg = requiredMessage(true, value);
+        this.setState({ birthDatemsg: msg },
           () => {
             const valid = this.validate();
             this.setState({ valid });
@@ -393,7 +426,8 @@ class PersonalInfo extends Component {
       zipCode2,
       isSameAddress,
       jobCompanyName,
-      // valid,
+      birthDate,
+      email,
     } = this.state;
 
     console.log(this.state);
@@ -451,11 +485,14 @@ class PersonalInfo extends Component {
       zipCode2,
       isSameAddress,
       jobCompanyName,
+      birthDate,
+      email,
     });
 
     const { history } = this.props;
     history.push('/loan-info');
   };
+
   renderDetailRent() {
     const { detailRent } = this.state;
     if (detailRent === 'อื่นๆ') {
@@ -546,6 +583,10 @@ class PersonalInfo extends Component {
       isSameAddress,
       jobCompanyName,
       jobCompanyNamemsg,
+      birthDate,
+      birthDatemsg,
+      email,
+      emailmsg,
       valid,
     } = this.state;
 
@@ -641,7 +682,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-4">
+                <div className="col">
                   <Identity
                     id="idCard"
                     name="idCard"
@@ -652,7 +693,7 @@ class PersonalInfo extends Component {
                     required
                   />
                 </div>
-                <div className="col-4">
+                <div className="col">
                   <DatePicker
                     id="dateExp"
                     name="dateExp"
@@ -665,7 +706,22 @@ class PersonalInfo extends Component {
                     autoOk
                   />
                 </div>
-                <div className="col-4">
+              </div>
+              <div className="row">
+                <div className="col">
+                  <DatePicker
+                    id="birthDate"
+                    name="birthDate"
+                    mode="landscape"
+                    floatingLabelText="วันเกิด"
+                    value={birthDate}
+                    errorText={birthDatemsg}
+                    onChange={this.handleBirthDateChange}
+                    fullWidth
+                    autoOk
+                  />
+                </div>
+                <div className="col">
                   <MaritalStatus
                     id="status"
                     name="status"
@@ -980,7 +1036,7 @@ class PersonalInfo extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col-4" >
+                <div className="col" >
                   <Tel
                     id="workTel2"
                     name="workTel2"
@@ -991,7 +1047,7 @@ class PersonalInfo extends Component {
                     required
                   />
                 </div>
-                <div className="col-4" >
+                <div className="col" >
                   <Tel
                     id="homeTel2"
                     name="homeTel2"
@@ -1002,7 +1058,21 @@ class PersonalInfo extends Component {
                     required
                   />
                 </div>
-                <div className="col-4" >
+                <div className="col" >
+                  <TextField
+                    id="email"
+                    name="email"
+                    floatingLabelText="อีเมล"
+                    value={email}
+                    errorText={emailmsg}
+                    onChange={e => this.handleEmailChange(e, true)}
+                    maxLength="100"
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col" >
                   <AddressStatus
                     id="detailRent"
                     name="detailRent"
