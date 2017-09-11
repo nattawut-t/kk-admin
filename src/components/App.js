@@ -9,7 +9,7 @@ import withWidth, { LARGE } from 'material-ui/utils/withWidth';
 import ProductInfo from './ProductInfo';
 import BorrowStatus from './BorrowStatus';
 import Main from './Main';
-import Login from './Login';
+import Login from '../containers/Login';
 import History from './History';
 import Agreement from '../containers/lead/Agreement';
 import PersonalInfo from '../containers/lead/PersonalInfo';
