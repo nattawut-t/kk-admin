@@ -70,7 +70,22 @@ export function postForm(url, data, authenticate = true) {
   });
 }
 
+export function getJson(url, authenticate = true) {
+  if (authenticate) {
+    axios.defaults.headers.common.Authorization = localStorage.getItem('token');
+  }
+  const options = {
+    method: 'GET',
+    url,
+    headers: { 'Content-Type': 'application/json' },
+  };
+
+  console.log('>>> options: ', options);
+  return axios(options);
+}
+
 export function request(url, options = {}, authenticate = false) {
+  console.log(url, 'url');
   const headers = options.headers || {};
   const defaultOption = {
     url,
