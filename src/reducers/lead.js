@@ -5,13 +5,13 @@ import {
   COMPLETE_LOAN_INFO_SUCCESS,
   COMPLETE_ADDITIONAL_INFO_SUCCESS,
   UPLOAD_DOCUMENT_SUCCESS,
-  SAVE_SUCCESS,
+  NOTIFY,
   acceptAgreementSuccess,
   completePersonalInfoSuccess,
   completeLoanInfoSuccess,
   completeAdditionalInfoSuccess,
   uploadDocumentSuccess,
-  saveSuccess,
+  notify,
 } from '../actions/lead';
 import { portalUrl, postForm, postJson } from '../libs/request';
 
@@ -21,6 +21,8 @@ const State = Record({
   loanInfo: null,
   additionalInfo: null,
   data: null,
+  notify: false,
+  message: '',
   loading: false,
 });
 const initialState = new State();
@@ -40,22 +42,22 @@ export function save() {
     const _url = portalUrl('/api/work/leads');
     console.log('>>> actionCreater.save: ', _url);
 
+    const _notify = _state.get('notify');
+
     postJson(_url, data, false)
       .then(response => {
         const { data } = response;
-
         console.log('>>> save.response: ', data);
-
-        return dispatch(saveSuccess());
+        return dispatch(notify(!_notify, 'บันทึกข้อมูลเสร็จสมบูรณ์'));
       })
       .catch(error => {
         console.log('>>> save.error: ', error);
+        dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
       });
   };
 }
 
 export function acceptAgreement(isConsent = false) {
-  // console.log('>>> reducer: ', isConsent);
   return dispatch => dispatch(acceptAgreementSuccess(isConsent));
 }
 
@@ -134,7 +136,7 @@ const lead = (state = initialState, action) => {
         data,
       });
 
-      console.log('>>> xxx COMPLETE_ADDITIONAL_INFO_SUCCESS', additionalInfo, data);
+      console.log('>>> COMPLETE_ADDITIONAL_INFO_SUCCESS', additionalInfo, data);
 
       return state.merge(_state);
 
@@ -151,8 +153,15 @@ const lead = (state = initialState, action) => {
 
       return state.merge(_state);
 
-    case SAVE_SUCCESS:
-      return state;
+    case NOTIFY:
+      _state = Immutable.fromJS({
+        notify: action.notify,
+        message: action.message,
+      });
+
+      console.log('>>> NOTIFY', _state.toJS(), action);
+
+      return state.merge(_state);
 
     default:
       return state;

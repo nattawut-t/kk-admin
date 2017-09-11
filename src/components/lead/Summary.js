@@ -7,6 +7,7 @@ import FontIcon from 'material-ui/FontIcon';
 import Checkbox from 'material-ui/Checkbox';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import Snackbar from 'material-ui/Snackbar';
 
 const styles = {
   button: {
@@ -41,6 +42,13 @@ class Summary extends Component {
     history: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
     save: PropTypes.func.isRequired,
+    // notify: PropTypes.bool,
+    message: PropTypes.string,
+  };
+
+  static defaultProps = {
+    notify: false,
+    message: '',
   };
 
   state = {
@@ -324,6 +332,13 @@ class Summary extends Component {
       //
       isConsent,
     } = this.state;
+
+    const {
+      // notify,
+      message,
+    } = this.props;
+
+    console.log('>>> message: ', message);
 
     return (
       <div>
@@ -1392,6 +1407,11 @@ class Summary extends Component {
             </div>
           </div>
         </form>
+        <Snackbar
+          open={message !== ''}
+          message={message}
+          autoHideDuration={4000}
+        />
       </div>
     );
   }
