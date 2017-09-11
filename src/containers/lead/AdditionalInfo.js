@@ -13,6 +13,7 @@ const transform = (state, key) => {
 const mapStateToProps = state => ({
   data: transform(state, 'additionalInfo'),
   personalInfo: transform(state, 'personalInfo'),
+  message: state.lead.get('message') || '',
   loading: state.lead.get('loading'),
 });
 

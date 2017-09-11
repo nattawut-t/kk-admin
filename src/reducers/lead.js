@@ -24,6 +24,11 @@ const State = Record({
   notify: false,
   message: '',
   loading: false,
+  identity: {},
+  account: {},
+  statement_1: {},
+  statement_2: {},
+  statement_3: {},
 });
 const initialState = new State();
 
@@ -47,12 +52,16 @@ export function save() {
     postJson(_url, data, false)
       .then(response => {
         const { data } = response;
+
         console.log('>>> save.response: ', data);
-        return dispatch(notify(!_notify, 'บันทึกข้อมูลเสร็จสมบูรณ์'));
+
+        dispatch(notify(!_notify, 'บันทึกข้อมูลเสร็จสมบูรณ์'));
+        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
       })
       .catch(error => {
         console.log('>>> save.error: ', error);
         dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
       });
   };
 }
@@ -74,7 +83,9 @@ export function completeAdditionalInfo(data) {
 }
 
 export function uploadDocument(name, data, docType) {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const _state = getState().lead;
+    const _notify = _state.get('notify');
     const _url = portalUrl('/api/work/leads/doc');
 
     console.log('>>> actionCreater.uploadDocument: ', _url, data, name);
@@ -85,11 +96,15 @@ export function uploadDocument(name, data, docType) {
 
         console.log('>>> uploadFile.response: ', name, id, filename);
 
-        return dispatch(uploadDocumentSuccess(name, id, filename, docType));
+        dispatch(uploadDocumentSuccess(name, id, filename, docType));
+        dispatch(notify(!_notify, 'อัพโหลดเอกสารแล้ว'));
+
+        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
       })
       .catch(error => {
         console.log('>>> uploadFile.error: ', error);
-        // Toaster.show({ message: err.message, intent: Intent.DANGER });
+        dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
       });
   };
 }

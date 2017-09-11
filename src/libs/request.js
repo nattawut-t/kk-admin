@@ -58,6 +58,20 @@ export function postJson(url, data, authenticate = true) {
   return axios(options);
 }
 
+export function getJson(url, authenticate = true) {
+  if (authenticate) {
+    axios.defaults.headers.common.Authorization = localStorage.getItem('token');
+  }
+  const options = {
+    method: 'GET',
+    url,
+    headers: { 'Content-Type': 'application/json' },
+  };
+
+  console.log('>>> options: ', options);
+  return axios(options);
+}
+
 export function postForm(url, data, authenticate = true) {
   if (authenticate) {
     axios.defaults.headers.common.Authorization = localStorage.getItem('token');
