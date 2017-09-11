@@ -65,8 +65,8 @@ class LoanInfo extends Component {
     const keys = [
       'loanAmount',
       'installmentNumber',
-      'accumulateDebt',
-      'creditCardTotal',
+      // 'accumulateDebt',
+      // 'creditCardTotal',
     ];
     const invalid = keys
       .map(key => ({
@@ -87,8 +87,8 @@ class LoanInfo extends Component {
     const keys = [
       'loanAmount',
       'installmentNumber',
-      'accumulateDebt',
-      'creditCardTotal',
+      // 'accumulateDebt',
+      // 'creditCardTotal',
     ];
     keys
       .map(key => ({
@@ -111,7 +111,7 @@ class LoanInfo extends Component {
     this.setState({
       [name]: number,
       [msgKey]: msg,
-      [`${name}Valid`]: !required || (required && value),
+      [`${name}Valid`]: !required || (required && value >= 0),
     }, () => {
       const valid = this.validate();
       this.setState({ valid });
