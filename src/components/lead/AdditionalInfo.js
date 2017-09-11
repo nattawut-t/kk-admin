@@ -304,6 +304,8 @@ class AdditionalInfo extends Component {
   handleNumberChange = (name, value, errorMessage = '') => {
     const msgKey = `${name}msg`;
 
+    console.log(name, value);
+
     this.setState({
       [name]: value,
       [msgKey]: errorMessage,
@@ -795,13 +797,13 @@ class AdditionalInfo extends Component {
                   />
                 </div>
                 <div className="col-3">
-                  <Mobile
+                  <Tel
                     id="ref1Mobile"
                     name="ref1Mobile"
-                    value={ref1Mobile}
                     label="เบอร์โทรศัพท์มือถือ"
+                    value={ref1Mobile}
+                    handleChange={this.handleNumberChange}
                     errorText={ref1MobileMsg}
-                    onChange={this.handleNumberChange}
                     required
                   />
                 </div>
@@ -812,7 +814,7 @@ class AdditionalInfo extends Component {
                     value={ref1WorkTelephone}
                     label="เบอร์โทรศัพท์ที่ทำงาน"
                     errorText={ref1WorkTelephoneMsg}
-                    onChange={this.handleNumberChange}
+                    handleChange={this.handleNumberChange}
                     fullWidth
                   />
                 </div>
@@ -823,7 +825,7 @@ class AdditionalInfo extends Component {
                     value={ref1HomeTelephone}
                     label="เบอร์โทรศัพท์บ้าน"
                     errorText={ref1HomeTelephoneMsg}
-                    onChange={this.handleNumberChange}
+                    handleChange={this.handleNumberChange}
                     fullWidth
                   />
                 </div>
@@ -902,7 +904,7 @@ class AdditionalInfo extends Component {
                     value={ref2WorkTelephone}
                     label="เบอร์โทรศัพท์ที่ทำงาน"
                     errorText={ref2WorkTelephoneMsg}
-                    onChange={this.handleLookupChange}
+                    handleChange={this.handleLookupChange}
                     fullWidth
                   />
                 </div>
@@ -913,7 +915,7 @@ class AdditionalInfo extends Component {
                     value={ref2HomeTelephone}
                     label="เบอร์โทรศัพท์บ้าน"
                     errorText={ref2HomeTelephoneMsg}
-                    onChange={this.handleLookupChange}
+                    handleChange={this.handleLookupChange}
                     fullWidth
                   />
                 </div>
