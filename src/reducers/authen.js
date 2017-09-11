@@ -1,7 +1,6 @@
 import { Record } from 'immutable';
 import {
   LOGIN_SUCCESS,
-  otpSuccess,
 } from '../actions/authen';
 // import { portalUrl, getJson } from '../libs/request';
 import { portalUrl, getJson, postJson } from '../libs/request';
@@ -18,8 +17,7 @@ export function save(username, password) {
   console.log('>>> actionCreater.data: ', data);
 
   const _url = portalUrl('/api/work/otp');
-  // console.log('>>> actionCreater.save: ', _url);
-  //
+
   postJson(_url, data, false)
     .then(response => {
       const { data } = response;
@@ -32,20 +30,15 @@ export function save(username, password) {
 }
 
 export function getOtp(username) {
-  console.log(username, 'username');
-  return dispatch => {
-    const _url = portalUrl(`/api/work/otp?mobile=${username}`);
-    getJson(_url)
-    .then(response => {
-      const { data } = response;
-      console.log('>>> save.response: ', data);
-
-      return dispatch(otpSuccess());
-    })
-    .catch(error => {
-      console.log('>>> save.error: ', error);
-    });
-  };
+  const _url = portalUrl(`/api/work/otp?mobile=${username}`);
+  getJson(_url)
+  .then(response => {
+    const { data } = response;
+    console.log('>>> save.response: ', data);
+  })
+  .catch(error => {
+    console.log('>>> save.error: ', error);
+  });
 }
 
 const lead = (state = initialState, action) => {
