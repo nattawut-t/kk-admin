@@ -66,6 +66,12 @@ class LoanInfo extends Component {
           paymentHistoryExists: '1',
           pLoanApplicationHositoryExists: '0',
           overdueDebtExists: '1',
+          BankAccountNo: '',
+          BankAccountNoMsg: '',
+          BankAccountName: '',
+          BankAccountNameMsg: '',
+          // BankName
+          //         BankBranchName
           valid: false,
         };
         break;
@@ -86,6 +92,10 @@ class LoanInfo extends Component {
           paymentHistoryExists: '0',
           pLoanApplicationHositoryExists: '0',
           overdueDebtExists: '0',
+          BankAccountNo: '',
+          BankAccountNoMsg: '',
+          BankAccountName: '',
+          BankAccountNameMsg: '',
           valid: false,
         };
         break;
@@ -96,8 +106,8 @@ class LoanInfo extends Component {
     const keys = [
       'loanAmount',
       'installmentNumber',
-      // 'accumulateDebt',
-      // 'creditCardTotal',
+      'BankAccountNo',
+      'BankAccountName',
     ];
     const invalid = keys
       .map(key => ({
@@ -118,8 +128,8 @@ class LoanInfo extends Component {
     const keys = [
       'loanAmount',
       'installmentNumber',
-      // 'accumulateDebt',
-      // 'creditCardTotal',
+      'BankAccountNo',
+      'BankAccountName',
     ];
     keys
       .map(key => ({
@@ -133,7 +143,7 @@ class LoanInfo extends Component {
       });
   };
 
-  handleChange = (e, required = false) => {
+  handleNumberChange = (e, required = false) => {
     const { name, value } = e.target;
     const msgKey = `${name}Msg`;
     const msg = requiredMessage(required, value);
@@ -143,6 +153,42 @@ class LoanInfo extends Component {
       [name]: number,
       [msgKey]: msg,
       [`${name}Valid`]: !required || (required && value >= 0),
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
+  handleChange = (e, required = false) => {
+    const { name, value } = e.target;
+    const msgKey = `${name}Msg`;
+    const msg = requiredMessage(required, value);
+
+    this.setState({
+      [name]: value,
+      [msgKey]: msg,
+    }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
+  handleBankAccountNoChange = (e, required = false) => {
+    const { name, value } = e.target;
+    const msgKey = `${name}Msg`;
+    let msg;
+
+    if (required && !value.trim()) {
+      msg = 'กรุณากรอกข้อมูล';
+    } else {
+      msg = !value.trim() || /^[0-9]{10}$/.test(value)
+        ? ''
+        : 'รูปแบบไม่ถูกต้อง';
+    }
+
+    this.setState({
+      [name]: value,
+      [msgKey]: msg,
     }, () => {
       const valid = this.validate();
       this.setState({ valid });
@@ -210,36 +256,32 @@ class LoanInfo extends Component {
     const { completeLoanInfo } = this.props;
     const {
       loanAmount,
-      // loanAmountMsg,
       installmentNumber,
-      // installmentNumberMsg,
       beneficiary,
       loanBeneficiaryName,
-      // loanBeneficiaryNameMsg,
       accumulateDebt,
-      // accumulateDebtMsg,
       creditCardTotal,
       paymentHistoryExists,
       pLoanApplicationHositoryExists,
       overdueDebtExists,
+      BankAccountNo,
+      BankAccountName,
     } = this.state;
 
     console.log(this.state);
 
     completeLoanInfo({
       loanAmount,
-      // loanAmountMsg,
       installmentNumber,
-      // installmentNumberMsg,
       beneficiary,
       loanBeneficiaryName,
-      // loanBeneficiaryNameMsg,
       accumulateDebt,
-      // accumulateDebtMsg,
       creditCardTotal,
       paymentHistoryExists,
       pLoanApplicationHositoryExists,
       overdueDebtExists,
+      BankAccountNo,
+      BankAccountName,
     });
 
     const { history } = this.props;
@@ -262,6 +304,10 @@ class LoanInfo extends Component {
       paymentHistoryExists,
       pLoanApplicationHositoryExists,
       overdueDebtExists,
+      BankAccountNo,
+      BankAccountNoMsg,
+      BankAccountName,
+      BankAccountNameMsg,
       valid,
     } = this.state;
 
@@ -283,7 +329,7 @@ class LoanInfo extends Component {
                     name="loanAmount"
                     value={loanAmount}
                     floatingLabelText="จำนวนที่ต้องการกู้"
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={e => this.handleNumberChange(e, true)}
                     errorText={loanAmountMsg}
                     fullWidth
                   />
@@ -382,7 +428,7 @@ class LoanInfo extends Component {
                     name="accumulateDebt"
                     value={accumulateDebt}
                     floatingLabelText="รวมภาระหนี้สิน(บ้าน+รถ+สินเชื่อส่วนบุคคล)"
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={e => this.handleNumberChange(e, true)}
                     errorText={accumulateDebtMsg}
                     fullWidth
                   />
@@ -393,7 +439,7 @@ class LoanInfo extends Component {
                     name="creditCardTotal"
                     value={creditCardTotal}
                     floatingLabelText="ยอดบัตรเครดิตคงค้างเดือนล่าสุด"
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={e => this.handleNumberChange(e, true)}
                     errorText={creditCardTotalMsg}
                     fullWidth
                   />
@@ -401,6 +447,47 @@ class LoanInfo extends Component {
               </div>
             </CardText>
           </Card>
+
+          <Card style={styles.marginBottom}>
+            <div style={styles.sectionTitle}>
+              <CardHeader
+                title="ข้อมูลบัญชี"
+                titleStyle={styles.TitleText}
+              />
+            </div>
+            <CardText>
+              <div className="row">
+                <div className="col" />
+              </div>
+              <div className="row">
+                <div className="col">
+                  <TextField
+                    id="BankAccountNo"
+                    name="BankAccountNo"
+                    value={BankAccountNo}
+                    floatingLabelText="เลขที่บัญชี"
+                    onChange={e => this.handleBankAccountNoChange(e, true)}
+                    errorText={BankAccountNoMsg}
+                    maxLength="10"
+                    fullWidth
+                  />
+                </div>
+                <div className="col">
+                  <TextField
+                    id="BankAccountName"
+                    name="BankAccountName"
+                    value={BankAccountName}
+                    floatingLabelText="ชื่อบัญชี"
+                    onChange={e => this.handleChange(e, true)}
+                    errorText={BankAccountNameMsg}
+                    maxLength="100"
+                    fullWidth
+                  />
+                </div>
+              </div>
+            </CardText>
+          </Card>
+
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -495,6 +582,7 @@ class LoanInfo extends Component {
               </div>
             </CardText>
           </Card>
+
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
