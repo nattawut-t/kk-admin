@@ -21,6 +21,7 @@ const State = Record({
   loanInfo: null,
   additionalInfo: null,
   data: null,
+  documents: {},
   notify: false,
   message: '',
   loading: false,
@@ -32,21 +33,18 @@ const State = Record({
 });
 const initialState = new State();
 
+// const uploadUrl = () => 'http://localhost:3000/api/doc';
+const uploadUrl = () => portalUrl('/api/work/leads/doc');
+const saveUrl = () => portalUrl('/api/work/leads');
+
 export function save() {
   return (dispatch, getState) => {
     const _state = getState().lead;
     const personalInfo = _state.get('personalInfo').toJS();
     const loanInfo = _state.get('loanInfo').toJS();
     const additionalInfo = _state.get('additionalInfo').toJS();
-
-    console.log('>>> actionCreater._state: ', personalInfo, loanInfo, additionalInfo);
-
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
-    console.log('>>> actionCreater.data: ', data);
-
-    const _url = portalUrl('/api/work/leads');
-    console.log('>>> actionCreater.save: ', _url);
-
+    const _url = saveUrl();
     const _notify = _state.get('notify');
 
     postJson(_url, data, false)
@@ -82,29 +80,29 @@ export function completeAdditionalInfo(data) {
   return dispatch => dispatch(completeAdditionalInfoSuccess(data));
 }
 
-export function uploadDocument(name, data, docType) {
+export function uploadDocument(field, path, name, data, docType) {
   return (dispatch, getState) => {
     const _state = getState().lead;
     const _notify = _state.get('notify');
-    const _url = portalUrl('/api/work/leads/doc');
+    const _url = uploadUrl();
 
-    console.log('>>> actionCreater.uploadDocument: ', _url, data, name);
+    console.log('>>> uploadUrl: ', _url, docType);
 
     postForm(_url, data, false)
       .then(response => {
-        const { data: { id, filename } } = response;
+        const { data } = response;
+        const { id, filename } = data;
 
-        console.log('>>> uploadFile.response: ', name, id, filename);
+        console.log('>>> uploadFile.response: ', data, id, filename);
 
-        dispatch(uploadDocumentSuccess(name, id, filename, docType));
+        dispatch(uploadDocumentSuccess(field, path, filename, docType));
         dispatch(notify(!_notify, 'อัพโหลดเอกสารแล้ว'));
-
-        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
+        setTimeout(() => dispatch(notify(!_notify, '')), 2000);
       })
       .catch(error => {
         console.log('>>> uploadFile.error: ', error);
         dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
+        setTimeout(() => dispatch(notify(!_notify, '')), 2000);
       });
   };
 }
@@ -115,6 +113,7 @@ const lead = (state = initialState, action) => {
   let loanInfo;
   let additionalInfo;
   let data;
+  let documents;
 
   switch (action.type) {
     case ACCEPT_AGREEMENT_SUCCESS:
@@ -156,15 +155,18 @@ const lead = (state = initialState, action) => {
       return state.merge(_state);
 
     case UPLOAD_DOCUMENT_SUCCESS:
-      _state = Immutable.fromJS({
+
+      documents = state.get('documents');
+      documents = Object.assign(documents, {
         [action.docType]: {
-          fileName: action.fileName,
-          id: action.id,
+          field: action.field,
+          path: action.path,
           name: action.name,
         },
       });
+      _state = Immutable.fromJS({ documents });
 
-      console.log('>>> UPLOAD_DOCUMENT_SUCCESS', _state);
+      console.log('>>> UPLOAD_DOCUMENT_SUCCESS', documents, _state);
 
       return state.merge(_state);
 

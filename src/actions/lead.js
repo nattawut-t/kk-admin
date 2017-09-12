@@ -31,11 +31,11 @@ export const completeAdditionalInfoSuccess = data => ({
   data,
 });
 
-export const uploadDocumentSuccess = (name, id, fileName, docType) => ({
+export const uploadDocumentSuccess = (field, path, name, docType) => ({
   type: UPLOAD_DOCUMENT_SUCCESS,
+  field,
+  path,
   name,
-  id,
-  fileName,
   docType,
 });
 

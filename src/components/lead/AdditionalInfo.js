@@ -357,35 +357,16 @@ class AdditionalInfo extends Component {
     const { target: { files, name, value } } = e;
 
     if (files && files.length > 0) {
+      const { uploadFile } = this.props;
       const file = files[0];
-
-      console.log('>>> handleFileChange: ', value, file, docType);
-
       const fileName = value.split('\\').pop().split('/').pop();
-
-      console.log('>>> handleFileChange.fileName: ', fileName);
-
       const formData = new FormData();
+
       formData.append('filename', fileName);
       formData.append('file', file);
       formData.append('docType', docType);
 
-      this.setState({
-        [name]: value,
-        [`${name}Data`]: formData,
-      });
-    }
-  };
-
-  handleUploadFile = (_name, docType) => {
-    if (_name) {
-      const { uploadFile } = this.props;
-      const name = `${_name}Data`;
-      const formData = this.state[name];
-
-      console.log('>>> handleUploadFile: ', name, formData, uploadFile);
-
-      uploadFile(_name, formData, docType);
+      uploadFile(name, value, fileName, formData, docType);
     }
   };
 
@@ -1181,7 +1162,7 @@ class AdditionalInfo extends Component {
                 <div className="col-3">
                   <label htmlFor="fileName0">สำเนาบัตรประชาชน</label>
                 </div>
-                <div className="col-6">
+                <div className="col-9">
                   <TextField
                     type="file"
                     id="fileName0"
@@ -1192,22 +1173,12 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col-3 mobile-btn-upload">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    onClick={() => this.handleUploadFile('fileName0', 'identity')}
-                    primary
-                  />
-                </div>
               </div>
               <div className="row">
                 <div className="col-3">
                   <label htmlFor="fileName1">สลิปเงินเดือน (เดือนล่าสุด)</label>
                 </div>
-                <div className="col-6">
+                <div className="col-9">
                   <TextField
                     type="file"
                     id="fileName1"
@@ -1218,22 +1189,12 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col-3 mobile-btn-upload">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    onClick={() => this.handleUploadFile('fileName1', 'payslip')}
-                    primary
-                  />
-                </div>
               </div>
               <div className="row">
                 <div className="col-3">
                   <label htmlFor="fileName2">สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน</label>
                 </div>
-                <div className="col-6">
+                <div className="col-9">
                   <TextField
                     type="file"
                     id="fileName2"
@@ -1244,23 +1205,13 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col-3 mobile-btn-upload">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    onClick={() => this.handleUploadFile('fileName2', 'account')}
-                    primary
-                  />
-                </div>
               </div>
 
               <div className="row">
                 <div className="col-3">
                   <label htmlFor="fileName3">ทะเบียนบ้าน</label>
                 </div>
-                <div className="col-6">
+                <div className="col-9">
                   <TextField
                     type="file"
                     id="fileName3"
@@ -1271,23 +1222,13 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col-3 mobile-btn-upload">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    onClick={() => this.handleUploadFile('fileName3', 'household_registration')}
-                    primary
-                  />
-                </div>
               </div>
 
               <div className="row">
                 <div className="col-3">
                   <label htmlFor="fileName4">แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #1</label>
                 </div>
-                <div className="col-6">
+                <div className="col-9">
                   <TextField
                     type="file"
                     id="fileName4"
@@ -1298,23 +1239,13 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col-3 mobile-btn-upload">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    onClick={() => this.handleUploadFile('fileName4', 'statement_1')}
-                    primary
-                  />
-                </div>
               </div>
 
               <div className="row">
                 <div className="col-3">
                   <label htmlFor="fileName5">แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #2</label>
                 </div>
-                <div className="col-6">
+                <div className="col-9">
                   <TextField
                     type="file"
                     id="fileName5"
@@ -1325,23 +1256,13 @@ class AdditionalInfo extends Component {
                     fullWidth
                   />
                 </div>
-                <div className="col-3 mobile-btn-upload">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    onClick={() => this.handleUploadFile('fileName5', 'statement_2')}
-                    primary
-                  />
-                </div>
               </div>
 
               <div className="row">
                 <div className="col-3">
                   <label htmlFor="fileName6">แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #3</label>
                 </div>
-                <div className="col-6">
+                <div className="col-9">
                   <TextField
                     type="file"
                     id="fileName6"
@@ -1350,16 +1271,6 @@ class AdditionalInfo extends Component {
                     errorText={fileName6Msg}
                     onChange={e => this.handleFileChange(e, true, 'statement_3')}
                     fullWidth
-                  />
-                </div>
-                <div className="col-3 mobile-btn-upload">
-                  <RaisedButton
-                    label="อัพโหลดไฟล์"
-                    labelPosition="before"
-                    style={styles.button}
-                    containerElement="label"
-                    onClick={() => this.handleUploadFile('fileName6', 'statement_3')}
-                    primary
                   />
                 </div>
               </div>
