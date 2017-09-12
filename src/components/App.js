@@ -106,6 +106,7 @@ class App extends React.Component {
                       <Route path="/loan-info" component={LoanInfo} />
                       <Route path="/personal-info" component={PersonalInfo} />
                       <Route path="/borrow-request" component={Agreement} />
+                      <Route path="*" exact component={Login} />
                     </Switch>
                   </div>
                 </div>

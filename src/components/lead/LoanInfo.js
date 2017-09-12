@@ -37,7 +37,6 @@ class LoanInfo extends Component {
 
   componentWillMount() {
     const { data } = this.props;
-    this.initialState();
 
     if (data) {
       this.setState(data,
@@ -47,6 +46,7 @@ class LoanInfo extends Component {
           this.setState({ valid });
         });
     } else {
+      this.initialState();
       this.initialRequireMessage();
       const valid = this.validate();
       this.setState({ valid });

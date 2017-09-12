@@ -51,8 +51,9 @@ class Location extends Component {
   componentWillMount() {
     const _url = adminUrl('/location/province');
     const { provinceValue, amphurValue, tambolValue } = this.props;
-    console.log('>>> geo: ', provinceValue, amphurValue, tambolValue);
     this.setState({ provinceValue, amphurValue, tambolValue });
+
+    console.log('>>> location: ', provinceValue, amphurValue, tambolValue);
 
     request(_url)
       .then(response => {

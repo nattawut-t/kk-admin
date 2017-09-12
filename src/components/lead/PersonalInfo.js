@@ -53,8 +53,12 @@ const requiredMessage = (required, value) => (required && !value) ? 'กรุ�
 class PersonalInfo extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
+    data: PropTypes.object,
     completePersonalInfo: PropTypes.func.isRequired,
+  };
+
+  static defaultProps = {
+    data: null,
   };
 
   constructor(props) {
@@ -65,7 +69,6 @@ class PersonalInfo extends Component {
 
   componentWillMount() {
     const { data } = this.props;
-    this.initialState();
 
     if (data) {
       this.setState(data,
@@ -75,6 +78,7 @@ class PersonalInfo extends Component {
           this.setState({ valid });
         });
     } else {
+      this.initialState();
       this.initialRequireMessage();
       const valid = this.validate();
       this.setState({ valid });
