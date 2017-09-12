@@ -9,6 +9,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
+import Bank from '../shared/Bank';
+
 const styles = {
   button: {
     margin: 12,
@@ -66,12 +68,14 @@ class LoanInfo extends Component {
           paymentHistoryExists: '1',
           pLoanApplicationHositoryExists: '0',
           overdueDebtExists: '1',
-          BankAccountNo: '',
-          BankAccountNoMsg: '',
-          BankAccountName: '',
-          BankAccountNameMsg: '',
-          // BankName
-          //         BankBranchName
+          bankAccountNo: '',
+          bankAccountNoMsg: '',
+          bankAccountName: '',
+          bankAccountNameMsg: '',
+          bankCode: '',
+          bankCodeMsg: '',
+          bankName: '',
+          bankBranchName: '',
           valid: false,
         };
         break;
@@ -92,10 +96,14 @@ class LoanInfo extends Component {
           paymentHistoryExists: '0',
           pLoanApplicationHositoryExists: '0',
           overdueDebtExists: '0',
-          BankAccountNo: '',
-          BankAccountNoMsg: '',
-          BankAccountName: '',
-          BankAccountNameMsg: '',
+          bankAccountNo: '',
+          bankAccountNoMsg: '',
+          bankAccountName: '',
+          bankAccountNameMsg: '',
+          bankCode: '',
+          bankCodeMsg: '',
+          bankName: '',
+          bankBranchName: '',
           valid: false,
         };
         break;
@@ -106,8 +114,9 @@ class LoanInfo extends Component {
     const keys = [
       'loanAmount',
       'installmentNumber',
-      'BankAccountNo',
-      'BankAccountName',
+      'bankAccountNo',
+      'bankAccountName',
+      'bankBranchName',
     ];
     const invalid = keys
       .map(key => ({
@@ -128,8 +137,9 @@ class LoanInfo extends Component {
     const keys = [
       'loanAmount',
       'installmentNumber',
-      'BankAccountNo',
-      'BankAccountName',
+      'bankAccountNo',
+      'bankAccountName',
+      'bankBranchName',
     ];
     keys
       .map(key => ({
@@ -243,8 +253,18 @@ class LoanInfo extends Component {
 
   handleRadioButtonChange = e => {
     const { target: { name, value } } = e;
-    // console.log('>>> handleRadioButtonChange: ', name, value);
     this.setState({ [name]: value });
+  };
+
+  handleBankChange = (nameField, codeField, code, name) => {
+    this.setState({
+      [codeField]: code,
+      [nameField]: name,
+    }, () => {
+      console.log(this.state.bankCode, this.state.bankName);
+      const valid = this.validate();
+      this.setState({ valid });
+    });
   };
 
   handleBack = () => {
@@ -264,8 +284,8 @@ class LoanInfo extends Component {
       paymentHistoryExists,
       pLoanApplicationHositoryExists,
       overdueDebtExists,
-      BankAccountNo,
-      BankAccountName,
+      bankAccountNo,
+      bankAccountName,
     } = this.state;
 
     console.log(this.state);
@@ -280,8 +300,8 @@ class LoanInfo extends Component {
       paymentHistoryExists,
       pLoanApplicationHositoryExists,
       overdueDebtExists,
-      BankAccountNo,
-      BankAccountName,
+      bankAccountNo,
+      bankAccountName,
     });
 
     const { history } = this.props;
@@ -304,10 +324,13 @@ class LoanInfo extends Component {
       paymentHistoryExists,
       pLoanApplicationHositoryExists,
       overdueDebtExists,
-      BankAccountNo,
-      BankAccountNoMsg,
-      BankAccountName,
-      BankAccountNameMsg,
+      bankAccountNo,
+      bankAccountNoMsg,
+      bankAccountName,
+      bankAccountNameMsg,
+      bankName,
+      bankBranchName,
+      bankBranchNameMsg,
       valid,
     } = this.state;
 
@@ -457,30 +480,53 @@ class LoanInfo extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col" />
+                <div className="col-4" >
+                  <Bank
+                    id="bank"
+                    name="bank"
+                    nameField="bankName"
+                    valueField="bankCode"
+                    value={bankName}
+                    label="ธนาคาร"
+                    onSelectItem={this.handleBankChange}
+                    required
+                  />
+                </div>
+                <div className="col-8">
+                  <TextField
+                    id="bankBranchName"
+                    name="bankBranchName"
+                    value={bankBranchName}
+                    floatingLabelText="สาขา"
+                    onChange={e => this.handleChange(e, true)}
+                    errorText={bankBranchNameMsg}
+                    maxLength="250"
+                    fullWidth
+                  />
+                </div>
               </div>
               <div className="row">
-                <div className="col">
+                <div className="col-4">
                   <TextField
-                    id="BankAccountNo"
-                    name="BankAccountNo"
-                    value={BankAccountNo}
+                    id="bankAccountNo"
+                    name="bankAccountNo"
+                    value={bankAccountNo}
                     floatingLabelText="เลขที่บัญชี"
                     onChange={e => this.handleBankAccountNoChange(e, true)}
-                    errorText={BankAccountNoMsg}
+                    errorText={bankAccountNoMsg}
                     maxLength="10"
                     fullWidth
                   />
                 </div>
-                <div className="col">
+                <div className="col-8">
                   <TextField
-                    id="BankAccountName"
-                    name="BankAccountName"
-                    value={BankAccountName}
+                    id="bankAccountName"
+                    name="bankAccountName"
+                    value={bankAccountName}
                     floatingLabelText="ชื่อบัญชี"
                     onChange={e => this.handleChange(e, true)}
-                    errorText={BankAccountNameMsg}
-                    maxLength="100"
+                    errorText={bankAccountNameMsg}
+                    maxLength="250"
                     fullWidth
                   />
                 </div>
