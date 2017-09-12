@@ -40,12 +40,17 @@ class LoanInfo extends Component {
     this.initialState();
 
     if (data) {
-      this.setState(data);
+      this.setState(data,
+        () => {
+          this.initialRequireMessage();
+          const valid = this.validate();
+          this.setState({ valid });
+        });
+    } else {
+      this.initialRequireMessage();
+      const valid = this.validate();
+      this.setState({ valid });
     }
-
-    this.initialRequireMessage();
-    const valid = this.validate();
-    this.setState({ valid });
   }
 
   initialState = () => {
@@ -286,6 +291,9 @@ class LoanInfo extends Component {
       overdueDebtExists,
       bankAccountNo,
       bankAccountName,
+      bankCode,
+      bankName,
+      bankBranchName,
     } = this.state;
 
     console.log(this.state);
@@ -302,6 +310,9 @@ class LoanInfo extends Component {
       overdueDebtExists,
       bankAccountNo,
       bankAccountName,
+      bankCode,
+      bankName,
+      bankBranchName,
     });
 
     const { history } = this.props;

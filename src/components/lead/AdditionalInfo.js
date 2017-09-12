@@ -53,12 +53,17 @@ class AdditionalInfo extends Component {
     this.initialState();
 
     if (data) {
-      this.setState(data);
+      this.setState(data,
+        () => {
+          this.initialRequireMessage();
+          const valid = this.validate();
+          this.setState({ valid });
+        });
+    } else {
+      this.initialRequireMessage();
+      const valid = this.validate();
+      this.setState({ valid });
     }
-
-    this.initialRequireMessage();
-    const valid = this.validate();
-    this.setState({ valid });
   }
 
   initialState = () => {
@@ -444,6 +449,7 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      isConsent2,
     } = this.state;
 
     console.log(this.state);
@@ -499,6 +505,7 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      isConsent2,
     });
 
     const { history } = this.props;

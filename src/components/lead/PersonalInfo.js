@@ -68,12 +68,17 @@ class PersonalInfo extends Component {
     this.initialState();
 
     if (data) {
-      this.setState(data);
+      this.setState(data,
+        () => {
+          this.initialRequireMessage();
+          const valid = this.validate();
+          this.setState({ valid });
+        });
+    } else {
+      this.initialRequireMessage();
+      const valid = this.validate();
+      this.setState({ valid });
     }
-
-    this.initialRequireMessage();
-    const valid = this.validate();
-    this.setState({ valid });
   }
 
   initialState = () => {
@@ -242,13 +247,13 @@ class PersonalInfo extends Component {
       'firstNameEN',
       'lastNameEN',
       'idCard',
-      'idCardValid',
+      // 'idCardValid',
       'dateExp',
       'status',
       'workTel2',
-      'workTel2Valid',
+      // 'workTel2Valid',
       'homeTel2',
-      'homeTel2Valid',
+      // 'homeTel2Valid',
       'detailRent',
       'workTel',
       'jobCompanyName',
@@ -267,6 +272,8 @@ class PersonalInfo extends Component {
     const { email, jobSalary } = this.state;
     const salary = Number.parseFloat(jobSalary) || 0;
     const valid = emailRegex.test(email) && salary > 0;
+
+    console.log('>>> invalid: ', invalid);
 
     return !invalid && valid;
   }
@@ -507,33 +514,19 @@ class PersonalInfo extends Component {
       dateReq,
       prefixTH,
       firstNameTH,
-      // firstNameTHmsg,
       lastNameTH,
-      // lastNameTHmsg,
       prefixEn,
       firstNameEN,
-      // firstNameENmsg,
       lastNameEN,
-      // lastNameENmsg,
       idCard,
-      // idCardmsg,
-      // idCardValid,
       dateExp,
-      // dateExpmsg,
       status,
       department,
-      // departmentmsg,
       position,
-      // positionmsg,
       workTel2,
-      // workTel2Valid,
-      // workTel2msg,
       homeTel2,
-      // homeTel2msg,
-      // homeTel2Valid,
       detailRent,
       workTel,
-      // workTelmsg,
       workTelValid,
       telExtension,
       number,
@@ -568,19 +561,12 @@ class PersonalInfo extends Component {
       dateReq,
       prefixTH,
       firstNameTH,
-      // firstNameTHmsg,
       lastNameTH,
-      // lastNameTHmsg,
       prefixEn,
       firstNameEN,
-      // firstNameENmsg,
       lastNameEN,
-      // lastNameENmsg,
       idCard,
-      // idCardmsg,
-      // idCardValid,
       dateExp,
-      // dateExpmsg,
       status,
       department,
       // departmentmsg,
@@ -1277,14 +1263,5 @@ class PersonalInfo extends Component {
     );
   }
 }
-
-PersonalInfo.propTypes = {
-  // loading: PropTypes.bool,
-  history: PropTypes.object.isRequired,
-};
-
-// PersonalInfo.defaultProps = {
-//   loading: false,
-// };
 
 export default withRouter(PersonalInfo);
