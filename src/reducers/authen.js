@@ -12,33 +12,32 @@ const State = Record({
 const initialState = new State();
 
 export function save(username, password) {
-  console.log('>>> actionCreater.login: ', username, password);
   const data = { mobile_no: username, pin: password };
-  console.log('>>> actionCreater.data: ', data);
-
   const _url = portalUrl('/api/work/otp');
+
+  console.log('>>> actionCreater.data: ', data);
 
   postJson(_url, data, false)
     .then(response => {
       const { data } = response;
-      console.log('>>> save.response: ', data);
+      console.log('>>> login.response: ', data);
       window.location.href = '/product-info';
     })
     .catch(error => {
-      console.log('>>> save.error: ', error);
+      console.log('>>> login.error: ', error);
     });
 }
 
 export function getOtp(username) {
   const _url = portalUrl(`/api/work/otp?mobile=${username}`);
   getJson(_url)
-  .then(response => {
-    const { data } = response;
-    console.log('>>> save.response: ', data);
-  })
-  .catch(error => {
-    console.log('>>> save.error: ', error);
-  });
+    .then(response => {
+      const { data } = response;
+      console.log('>>> save.response: ', data);
+    })
+    .catch(error => {
+      console.log('>>> save.error: ', error);
+    });
 }
 
 const lead = (state = initialState, action) => {

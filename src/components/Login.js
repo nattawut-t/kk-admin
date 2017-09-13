@@ -49,17 +49,32 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: null,
+      username: '',
+      password: '',
       otp: null,
-      password: null,
     };
     console.log(this.props, 'this.props');
   }
-  onInputChange(e, name) {
-    this.setState({ [name]: e.target.value });
+
+  handleChange = (e, name) => {
+    const { target: { value } } = e;
+    this.setState({ [name]: value });
   }
+
+  handleClick = () => {
+    const { username, otp } = this.state;
+
+    if (username && otp) {
+      const { login } = this.props;
+      // this.props.login(this.state.username, this.state.otp);
+      console.log('>>> handleClick.login', username, otp);
+      login(username, otp);
+    }
+  };
+
   render() {
     const { username, otp } = this.state;
+
     return (
       <div className="row" style={{ padding: '33px 0' }}>
         <div style={styles.loginContainer}>
@@ -71,10 +86,7 @@ class Login extends Component {
                 floatingLabelText="เบอร์โทรศัพท์มือถือ"
                 fullWidth
                 value={username}
-                onChange={e => this.onInputChange(e, 'username')}
-                // ref={input => {
-                //   username = input.input;
-                // }}
+                onChange={e => this.handleChange(e, 'username')}
               />
               <FlatButton
                 label="ขอรับรหัส OTP"
@@ -90,11 +102,8 @@ class Login extends Component {
                 floatingLabelText="รหัส OTP"
                 fullWidth
                 value={otp}
-                onChange={e => this.onInputChange(e, 'otp')}
+                onChange={e => this.handleChange(e, 'otp')}
                 type="password"
-                // ref={input => {
-                //   password = input.input;
-                // }}
               />
 
               <div>
@@ -102,11 +111,8 @@ class Login extends Component {
                   label="เข้าสู่ระบบ"
                   primary
                   style={styles.loginBtn}
-                  onClick={() => {
-                    if (username && otp) {
-                      this.props.login(this.state.username, this.state.otp);
-                    }
-                  }}
+                  onClick={this.handleClick}
+                  disabled={!username || !otp}
                 />
               </div>
             </form>
@@ -125,12 +131,7 @@ class Login extends Component {
               href="/"
               style={styles.flatButton}
               icon={<Help />}
-              disabled={username && otp}
-              onClick={() => {
-                if (username && otp) {
-                  this.props.login(this.state.username, this.state.otp);
-                }
-              }}
+              disabled
             />
           </div>
         </div>
