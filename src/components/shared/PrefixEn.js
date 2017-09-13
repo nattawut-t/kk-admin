@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-class PrefixEn extends Component {
+class PrefixEN extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     value: PropTypes.string,
@@ -62,4 +62,4 @@ class PrefixEn extends Component {
   }
 }
 
-export default PrefixEn;
+export default PrefixEN;

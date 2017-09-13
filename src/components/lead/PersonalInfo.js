@@ -53,11 +53,13 @@ const requiredMessage = (required, value) => (required && !value) ? 'กรุ�
 class PersonalInfo extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
+    // mobile: PropTypes.string,
     data: PropTypes.object,
     completePersonalInfo: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
+    // mobile: '',
     data: null,
   };
 
@@ -93,12 +95,12 @@ class PersonalInfo extends Component {
       case 'test':
         this.state = {
           dateReq: moment().format('YYYY-MM-DD'),
-          prefixTH: 'MR',
+          prefixTH: 'นางสาว',
           firstNameTH: 'ณัฐ',
           firstNameTHmsg: '',
           lastNameTH: 'ธรรม',
           lastNameTHmsg: '',
-          prefixEn: 'Mr.',
+          prefixEN: 'Mr.',
           firstNameEN: 'Natt',
           firstNameENmsg: '',
           lastNameEN: 'Tamm',
@@ -173,7 +175,7 @@ class PersonalInfo extends Component {
           firstNameTHmsg: '',
           lastNameTH: '',
           lastNameTHmsg: '',
-          prefixEn: '',
+          prefixEN: '',
           firstNameEN: '',
           firstNameENmsg: '',
           lastNameEN: '',
@@ -248,7 +250,7 @@ class PersonalInfo extends Component {
       'prefixTH',
       'firstNameTH',
       'lastNameTH',
-      'prefixEn',
+      'prefixEN',
       'firstNameEN',
       'lastNameEN',
       'idCard',
@@ -288,7 +290,7 @@ class PersonalInfo extends Component {
       'prefixTH',
       'firstNameTH',
       'lastNameTH',
-      'prefixEn',
+      'prefixEN',
       'firstNameEN',
       'lastNameEN',
       'idCard',
@@ -448,6 +450,7 @@ class PersonalInfo extends Component {
   };
 
   handleLookupChange = (value, name, id) => {
+    console.log(value, name, id);
     this.setState({ [id]: value }, () => {
       const valid = this.validate();
       this.setState({ valid });
@@ -520,7 +523,7 @@ class PersonalInfo extends Component {
       prefixTH,
       firstNameTH,
       lastNameTH,
-      prefixEn,
+      prefixEN,
       firstNameEN,
       lastNameEN,
       idCard,
@@ -567,7 +570,7 @@ class PersonalInfo extends Component {
       prefixTH,
       firstNameTH,
       lastNameTH,
-      prefixEn,
+      prefixEN,
       firstNameEN,
       lastNameEN,
       idCard,
@@ -659,7 +662,7 @@ class PersonalInfo extends Component {
       firstNameTHmsg,
       lastNameTH,
       lastNameTHmsg,
-      prefixEn,
+      prefixEN,
       firstNameEN,
       firstNameENmsg,
       lastNameEN,
@@ -779,9 +782,9 @@ class PersonalInfo extends Component {
               <div className="row">
                 <div className="col-4">
                   <PrefixEn
-                    id="prefixEn"
-                    name="prefixEn"
-                    value={prefixEn}
+                    id="prefixEN"
+                    name="prefixEN"
+                    value={prefixEN}
                     label="คำนำหน้าชื่อ (EN)"
                     required
                     onSelectItem={this.handleLookupChange}

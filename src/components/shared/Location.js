@@ -127,7 +127,9 @@ class Location extends Component {
     if (handleChange) {
       const { amphurDataList } = this.state;
       const { CITY_NAME } = amphurDataList
-        .find(({ CITY_ID }) => CITY_ID === value) || {};
+        ? amphurDataList
+          .find(({ CITY_ID }) => CITY_ID === value) || {}
+        : { CITY_NAME: '' };
 
       handleChange(amphurValueField, amphurNameField, value, CITY_NAME);
     }

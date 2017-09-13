@@ -62,7 +62,7 @@ class Summary extends Component {
       prefixTH,
       firstNameTH,
       lastNameTH,
-      prefixEn,
+      prefixEN,
       firstNameEN,
       lastNameEN,
       idCard,
@@ -147,7 +147,7 @@ class Summary extends Component {
       prefixTH,
       firstNameTH,
       lastNameTH,
-      prefixEn,
+      prefixEN,
       firstNameEN,
       lastNameEN,
       idCard,
@@ -253,7 +253,7 @@ class Summary extends Component {
       prefixTH,
       firstNameTH,
       lastNameTH,
-      prefixEn,
+      prefixEN,
       firstNameEN,
       lastNameEN,
       idCard,
@@ -611,7 +611,7 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-4">
                   <TextField
-                    value={prefixEn}
+                    value={prefixEN}
                     floatingLabelText="คำนำหน้าชื่อ (EN)"
                     fullWidth
                     readOnly
