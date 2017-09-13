@@ -74,7 +74,7 @@ class PrefixTh extends Component {
       }
 
       this.setState({ key: _key });
-      onSelectItem(_key, _value, id);
+      onSelectItem(_value, _value, id);
     }
   };
 
