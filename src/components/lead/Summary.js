@@ -242,7 +242,7 @@ class Summary extends Component {
     e.preventDefault();
     const { save } = this.props;
     save();
-    history.push('/product-info');
+    // history.push('/product-info');
   };
 
   render() {
@@ -1351,16 +1351,6 @@ class Summary extends Component {
                 </div>
               </div>
             </CardText>
-          </Card>
-
-          <Card style={styles.marginBottom}>
-            <div style={styles.sectionTitle}>
-              <CardHeader
-                title="กรุณาตรวจสอบความถูกต้องของข้อมูลก่อนส่งคำขอกู้"
-                titleStyle={styles.TitleText}
-              />
-            </div>
-            <CardText />
           </Card>
 
           <div className="row">

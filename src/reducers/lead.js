@@ -54,12 +54,15 @@ export function save() {
         console.log('>>> save.response: ', data);
 
         dispatch(notify(!_notify, 'บันทึกข้อมูลเสร็จสมบูรณ์'));
-        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
+        setTimeout(() => {
+          dispatch(notify(!_notify, ''));
+          window.location.href = '/product-info';
+        }, 2000);
       })
       .catch(error => {
         console.log('>>> save.error: ', error);
         dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify(!_notify, '')), 1000);
+        setTimeout(() => dispatch(notify(!_notify, '')), 2000);
       });
   };
 }

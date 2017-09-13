@@ -33,7 +33,7 @@ class Bank extends Component {
     value: '',
     onSelectItem: null,
     label: 'ธนาคาร',
-    required: true,
+    required: false,
   };
 
   state = {

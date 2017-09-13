@@ -119,9 +119,9 @@ class LoanInfo extends Component {
     const keys = [
       'loanAmount',
       'installmentNumber',
-      'bankAccountNo',
-      'bankAccountName',
-      'bankBranchName',
+      // 'bankAccountNo',
+      // 'bankAccountName',
+      // 'bankBranchName',
     ];
     const invalid = keys
       .map(key => ({
@@ -142,9 +142,9 @@ class LoanInfo extends Component {
     const keys = [
       'loanAmount',
       'installmentNumber',
-      'bankAccountNo',
-      'bankAccountName',
-      'bankBranchName',
+      // 'bankAccountNo',
+      // 'bankAccountName',
+      // 'bankBranchName',
     ];
     keys
       .map(key => ({
@@ -500,7 +500,6 @@ class LoanInfo extends Component {
                     value={bankName}
                     label="ธนาคาร"
                     onSelectItem={this.handleBankChange}
-                    required
                   />
                 </div>
                 <div className="col-8">
@@ -509,7 +508,7 @@ class LoanInfo extends Component {
                     name="bankBranchName"
                     value={bankBranchName}
                     floatingLabelText="สาขา"
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={e => this.handleChange(e)}
                     errorText={bankBranchNameMsg}
                     maxLength="250"
                     fullWidth
@@ -523,7 +522,7 @@ class LoanInfo extends Component {
                     name="bankAccountNo"
                     value={bankAccountNo}
                     floatingLabelText="เลขที่บัญชี"
-                    onChange={e => this.handleBankAccountNoChange(e, true)}
+                    onChange={e => this.handleBankAccountNoChange(e)}
                     errorText={bankAccountNoMsg}
                     maxLength="10"
                     fullWidth
@@ -535,7 +534,7 @@ class LoanInfo extends Component {
                     name="bankAccountName"
                     value={bankAccountName}
                     floatingLabelText="ชื่อบัญชี"
-                    onChange={e => this.handleChange(e, true)}
+                    onChange={e => this.handleChange(e)}
                     errorText={bankAccountNameMsg}
                     maxLength="250"
                     fullWidth
