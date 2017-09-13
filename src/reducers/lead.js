@@ -32,8 +32,6 @@ const State = Record({
   statement_3: {},
 });
 const initialState = new State();
-
-// const uploadUrl = () => 'http://localhost:3000/api/doc';
 const uploadUrl = () => portalUrl('/api/work/leads/doc');
 const saveUrl = () => portalUrl('/api/work/leads');
 

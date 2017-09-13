@@ -29,6 +29,10 @@ class Agreement extends Component {
     acceptAgreement: PropTypes.func.isRequired,
   };
 
+  componentWillMount() {
+    window.scrollTo(0, 0);
+  }
+
   handleChange = () => {
     const { isConsent, acceptAgreement } = this.props;
     acceptAgreement(!isConsent);

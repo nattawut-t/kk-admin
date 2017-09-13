@@ -37,6 +37,7 @@ class LoanInfo extends Component {
 
   componentWillMount() {
     const { data } = this.props;
+    window.scrollTo(0, 0);
 
     if (data) {
       this.setState(data,

@@ -226,6 +226,8 @@ class Summary extends Component {
       shippingAmphurCodeName,
       shippingTambolCodeName,
     });
+
+    window.scrollTo(0, 0);
   }
 
   handleChange = () => {
