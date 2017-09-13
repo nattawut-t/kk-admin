@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -7,7 +8,7 @@ import { grey500, white } from 'material-ui/styles/colors';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import Help from 'material-ui/svg-icons/action/help';
 import TextField from 'material-ui/TextField';
-import { withRouter } from 'react-router';
+import Snackbar from 'material-ui/Snackbar';
 
 const styles = {
   loginContainer: {
@@ -50,10 +51,9 @@ class Login extends Component {
     super(props);
     this.state = {
       username: '',
-      password: '',
-      otp: null,
+      otp: '',
     };
-    console.log(this.props, 'this.props');
+    // console.log(this.props, 'this.props');
   }
 
   handleChange = (e, name) => {
@@ -61,19 +61,25 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  handleClick = () => {
+  handleOtpClick = username => {
+    if (username) {
+      const { getOtp } = this.props;
+      getOtp(username);
+    }
+  };
+
+  handleLoginClick = () => {
     const { username, otp } = this.state;
 
     if (username && otp) {
       const { login } = this.props;
-      // this.props.login(this.state.username, this.state.otp);
-      console.log('>>> handleClick.login', username, otp);
       login(username, otp);
     }
   };
 
   render() {
     const { username, otp } = this.state;
+    const { message } = this.props;
 
     return (
       <div className="row" style={{ padding: '33px 0' }}>
@@ -92,11 +98,8 @@ class Login extends Component {
                 label="ขอรับรหัส OTP"
                 style={styles.loginBtn}
                 primary
-                onClick={() => {
-                  if (username) {
-                    this.props.getOtp(username);
-                  }
-                }}
+                onClick={() => this.handleOtpClick(username)}
+                disabled={!username}
               />
               <TextField
                 floatingLabelText="รหัส OTP"
@@ -111,7 +114,7 @@ class Login extends Component {
                   label="เข้าสู่ระบบ"
                   primary
                   style={styles.loginBtn}
-                  onClick={this.handleClick}
+                  onClick={this.handleLoginClick}
                   disabled={!username || !otp}
                 />
               </div>
@@ -135,6 +138,11 @@ class Login extends Component {
             />
           </div>
         </div>
+        <Snackbar
+          open={message !== ''}
+          message={message}
+          autoHideDuration={4000}
+        />
       </div>
     );
   }
@@ -143,11 +151,11 @@ class Login extends Component {
 Login.propTypes = {
   login: PropTypes.func.isRequired,
   getOtp: PropTypes.func.isRequired,
+  message: PropTypes.string,
 };
 
 Login.defaultProps = {
-  username: '',
-  notiMessage: '',
+  message: '',
 };
 
 export default withRouter(Login);
