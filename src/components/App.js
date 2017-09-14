@@ -1,11 +1,25 @@
-import React, { PropTypes } from 'react';
-import { Switch, Route, BrowserRouter as Router, NavLink } from 'react-router-dom';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {
+  Switch,
+  Route,
+  BrowserRouter as Router,
+  Link,
+} from 'react-router-dom';
 import { withRouter } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
 import withWidth, { LARGE } from 'material-ui/utils/withWidth';
+
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
+import PersonAdd from 'material-ui/svg-icons/social/person-add';
+import ContentLink from 'material-ui/svg-icons/content/link';
+import Divider from 'material-ui/Divider';
+import ContentCopy from 'material-ui/svg-icons/content/content-copy';
+
 import ProductInfo from './ProductInfo';
 import BorrowStatus from './BorrowStatus';
 import Main from './Main';
@@ -19,16 +33,20 @@ import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import Summary from '../containers/lead/Summary';
 import Test from './test/Test';
 
+const pathList = [
+  '/borrow-request',
+  '/product-info',
+  '/borrow-status',
+  '/history',
+  '/summary',
+  '/additional-info',
+  '/loan-info',
+  '/personal-info',
+  '/borrow-request',
+  // '/admin/login',
+];
+
 class App extends React.Component {
-  static propTypes = {
-    width: PropTypes.number,
-    location: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-    width: 1000,
-  };
-
   state = {
     open: false,
   };
@@ -49,11 +67,11 @@ class App extends React.Component {
   }
 
   render() {
-    const { location } = this.props;
-    const pathList = ['/borrow-request', '/product-info', '/borrow-status',
-      '/history', '/summary', '/additional-info', '/loan-info', '/personal-info',
-      '/borrow-request'];
+    const { location, isAdmin } = this.props;
     const isMatched = pathList.indexOf(location.pathname) !== -1;
+
+    console.log('>>> isAdmin: ', isAdmin);
+
     return (
       <Router>
         <MuiThemeProvider>
@@ -79,18 +97,35 @@ class App extends React.Component {
                       iconClassNameRight="muidocs-icon-navigation-expand-more"
                       onClick={() => this.handleToggle()}
                     />
-                    <NavLink to="/borrow-request">
-                      <MenuItem>ส่งคำขอสินเชื่อ</MenuItem>
-                    </NavLink>
-                    <NavLink to="/product-info">
-                      <MenuItem>ข้อมูลผลิตภัณฑ์</MenuItem>
-                    </NavLink>
-                    <NavLink to="/borrow-status">
-                      <MenuItem>สถานะการกู้</MenuItem>
-                    </NavLink>
-                    <NavLink to="/history">
-                      <MenuItem>ประวัติการกู้</MenuItem>
-                    </NavLink>
+
+                    <Menu>
+                      <MenuItem
+                        primaryText="ส่งคำขอสินเชื่อ"
+                        linkButton
+                        containerElement={<Link to="/borrow-request" />}
+                        leftIcon={<PersonAdd />}
+                      />
+                      <MenuItem
+                        primaryText="ข้อมูลผลิตภัณฑ์"
+                        linkButton
+                        containerElement={<Link to="/product-info" />}
+                        leftIcon={<RemoveRedEye />}
+                      />
+                      <Divider />
+                      <MenuItem
+                        primaryText="สถานะการกู้"
+                        linkButton
+                        containerElement={<Link to="/borrow-status" />}
+                        leftIcon={<ContentLink />}
+                      />
+                      <MenuItem
+                        primaryText="ประวัติการกู้"
+                        linkButton
+                        containerElement={<Link to="/history" />}
+                        leftIcon={<ContentCopy />}
+                      />
+                    </Menu>
+
                   </Drawer>
                 </div>
                 <div className={`${!isMatched ? 'col-12' : 'col-9'}`}>
@@ -119,5 +154,16 @@ class App extends React.Component {
       </Router>);
   }
 }
+
+App.propTypes = {
+  // history: PropTypes.object.isRequired,
+  width: PropTypes.number,
+  location: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+};
+
+App.defaultProps = {
+  width: 1000,
+};
 
 export default withWidth()(withRouter(App));
