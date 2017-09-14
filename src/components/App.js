@@ -19,6 +19,7 @@ import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import ContentLink from 'material-ui/svg-icons/content/link';
 import Divider from 'material-ui/Divider';
 import ContentCopy from 'material-ui/svg-icons/content/content-copy';
+import FilterList from 'material-ui/svg-icons/content/filter-list';
 
 import ProductInfo from './ProductInfo';
 import BorrowStatus from './BorrowStatus';
@@ -43,7 +44,6 @@ const pathList = [
   '/loan-info',
   '/personal-info',
   '/borrow-request',
-  // '/admin/login',
 ];
 
 class App extends React.Component {
@@ -55,6 +55,7 @@ class App extends React.Component {
     const width = document.body.offsetWidth;
     this.setState({ open: width > 768 });
   }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.width !== nextProps.width) {
       this.setState({ open: nextProps.width === LARGE });
@@ -68,9 +69,10 @@ class App extends React.Component {
 
   render() {
     const { location, isAdmin } = this.props;
-    const isMatched = pathList.indexOf(location.pathname) !== -1;
+    const { open } = this.state;
+    const isMatched = isAdmin || pathList.indexOf(location.pathname) !== -1;
 
-    console.log('>>> isAdmin: ', isAdmin);
+    console.log('>>> isAdmin: ', isAdmin, isMatched, location.pathname);
 
     return (
       <Router>
@@ -85,10 +87,11 @@ class App extends React.Component {
             <main>
               <div className="row">
                 <div className={`${!isMatched ? 'col-0' : 'col-3'}`} style={{ margin: 'inherit' }}>
+
                   <Drawer
                     docked
                     className={`${!isMatched ? 'pc-hide' : ''}`}
-                    open={this.state.open}
+                    open={open}
                     width={250}
                   >
                     <AppBar
@@ -98,35 +101,45 @@ class App extends React.Component {
                       onClick={() => this.handleToggle()}
                     />
 
-                    <Menu>
-                      <MenuItem
-                        primaryText="ส่งคำขอสินเชื่อ"
-                        linkButton
-                        containerElement={<Link to="/borrow-request" />}
-                        leftIcon={<PersonAdd />}
-                      />
-                      <MenuItem
-                        primaryText="ข้อมูลผลิตภัณฑ์"
-                        linkButton
-                        containerElement={<Link to="/product-info" />}
-                        leftIcon={<RemoveRedEye />}
-                      />
-                      <Divider />
-                      <MenuItem
-                        primaryText="สถานะการกู้"
-                        linkButton
-                        containerElement={<Link to="/borrow-status" />}
-                        leftIcon={<ContentLink />}
-                      />
-                      <MenuItem
-                        primaryText="ประวัติการกู้"
-                        linkButton
-                        containerElement={<Link to="/history" />}
-                        leftIcon={<ContentCopy />}
-                      />
-                    </Menu>
+                    {isAdmin
+                      ? <Menu>
+                        <MenuItem
+                          primaryText="เพิ่มคำขอสินเชื่อ"
+                          containerElement={<Link to="/borrow-request" />}
+                          leftIcon={<PersonAdd />}
+                        />
+                        <MenuItem
+                          primaryText="รายการคำขอสินเชื่อ"
+                          leftIcon={<FilterList />}
+                        />
+                      </Menu>
+                      : <Menu>
+                        <MenuItem
+                          primaryText="ส่งคำขอสินเชื่อ"
+                          containerElement={<Link to="/borrow-request" />}
+                          leftIcon={<PersonAdd />}
+                        />
+                        <MenuItem
+                          primaryText="ข้อมูลผลิตภัณฑ์"
+                          containerElement={<Link to="/product-info" />}
+                          leftIcon={<RemoveRedEye />}
+                        />
+                        <Divider />
+                        <MenuItem
+                          primaryText="สถานะการกู้"
+                          containerElement={<Link to="/borrow-status" />}
+                          leftIcon={<ContentLink />}
+                        />
+                        <MenuItem
+                          primaryText="ประวัติการกู้"
+                          containerElement={<Link to="/history" />}
+                          leftIcon={<ContentCopy />}
+                        />
+                      </Menu>
+                    }
 
                   </Drawer>
+
                 </div>
                 <div className={`${!isMatched ? 'col-12' : 'col-9'}`}>
                   <div className="container">
@@ -159,11 +172,12 @@ App.propTypes = {
   // history: PropTypes.object.isRequired,
   width: PropTypes.number,
   location: PropTypes.object.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool,
 };
 
 App.defaultProps = {
   width: 1000,
+  isAdmin: false,
 };
 
 export default withWidth()(withRouter(App));
