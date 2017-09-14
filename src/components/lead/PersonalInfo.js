@@ -164,6 +164,20 @@ class PersonalInfo extends Component {
           employmentDatemsg: '',
           jobSalary: 100000,
           jobSalarymsg: '',
+          //
+          officeNumber: '1203',
+          officeMoo: '5',
+          officeVillage: 'กัญญาเฮาส์',
+          officeSoi: '4',
+          officeRoad: 'รัชดาภิเษก',
+          officeProvince: '',
+          officeAmphurCode: '',
+          officeTambolCode: '',
+          officeProvinceName: '',
+          officeAmphurCodeName: '',
+          officeTambolCodeName: '',
+          officeZipCode: '72170',
+          //
         };
         break;
 
@@ -239,6 +253,20 @@ class PersonalInfo extends Component {
           employmentDatemsg: '',
           jobSalary: 0,
           jobSalarymsg: '',
+          //
+          officeNumber: '',
+          officeMoo: '',
+          officeVillage: '',
+          officeSoi: '',
+          officeRoad: '',
+          officeProvince: '',
+          officeAmphurCode: '',
+          officeTambolCode: '',
+          officeProvinceName: '',
+          officeAmphurCodeName: '',
+          officeTambolCodeName: '',
+          officeZipCode: '',
+          //
         };
         break;
     }
@@ -561,6 +589,20 @@ class PersonalInfo extends Component {
       email,
       employmentDate,
       jobSalary,
+      //
+      officeNumber,
+      officeMoo,
+      officeVillage,
+      officeSoi,
+      officeRoad,
+      officeProvince,
+      officeAmphurCode,
+      officeTambolCode,
+      officeProvinceName,
+      officeAmphurCodeName,
+      officeTambolCodeName,
+      officeZipCode,
+      //
     } = this.state;
 
     console.log(this.state);
@@ -615,6 +657,20 @@ class PersonalInfo extends Component {
       email,
       employmentDate,
       jobSalary,
+      //
+      officeNumber,
+      officeMoo,
+      officeVillage,
+      officeSoi,
+      officeRoad,
+      officeProvince,
+      officeAmphurCode,
+      officeTambolCode,
+      officeProvinceName,
+      officeAmphurCodeName,
+      officeTambolCodeName,
+      officeZipCode,
+      //
     });
 
     const { history } = this.props;
@@ -719,6 +775,20 @@ class PersonalInfo extends Component {
       employmentDatemsg,
       jobSalary,
       jobSalarymsg,
+      //
+      officeNumber,
+      officeMoo,
+      officeVillage,
+      officeSoi,
+      officeRoad,
+      officeProvince,
+      officeAmphurCode,
+      officeTambolCode,
+      officeProvinceName,
+      officeAmphurCodeName,
+      officeTambolCodeName,
+      officeZipCode,
+      //
       valid,
     } = this.state;
 
@@ -955,6 +1025,99 @@ class PersonalInfo extends Component {
                     value={telExtension}
                     onChange={e => this.handleChange(e, true)}
                     maxLength="10"
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-3">
+                  <TextField
+                    id="officeNumber"
+                    name="officeNumber"
+                    floatingLabelText="เลขที่"
+                    value={officeNumber}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="10"
+                    fullWidth
+                  />
+                </div>
+                <div className="col-3">
+                  <TextField
+                    id="officeMoo"
+                    name="officeMoo"
+                    floatingLabelText="หมู่ที่"
+                    value={officeMoo}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="3"
+                    fullWidth
+                  />
+                </div>
+                <div className="col-6">
+                  <TextField
+                    id="officeVillage"
+                    name="officeVillage"
+                    floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+                    value={officeVillage}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="100"
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-4">
+                  <TextField
+                    id="officeSoi"
+                    name="officeSoi"
+                    floatingLabelText="ซอย"
+                    value={officeSoi}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="100"
+                    fullWidth
+                  />
+                </div>
+                <div className="col-4">
+                  <TextField
+                    id="officeRoad"
+                    name="officeRoad"
+                    floatingLabelText="ถนน"
+                    value={officeRoad}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="100"
+                    fullWidth
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col">
+                  <Location
+                    id="location3"
+                    name="location3"
+                    provinceValueField="officeProvince"
+                    provinceNameField="officeProvinceName"
+                    amphurValueField="officeAmphurCode"
+                    amphurNameField="officeAmphurCodeName"
+                    tambolValueField="officeTambolCode"
+                    tambolNameField="officeTambolCodeName"
+                    provinceValue={officeProvince}
+                    amphurValue={officeAmphurCode}
+                    tambolValue={officeTambolCode}
+                    provinceName={officeProvinceName}
+                    amphurName={officeAmphurCodeName}
+                    tambolName={officeTambolCodeName}
+                    handleChange={this.handleLocationChange}
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-4">
+                  <TextField
+                    id="officeZipCode"
+                    name="officeZipCode"
+                    floatingLabelText="รหัสไปรษณีย์"
+                    value={officeZipCode}
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="5"
                     fullWidth
                   />
                 </div>

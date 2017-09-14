@@ -113,7 +113,7 @@ class AdditionalInfo extends Component {
           childrenMsg: '',
           isConsent2: false,
           shippingHouseNo: '',
-          shippingAlley: '',
+          shippingMoo: '',
           shippingVillage: '',
           shippingFloor: '',
           shippingSoi: '',
@@ -175,7 +175,7 @@ class AdditionalInfo extends Component {
           childrenMsg: '',
           isConsent2: false,
           shippingHouseNo: '',
-          shippingAlley: '',
+          shippingMoo: '',
           shippingVillage: '',
           shippingFloor: '',
           shippingSoi: '',
@@ -283,7 +283,7 @@ class AdditionalInfo extends Component {
       () => {
         this.setState({
           shippingHouseNo: '',
-          shippingAlley: '',
+          shippingMoo: '',
           shippingVillage: '',
           shippingFloor: '',
           shippingSoi: '',
@@ -318,7 +318,7 @@ class AdditionalInfo extends Component {
 
           this.setState({
             shippingHouseNo: number,
-            shippingAlley: moo,
+            shippingMoo: moo,
             shippingVillage: village,
             shippingSoi: soi,
             shippingRoad: road,
@@ -437,8 +437,9 @@ class AdditionalInfo extends Component {
       conjugalIncome,
       conjugalIncomeMsg,
       children,
+      //
       shippingHouseNo,
-      shippingAlley,
+      shippingMoo,
       shippingVillage,
       shippingFloor,
       shippingSoi,
@@ -450,6 +451,8 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      shippingAddress,
+      //
       isConsent2,
     } = this.state;
 
@@ -493,8 +496,9 @@ class AdditionalInfo extends Component {
       conjugalIncome,
       conjugalIncomeMsg,
       children,
+      //
       shippingHouseNo,
-      shippingAlley,
+      shippingMoo,
       shippingVillage,
       shippingFloor,
       shippingSoi,
@@ -506,6 +510,8 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      shippingAddress,
+      //
       isConsent2,
     });
 
@@ -518,7 +524,7 @@ class AdditionalInfo extends Component {
 
     const {
       shippingHouseNo,
-      shippingAlley,
+      shippingMoo,
       shippingVillage,
       shippingFloor,
       shippingSoi,
@@ -549,10 +555,10 @@ class AdditionalInfo extends Component {
             </div>
             <div className="col-4">
               <TextField
-                id="shippingAlley"
-                name="shippingAlley"
+                id="shippingMoo"
+                name="shippingMoo"
                 floatingLabelText="หมู่ที่"
-                value={shippingAlley}
+                value={shippingMoo}
                 maxLength="3"
                 disabled
                 fullWidth
@@ -661,10 +667,10 @@ class AdditionalInfo extends Component {
             </div>
             <div className="col">
               <TextField
-                id="shippingAlley"
-                name="shippingAlley"
+                id="shippingMoo"
+                name="shippingMoo"
                 floatingLabelText="หมู่ที่"
-                value={shippingAlley}
+                value={shippingMoo}
                 onChange={e => this.handleChange(e, true)}
                 maxLength="3"
                 fullWidth
@@ -822,7 +828,7 @@ class AdditionalInfo extends Component {
       isConsent2,
       //
       // shippingHouseNo,
-      // shippingAlley,
+      // shippingMoo,
       // shippingVillage,
       // shippingFloor,
       // shippingSoi,
