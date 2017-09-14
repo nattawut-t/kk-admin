@@ -10,6 +10,7 @@ import ProductInfo from './ProductInfo';
 import BorrowStatus from './BorrowStatus';
 import Main from './Main';
 import Login from '../containers/Login';
+import AdminLogin from '../containers/AdminLogin';
 import History from './History';
 import Agreement from '../containers/lead/Agreement';
 import PersonalInfo from '../containers/lead/PersonalInfo';
@@ -96,6 +97,7 @@ class App extends React.Component {
                   <div className="container">
                     <Switch>
                       <Route path="/login" component={Login} />
+                      <Route path="/admin/login" component={AdminLogin} />
                       <Route path="/borrow-request" component={Main} />
                       <Route path="/product-info" component={ProductInfo} />
                       <Route path="/borrow-status" component={BorrowStatus} />

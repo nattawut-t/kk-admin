@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Component from '../components/Login';
-import { loginOtp, getOtp } from '../reducers/authen';
+import Component from '../components/AdminLogin';
+import { login } from '../reducers/authen';
 
 const mapStateToProps = state => ({
   message: state.authen.get('message') || '',
@@ -8,8 +8,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getOtp: mobile => dispatch(getOtp(mobile)),
-  login: (mobile, otp, callback) => dispatch(loginOtp(mobile, otp, callback)),
+  login: (username, password, callback) => dispatch(login(username, password, callback)),
 });
 
 export default connect(

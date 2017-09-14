@@ -46,14 +46,13 @@ const styles = {
   },
 };
 
-class Login extends Component {
+class AdminLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      otp: '',
+      password: '',
     };
-    // console.log(this.props, 'this.props');
   }
 
   handleChange = (e, name) => {
@@ -61,26 +60,19 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  handleOtpClick = username => {
-    if (username) {
-      const { getOtp } = this.props;
-      getOtp(username);
-    }
-  };
-
   handleLoginClick = () => {
-    const { username, otp } = this.state;
+    const { username, password } = this.state;
 
-    if (username && otp) {
+    if (username && password) {
       const { login, history } = this.props;
-      login(username, otp, () => {
+      login(username, password, () => {
         history.push('/product-info');
       });
     }
   };
 
   render() {
-    const { username, otp } = this.state;
+    const { username, password } = this.state;
     const { message } = this.props;
 
     return (
@@ -91,23 +83,16 @@ class Login extends Component {
 
             <form>
               <TextField
-                floatingLabelText="เบอร์โทรศัพท์มือถือ"
+                floatingLabelText="ชื่อผู้ใช้"
                 fullWidth
                 value={username}
                 onChange={e => this.handleChange(e, 'username')}
               />
-              <FlatButton
-                label="ขอรับรหัส OTP"
-                style={styles.loginBtn}
-                primary
-                onClick={() => this.handleOtpClick(username)}
-                disabled={!username}
-              />
               <TextField
-                floatingLabelText="รหัส OTP"
+                floatingLabelText="รหัสผ่าน"
                 fullWidth
-                value={otp}
-                onChange={e => this.handleChange(e, 'otp')}
+                value={password}
+                onChange={e => this.handleChange(e, 'password')}
                 type="password"
               />
 
@@ -117,7 +102,7 @@ class Login extends Component {
                   primary
                   style={styles.loginBtn}
                   onClick={this.handleLoginClick}
-                  disabled={!username || !otp}
+                  disabled={!username || !password}
                 />
               </div>
             </form>
@@ -129,6 +114,7 @@ class Login extends Component {
               href="/"
               style={styles.flatButton}
               icon={<PersonAdd />}
+              disabled
             />
 
             <FlatButton
@@ -150,15 +136,14 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+AdminLogin.propTypes = {
   history: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
-  getOtp: PropTypes.func.isRequired,
   message: PropTypes.string,
 };
 
-Login.defaultProps = {
+AdminLogin.defaultProps = {
   message: '',
 };
 
-export default withRouter(Login);
+export default withRouter(AdminLogin);
