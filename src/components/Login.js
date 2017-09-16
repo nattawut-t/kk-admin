@@ -47,13 +47,14 @@ const styles = {
 };
 
 class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      otp: '',
-    };
-    // console.log(this.props, 'this.props');
+  state = {
+    username: '',
+    otp: '',
+  };
+
+  componentWillMount() {
+    const { clearState } = this.props;
+    clearState();
   }
 
   handleChange = (e, name) => {
@@ -154,6 +155,7 @@ Login.propTypes = {
   history: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
   getOtp: PropTypes.func.isRequired,
+  clearState: PropTypes.func.isRequired,
   message: PropTypes.string,
 };
 

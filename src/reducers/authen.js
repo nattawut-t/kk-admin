@@ -2,6 +2,7 @@ import Immutable, { Record } from 'immutable';
 import {
   LOGIN_OTP_SUCCESS,
   LOGIN_SUCCESS,
+  CLEAR_STATE,
   NOTIFY,
   notify,
   loginOtpSuccess,
@@ -34,10 +35,10 @@ export function login(username, password, callback) {
         console.log('>>> login.response: ', data);
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
-        dispatch(loginSuccess(username));
-
         setTimeout(() => {
           dispatch(notify(''));
+          dispatch(loginSuccess(username));
+
           if (callback) {
             callback();
           }
@@ -66,10 +67,11 @@ export function loginOtp(mobile, otp, callback) {
         console.log('>>> loginOtp.response: ', data);
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
-        dispatch(loginOtpSuccess(mobile));
 
         setTimeout(() => {
           dispatch(notify(''));
+          dispatch(loginOtpSuccess(mobile));
+
           if (callback) {
             callback();
           }
@@ -131,6 +133,20 @@ const lead = (state = initialState, action) => {
       });
 
       console.log('>>> NOTIFY', _state.toJS(), action);
+
+      return state.merge(_state);
+
+    case CLEAR_STATE:
+      _state = Immutable.fromJS({
+        otp: '',
+        message: '',
+        username: '',
+        isAdmin: false,
+        loading: false,
+        authenticated: false,
+      });
+
+      console.log('>>> CLEAR_STATE', _state.toJS(), action);
 
       return state.merge(_state);
 
