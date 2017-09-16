@@ -52,11 +52,6 @@ class Login extends Component {
     otp: '',
   };
 
-  componentWillMount() {
-    const { clearState } = this.props;
-    clearState();
-  }
-
   handleChange = (e, name) => {
     const { target: { value } } = e;
     this.setState({ [name]: value });
@@ -155,7 +150,6 @@ Login.propTypes = {
   history: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
   getOtp: PropTypes.func.isRequired,
-  clearState: PropTypes.func.isRequired,
   message: PropTypes.string,
 };
 

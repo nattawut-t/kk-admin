@@ -52,11 +52,6 @@ class AdminLogin extends Component {
     password: '',
   };
 
-  componentWillMount() {
-    const { clearState } = this.props;
-    clearState();
-  }
-
   handleChange = (e, name) => {
     const { target: { value } } = e;
     this.setState({ [name]: value });
@@ -141,7 +136,6 @@ class AdminLogin extends Component {
 AdminLogin.propTypes = {
   history: PropTypes.object.isRequired,
   login: PropTypes.func.isRequired,
-  clearState: PropTypes.func.isRequired,
   message: PropTypes.string,
 };
 

@@ -5,6 +5,7 @@ import {
   Route,
   BrowserRouter as Router,
   Link,
+  // Redirect,
 } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -14,12 +15,16 @@ import withWidth, { LARGE } from 'material-ui/utils/withWidth';
 
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import ContentLink from 'material-ui/svg-icons/content/link';
 import Divider from 'material-ui/Divider';
 import ContentCopy from 'material-ui/svg-icons/content/content-copy';
 import FilterList from 'material-ui/svg-icons/content/filter-list';
+import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 
 import ProductInfo from './ProductInfo';
 import BorrowStatus from './BorrowStatus';
@@ -35,6 +40,28 @@ import Summary from '../containers/lead/Summary';
 
 import Test from '../containers/test/Test';
 import Test1 from '../containers/test/Test1';
+
+const Logged = ({ onSignoutClick }) => (
+  <div>
+    <IconButton><AccountCircle /></IconButton>
+    <IconMenu
+      iconButtonElement={
+        <IconButton><MoreVertIcon /></IconButton>
+      }
+      targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+      anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+    >
+      <MenuItem
+        primaryText="Sign out"
+        onClick={() => onSignoutClick()}
+      />
+    </IconMenu>
+  </div>
+);
+
+Logged.propTypes = {
+  onSignoutClick: PropTypes.func.isRequired,
+};
 
 class App extends React.Component {
   state = {
@@ -53,13 +80,31 @@ class App extends React.Component {
     }
   }
 
-  handleToggle() {
+  handleToggle = () => {
     const width = document.body.offsetWidth;
     this.setState({ open: width > 768 || !this.state.open });
-  }
+  };
+
+  handleSignoutClick = () => {
+    location.href = '/';
+  };
 
   render() {
     const { authenticated, isAdmin } = this.props;
+
+    if (!authenticated) {
+      return (
+        <Router>
+          <MuiThemeProvider>
+            <Switch>
+              <Route path="/login" component={Login} />
+              <Route path="/admin/login" component={AdminLogin} />
+              <Route path="*" exact component={Login} />
+            </Switch>
+          </MuiThemeProvider>
+        </Router>
+      );
+    }
 
     return (
       <Router>
@@ -68,12 +113,15 @@ class App extends React.Component {
             <AppBar
               title=""
               className={`${!authenticated ? 'pc-hide' : ''}`}
-              iconClassNameRight="muidocs-icon-navigation-expand-more"
+              iconElementRight={<Logged onSignoutClick={this.handleSignoutClick} />}
               onClick={() => this.handleToggle()}
             />
             <main>
               <div className="row">
-                <div className={`${!authenticated ? 'col-0' : 'col-3'}`} style={{ margin: 'inherit' }}>
+                <div
+                  className={`${!authenticated ? 'col-0' : 'col-3'}`}
+                  style={{ margin: 'inherit' }}
+                >
                   <Drawer
                     docked
                     className={`${!authenticated ? 'pc-hide' : ''}`}
@@ -132,8 +180,6 @@ class App extends React.Component {
                     <Switch>
                       <Route path="/test" component={Test} />
                       <Route path="/test1" component={Test1} />
-                      <Route path="/login" component={Login} />
-                      <Route path="/admin/login" component={AdminLogin} />
                       <Route path="/product-info" component={ProductInfo} />
                       <Route path="/borrow-request" component={Main} />
                       <Route path="/borrow-status" component={BorrowStatus} />
@@ -143,7 +189,7 @@ class App extends React.Component {
                       <Route path="/loan-info" component={LoanInfo} />
                       <Route path="/personal-info" component={PersonalInfo} />
                       <Route path="/borrow-request" component={Agreement} />
-                      <Route path="*" exact component={Login} />
+                      <Route path="*" exact component={ProductInfo} />
                     </Switch>
                   </div>
                 </div>
