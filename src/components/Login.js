@@ -47,10 +47,26 @@ const styles = {
 };
 
 class Login extends Component {
-  state = {
-    username: '',
-    otp: '',
-  };
+  constructor(props) {
+    super(props);
+    const env = process.env.NODE_ENV;
+
+    switch (env) {
+      case 'test':
+        this.state = {
+          username: '0627609997',
+          otp: '',
+        };
+        break;
+
+      default:
+        this.state = {
+          username: '',
+          otp: '',
+        };
+        break;
+    }
+  }
 
   handleChange = (e, name) => {
     const { target: { value } } = e;
