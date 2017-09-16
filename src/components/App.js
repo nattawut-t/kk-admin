@@ -32,23 +32,14 @@ import PersonalInfo from '../containers/lead/PersonalInfo';
 import LoanInfo from '../containers/lead/LoanInfo';
 import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import Summary from '../containers/lead/Summary';
-import Test from './test/Test';
 
-const pathList = [
-  '/borrow-request',
-  '/product-info',
-  '/borrow-status',
-  '/history',
-  '/summary',
-  '/additional-info',
-  '/loan-info',
-  '/personal-info',
-  '/borrow-request',
-];
+import Test from '../containers/test/Test';
+import Test1 from '../containers/test/Test1';
 
 class App extends React.Component {
   state = {
     open: false,
+    afterLogin: false,
   };
 
   componentWillMount() {
@@ -68,11 +59,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { location, isAdmin } = this.props;
-    const { open } = this.state;
-    const isMatched = isAdmin || pathList.indexOf(location.pathname) !== -1;
-
-    console.log('>>> isAdmin: ', isAdmin, isMatched, location.pathname);
+    const { authenticated, isAdmin } = this.props;
 
     return (
       <Router>
@@ -80,23 +67,22 @@ class App extends React.Component {
           <div>
             <AppBar
               title=""
-              className={`${!isMatched ? 'pc-hide' : ''}`}
+              className={`${!authenticated ? 'pc-hide' : ''}`}
               iconClassNameRight="muidocs-icon-navigation-expand-more"
               onClick={() => this.handleToggle()}
             />
             <main>
               <div className="row">
-                <div className={`${!isMatched ? 'col-0' : 'col-3'}`} style={{ margin: 'inherit' }}>
-
+                <div className={`${!authenticated ? 'col-0' : 'col-3'}`} style={{ margin: 'inherit' }}>
                   <Drawer
                     docked
-                    className={`${!isMatched ? 'pc-hide' : ''}`}
-                    open={open}
+                    className={`${!authenticated ? 'pc-hide' : ''}`}
+                    open={this.state.open}
                     width={250}
                   >
                     <AppBar
                       title="MoneyTable"
-                      className={`${!isMatched ? 'pc-hide' : ''}`}
+                      className={`${!authenticated ? 'pc-hide' : ''}`}
                       iconClassNameRight="muidocs-icon-navigation-expand-more"
                       onClick={() => this.handleToggle()}
                     />
@@ -141,18 +127,19 @@ class App extends React.Component {
                   </Drawer>
 
                 </div>
-                <div className={`${!isMatched ? 'col-12' : 'col-9'}`}>
+                <div className={`${!authenticated ? 'col-12' : 'col-9'}`}>
                   <div className="container">
                     <Switch>
+                      <Route path="/test" component={Test} />
+                      <Route path="/test1" component={Test1} />
                       <Route path="/login" component={Login} />
                       <Route path="/admin/login" component={AdminLogin} />
-                      <Route path="/borrow-request" component={Main} />
                       <Route path="/product-info" component={ProductInfo} />
+                      <Route path="/borrow-request" component={Main} />
                       <Route path="/borrow-status" component={BorrowStatus} />
                       <Route path="/history" component={History} />
                       <Route path="/summary" component={Summary} />
                       <Route path="/additional-info" component={AdditionalInfo} />
-                      <Route path="/test" component={Test} />
                       <Route path="/loan-info" component={LoanInfo} />
                       <Route path="/personal-info" component={PersonalInfo} />
                       <Route path="/borrow-request" component={Agreement} />
@@ -171,13 +158,14 @@ class App extends React.Component {
 App.propTypes = {
   // history: PropTypes.object.isRequired,
   width: PropTypes.number,
-  location: PropTypes.object.isRequired,
-  isAdmin: PropTypes.bool,
+  // location: PropTypes.object.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  authenticated: PropTypes.bool,
 };
 
 App.defaultProps = {
   width: 1000,
-  isAdmin: false,
+  authenticated: false,
 };
 
 export default withWidth()(withRouter(App));

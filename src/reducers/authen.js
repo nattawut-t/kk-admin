@@ -15,6 +15,7 @@ const State = Record({
   username: '',
   isAdmin: false,
   loading: false,
+  authenticated: false,
 });
 const initialState = new State();
 
@@ -106,6 +107,7 @@ const lead = (state = initialState, action) => {
       _state = Immutable.fromJS({
         username: action.mobile,
         isAdmin: action.isAdmin,
+        authenticated: true,
       });
 
       console.log('>>> LOGIN_OTP_SUCCESS', _state.toJS(), action);
@@ -116,6 +118,7 @@ const lead = (state = initialState, action) => {
       _state = Immutable.fromJS({
         username: action.username,
         isAdmin: action.isAdmin,
+        authenticated: true,
       });
 
       console.log('>>> LOGIN_SUCCESS', _state.toJS(), action);

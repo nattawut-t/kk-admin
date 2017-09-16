@@ -47,13 +47,10 @@ const styles = {
 };
 
 class AdminLogin extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-    };
-  }
+  state = {
+    username: '',
+    password: '',
+  };
 
   handleChange = (e, name) => {
     const { target: { value } } = e;
