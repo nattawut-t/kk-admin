@@ -41,6 +41,8 @@ import LoanInfo from '../containers/lead/LoanInfo';
 import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import Summary from '../containers/lead/Summary';
 
+import AdminIndex from '../containers/admin/Index';
+
 import Test from '../containers/test/Test';
 import Test1 from '../containers/test/Test1';
 
@@ -147,6 +149,7 @@ class App extends React.Component {
                         />
                         <MenuItem
                           primaryText="รายการคำขอสินเชื่อ"
+                          containerElement={<Link to="/admin/leads" />}
                           leftIcon={<List />}
                         />
                       </Menu>
@@ -192,6 +195,7 @@ class App extends React.Component {
                       <Route path="/loan-info" component={LoanInfo} />
                       <Route path="/personal-info" component={PersonalInfo} />
                       <Route path="/borrow-request" component={Agreement} />
+                      <Route path="/admin/leads" component={AdminIndex} />
                       <Route path="*" exact component={ProductInfo} />
                     </Switch>
                   </div>

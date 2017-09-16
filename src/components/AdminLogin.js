@@ -63,7 +63,7 @@ class AdminLogin extends Component {
     if (username && password) {
       const { login, history } = this.props;
       login(username, password, () => {
-        history.push('/product-info');
+        history.push('/admin/leads');
       });
     }
   };
