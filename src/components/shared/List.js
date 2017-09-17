@@ -76,18 +76,20 @@ class List extends Component {
           fixedFooter
           onCellClick={e => this.handleCellClick(e)}
         >
-          <TableHeader>
+          <TableHeader
+            displaySelectAll={false}
+            adjustForCheckbox={false}
+            enableSelectAll={false}
+          >
             <TableRow>
-              <TableHeaderColumn style={{ width: '20px' }}>No.</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '5%', textAlign: 'center' }}>#</TableHeaderColumn>
               {tableSchemas.map(col => {
                 const { id, name, label } = col;
-                let { width } = col;
-                width = width || 100;
+                let { widthPercentage } = col;
+                widthPercentage = widthPercentage || 100;
                 return (
-                  <TableHeaderColumn key={id} style={{ width: `${width}px` }}>
-                    <div
-                      style={{ display: 'inline-block' }}
-                    >
+                  <TableHeaderColumn key={id} style={{ width: `${widthPercentage}%`, textAlign: 'center' }}>
+                    <div style={{ display: 'inline-block' }} >
                       <span>{label}</span>
                       <IconButton
                         tooltip={`Sort by ${label}`}
@@ -104,22 +106,39 @@ class List extends Component {
               })}
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody
+            displayRowCheckbox={false}
+            deselectOnClickaway
+            showRowHover
+            stripedRows={false}
+          >
             {(dataList instanceof ImmList)
               ? dataList.map((data, index) => {
-                const id = data.get('id');
+                const id = data.get('ID');
+
                 return (
                   <TableRow key={id}>
-                    <TableRowColumn style={{ width: '20px' }}>
+                    <TableRowColumn style={{ width: '5%', textAlign: 'center' }}>
                       {index + 1}
                     </TableRowColumn>
                     {tableSchemas.map(col => {
-                      const { id, name } = col;
-                      let { width } = col;
-                      width = width || 100;
+                      const { id, name, icon, format } = col;
+                      const value = data.get(name);
+                      let { widthPercentage } = col;
+
+                      widthPercentage = widthPercentage || 10;
+
                       return (
-                        <TableRowColumn key={id} style={{ width: `${width}px` }} >
-                          {data.get(name)}
+                        <TableRowColumn
+                          key={id}
+                          style={{ width: `${widthPercentage}%`, textAlign: 'center' }}
+                        >
+                          {(typeof icon === 'function')
+                            ? <IconButton tooltip={value}>
+                              <i className="material-icons">{icon(value)}</i>
+                            </IconButton>
+                            : <span>{(typeof format === 'function') ? format(value) : value}</span>
+                          }
                         </TableRowColumn>
                       );
                     })}

@@ -31,8 +31,11 @@ export function login(username, password, callback) {
     postJson(_url, data, false)
       .then(response => {
         const { data } = response;
+        const { token } = data;
 
         console.log('>>> login.response: ', data);
+
+        localStorage.setItem('token', token);
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
         setTimeout(() => {

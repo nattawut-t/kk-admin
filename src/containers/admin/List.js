@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
+import moment from 'moment';
 import List from '../../components/shared/List';
-// import { TableSchemas } from '../../models/admin';
 import {
   searchData,
   sortData,
@@ -9,43 +9,111 @@ import {
 
 const schema = [
   {
-    id: 3,
-    name: 'accountNo',
-    label: 'Account No',
-  },
-  {
-    id: 4,
-    name: 'accountName',
-    label: 'Account Name',
-  },
-  {
     id: 1,
-    name: 'idcardNo',
-    label: 'ID Card No.',
-    width: 150,
+    name: 'Status',
+    label: 'สถานะคำข้อกู้',
+    widthPercentage: 10,
+    icon: status => {
+      let icon;
+
+      switch (status) {
+        case 'success':
+          icon = 'check_circle';
+          break;
+
+        default:
+          icon = 'account_circle';
+          break;
+      }
+
+      return icon;
+    },
   },
   {
     id: 2,
-    name: 'partnerName',
-    label: 'Partner Name',
+    name: 'ID',
+    label: 'เลขที่',
+    widthPercentage: 10,
   },
-
-
+  {
+    id: 3,
+    name: 'CreatedAt',
+    label: 'วันที่สร้างคำขอกู้',
+    widthPercentage: 25,
+    format: value => moment(value).format('YYYY-MM-DD'),
+  },
+  {
+    id: 4,
+    name: 'TicketID',
+    label: 'เลขที่อ้างอิง',
+    widthPercentage: 20,
+  },
   {
     id: 5,
-    name: 'bankCode',
-    label: 'Bank Code',
+    name: 'nameTH',
+    label: 'ชื่อ/นามสกุล (TH)',
+    widthPercentage: 30,
   },
-  {
-    id: 6,
-    name: 'bankName',
-    label: 'Bank Name',
-  },
-  {
-    id: 7,
-    name: 'branchName',
-    label: 'Branch Name',
-  },
+  // {
+  //   id: 5,
+  //   name: 'birthDate',
+  //   label: 'วันเกิด',
+  //   widthPercentage: 80,
+  // },
+  // {
+  //   id: 9,
+  //   name: 'status',
+  //   label: 'สถานภาพสมรส',
+  //   widthPercentage: 100,
+  // },
+  // {
+  //   id: 6,
+  //   name: 'jobCompanyName',
+  //   label: 'ชื่อบริษัท',
+  //   widthPercentage: 120,
+  // },
+  // {
+  //   id: 7,
+  //   name: 'department',
+  //   label: 'แผนก',
+  //   widthPercentage: 100,
+  // },
+  // {
+  //   id: 8,
+  //   name: 'position',
+  //   label: 'ตำแหน่ง',
+  //   widthPercentage: 100,
+  // },
+  // {
+  //   id: 9,
+  //   name: 'provinceName',
+  //   label: 'จังหวัด',
+  //   widthPercentage: 100,
+  // },
+  // {
+  //   id: 10,
+  //   name: 'loanAmount',
+  //   label: 'จำนวนขอกู้',
+  //   widthPercentage: 80,
+  // },
+  // {
+  //   id: 11,
+  //   name: 'installmentNumber',
+  //   label: 'งวด',
+  //   widthPercentage: 80,
+  // },
+  // {
+  //   id: 12,
+  //   name: 'accumulateDebt',
+  //   label: 'ภาระหนี้สินรวม',
+  //   widthPercentage: 80,
+  // },
+  // {
+  //   id: 13,
+  //   name: 'creditCardTotal',
+  //   label: 'เครดิตรวม',
+  //   widthPercentage: 80,
+  // },
 ];
 
 const mapStateToProps = ({ admin }) => ({

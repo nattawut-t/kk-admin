@@ -20,7 +20,6 @@ import {
 } from '../actions/admin';
 import { portalUrl, postJson, getJson } from '../libs/request';
 
-const apiPath = '/admin/leads';
 const State = Record({
   id: '',
   accountNo: '',
@@ -33,46 +32,117 @@ const State = Record({
   notiMessage: '',
   // info, success, warning, error
   notiType: '',
-  total: 100,
+  //
   dataList: [],
+  total: 0,
+  pages: 0,
+  page: 0,
+  //
   keyword: '',
   sortField: '',
   sortDesc: false,
   loading: false,
 });
 const initialState = new State();
+const endpoint = '/admin/leads';
+
+const transformIn = entries => {
+  if (entries) {
+    return entries
+      .map(({
+        ID,
+        CreatedAt,
+        UpdatedAt,
+        DeletedAt,
+        UserID,
+        Email,
+        IDCard,
+        MobileNo,
+        BirthDate,
+        TicketID,
+        Status,
+        ReferenceID,
+        Data,
+      }) => {
+        let entry = JSON.parse(Data) || {};
+        const { prefixTH, firstNameTH, lastNameTH } = entry;
+        const nameTH = `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim();
+
+        // Object.defineProperty(entry, 'nameTH', nameTH);
+        entry = Object.assign({
+          ID,
+          CreatedAt,
+          UpdatedAt,
+          DeletedAt,
+          UserID,
+          Email,
+          IDCard,
+          MobileNo,
+          BirthDate,
+          TicketID,
+          Status,
+          ReferenceID,
+        },
+          entry,
+          { nameTH },
+        );
+
+        console.log('>>> data: ', entry);
+
+        return entry;
+      });
+  }
+  return {};
+};
 
 function _searchData(offset = 1) {
-  return (dispatch, getState) => {
+  return dispatch => {
     console.log('>>>>> _searchData');
     dispatch(setLoading(true));
     dispatch(cancelSelection());
 
-    const state = getState().admin;
-    const keyword = state.get('keyword');
-    const sortField = state.get('sortField');
-    const sortDesc = state.get('sortDesc');
-    const sortDirection = sortDesc ? 'desc' : 'asc';
+    // const state = getState().admin;
+    // const keyword = state.get('keyword');
+    // const sortField = state.get('sortField');
+    // const sortDesc = state.get('sortDesc');
+    // const sortDirection = sortDesc ? 'desc' : 'asc';
 
-    let path = `${apiPath}?page=${offset}&pageSize=${limit}`;
-    if (keyword) {
-      path += `&search=${keyword}`;
-    }
-    if (sortField) {
-      path += `&sortBy=${sortField}&orderBy=${sortDirection}`;
-    }
-    const url = portalUrl(path);
+    const _endpoint = `${endpoint}?page=${offset}`;
+
+    // if (keyword) {
+    //   path += `&search=${keyword}`;
+    // }
+
+    // if (sortField) {
+    //   path += `&sortBy=${sortField}&orderBy=${sortDirection}`;
+    // }
+
+    const url = portalUrl(_endpoint);
     const promise = getJson(url);
+
+    console.log('>>> url: ', url);
 
     setTimeout(() =>
       promise.then(response => {
-        let { data } = response;
-        data = (data || {}).data;
+        const { data } = response;
+        const {
+          count,
+          entries,
+          numOfPages,
+          page,
+        } = data;
 
-        dispatch(searchSuccess(data, 100));
+        console.log('>>> response: ', entries);
+
+        const dataList = transformIn(entries);
+
+        dispatch(searchSuccess(dataList, count, numOfPages, page));
         return dispatch(setLoading(false));
       })
-        .catch(() => dispatch(setLoading(false)))
+        .catch(error => {
+          console.log('>>> error: ', error);
+          dispatch(setLoading(false));
+        })
       , loadingTime);
   };
 }
@@ -91,7 +161,7 @@ function _loadNextPage(offset = limit) {
       const sortDesc = state.get('sortDesc');
       const sortDirection = sortDesc ? 'desc' : 'asc';
 
-      let path = `${apiPath}?page=${offset}&pageSize=${limit}`;
+      let path = `${endpoint}?page=${offset}&pageSize=${limit}`;
       if (keyword) {
         path += `&search=${keyword}`;
       }
@@ -121,7 +191,7 @@ export function approve(id) {
   return dispatch => {
     dispatch(setLoading(true));
 
-    const path = `${apiPath}/${id}/approve`;
+    const path = `${endpoint}/${id}/approve`;
     const url = portalUrl(path);
     const options = {
       method: 'post',
@@ -242,6 +312,8 @@ const admin = (state = initialState, action) => {
 
       _state = Immutable.fromJS({
         total: action.total,
+        pages: action.pages,
+        page: action.page,
         dataList: [
           ...action.dataList,
         ],

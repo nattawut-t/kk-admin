@@ -42,10 +42,12 @@ export const approveSuccess = (id, notiMessage, notiType) => ({
   notiType,
 });
 
-export const searchSuccess = (dataList, total) => ({
+export const searchSuccess = (dataList, total, pages, page) => ({
   type: SEARCH_SUCCESS,
-  dataList,
   total,
+  dataList,
+  pages,
+  page,
 });
 
 export const cancelSelection = () => ({

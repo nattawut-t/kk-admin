@@ -57,7 +57,7 @@ const Logged = ({ onSignoutClick }) => (
       anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
     >
       <MenuItem
-        primaryText="Sign out"
+        primaryText="ออกจากระบบ"
         onClick={() => onSignoutClick()}
       />
     </IconMenu>
@@ -104,7 +104,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/login" component={Login} />
               <Route path="/admin/login" component={AdminLogin} />
-              <Route path="*" exact component={Login} />
+              <Route path="*" exact component={AdminLogin} />
             </Switch>
           </MuiThemeProvider>
         </Router>
