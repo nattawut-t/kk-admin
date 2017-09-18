@@ -8,11 +8,12 @@ import Redo from 'material-ui/svg-icons/content/redo';
 import {
   Card,
   CardActions,
-  CardHeader,
+  // CardHeader,
   // CardMedia,
   CardTitle,
   CardText,
 } from 'material-ui/Card';
+import PersonalInfo from '../lead/PersonalInfo';
 
 const styles = {
   button: {
@@ -32,16 +33,21 @@ const styles = {
 
 const Viewer = () => (
   <Card>
-    <CardHeader
-      title="ข้อมูลคำขอกู้"
-      subtitle="รายละเอียดคำข้อกู้สำหรับการอนุมัติ"
-    />
     <CardTitle
       title="ข้อมูลคำขอกู้"
       subtitle=""
     />
-    <CardText />
-    <CardActions>
+    <CardText>
+      <PersonalInfo />
+    </CardText>
+    <CardActions
+      style={{
+        padding: '8px',
+        position: 'absolute',
+        bottom: '0',
+        right: '0',
+      }}
+    >
       <div className="row">
         <div
           className="col-12"
