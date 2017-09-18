@@ -22,17 +22,18 @@ import { portalUrl, postJson, getJson } from '../libs/request';
 
 const State = Record({
   id: '',
-  accountNo: '',
-  accountName: '',
-  idcardNo: '',
-  partnerName: '',
-  bankCode: '',
-  bankName: '',
-  branchName: '',
+  // accountNo: '',
+  // accountName: '',
+  // idcardNo: '',
+  // partnerName: '',
+  // bankCode: '',
+  // bankName: '',
+  // branchName: '',
   notiMessage: '',
   // info, success, warning, error
   notiType: '',
   //
+  data: null,
   dataList: [],
   total: 0,
   pages: 0,
@@ -46,81 +47,57 @@ const State = Record({
 const initialState = new State();
 const endpoint = '/admin/leads';
 
-const transformIn = entries => {
-  if (entries) {
-    return entries
-      .map(({
-        ID,
-        CreatedAt,
-        UpdatedAt,
-        DeletedAt,
-        UserID,
-        Email,
-        IDCard,
-        MobileNo,
-        BirthDate,
-        TicketID,
-        Status,
-        ReferenceID,
-        Data,
-      }) => {
-        let entry = JSON.parse(Data) || {};
-        const { prefixTH, firstNameTH, lastNameTH } = entry;
-        const nameTH = `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim();
+const parseLeadIn = ({
+  ID,
+  CreatedAt,
+  UpdatedAt,
+  DeletedAt,
+  UserID,
+  Email,
+  IDCard,
+  MobileNo,
+  BirthDate,
+  TicketID,
+  Status,
+  ReferenceID,
+  Data,
+}) => {
+  let entry = JSON.parse(Data) || {};
+  const { prefixTH, firstNameTH, lastNameTH } = entry;
+  const nameTH = `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim();
 
-        // Object.defineProperty(entry, 'nameTH', nameTH);
-        entry = Object.assign({
-          ID,
-          CreatedAt,
-          UpdatedAt,
-          DeletedAt,
-          UserID,
-          Email,
-          IDCard,
-          MobileNo,
-          BirthDate,
-          TicketID,
-          Status,
-          ReferenceID,
-        },
-          entry,
-          { nameTH },
-        );
+  entry = Object.assign({
+    ID,
+    CreatedAt,
+    UpdatedAt,
+    DeletedAt,
+    UserID,
+    Email,
+    IDCard,
+    MobileNo,
+    BirthDate,
+    TicketID,
+    Status,
+    ReferenceID,
+  },
+    entry,
+    { nameTH },
+  );
 
-        // console.log('>>> data: ', entry);
-
-        return entry;
-      });
-  }
-  return {};
+  return entry;
 };
+
+const parseLeadsIn = entries =>
+  entries ? entries.map(entry => parseLeadIn(entry)) : {};
 
 function _searchData(page = 1) {
   return dispatch => {
-    console.log('>>>>> _searchData');
     dispatch(setLoading(true));
     dispatch(cancelSelection());
 
-    // const state = getState().admin;
-    // const keyword = state.get('keyword');
-    // const sortField = state.get('sortField');
-    // const sortDesc = state.get('sortDesc');
-    // const sortDirection = sortDesc ? 'desc' : 'asc';
-
     const _endpoint = `${endpoint}?page=${page}`;
-
-    // if (keyword) {
-    //   path += `&search=${keyword}`;
-    // }
-
-    // if (sortField) {
-    //   path += `&sortBy=${sortField}&orderBy=${sortDirection}`;
-    // }
-
     const url = portalUrl(_endpoint);
     const promise = getJson(url);
-
-    console.log('>>> url: ', url);
 
     setTimeout(() =>
       promise.then(response => {
@@ -134,7 +111,7 @@ function _searchData(page = 1) {
 
         console.log('>>> response: ', entries);
 
-        const dataList = transformIn(entries);
+        const dataList = parseLeadsIn(entries);
 
         dispatch(searchSuccess(dataList, count, numOfPages, page));
         return dispatch(setLoading(false));
@@ -155,8 +132,6 @@ function _loadNextPage(currentPage = 1, nextPage = 2) {
     const state = getState().admin;
     const total = state.get('total') || 0;
 
-    console.log('>>> _loadNextPage: ', total, currentPage, nextPage, pageSize);
-
     if ((currentPage * pageSize) < total) {
       const _endpoint = `${endpoint}?page=${nextPage}`;
       const url = portalUrl(_endpoint);
@@ -172,9 +147,7 @@ function _loadNextPage(currentPage = 1, nextPage = 2) {
             page,
           } = data;
 
-          console.log('>>> response: ', entries);
-
-          const dataList = transformIn(entries);
+          const dataList = parseLeadsIn(entries);
 
           dispatch(loadNextPageSuccess(dataList, count, numOfPages, page));
           return dispatch(setLoading(false));
@@ -248,6 +221,8 @@ export function loadNextPage() {
 
 export function selectData(rowIndex) {
   return (dispatch, getState) => {
+    dispatch(setLoading(true));
+
     const state = getState().admin;
     const oldId = state.get('id');
     const dataList = state.get('dataList');
@@ -261,23 +236,43 @@ export function selectData(rowIndex) {
         console.log('>>> selectData: ', oldId, newId);
 
         if (newId !== oldId) {
-          const accountNo = data.get('accountNo');
-          const accountName = data.get('accountName');
-          const idcardNo = data.get('idcardNo');
-          const partnerName = data.get('partnerName');
-          const bankCode = data.get('bankCode');
-          const bankName = data.get('bankName');
-          const branchName = data.get('branchName');
+          const _endpoint = `${endpoint}/${newId}`;
+          const url = portalUrl(_endpoint);
+          const promise = getJson(url);
 
-          dispatch(selectDataSuccess(
-            newId,
-            accountNo,
-            accountName,
-            idcardNo,
-            partnerName,
-            bankCode,
-            bankName,
-            branchName));
+          setTimeout(() =>
+            promise.then(response => {
+              const { data } = response;
+
+              console.log('>>> selectData.response: ', data);
+
+              const {
+                ID,
+                dateReq,
+                prefixTH,
+                firstNameTH,
+                lastNameTH,
+                prefixEN,
+                firstNameEN,
+                lastNameEN,
+              } = parseLeadIn(data);
+              const entry = {
+                id: ID,
+                dateReq,
+                nameTH: `${prefixTH} ${firstNameTH} ${lastNameTH}`.trim(),
+                nameEN: `${prefixEN} ${firstNameEN} ${lastNameEN}`.trim(),
+              };
+
+              console.log('>>> selectData.entry: ', entry);
+
+              dispatch(selectDataSuccess(`${ID}`, entry));
+              return dispatch(setLoading(false));
+            })
+              .catch(error => {
+                console.log('>>> selectData.error: ', error);
+                dispatch(setLoading(false));
+              })
+            , loadingTime);
         } else {
           dispatch(cancelSelection());
         }
@@ -295,13 +290,7 @@ const admin = (state = initialState, action) => {
 
       _state = Immutable.fromJS({
         id: action.id,
-        accountNo: action.accountNo,
-        accountName: action.accountName,
-        idcardNo: action.idcardNo,
-        partnerName: action.partnerName,
-        bankCode: action.bankCode,
-        bankName: action.bankName,
-        branchName: action.branchName,
+        data: action.data,
       });
       return state.merge(_state);
 
@@ -348,13 +337,14 @@ const admin = (state = initialState, action) => {
     case CANCEL_SELECTION:
       _state = Immutable.fromJS({
         id: '',
-        accountNo: '',
-        accountName: '',
-        idcardNo: '',
-        partnerName: '',
-        bankCode: '',
-        bankName: '',
-        branchName: '',
+        // accountNo: '',
+        // accountName: '',
+        // idcardNo: '',
+        // partnerName: '',
+        // bankCode: '',
+        // bankName: '',
+        // branchName: '',
+        data: null,
       });
       return state.merge(_state);
 

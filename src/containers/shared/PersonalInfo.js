@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Viewer from '../../components/admin/Viewer';
+import Component from '../../components/shared/PersonalInfo';
 
 const transform = (state, key) => {
   if (state && key) {
@@ -12,9 +12,8 @@ const transform = (state, key) => {
 const mapStateToProps = ({ admin }) => ({
   id: admin.get('id') || '',
   data: transform(admin, 'data'),
-  loading: admin.get('loading') || false,
 });
 
 export default connect(
   mapStateToProps,
-)(Viewer);
+)(Component);

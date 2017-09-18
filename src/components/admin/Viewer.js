@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import Avatar from 'material-ui/Avatar';
@@ -17,7 +17,7 @@ import {
   CardTitle,
   CardText,
 } from 'material-ui/Card';
-// import PersonalInfo from '../lead/PersonalInfo';
+import PersonalInfo from '../../containers/shared/PersonalInfo';
 
 const styles = {
   button: {
@@ -73,6 +73,14 @@ class Viewer extends Component {
 
   render() {
     const { activeId } = this.state;
+    const { data, loading } = this.props;
+
+    console.log('>>> Viewer.data: ', data);
+
+    if (!data || loading) {
+      return <div className="loader" />;
+    }
+
     return (
       <Card>
         <CardTitle
@@ -106,7 +114,7 @@ class Viewer extends Component {
               ))}
             </div>
           </div>
-          {/* <PersonalInfo /> */}
+          <PersonalInfo />
         </CardText>
         <CardActions
           style={{
@@ -151,12 +159,13 @@ class Viewer extends Component {
 }
 
 Viewer.propTypes = {
-  // personalInfo: PropTypes.object.isRequired,
-  // loanInfo: PropTypes.object.isRequired,
-  // additionalInfo: PropTypes.object.isRequired,
+  data: PropTypes.object,
+  loading: PropTypes.bool,
 };
 
 Viewer.defaultProps = {
+  data: null,
+  loading: false,
 };
 
 export default withRouter(Viewer);

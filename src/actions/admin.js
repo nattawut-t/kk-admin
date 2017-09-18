@@ -14,25 +14,10 @@ export const addDataSuccess = (id, name) => ({
   name,
 });
 
-export const selectDataSuccess = (
-  id,
-  accountNo,
-  accountName,
-  idcardNo,
-  partnerName,
-  bankCode,
-  bankName,
-  branchName,
-) => ({
+export const selectDataSuccess = (id, data) => ({
   type: SELECT_DATA_SUCCESS,
   id,
-  accountNo,
-  accountName,
-  idcardNo,
-  partnerName,
-  bankCode,
-  bankName,
-  branchName,
+  data,
 });
 
 export const approveSuccess = (id, notiMessage, notiType) => ({
