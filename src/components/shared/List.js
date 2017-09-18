@@ -134,7 +134,10 @@ class List extends Component {
                           style={{ width: `${widthPercentage}%`, textAlign: 'center' }}
                         >
                           {(typeof icon === 'function')
-                            ? <IconButton tooltip={value}>
+                            ? <IconButton
+                              tooltip={value}
+                              style={{ color: '#8B8C8D' }}
+                            >
                               <i className="material-icons">{icon(value)}</i>
                             </IconButton>
                             : <span>{(typeof format === 'function') ? format(value) : value}</span>

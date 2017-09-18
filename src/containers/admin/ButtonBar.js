@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
 import ButtonBar from '../../components/shared/ButtonBar';
 import { cancelSelection } from '../../actions/admin';
-import { approve, searchData } from '../../reducers/admin';
+import { searchData } from '../../reducers/admin';
 
 const mapStateToProps = ({ admin }) => ({
   id: admin.get('id'),
-  notiMessage: admin.get('notiMessage'),
+  message: admin.get('notiMessage'),
+  loading: admin.get('loading'),
 });
 
 const mapDispatchToProps = dispatch => ({
-  approve: id => approve(dispatch, id),
+  // approve: id => approve(dispatch, id),
   searchData: keyword => dispatch(searchData(keyword)),
   cancelSelection: () => dispatch(cancelSelection()),
 });

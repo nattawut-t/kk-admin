@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from 'material-ui/Drawer';
+import Snackbar from 'material-ui/Snackbar';
+
 import ButtonBar from '../../containers/admin/ButtonBar';
 import List from '../../containers/admin/List';
 import Viewer from '../../containers/admin/Viewer';
-// import ContentBox from '../../common/ContentBox';
 
-const Index = ({ id, loadNextPage, loading }) => (
+const Index = ({ id, loadNextPage, loading, message }) => (
   <div>
-    <div className="row">
-      <div className="col-12">
-        <ButtonBar />
-      </div>
-    </div>
+    <ButtonBar />
     {loading
       ? <div className="loader" />
       : <div />
@@ -37,19 +34,26 @@ const Index = ({ id, loadNextPage, loading }) => (
     <Drawer width={400} openSecondary open={id !== ''} >
       <Viewer />
     </Drawer>
-  </div>
+    <Snackbar
+      open={message !== ''}
+      message={message}
+      autoHideDuration={4000}
+    />
+  </div >
 );
 
 Index.propTypes = {
   id: PropTypes.string,
   loadNextPage: PropTypes.func,
   loading: PropTypes.bool,
+  message: PropTypes.string,
 };
 
 Index.defaultProps = {
   id: '',
   loadNextPage: null,
   loading: false,
+  message: '',
 };
 
 export default Index;
