@@ -31,7 +31,7 @@ const Index = ({ id, loadNextPage, loading, message }) => (
         <List />
       </div>
     </div>
-    <Drawer width={400} openSecondary open={id !== ''} >
+    <Drawer width={800} openSecondary open={id !== ''} >
       <Viewer />
     </Drawer>
     <Snackbar

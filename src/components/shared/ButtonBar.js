@@ -41,8 +41,7 @@ const ButtonBar = ({ searchData, loading }) => {
           />
 
           <FlatButton
-            label="ข้อมูลการกู้"
-            href="/"
+            label="ข้อมูลคำขอกู้"
             style={styles.flatButton}
             icon={<PlaylistAddCheck />}
             disabled

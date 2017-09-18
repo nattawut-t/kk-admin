@@ -242,7 +242,7 @@ export function loadNextPage() {
       return dispatch(_loadNextPage(page, page + 1));
     }
 
-    return dispatch();
+    return dispatch(setLoading(false));
   };
 }
 
@@ -256,7 +256,9 @@ export function selectData(rowIndex) {
       const data = dataList.get(rowIndex);
 
       if (data) {
-        const newId = `${data.get('id') || ''}`;
+        const newId = `${data.get('ID') || ''}`;
+
+        console.log('>>> selectData: ', oldId, newId);
 
         if (newId !== oldId) {
           const accountNo = data.get('accountNo');

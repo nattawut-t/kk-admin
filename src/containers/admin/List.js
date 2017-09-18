@@ -21,6 +21,10 @@ const schema = [
           icon = 'check_circle';
           break;
 
+        case 'rejected':
+          icon = 'block';
+          break;
+
         default:
           icon = 'account_circle';
           break;
