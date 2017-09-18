@@ -1,4 +1,5 @@
 import Immutable, { Record } from 'immutable';
+import moment from 'moment';
 import { pageSize, loadingTime } from './config';
 import {
   approveSuccess,
@@ -255,12 +256,55 @@ export function selectData(rowIndex) {
                 prefixEN,
                 firstNameEN,
                 lastNameEN,
+                idCard,
+                dateExp,
+                birthDate,
+                status,
+                //
+                jobCompanyName,
+                department,
+                position,
+                employmentDate,
+                jobSalary,
+                workTel,
+                telExtension,
+                officeNumber,
+                officeMoo,
+                officeVillage,
+                officeSoi,
+                officeRoad,
+                officeProvinceName,
+                officeAmphurCodeName,
+                officeTambolCodeName,
+                officeZipCode,
               } = parseLeadIn(data);
+              const dateFormat = 'YYYY-MM-DD';
               const entry = {
                 id: ID,
                 dateReq,
                 nameTH: `${prefixTH} ${firstNameTH} ${lastNameTH}`.trim(),
                 nameEN: `${prefixEN} ${firstNameEN} ${lastNameEN}`.trim(),
+                idcardNo: idCard,
+                idcardExpiry: dateExp ? moment(dateExp).format(dateFormat) : '',
+                birthDate: birthDate ? moment(birthDate).format(dateFormat) : '',
+                maritalStatus: status,
+                //
+                companyName: jobCompanyName,
+                department,
+                position,
+                employmentDate,
+                salary: jobSalary,
+                officeTel: workTel,
+                officeTelExt: telExtension,
+                officeNumber,
+                officeMoo,
+                officeVillage,
+                officeSoi,
+                officeRoad,
+                officeProvinceName,
+                officeAmphurCodeName,
+                officeTambolCodeName,
+                officeZipCode,
               };
 
               console.log('>>> selectData.entry: ', entry);

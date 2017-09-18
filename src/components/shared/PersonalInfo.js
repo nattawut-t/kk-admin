@@ -39,6 +39,10 @@ class PersonalInfo extends Component {
     dateReq: '',
     nameTH: '',
     nameEN: '',
+    idcardNo: '',
+    idcardExpiry: '',
+    birthDate: '',
+    maritalStatus: '',
   };
 
   componentWillMount() {
@@ -54,23 +58,10 @@ class PersonalInfo extends Component {
       dateReq,
       nameTH,
       nameEN,
-      // prefixTH,
-      // firstNameTH,
-      // firstNameTHmsg,
-      // lastNameTH,
-      // lastNameTHmsg,
-      // prefixEN,
-      // firstNameEN,
-      // firstNameENmsg,
-      // lastNameEN,
-      // lastNameENmsg,
-      // idCard,
-      // idCardmsg,
-      // dateExp,
-      // dateExpmsg,
-      // status,
-      // birthDate,
-      // birthDatemsg,
+      idcardNo,
+      idcardExpiry,
+      birthDate,
+      maritalStatus,
     } = this.state;
     return (
       <Card style={styles.marginBottom}>
@@ -110,6 +101,50 @@ class PersonalInfo extends Component {
                 name="nameEN"
                 value={nameEN}
                 floatingLabelText="ชื่อ / นามสกุล (EN)"
+                fullWidth
+                readOnly
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <TextField
+                id="idcardNo"
+                name="idcardNo"
+                value={idcardNo}
+                floatingLabelText="เลขบัตรประชาชน"
+                fullWidth
+                readOnly
+              />
+            </div>
+            <div className="col-6">
+              <TextField
+                id="idcardExpiry"
+                name="idcardExpiry"
+                value={idcardExpiry}
+                floatingLabelText="วันหมดอายุ"
+                fullWidth
+                readOnly
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <TextField
+                id="birthDate"
+                name="birthDate"
+                value={birthDate}
+                floatingLabelText="วันเกิด"
+                fullWidth
+                readOnly
+              />
+            </div>
+            <div className="col-6">
+              <TextField
+                id="maritalStatus"
+                name="maritalStatus"
+                value={maritalStatus}
+                floatingLabelText="สถานภาพสมรส"
                 fullWidth
                 readOnly
               />
