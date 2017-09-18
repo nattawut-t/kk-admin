@@ -44,20 +44,22 @@ export const approveSuccess = (id, notiMessage, notiType) => ({
 
 export const searchSuccess = (dataList, total, pages, page) => ({
   type: SEARCH_SUCCESS,
-  total,
   dataList,
+  total,
+  pages,
+  page,
+});
+
+export const loadNextPageSuccess = (dataList, total, pages, page) => ({
+  type: LOAD_NEXT_PAGE_SUCCESS,
+  dataList,
+  total,
   pages,
   page,
 });
 
 export const cancelSelection = () => ({
   type: CANCEL_SELECTION,
-});
-
-export const loadNextPageSuccess = (dataList, total) => ({
-  type: LOAD_NEXT_PAGE_SUCCESS,
-  dataList,
-  total,
 });
 
 export const setLoading = loading => ({

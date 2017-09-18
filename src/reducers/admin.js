@@ -1,5 +1,5 @@
 import Immutable, { Record } from 'immutable';
-import { limit, loadingTime } from './config';
+import { pageSize, loadingTime } from './config';
 import {
   approveSuccess,
   searchSuccess,
@@ -87,7 +87,7 @@ const transformIn = entries => {
           { nameTH },
         );
 
-        console.log('>>> data: ', entry);
+        // console.log('>>> data: ', entry);
 
         return entry;
       });
@@ -95,7 +95,7 @@ const transformIn = entries => {
   return {};
 };
 
-function _searchData(offset = 1) {
+function _searchData(page = 1) {
   return dispatch => {
     console.log('>>>>> _searchData');
     dispatch(setLoading(true));
@@ -107,7 +107,7 @@ function _searchData(offset = 1) {
     // const sortDesc = state.get('sortDesc');
     // const sortDirection = sortDesc ? 'desc' : 'asc';
 
-    const _endpoint = `${endpoint}?page=${offset}`;
+    const _endpoint = `${endpoint}?page=${page}`;
 
     // if (keyword) {
     //   path += `&search=${keyword}`;
@@ -147,7 +147,7 @@ function _searchData(offset = 1) {
   };
 }
 
-function _loadNextPage(offset = limit) {
+function _loadNextPage(currentPage = 1, nextPage = 2) {
   return (dispatch, getState) => {
     dispatch(setLoading(true));
     dispatch(cancelSelection());
@@ -155,31 +155,34 @@ function _loadNextPage(offset = limit) {
     const state = getState().admin;
     const total = state.get('total') || 0;
 
-    if (offset < total) {
-      const keyword = state.get('keyword');
-      const sortField = state.get('sortField');
-      const sortDesc = state.get('sortDesc');
-      const sortDirection = sortDesc ? 'desc' : 'asc';
+    console.log('>>> _loadNextPage: ', total, currentPage, nextPage, pageSize);
 
-      let path = `${endpoint}?page=${offset}&pageSize=${limit}`;
-      if (keyword) {
-        path += `&search=${keyword}`;
-      }
-      if (sortField) {
-        path += `&sortBy=${sortField}&orderBy=${sortDirection}`;
-      }
-      const url = portalUrl(path);
+    if ((currentPage * pageSize) < total) {
+      const _endpoint = `${endpoint}?page=${nextPage}`;
+      const url = portalUrl(_endpoint);
       const promise = getJson(url);
 
       setTimeout(() =>
         promise.then(response => {
-          let { data } = response;
-          const { total } = response;
-          data = (data || {}).data;
-          dispatch(loadNextPageSuccess(data, total));
+          const { data } = response;
+          const {
+            count,
+            entries,
+            numOfPages,
+            page,
+          } = data;
+
+          console.log('>>> response: ', entries);
+
+          const dataList = transformIn(entries);
+
+          dispatch(loadNextPageSuccess(dataList, count, numOfPages, page));
           return dispatch(setLoading(false));
         })
-          .catch(() => dispatch(setLoading(false)))
+          .catch(error => {
+            console.log('>>> error: ', error);
+            dispatch(setLoading(false));
+          })
         , loadingTime);
     }
 
@@ -232,9 +235,14 @@ export function sortData(field, desc) {
 export function loadNextPage() {
   return (dispatch, getState) => {
     const state = getState().admin;
-    const dataList = state.get('dataList');
-    const offset = (dataList) ? dataList.count() : 0;
-    return dispatch(_loadNextPage(offset));
+    const loading = state.get('loading');
+
+    if (!loading) {
+      const page = state.get('page') || 1;
+      return dispatch(_loadNextPage(page, page + 1));
+    }
+
+    return dispatch();
   };
 }
 
@@ -318,18 +326,21 @@ const admin = (state = initialState, action) => {
           ...action.dataList,
         ],
       });
+      console.log('>>> SEARCH_SUCCESS: ', _state, action);
       return state.merge(_state);
 
     case LOAD_NEXT_PAGE_SUCCESS:
 
       _state = Immutable.fromJS({
         total: action.total,
+        pages: action.pages,
+        page: action.page,
         dataList: [
           ...state.dataList,
           ...action.dataList,
         ],
       });
-
+      console.log('>>> LOAD_NEXT_PAGE_SUCCESS: ', _state, action);
       return state.merge(_state);
 
     case CANCEL_SELECTION:
