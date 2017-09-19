@@ -19,11 +19,8 @@ import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-// import PersonAdd from 'material-ui/svg-icons/social/person-add';
-// import ContentLink from 'material-ui/svg-icons/content/link';
 import Divider from 'material-ui/Divider';
-import ContentCopy from 'material-ui/svg-icons/content/content-copy';
-// import FilterList from 'material-ui/svg-icons/content/filter-list';
+// import ContentCopy from 'material-ui/svg-icons/content/content-copy';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import List from 'material-ui/svg-icons/action/list';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
@@ -104,7 +101,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/login" component={Login} />
               <Route path="/admin/login" component={AdminLogin} />
-              <Route path="*" exact component={AdminLogin} />
+              <Route path="*" exact component={Login} />
             </Switch>
           </MuiThemeProvider>
         </Router>
@@ -169,11 +166,6 @@ class App extends React.Component {
                           primaryText="สถานะการกู้"
                           containerElement={<Link to="/borrow-status" />}
                           leftIcon={<LinearScale />}
-                        />
-                        <MenuItem
-                          primaryText="ประวัติการกู้"
-                          containerElement={<Link to="/history" />}
-                          leftIcon={<ContentCopy />}
                         />
                       </Menu>
                     }

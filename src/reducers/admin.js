@@ -1,6 +1,10 @@
 import Immutable, { Record } from 'immutable';
 import moment from 'moment';
-import { pageSize, loadingTime } from './config';
+import {
+  pageSize,
+  loadingTime,
+  dateFormat,
+} from '../libs/config';
 import {
   approveSuccess,
   rejectSuccess,
@@ -27,7 +31,6 @@ import {
   putJson,
   getJson,
 } from '../libs/request';
-import { dateFormat } from '../libs/config';
 
 const State = Record({
   id: '',

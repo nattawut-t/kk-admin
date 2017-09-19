@@ -3,10 +3,7 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 import { grey500, white } from 'material-ui/styles/colors';
-import PersonAdd from 'material-ui/svg-icons/social/person-add';
-import Help from 'material-ui/svg-icons/action/help';
 import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 
@@ -104,24 +101,6 @@ class AdminLogin extends Component {
               </div>
             </form>
           </Paper>
-
-          <div style={styles.buttonsDiv}>
-            <FlatButton
-              label="ลงทะเบียน"
-              href="/"
-              style={styles.flatButton}
-              icon={<PersonAdd />}
-              disabled
-            />
-
-            <FlatButton
-              label="ลืมรหัสผ่าน?"
-              href="/"
-              style={styles.flatButton}
-              icon={<Help />}
-              disabled
-            />
-          </div>
         </div>
         <Snackbar
           open={message !== ''}
