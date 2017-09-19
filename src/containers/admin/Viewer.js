@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Viewer from '../../components/admin/Viewer';
+import { approve } from '../../reducers/admin';
 
 const transform = (state, key) => {
   if (state && key) {
@@ -15,6 +16,11 @@ const mapStateToProps = ({ admin }) => ({
   loading: admin.get('loading') || false,
 });
 
+const mapDispatchToProps = dispatch => ({
+  approve: id => dispatch(approve(id)),
+});
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
 )(Viewer);

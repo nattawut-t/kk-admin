@@ -110,8 +110,6 @@ function _searchData(page = 1) {
           page,
         } = data;
 
-        console.log('>>> response: ', entries);
-
         const dataList = parseLeadsIn(entries);
 
         dispatch(searchSuccess(dataList, count, numOfPages, page));
@@ -181,13 +179,14 @@ export function approve(id) {
 
     setTimeout(() =>
       promise.then(() => {
-        // const { status } = response;
-        const notiMessage = 'Data approved successfully';
-        const notiType = 'success';
-        dispatch(approveSuccess(id, notiMessage, notiType));
+        const message = 'อนุมัติคำขอกู้แล้ว';
+        dispatch(approveSuccess(id, message));
         return dispatch(setLoading(false));
       })
-        .catch(() => dispatch(setLoading(false)))
+        .catch(error => {
+          console.log('>>> error: ', error);
+          dispatch(setLoading(false));
+        })
       , loadingTime);
   };
 }
@@ -234,8 +233,6 @@ export function selectData(rowIndex) {
       if (data) {
         const newId = `${data.get('ID') || ''}`;
 
-        console.log('>>> selectData: ', oldId, newId);
-
         if (newId !== oldId) {
           const _endpoint = `${endpoint}/${newId}`;
           const url = portalUrl(_endpoint);
@@ -244,8 +241,6 @@ export function selectData(rowIndex) {
           setTimeout(() =>
             promise.then(response => {
               const { data } = response;
-
-              console.log('>>> selectData.response: ', data);
 
               const {
                 ID,
@@ -307,8 +302,6 @@ export function selectData(rowIndex) {
                 officeZipCode,
               };
 
-              console.log('>>> selectData.entry: ', entry);
-
               dispatch(selectDataSuccess(`${ID}`, entry));
               return dispatch(setLoading(false));
             })
@@ -361,7 +354,6 @@ const admin = (state = initialState, action) => {
           ...action.dataList,
         ],
       });
-      console.log('>>> SEARCH_SUCCESS: ', _state, action);
       return state.merge(_state);
 
     case LOAD_NEXT_PAGE_SUCCESS:
@@ -375,7 +367,6 @@ const admin = (state = initialState, action) => {
           ...action.dataList,
         ],
       });
-      console.log('>>> LOAD_NEXT_PAGE_SUCCESS: ', _state, action);
       return state.merge(_state);
 
     case CANCEL_SELECTION:

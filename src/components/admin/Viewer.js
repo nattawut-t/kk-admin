@@ -24,15 +24,8 @@ const styles = {
   button: {
     margin: 12,
   },
-  exampleImageInput: {
-    cursor: 'pointer',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    width: '100%',
-    opacity: 0,
+  chip: {
+    margin: 2,
   },
 };
 
@@ -82,18 +75,29 @@ class Viewer extends Component {
   };
 
   handleChipClick = (id, component) => {
-    console.log('>>> component: ', component);
     this.setState({
       activeId: id,
       Component: () => component,
     });
   };
 
+  handleApproveClick = id => {
+    const { approve } = this.props;
+    if (approve) {
+      approve(id);
+    }
+  };
+
+  handleRejectClick = () => {
+    const { id, reject } = this.props;
+    if (reject) {
+      reject(id);
+    }
+  };
+
   render() {
     const { activeId, Component } = this.state;
     const { data, loading } = this.props;
-
-    console.log('>>> Viewer.data: ', data);
 
     if (!data || loading) {
       return <div className="loader" />;
@@ -150,6 +154,7 @@ class Viewer extends Component {
                 primary
                 style={styles.button}
                 icon={<Done />}
+                onClick={() => this.handleApproveClick()}
               />
               <RaisedButton
                 label="ปฏิเสธ"
@@ -171,13 +176,19 @@ class Viewer extends Component {
 }
 
 Viewer.propTypes = {
+  id: PropTypes.string,
   data: PropTypes.object,
   loading: PropTypes.bool,
+  approve: PropTypes.func,
+  reject: PropTypes.func,
 };
 
 Viewer.defaultProps = {
+  id: '',
   data: null,
   loading: false,
+  approve: null,
+  reject: null,
 };
 
 export default withRouter(Viewer);

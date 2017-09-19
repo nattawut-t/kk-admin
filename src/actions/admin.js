@@ -20,11 +20,10 @@ export const selectDataSuccess = (id, data) => ({
   data,
 });
 
-export const approveSuccess = (id, notiMessage, notiType) => ({
+export const approveSuccess = (id, message) => ({
   type: APPROVE_SUCCESS,
   id,
-  notiMessage,
-  notiType,
+  message,
 });
 
 export const searchSuccess = (dataList, total, pages, page) => ({
