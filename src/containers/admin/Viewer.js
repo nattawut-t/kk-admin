@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Viewer from '../../components/admin/Viewer';
-import { approve } from '../../reducers/admin';
+import { approve, reject } from '../../reducers/admin';
 
 const transform = (state, key) => {
   if (state && key) {
@@ -11,13 +11,13 @@ const transform = (state, key) => {
 };
 
 const mapStateToProps = ({ admin }) => ({
-  id: admin.get('id') || '',
   data: transform(admin, 'data'),
   loading: admin.get('loading') || false,
 });
 
 const mapDispatchToProps = dispatch => ({
   approve: id => dispatch(approve(id)),
+  reject: (id, remark, callback) => dispatch(reject(id, remark, callback)),
 });
 
 export default connect(

@@ -95,6 +95,10 @@ const ButtonBar = ({ searchData, loading }) => {
             <i className="material-icons">block</i>
           </IconButton>
           <span>Rejected</span>
+          <IconButton style={{ color: '#8B8C8D' }}>
+            <i className="material-icons">priority_high</i>
+          </IconButton>
+          <span>Error</span>
         </div>
       </div>
     </div >
@@ -103,7 +107,7 @@ const ButtonBar = ({ searchData, loading }) => {
 
 ButtonBar.propTypes = {
   // id: PropTypes.string,
-  // notiMessage: PropTypes.string,
+  // message: PropTypes.string,
   // approve: PropTypes.func,
   searchData: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
@@ -112,7 +116,7 @@ ButtonBar.propTypes = {
 
 ButtonBar.defaultProps = {
   // id: '',
-  // notiMessage: '',
+  // message: '',
   // approve: null,
   // searchData: null,
   // cancelSelection: null,

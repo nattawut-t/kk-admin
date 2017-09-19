@@ -5,7 +5,7 @@ import { searchData } from '../../reducers/admin';
 
 const mapStateToProps = ({ admin }) => ({
   id: admin.get('id'),
-  message: admin.get('notiMessage'),
+  message: admin.get('message'),
   loading: admin.get('loading'),
 });
 

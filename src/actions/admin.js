@@ -1,6 +1,7 @@
 export const ADD_DATA_SUCCESS = 'admin/ADD_DATA_SUCCESS';
 export const SELECT_DATA_SUCCESS = 'admin/SELECT_DATA_SUCCESS';
 export const APPROVE_SUCCESS = 'admin/APPROVE_SUCCESS';
+export const REJECT_SUCCESS = 'admin/REJECT_SUCCESS';
 export const SEARCH_SUCCESS = 'admin/SEARCH_SUCCESS';
 export const CANCEL_SELECTION = 'admin/CANCEL_SELECTION';
 export const LOAD_NEXT_PAGE_SUCCESS = 'admin/LOAD_NEXT_PAGE_SUCCESS';
@@ -23,6 +24,13 @@ export const selectDataSuccess = (id, data) => ({
 export const approveSuccess = (id, message) => ({
   type: APPROVE_SUCCESS,
   id,
+  message,
+});
+
+export const rejectSuccess = (id, remark, message) => ({
+  type: APPROVE_SUCCESS,
+  id,
+  remark,
   message,
 });
 

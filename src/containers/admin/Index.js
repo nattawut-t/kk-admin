@@ -4,7 +4,7 @@ import { loadNextPage } from '../../reducers/admin';
 
 const mapStateToProps = ({ admin }) => ({
   id: admin.get('id'),
-  notiMessage: admin.get('notiMessage'),
+  message: admin.get('message'),
   loading: admin.get('loading'),
 });
 

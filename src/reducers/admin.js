@@ -3,6 +3,7 @@ import moment from 'moment';
 import { pageSize, loadingTime } from './config';
 import {
   approveSuccess,
+  rejectSuccess,
   searchSuccess,
   loadNextPageSuccess,
   setLoading,
@@ -12,6 +13,7 @@ import {
   setSearchInfo,
   SELECT_DATA_SUCCESS,
   APPROVE_SUCCESS,
+  REJECT_SUCCESS,
   SEARCH_SUCCESS,
   CANCEL_SELECTION,
   LOAD_NEXT_PAGE_SUCCESS,
@@ -19,20 +21,17 @@ import {
   SET_SORT_INFO,
   SET_SEARCH_INFO,
 } from '../actions/admin';
-import { portalUrl, postJson, getJson } from '../libs/request';
+import {
+  portalUrl,
+  postJson,
+  putJson,
+  getJson,
+} from '../libs/request';
+import { dateFormat } from '../libs/config';
 
 const State = Record({
   id: '',
-  // accountNo: '',
-  // accountName: '',
-  // idcardNo: '',
-  // partnerName: '',
-  // bankCode: '',
-  // bankName: '',
-  // branchName: '',
-  notiMessage: '',
-  // info, success, warning, error
-  notiType: '',
+  message: '',
   //
   data: null,
   dataList: [],
@@ -191,6 +190,35 @@ export function approve(id) {
   };
 }
 
+export function reject(id, remark, callback) {
+  return dispatch => {
+    dispatch(setLoading(true));
+
+    const path = `${endpoint}/${id}/rejected`;
+    const url = portalUrl(path);
+    const options = {
+      method: 'put',
+      data: { remark },
+    };
+    const promise = putJson(url, options);
+
+    setTimeout(() =>
+      promise.then(() => {
+        const message = 'ปฏิเสธคำขอกู้แล้ว';
+        dispatch(rejectSuccess(id, message));
+        dispatch(setLoading(false));
+        if (callback) {
+          callback();
+        }
+      })
+        .catch(error => {
+          console.log('>>> error: ', error);
+          dispatch(setLoading(false));
+        })
+      , loadingTime);
+  };
+}
+
 export function searchData(keyword) {
   return dispatch => {
     dispatch(setSearchInfo(keyword));
@@ -244,6 +272,8 @@ export function selectData(rowIndex) {
 
               const {
                 ID,
+                Status,
+                //
                 dateReq,
                 prefixTH,
                 firstNameTH,
@@ -273,12 +303,13 @@ export function selectData(rowIndex) {
                 officeTambolCodeName,
                 officeZipCode,
               } = parseLeadIn(data);
-              const dateFormat = 'YYYY-MM-DD';
               const entry = {
                 id: ID,
+                status: Status,
+                //
                 dateReq,
-                nameTH: `${prefixTH} ${firstNameTH} ${lastNameTH}`.trim(),
-                nameEN: `${prefixEN} ${firstNameEN} ${lastNameEN}`.trim(),
+                nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
+                nameEN: `${prefixEN || ''} ${firstNameEN || ''} ${lastNameEN || ''}`.trim(),
                 idcardNo: idCard,
                 idcardExpiry: dateExp ? moment(dateExp).format(dateFormat) : '',
                 birthDate: birthDate ? moment(birthDate).format(dateFormat) : '',
@@ -338,12 +369,24 @@ const admin = (state = initialState, action) => {
       );
       _state = Immutable.fromJS({
         id: '',
-        notiMessage: action.notiMessage,
-        notiType: action.notiType,
+        message: action.message,
         dataList: _dataList,
       });
-
       return state.merge(_state);
+
+    case REJECT_SUCCESS:
+
+      _dataList = state.dataList.filter(data =>
+        Number.parseInt(data.get('id'), 10) !== Number.parseInt(action.id, 10),
+      );
+      _state = Immutable.fromJS({
+        id: '',
+        message: action.message,
+        dataList: _dataList,
+      });
+      console.log('>>> REJECT_SUCCESS');
+      return state.merge(_state);
+
     case SEARCH_SUCCESS:
 
       _state = Immutable.fromJS({
@@ -372,13 +415,6 @@ const admin = (state = initialState, action) => {
     case CANCEL_SELECTION:
       _state = Immutable.fromJS({
         id: '',
-        // accountNo: '',
-        // accountName: '',
-        // idcardNo: '',
-        // partnerName: '',
-        // bankCode: '',
-        // bankName: '',
-        // branchName: '',
         data: null,
       });
       return state.merge(_state);

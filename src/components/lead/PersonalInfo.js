@@ -17,6 +17,7 @@ import MaritalStatus from '../shared/MaritalStatus';
 import Tel from '../shared/Tel';
 import AddressStatus from '../shared/AddressStatus';
 import Location from '../shared/Location';
+import { dateFormat } from '../../libs/config';
 
 const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 
@@ -88,7 +89,7 @@ class PersonalInfo extends Component {
     switch (env) {
       case 'test':
         this.state = {
-          dateReq: moment().format('YYYY-MM-DD'),
+          dateReq: moment().format(dateFormat),
           prefixTH: 'นางสาว',
           firstNameTH: 'ณัฐ',
           firstNameTHmsg: '',
@@ -177,7 +178,7 @@ class PersonalInfo extends Component {
 
       default:
         this.state = {
-          dateReq: moment().format('YYYY-MM-DD'),
+          dateReq: moment().format(dateFormat),
           prefixTH: '',
           firstNameTH: '',
           firstNameTHmsg: '',
@@ -898,6 +899,7 @@ class PersonalInfo extends Component {
                     onChange={this.handleDateExpChange}
                     fullWidth
                     autoOk
+                    locale="en-US"
                   />
                 </div>
               </div>
@@ -913,6 +915,7 @@ class PersonalInfo extends Component {
                     onChange={this.handleBirthDateChange}
                     fullWidth
                     autoOk
+                    locale="en-US"
                   />
                 </div>
                 <div className="col">
@@ -983,6 +986,7 @@ class PersonalInfo extends Component {
                     onChange={this.handleEmploymentDateChange}
                     fullWidth
                     autoOk
+                    locale="en-US"
                   />
                 </div>
                 <div className="col">

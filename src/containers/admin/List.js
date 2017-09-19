@@ -6,6 +6,7 @@ import {
   sortData,
   selectData,
 } from '../../reducers/admin';
+import { dateFormat } from '../../libs/config';
 
 const schema = [
   {
@@ -23,6 +24,10 @@ const schema = [
 
         case 'rejected':
           icon = 'block';
+          break;
+
+        case 'submit_error':
+          icon = 'priority_high';
           break;
 
         default:
@@ -44,7 +49,7 @@ const schema = [
     name: 'CreatedAt',
     label: 'วันที่สร้างคำขอกู้',
     widthPercentage: 25,
-    format: value => moment(value).format('YYYY-MM-DD'),
+    format: value => moment(value).format(dateFormat),
   },
   {
     id: 4,
