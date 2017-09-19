@@ -307,7 +307,7 @@ export function selectData(rowIndex) {
                 id: ID,
                 status: Status,
                 //
-                dateReq,
+                dateReq: dateReq ? moment(dateReq).format(dateFormat) : '',
                 nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
                 nameEN: `${prefixEN || ''} ${firstNameEN || ''} ${lastNameEN || ''}`.trim(),
                 idcardNo: idCard,
@@ -318,7 +318,7 @@ export function selectData(rowIndex) {
                 companyName: jobCompanyName,
                 department,
                 position,
-                employmentDate,
+                employmentDate: employmentDate ? moment(employmentDate).format(dateFormat) : '',
                 salary: jobSalary,
                 officeTel: workTel,
                 officeTelExt: telExtension,
