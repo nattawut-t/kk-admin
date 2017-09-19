@@ -33,8 +33,6 @@ export function login(username, password, callback) {
         const { data } = response;
         const { token } = data;
 
-        console.log('>>> login.response: ', data);
-
         localStorage.setItem('token', token);
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
@@ -64,10 +62,8 @@ export function loginOtp(mobile, otp, callback) {
     const _url = portalUrl('/api/work/otp');
 
     postJson(_url, data, false)
-      .then(response => {
-        const { data } = response;
-
-        console.log('>>> loginOtp.response: ', data);
+      .then(() => {
+        // const { data } = response;
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
 
@@ -105,7 +101,6 @@ export function getOtp(username) {
 
 const lead = (state = initialState, action) => {
   let _state;
-  // let callback;
 
   switch (action.type) {
     case LOGIN_OTP_SUCCESS:
@@ -114,8 +109,6 @@ const lead = (state = initialState, action) => {
         isAdmin: action.isAdmin,
         authenticated: true,
       });
-
-      console.log('>>> LOGIN_OTP_SUCCESS', _state.toJS(), action);
 
       return state.merge(_state);
 
@@ -126,16 +119,12 @@ const lead = (state = initialState, action) => {
         authenticated: true,
       });
 
-      console.log('>>> LOGIN_SUCCESS', _state.toJS(), action);
-
       return state.merge(_state);
 
     case NOTIFY:
       _state = Immutable.fromJS({
         message: action.message,
       });
-
-      console.log('>>> NOTIFY', _state.toJS(), action);
 
       return state.merge(_state);
 
@@ -148,8 +137,6 @@ const lead = (state = initialState, action) => {
         loading: false,
         authenticated: false,
       });
-
-      console.log('>>> CLEAR_STATE', _state.toJS(), action);
 
       return state.merge(_state);
 

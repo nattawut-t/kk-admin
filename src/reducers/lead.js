@@ -46,10 +46,8 @@ export function save() {
     const _notify = _state.get('notify');
 
     postJson(_url, data, false)
-      .then(response => {
-        const { data } = response;
-
-        console.log('>>> save.response: ', data);
+      .then(() => {
+        // const { data } = response;
 
         dispatch(notify(!_notify, 'บันทึกข้อมูลเสร็จสมบูรณ์'));
         setTimeout(() => {
@@ -87,14 +85,10 @@ export function uploadDocument(field, path, name, data, docType) {
     const _notify = _state.get('notify');
     const _url = uploadUrl();
 
-    console.log('>>> uploadUrl: ', _url, docType);
-
     postForm(_url, data, false)
       .then(response => {
         const { data } = response;
-        const { id, filename } = data;
-
-        console.log('>>> uploadFile.response: ', data, id, filename);
+        const { filename } = data;
 
         dispatch(uploadDocumentSuccess(field, path, filename, docType));
         dispatch(notify(!_notify, 'อัพโหลดเอกสารแล้ว'));
@@ -122,21 +116,20 @@ const lead = (state = initialState, action) => {
       _state = Immutable.fromJS({
         isConsent: action.isConsent,
       });
-      // console.log('>>> ACCEPT_AGREEMENT_SUCCESS', action.isConsent);
       return state.merge(_state);
 
     case COMPLETE_PERSONAL_INFO_SUCCESS:
+
       _state = Immutable.fromJS({
         personalInfo: action.data,
       });
-      console.log('>>> COMPLETE_PERSONAL_INFO_SUCCESS', action.data);
       return state.merge(_state);
 
     case COMPLETE_LOAN_INFO_SUCCESS:
+
       _state = Immutable.fromJS({
         loanInfo: action.data,
       });
-      console.log('>>> COMPLETE_LOAN_INFO_SUCCESS', action.data);
       return state.merge(_state);
 
     case COMPLETE_ADDITIONAL_INFO_SUCCESS:
@@ -150,8 +143,6 @@ const lead = (state = initialState, action) => {
         additionalInfo,
         data,
       });
-
-      console.log('>>> COMPLETE_ADDITIONAL_INFO_SUCCESS', additionalInfo, data);
 
       return state.merge(_state);
 
@@ -167,8 +158,6 @@ const lead = (state = initialState, action) => {
       });
       _state = Immutable.fromJS({ documents });
 
-      console.log('>>> UPLOAD_DOCUMENT_SUCCESS', documents, _state);
-
       return state.merge(_state);
 
     case NOTIFY:
@@ -176,8 +165,6 @@ const lead = (state = initialState, action) => {
         notify: action.notify,
         message: action.message,
       });
-
-      console.log('>>> NOTIFY', _state.toJS(), action);
 
       return state.merge(_state);
 

@@ -22,8 +22,6 @@ const lead = (state = initialState, action) => {
         data: action.data,
       });
 
-      console.log('>>> SET_STATE_SUCCESS', _state.toJS(), action);
-
       return state.merge(_state);
 
     default:

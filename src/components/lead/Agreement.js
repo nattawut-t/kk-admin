@@ -47,7 +47,6 @@ class Agreement extends Component {
     const {
       isConsent,
     } = this.props;
-    console.log('>>> render: ', isConsent);
 
     return (
       <div>

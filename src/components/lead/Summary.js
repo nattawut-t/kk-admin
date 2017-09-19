@@ -340,8 +340,6 @@ class Summary extends Component {
       message,
     } = this.props;
 
-    console.log('>>> message: ', message);
-
     return (
       <div>
         <form>

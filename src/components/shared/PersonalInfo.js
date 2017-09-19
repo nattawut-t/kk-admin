@@ -47,7 +47,6 @@ class PersonalInfo extends Component {
 
   componentWillMount() {
     const { data } = this.props;
-    console.log('>>> componentWillMount.data: ', data);
     if (data) {
       this.setState(data);
     }

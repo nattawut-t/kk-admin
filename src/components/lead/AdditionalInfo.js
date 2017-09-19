@@ -69,7 +69,6 @@ class AdditionalInfo extends Component {
 
   initialState = () => {
     const env = process.env.NODE_ENV;
-    console.log('>>> env: ', env);
     switch (env) {
       case 'test':
         this.state = {
@@ -213,10 +212,7 @@ class AdditionalInfo extends Component {
         key,
         value: this.state[key],
       }))
-      .find(({ key, value }) => {
-        console.log('>>> validate.find: ', key, value);
-        return !value;
-      });
+      .find(({ value }) => !value);
 
     console.log('>>> invalid: ', invalid);
 
@@ -277,8 +273,6 @@ class AdditionalInfo extends Component {
   handleShippingAddressChange = e => {
     const { target: { value } } = e;
 
-    console.log('>>> handleShippingAddressChange: ', value);
-
     this.setState({ shippingAddress: value },
       () => {
         this.setState({
@@ -298,7 +292,6 @@ class AdditionalInfo extends Component {
         });
 
         const { personalInfo } = this.props;
-        console.log('>>> personalInfo: ', personalInfo);
 
         if (value === 'current' && personalInfo) {
           const {
@@ -336,8 +329,6 @@ class AdditionalInfo extends Component {
   };
 
   handleLocationChange = (valueField, nameField, value, name) => {
-    console.log('>>> handleLocationChange: ', valueField, nameField, value, name);
-
     this.setState({
       [valueField]: value,
       [nameField]: name,
@@ -846,9 +837,6 @@ class AdditionalInfo extends Component {
 
     const { personalInfo, message } = this.props;
     const status = personalInfo ? personalInfo.status : '';
-
-    console.log('>>> status: ', status);
-    // const disabledAddress = shippingAddress === 'current';
 
     return (
       <div>

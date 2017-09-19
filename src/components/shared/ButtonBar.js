@@ -14,7 +14,6 @@ const styles = {
 };
 
 const handleSearchClick = (searchData, input) => {
-  console.log('>>> handleSearchClick: ', searchData, input);
   if (searchData && input) {
     const value = input.value || '';
     searchData(value);

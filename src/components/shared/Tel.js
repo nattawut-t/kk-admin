@@ -54,8 +54,6 @@ class Tel extends Component {
     } = this.props;
     const _errorMessage = errorMessage(value, required, label);
 
-    console.log('>>> errorMessage: ', value, required, _errorMessage);
-
     this.setState({
       value,
       errorMessage: _errorMessage,

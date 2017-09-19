@@ -56,7 +56,7 @@ class LoanInfo extends Component {
 
   initialState = () => {
     const env = process.env.NODE_ENV;
-    console.log('>>> env: ', env);
+
     switch (env) {
       case 'test':
         this.state = {
@@ -130,8 +130,6 @@ class LoanInfo extends Component {
         value: this.state[key],
       }))
       .find(({ value }) => !value);
-
-    // console.log('>>> invalid: ', invalid);
 
     const { beneficiary, loanBeneficiaryName } = this.state;
     const _valid = beneficiary === 'myself' || loanBeneficiaryName;

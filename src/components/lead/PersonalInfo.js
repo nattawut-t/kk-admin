@@ -63,12 +63,6 @@ class PersonalInfo extends Component {
     data: null,
   };
 
-  constructor(props) {
-    super(props);
-    const env = process.env.NODE_ENV;
-    console.log('>>> env: ', env);
-  }
-
   componentWillMount() {
     const { data } = this.props;
     window.scrollTo(0, 0);
@@ -90,7 +84,7 @@ class PersonalInfo extends Component {
 
   initialState = () => {
     const env = process.env.NODE_ENV;
-    console.log('>>> env: ', env);
+
     switch (env) {
       case 'test':
         this.state = {
@@ -307,8 +301,6 @@ class PersonalInfo extends Component {
     const { email, jobSalary } = this.state;
     const salary = Number.parseFloat(jobSalary) || 0;
     const valid = emailRegex.test(email) && salary > 0;
-
-    console.log('>>> invalid: ', invalid);
 
     return !invalid && valid;
   }

@@ -54,7 +54,6 @@ export function postJson(url, data, authenticate = true) {
     data,
   };
 
-  console.log('>>> options: ', options);
   return axios(options);
 }
 
@@ -68,7 +67,6 @@ export function getJson(url, authenticate = true) {
     headers: { 'Content-Type': 'application/json' },
   };
 
-  console.log('>>> options: ', options);
   return axios(options);
 }
 

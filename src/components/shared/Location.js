@@ -53,8 +53,6 @@ class Location extends Component {
     const { provinceValue, amphurValue, tambolValue } = this.props;
     this.setState({ provinceValue, amphurValue, tambolValue });
 
-    console.log('>>> location: ', provinceValue, amphurValue, tambolValue);
-
     request(_url)
       .then(response => {
         const { data: { PROVINCE } } = response;
@@ -80,7 +78,6 @@ class Location extends Component {
   }
 
   handleProvinceChange = (event, index, value) => {
-    console.log('>>> handleProvinceChange: ', event);
     this.setState({ provinceValue: value });
     const {
       // name,
@@ -94,8 +91,6 @@ class Location extends Component {
       const { provinceDataList } = this.state;
       const { PROVINCE_NAME } = provinceDataList
         .find(({ PROVINCE_ID }) => PROVINCE_ID === value) || {};
-
-      console.log('>>> provinceDataList: ', provinceDataList, PROVINCE_NAME);
 
       handleChange(provinceValueField, provinceNameField, value, PROVINCE_NAME);
     }
