@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import ButtonBar from '../../components/lead/ButtonBar';
-import { cancelSelection } from '../../actions/admin';
-import { searchData } from '../../reducers/admin';
+import { cancelSelection } from '../../actions/lead';
+import { searchData } from '../../reducers/lead';
 
 const mapStateToProps = ({ admin }) => ({
   id: admin.get('id'),

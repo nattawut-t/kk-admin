@@ -1,11 +1,6 @@
 import Immutable, { Record } from 'immutable';
 import moment from 'moment';
 import {
-  pageSize,
-  loadingTime,
-  dateFormat,
-} from '../libs/config';
-import {
   approveSuccess,
   rejectSuccess,
   searchSuccess,
@@ -14,7 +9,7 @@ import {
   selectDataSuccess,
   cancelSelection,
   setSortInfo,
-  setSearchInfo,
+  // setSearchInfo,
   SELECT_DATA_SUCCESS,
   APPROVE_SUCCESS,
   REJECT_SUCCESS,
@@ -31,6 +26,13 @@ import {
   putJson,
   getJson,
 } from '../libs/request';
+import {
+  pageSize,
+  loadingTime,
+  dateFormat,
+} from '../libs/config';
+import { parseLeadIn } from '../libs/lead';
+import { parseLeadsIn } from '../libs/leads';
 
 const State = Record({
   id: '',
@@ -50,48 +52,48 @@ const State = Record({
 const initialState = new State();
 const endpoint = '/admin/leads';
 
-const parseLeadIn = ({
-  ID,
-  CreatedAt,
-  UpdatedAt,
-  DeletedAt,
-  UserID,
-  Email,
-  IDCard,
-  MobileNo,
-  BirthDate,
-  TicketID,
-  Status,
-  ReferenceID,
-  Data,
-}) => {
-  let entry = JSON.parse(Data) || {};
-  const { prefixTH, firstNameTH, lastNameTH } = entry;
-  const nameTH = `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim();
+// const parseLeadIn = ({
+//   ID,
+//   CreatedAt,
+//   UpdatedAt,
+//   DeletedAt,
+//   UserID,
+//   Email,
+//   IDCard,
+//   MobileNo,
+//   BirthDate,
+//   TicketID,
+//   Status,
+//   ReferenceID,
+//   Data,
+// }) => {
+//   let entry = JSON.parse(Data) || {};
+//   const { prefixTH, firstNameTH, lastNameTH } = entry;
+//   const nameTH = `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim();
 
-  entry = Object.assign({
-    ID,
-    CreatedAt,
-    UpdatedAt,
-    DeletedAt,
-    UserID,
-    Email,
-    IDCard,
-    MobileNo,
-    BirthDate,
-    TicketID,
-    Status,
-    ReferenceID,
-  },
-    entry,
-    { nameTH },
-  );
+//   entry = Object.assign({
+//     ID,
+//     CreatedAt,
+//     UpdatedAt,
+//     DeletedAt,
+//     UserID,
+//     Email,
+//     IDCard,
+//     MobileNo,
+//     BirthDate,
+//     TicketID,
+//     Status,
+//     ReferenceID,
+//   },
+//     entry,
+//     { nameTH },
+//   );
 
-  return entry;
-};
+//   return entry;
+// };
 
-const parseLeadsIn = entries =>
-  entries ? entries.map(entry => parseLeadIn(entry)) : {};
+// const parseLeadsIn = entries =>
+//   entries ? entries.map(entry => parseLeadIn(entry)) : {};
 
 function _searchData(page = 1) {
   return dispatch => {
@@ -112,7 +114,8 @@ function _searchData(page = 1) {
           page,
         } = data;
 
-        const dataList = parseLeadsIn(entries);
+        console.log('>>> entries: ', entries);
+        const dataList = entries ? parseLeadsIn(entries) : [];
 
         dispatch(searchSuccess(dataList, count, numOfPages, page));
         return dispatch(setLoading(false));
@@ -148,7 +151,8 @@ function _loadNextPage(currentPage = 1, nextPage = 2) {
             page,
           } = data;
 
-          const dataList = parseLeadsIn(entries);
+          console.log('>>> entries: ', entries);
+          const dataList = entries ? parseLeadsIn(entries) : [];
 
           dispatch(loadNextPageSuccess(dataList, count, numOfPages, page));
           return dispatch(setLoading(false));
@@ -223,10 +227,11 @@ export function reject(id, remark, callback) {
 }
 
 export function searchData(keyword) {
-  return dispatch => {
-    dispatch(setSearchInfo(keyword));
-    return dispatch(_searchData());
-  };
+  console.log('>>> admin: ', keyword);
+  // return dispatch => {
+  //   dispatch(setSearchInfo(keyword));
+  //   return dispatch(_searchData());
+  // };
 }
 
 export function sortData(field, desc) {
@@ -237,6 +242,7 @@ export function sortData(field, desc) {
 }
 
 export function loadNextPage() {
+  console.log('>>> admin');
   return (dispatch, getState) => {
     const state = getState().admin;
     const loading = state.get('loading');

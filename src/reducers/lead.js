@@ -6,14 +6,35 @@ import {
   COMPLETE_ADDITIONAL_INFO_SUCCESS,
   UPLOAD_DOCUMENT_SUCCESS,
   NOTIFY,
+  LOAD_NEXT_PAGE_SUCCESS,
+  SEARCH_SUCCESS,
+  //
   acceptAgreementSuccess,
   completePersonalInfoSuccess,
   completeLoanInfoSuccess,
   completeAdditionalInfoSuccess,
   uploadDocumentSuccess,
   notify,
+  //
+  setLoading,
+  cancelSelection,
+  loadNextPageSuccess,
+  searchSuccess,
+  setSearchInfo,
 } from '../actions/lead';
-import { portalUrl, postForm, postJson } from '../libs/request';
+import {
+  portalUrl,
+  postForm,
+  postJson,
+  getJson,
+} from '../libs/request';
+import {
+  pageSize,
+  loadingTime,
+  // dateFormat,
+} from '../libs/config';
+// import { parseLeadIn } from '../libs/lead';
+import { parseLeadsIn } from '../libs/leads';
 
 const State = Record({
   isConsent: false,
@@ -30,10 +51,106 @@ const State = Record({
   statement_1: {},
   statement_2: {},
   statement_3: {},
+  //
+  dataList: [],
+  total: 0,
+  pages: 0,
+  page: 0,
+  //
 });
 const initialState = new State();
+// const endpoint = '/admin/leads';
+const searchUrl = (page = 1) => portalUrl(`/api/work/leads?page=${page}`);
 const uploadUrl = () => portalUrl('/api/work/leads/doc');
 const saveUrl = () => portalUrl('/api/work/leads');
+
+function _loadNextPage(currentPage = 1, nextPage = 2) {
+  console.log('>>> _loadNextPage: ', nextPage);
+
+  return (dispatch, getState) => {
+    dispatch(setLoading(true));
+    dispatch(cancelSelection());
+
+    const state = getState().admin;
+    const total = state.get('total') || 0;
+
+    if ((currentPage * pageSize) < total) {
+      // const _endpoint = searchUrl();
+      const url = searchUrl(nextPage);
+      const promise = getJson(url);
+
+      console.log('>>> url: ', url);
+
+      setTimeout(() =>
+        promise.then(response => {
+          const { data } = response;
+
+          console.log('>>> data: ', data);
+          const dataList = data ? parseLeadsIn(data) : [];
+
+          dispatch(loadNextPageSuccess(dataList, 0, 0, 0));
+          return dispatch(setLoading(false));
+        })
+          .catch(error => {
+            console.log('>>> error: ', error);
+            dispatch(setLoading(false));
+          })
+        , loadingTime);
+    }
+
+    dispatch(setLoading(false));
+  };
+}
+
+function _searchData(page = 1) {
+  return dispatch => {
+    dispatch(setLoading(true));
+    dispatch(cancelSelection());
+
+    // const _endpoint = searchUrl(page);
+    const url = searchUrl(page);
+    const promise = getJson(url);
+
+    setTimeout(() =>
+      promise.then(response => {
+        const { data } = response;
+
+        console.log('>>> data: ', data);
+        const dataList = data ? parseLeadsIn(data) : [];
+
+        dispatch(searchSuccess(dataList, 0, 0, 0));
+        return dispatch(setLoading(false));
+      })
+        .catch(error => {
+          console.log('>>> error: ', error);
+          dispatch(setLoading(false));
+        })
+      , loadingTime);
+  };
+}
+
+export function searchData(keyword) {
+  console.log('>>> lead: ', keyword);
+  return dispatch => {
+    dispatch(setSearchInfo(keyword));
+    return dispatch(_searchData());
+  };
+}
+
+export function loadNextPage() {
+  console.log('>>> lead');
+  return (dispatch, getState) => {
+    const state = getState().admin;
+    const loading = state.get('loading');
+
+    if (!loading) {
+      const page = state.get('page') || 1;
+      return dispatch(_loadNextPage(page, page + 1));
+    }
+
+    return dispatch(setLoading(false));
+  };
+}
 
 export function save() {
   return (dispatch, getState) => {
@@ -111,6 +228,31 @@ const lead = (state = initialState, action) => {
   let documents;
 
   switch (action.type) {
+    case SEARCH_SUCCESS:
+
+      _state = Immutable.fromJS({
+        total: action.total,
+        pages: action.pages,
+        page: action.page,
+        dataList: [
+          ...action.dataList,
+        ],
+      });
+      return state.merge(_state);
+
+    case LOAD_NEXT_PAGE_SUCCESS:
+
+      _state = Immutable.fromJS({
+        total: action.total,
+        pages: action.pages,
+        page: action.page,
+        dataList: [
+          ...state.dataList,
+          ...action.dataList,
+        ],
+      });
+      return state.merge(_state);
+
     case ACCEPT_AGREEMENT_SUCCESS:
 
       _state = Immutable.fromJS({

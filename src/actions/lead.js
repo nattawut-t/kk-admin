@@ -5,6 +5,11 @@ export const COMPLETE_ADDITIONAL_INFO_SUCCESS = 'lead/COMPLETE_ADDITIONAL_INFO_S
 export const UPLOAD_DOCUMENT_SUCCESS = 'lead/UPLOAD_DOCUMENT_SUCCESS';
 export const NOTIFY = 'lead/NOTIFY';
 export const SET_LOADING = 'lead/SET_LOADING';
+//
+export const LOAD_NEXT_PAGE_SUCCESS = 'lead/LOAD_NEXT_PAGE_SUCCESS';
+export const SET_SEARCH_INFO = 'lead/SET_SEARCH_INFO';
+export const CANCEL_SELECTION = 'lead/CANCEL_SELECTION';
+export const SEARCH_SUCCESS = 'lead/SEARCH_SUCCESS';
 
 export const acceptAgreementSuccess = isConsent => ({
   type: ACCEPT_AGREEMENT_SUCCESS,
@@ -43,4 +48,29 @@ export const notify = (notify, message) => ({
   type: NOTIFY,
   notify,
   message,
+});
+
+export const loadNextPageSuccess = (dataList, total, pages, page) => ({
+  type: LOAD_NEXT_PAGE_SUCCESS,
+  dataList,
+  total,
+  pages,
+  page,
+});
+
+export const setSearchInfo = (keyword = '') => ({
+  type: SET_SEARCH_INFO,
+  keyword,
+});
+
+export const cancelSelection = () => ({
+  type: CANCEL_SELECTION,
+});
+
+export const searchSuccess = (dataList, total, pages, page) => ({
+  type: SEARCH_SUCCESS,
+  dataList,
+  total,
+  pages,
+  page,
 });

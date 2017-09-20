@@ -3,9 +3,9 @@ import moment from 'moment';
 import List from '../../components/lead/List';
 import {
   searchData,
-  sortData,
-  selectData,
-} from '../../reducers/admin';
+  // sortData,
+  // selectData,
+} from '../../reducers/lead';
 import { dateFormat } from '../../libs/config';
 
 const schema = [
@@ -132,8 +132,8 @@ const mapStateToProps = ({ admin }) => ({
 
 const mapDispatchToProps = dispatch => ({
   loadData: () => dispatch(searchData()),
-  sortData: (sortField, sortDesc) => dispatch(sortData(sortField, sortDesc)),
-  selectData: rowIndex => dispatch(selectData(rowIndex)),
+  // sortData: (sortField, sortDesc) => dispatch(sortData(sortField, sortDesc)),
+  // selectData: rowIndex => dispatch(selectData(rowIndex)),
 });
 
 export default connect(
