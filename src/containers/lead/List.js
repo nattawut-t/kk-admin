@@ -125,8 +125,8 @@ const schema = [
   // },
 ];
 
-const mapStateToProps = ({ admin }) => ({
-  dataList: admin.get('dataList'),
+const mapStateToProps = ({ lead }) => ({
+  dataList: lead.get('dataList'),
   tableSchemas: schema,
 });
 

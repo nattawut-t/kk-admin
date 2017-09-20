@@ -39,7 +39,7 @@ import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import Summary from '../containers/lead/Summary';
 
 import AdminIndex from '../containers/admin/Index';
-import UserIndex from '../containers/lead/Index';
+import Index from '../containers/lead/Index';
 
 const Logged = ({ onSignoutClick }) => (
   <div>
@@ -182,7 +182,7 @@ class App extends React.Component {
                       <Route path="/loan-info" component={LoanInfo} />
                       <Route path="/personal-info" component={PersonalInfo} />
                       <Route path="/borrow-request" component={Agreement} />
-                      <Route path="/leads" component={UserIndex} />
+                      <Route path="/leads" component={Index} />
                       <Route path="/admin/leads" component={AdminIndex} />
                       <Route path="*" exact component={ProductInfo} />
                     </Switch>

@@ -8,6 +8,7 @@ import {
   NOTIFY,
   LOAD_NEXT_PAGE_SUCCESS,
   SEARCH_SUCCESS,
+  SET_LOADING,
   //
   acceptAgreementSuccess,
   completePersonalInfoSuccess,
@@ -107,7 +108,6 @@ function _searchData(page = 1) {
     dispatch(setLoading(true));
     dispatch(cancelSelection());
 
-    // const _endpoint = searchUrl(page);
     const url = searchUrl(page);
     const promise = getJson(url);
 
@@ -130,7 +130,6 @@ function _searchData(page = 1) {
 }
 
 export function searchData(keyword) {
-  console.log('>>> lead: ', keyword);
   return dispatch => {
     dispatch(setSearchInfo(keyword));
     return dispatch(_searchData());
@@ -138,7 +137,6 @@ export function searchData(keyword) {
 }
 
 export function loadNextPage() {
-  console.log('>>> lead');
   return (dispatch, getState) => {
     const state = getState().admin;
     const loading = state.get('loading');
@@ -308,6 +306,12 @@ const lead = (state = initialState, action) => {
         message: action.message,
       });
 
+      return state.merge(_state);
+
+    case SET_LOADING:
+      _state = Immutable.fromJS({
+        loading: action.loading,
+      });
       return state.merge(_state);
 
     default:

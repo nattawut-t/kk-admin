@@ -9,7 +9,6 @@ import Viewer from '../../containers/lead/Viewer';
 
 const Index = ({ id, loadNextPage, loading, message }) => (
   <div>
-    User
     <ButtonBar />
     {loading
       ? <div className="loader" />

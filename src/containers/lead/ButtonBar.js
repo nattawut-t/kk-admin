@@ -3,10 +3,10 @@ import ButtonBar from '../../components/lead/ButtonBar';
 import { cancelSelection } from '../../actions/lead';
 import { searchData } from '../../reducers/lead';
 
-const mapStateToProps = ({ admin }) => ({
-  id: admin.get('id'),
-  message: admin.get('message'),
-  loading: admin.get('loading'),
+const mapStateToProps = ({ lead }) => ({
+  id: lead.get('id'),
+  message: lead.get('message'),
+  loading: lead.get('loading'),
 });
 
 const mapDispatchToProps = dispatch => ({

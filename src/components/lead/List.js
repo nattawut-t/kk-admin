@@ -64,10 +64,10 @@ class List extends Component {
 
   render() {
     const { dataList, tableSchemas } = this.props;
-    const { sortField, sortDesc } = this.state;
-    const sortDirection = sortDesc => (!sortDesc)
-      ? <i className="material-icons">expand_less</i>
-      : <i className="material-icons">expand_more</i>;
+    // const { sortField, sortDesc } = this.state;
+    // const sortDirection = sortDesc => (!sortDesc)
+    //   ? <i className="material-icons">expand_less</i>
+    //   : <i className="material-icons">expand_more</i>;
     return (
       <div>
         <Table
@@ -84,23 +84,12 @@ class List extends Component {
             <TableRow>
               <TableHeaderColumn style={{ width: '5%', textAlign: 'center' }}>#</TableHeaderColumn>
               {tableSchemas.map(col => {
-                const { id, name, label } = col;
+                const { id, label } = col;
                 let { widthPercentage } = col;
                 widthPercentage = widthPercentage || 100;
                 return (
-                  <TableHeaderColumn key={id} style={{ width: `${widthPercentage}%`, textAlign: 'center' }}>
-                    <div style={{ display: 'inline-block' }} >
-                      <span>{label}</span>
-                      <IconButton
-                        tooltip={`Sort by ${label}`}
-                        onClick={() => this.handleHeaderClick(name)}
-                      >
-                        {(sortField === name)
-                          ? sortDirection(sortDesc)
-                          : <i className="material-icons">more_vert</i>
-                        }
-                      </IconButton>
-                    </div>
+                  <TableHeaderColumn key={id} style={{ width: `${widthPercentage}%`, textAlign: 'center' }} >
+                    <span>{label}</span>
                   </TableHeaderColumn>
                 );
               })}
