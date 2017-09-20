@@ -31,7 +31,7 @@ import BorrowStatus from './BorrowStatus';
 import Main from './Main';
 import Login from '../containers/Login';
 import AdminLogin from '../containers/AdminLogin';
-import History from './History';
+// import History from './History';
 import Agreement from '../containers/lead/Agreement';
 import PersonalInfo from '../containers/lead/PersonalInfo';
 import LoanInfo from '../containers/lead/LoanInfo';
@@ -39,9 +39,7 @@ import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import Summary from '../containers/lead/Summary';
 
 import AdminIndex from '../containers/admin/Index';
-
-import Test from '../containers/test/Test';
-import Test1 from '../containers/test/Test1';
+import Index from '../containers/lead/Index';
 
 const Logged = ({ onSignoutClick }) => (
   <div>
@@ -164,7 +162,7 @@ class App extends React.Component {
                         <Divider />
                         <MenuItem
                           primaryText="สถานะการกู้"
-                          containerElement={<Link to="/borrow-status" />}
+                          containerElement={<Link to="/leads" />}
                           leftIcon={<LinearScale />}
                         />
                       </Menu>
@@ -176,17 +174,15 @@ class App extends React.Component {
                 <div className={`${!authenticated ? 'col-12' : 'col-9'}`}>
                   <div className="container">
                     <Switch>
-                      <Route path="/test" component={Test} />
-                      <Route path="/test1" component={Test1} />
                       <Route path="/product-info" component={ProductInfo} />
                       <Route path="/borrow-request" component={Main} />
                       <Route path="/borrow-status" component={BorrowStatus} />
-                      <Route path="/history" component={History} />
                       <Route path="/summary" component={Summary} />
                       <Route path="/additional-info" component={AdditionalInfo} />
                       <Route path="/loan-info" component={LoanInfo} />
                       <Route path="/personal-info" component={PersonalInfo} />
                       <Route path="/borrow-request" component={Agreement} />
+                      <Route path="/leads" component={Index} />
                       <Route path="/admin/leads" component={AdminIndex} />
                       <Route path="*" exact component={ProductInfo} />
                     </Switch>

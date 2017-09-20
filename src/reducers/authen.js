@@ -62,11 +62,13 @@ export function loginOtp(mobile, otp, callback) {
     const _url = portalUrl('/api/work/otp');
 
     postJson(_url, data, false)
-      .then(() => {
-        // const { data } = response;
+      .then(response => {
+        const { data } = response;
+        const { token } = data;
+
+        localStorage.setItem('token', token);
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
-
         setTimeout(() => {
           dispatch(notify(''));
           dispatch(loginOtpSuccess(mobile));
