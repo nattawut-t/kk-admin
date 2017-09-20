@@ -5,5 +5,84 @@
   margin: 0 auto;
   padding: 60px;
 }
-
-
+.login-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  background: #019ac9;
+  .header {
+    color: #fff;
+    width: 100%;
+    display: inline-block;
+    font-size: 28px;
+  }
+  .sub-header {
+    color: #fff;
+    width: 100%;
+    display: inline-block;
+    font-size: 18px;
+    padding-bottom: 28px;
+  }
+  .display-status {
+    background: rgba(1, 154, 201, 0.24);
+    color: #019ac9;
+    padding: 7px 0;
+    margin: 12px 0;
+    font-size: 14px;
+  }
+  .custom-label {
+    text-align: left;
+    width: 100%;
+    font-size: 14px;
+    color: #656d7d;
+  }
+  .custom-textfield {
+    width: 100%;
+    height: 48px;
+    border-radius: 3px;
+    border: solid 1px #c4c4c4;
+    padding: 0 0 0 14px;
+    font-size: 16px;
+  }
+  .btn-otp {
+    width: 157px;
+    height: 40px;
+    border-radius: 3px;
+    background-color: #ffffff;
+    border: solid 1px #009dc6;
+    color: #009dc6;
+    font-weight: 500;
+    float: right;
+    margin-top: 12px;
+    &.disabled {
+      color: #9b9b9b;
+      border: 1px solid #9b9b9b;
+    }
+  }
+  .btn-login {
+    width: 157px;
+    height: 40px;
+    border-radius: 3px;
+    background-color: #ffffff;
+    border: solid 1px #009dc6;
+    background: #009dc6;
+    color: #ffffff;
+    font-weight: 500;
+    float: right;
+    margin-top: 12px;
+  }
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #c4c4c4;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: #c4c4c4;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: #c4c4c4;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: #c4c4c4;
+  }
+}

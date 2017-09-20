@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+// import RaisedButton from 'material-ui/RaisedButton';
+// import FlatButton from 'material-ui/FlatButton';
 import { grey500, white } from 'material-ui/styles/colors';
-import TextField from 'material-ui/TextField';
+// import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 
 const styles = {
@@ -14,15 +14,16 @@ const styles = {
     maxWidth: 400,
     height: 'auto',
     position: 'absolute',
-    top: '20%',
+    top: '10%',
     left: 0,
     right: 0,
     margin: 'auto',
     textAlign: 'center',
   },
   paper: {
-    padding: 20,
+    padding: '25px 0',
     overflow: 'auto',
+    margin: '0 16px',
   },
   buttonsDiv: {
     textAlign: 'center',
@@ -48,7 +49,9 @@ class Login extends Component {
   constructor(props) {
     super(props);
     const env = process.env.NODE_ENV;
-
+    this.state = {
+      OTPactive: false,
+    };
     switch (env) {
       case 'test':
         this.state = {
@@ -71,14 +74,17 @@ class Login extends Component {
     this.setState({ [name]: value });
   }
 
-  handleOtpClick = username => {
+  handleOtpClick = (e, username) => {
+    e.preventDefault();
     if (username) {
       const { getOtp } = this.props;
       getOtp(username);
+      this.setState({ OTPactive: true });
     }
   };
 
-  handleLoginClick = () => {
+  handleLoginClick = e => {
+    e.preventDefault();
     const { username, otp } = this.state;
 
     if (username && otp) {
@@ -94,50 +100,84 @@ class Login extends Component {
     const { message } = this.props;
 
     return (
-      <div className="row" style={{ padding: '33px 0' }}>
-        <div style={styles.loginContainer}>
-          <h4>เข้าสู่ระบบ</h4>
-          <Paper style={styles.paper}>
+      <div className="login-page">
+        <div className="row" style={{ padding: '33px 0' }}>
+          <div style={styles.loginContainer}>
+            <span className="header">ยินดีต้อนรับสู่ มันนี่เทเบิล</span>
+            <span className="sub-header">เข้าสู่ระบบด้วยเบอร์โทรศัพท์ของคุณ</span>
+            <Paper style={styles.paper} zDepth={2}>
 
-            <form>
-              <TextField
-                floatingLabelText="เบอร์โทรศัพท์มือถือ"
-                fullWidth
-                value={username}
-                onChange={e => this.handleChange(e, 'username')}
-              />
-              <FlatButton
-                label="ขอรับรหัส OTP"
-                style={styles.loginBtn}
-                primary
-                onClick={() => this.handleOtpClick(username)}
-                disabled={!username}
-              />
-              <TextField
-                floatingLabelText="รหัส OTP"
-                fullWidth
-                value={otp}
-                onChange={e => this.handleChange(e, 'otp')}
-                type="password"
-              />
-
-              <div>
-                <RaisedButton
-                  label="เข้าสู่ระบบ"
-                  primary
-                  style={styles.loginBtn}
-                  onClick={this.handleLoginClick}
-                  disabled={!username || !otp}
-                />
-              </div>
-            </form>
-          </Paper>
+              <form>
+                <div className="col-12">
+                  <label htmlFor="username" className="custom-label">
+                    เบอร์โทรศัพท์ของคุณ
+                  </label>
+                </div>
+                <div className="col-12">
+                  <input
+                    type="text"
+                    className="custom-textfield"
+                    placeholder="เบอร์โทรศัพท์ของคุณ"
+                    value={username}
+                    onChange={e => this.handleChange(e, 'username')}
+                    maxLength={10}
+                  />
+                </div>
+                <div className="col-12">
+                  <button
+                    value="ขอรับรหัส OTP ใหม่"
+                    className={`btn-otp ${!username ? 'disabled' : ''}`}
+                    onClick={e => this.handleOtpClick(e, username)}
+                    disabled={!username}
+                  >
+                    ขอรหัส OTP ใหม่
+                  </button>
+                </div>
+                {
+                  (!this.state.OTPactive)
+                  || <span>
+                    <div className="col-12">
+                      <div className="display-status">
+                        ระบบได้ส่ง OTP ไปที่ {this.state.username}
+                      </div>
+                    </div>
+                    <div className="col-12">
+                      <label htmlFor="otp" className="custom-label">
+                        ใส่รหัส OTP
+                      </label>
+                    </div>
+                    <div className="col-12">
+                      <input
+                        type="password"
+                        placeholder="ใส่รหัส OTP 6 หลัก"
+                        className="custom-textfield"
+                        value={otp}
+                        onChange={e => this.handleChange(e, 'otp')}
+                      />
+                    </div>
+                    <div>
+                      <div className="col-12">
+                        <button
+                          value="เข้าสู่ระบบ่"
+                          className="btn-login"
+                          onClick={e => this.handleLoginClick(e)}
+                          disabled={!username || !otp}
+                        >
+                          เข้าสู่ระบบ
+                        </button>
+                      </div>
+                    </div>
+                  </span>
+                }
+              </form>
+            </Paper>
+          </div>
+          <Snackbar
+            open={message !== ''}
+            message={message}
+            autoHideDuration={4000}
+          />
         </div>
-        <Snackbar
-          open={message !== ''}
-          message={message}
-          autoHideDuration={4000}
-        />
       </div>
     );
   }
