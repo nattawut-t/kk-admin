@@ -9,6 +9,7 @@ import {
   loginSuccess,
 } from '../actions/authen';
 import { portalUrl, getJson, postJson } from '../libs/request';
+import { loadingTime } from '../libs/config';
 
 const State = Record({
   otp: '',
@@ -43,12 +44,12 @@ export function login(username, password, callback) {
           if (callback) {
             callback();
           }
-        }, 2000);
+        }, loadingTime);
       })
       .catch(error => {
         console.log('>>> login.error: ', error);
         dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify('')), 2000);
+        setTimeout(() => dispatch(notify('')), loadingTime);
       });
   };
 }
@@ -76,12 +77,12 @@ export function loginOtp(mobile, otp, callback) {
           if (callback) {
             callback();
           }
-        }, 2000);
+        }, loadingTime);
       })
       .catch(error => {
         console.log('>>> loginOtp.error: ', error);
         dispatch(notify('เกิดข้อผิดพลาด กรุณาขอ OTP ใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify('')), 2000);
+        setTimeout(() => dispatch(notify('')), loadingTime);
       });
   };
 }

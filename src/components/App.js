@@ -86,11 +86,13 @@ class App extends React.Component {
   };
 
   handleSignoutClick = () => {
+    localStorage.clear();
     location.href = '/';
   };
 
   render() {
-    const { authenticated, isAdmin } = this.props;
+    const { isAdmin } = this.props;
+    const authenticated = localStorage.getItem('token');
 
     if (!authenticated) {
       return (
@@ -201,7 +203,7 @@ App.propTypes = {
   width: PropTypes.number,
   // location: PropTypes.object.isRequired,
   isAdmin: PropTypes.bool.isRequired,
-  authenticated: PropTypes.bool,
+  // authenticated: PropTypes.bool,
 };
 
 App.defaultProps = {
