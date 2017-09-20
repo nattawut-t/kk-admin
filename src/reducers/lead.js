@@ -22,11 +22,15 @@ import {
   loadNextPageSuccess,
   searchSuccess,
   setSearchInfo,
+  //
+  saveDraftSuccess,
+  SAVE_DRAFT_SUCCESS,
 } from '../actions/lead';
 import {
   portalUrl,
   postForm,
   postJson,
+  putJson,
   getJson,
 } from '../libs/request';
 import {
@@ -34,7 +38,6 @@ import {
   loadingTime,
   // dateFormat,
 } from '../libs/config';
-// import { parseLeadIn } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
 
 const State = Record({
@@ -42,6 +45,7 @@ const State = Record({
   personalInfo: null,
   loanInfo: null,
   additionalInfo: null,
+  lead: null,
   data: null,
   documents: {},
   notify: false,
@@ -168,12 +172,47 @@ export function save() {
         setTimeout(() => {
           dispatch(notify(!_notify, ''));
           window.location.href = '/product-info';
-        }, 2000);
+        }, loadingTime);
       })
       .catch(error => {
         console.log('>>> save.error: ', error);
         dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify(!_notify, '')), 2000);
+        setTimeout(() => dispatch(notify(!_notify, '')), loadingTime);
+      });
+  };
+}
+
+export function saveDraft(data, callback, last = false) {
+  return (dispatch, getState) => {
+    const _state = getState().lead;
+    let data = _state.get('lead') || {};
+    const url = saveUrl();
+
+    if (typeof data.toJS === 'function') {
+      data = data.toJS();
+    }
+
+    putJson(url, data)
+      .then(() => {
+        // const { data } = response;
+
+        if (last) {
+          dispatch(notify('บันทึกข้อมูลเสร็จสมบูรณ์'));
+        }
+
+        dispatch(saveDraftSuccess(data));
+        setTimeout(() => {
+          dispatch(notify(''));
+
+          if (callback) {
+            callback();
+          }
+        }, loadingTime);
+      })
+      .catch(error => {
+        console.log('>>> save.error: ', error);
+        dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+        setTimeout(() => dispatch(notify('')), loadingTime);
       });
   };
 }
@@ -182,16 +221,31 @@ export function acceptAgreement(isConsent = false) {
   return dispatch => dispatch(acceptAgreementSuccess(isConsent));
 }
 
-export function completePersonalInfo(data) {
-  return dispatch => dispatch(completePersonalInfoSuccess(data));
+export function completePersonalInfo(data, callback) {
+  return dispatch => {
+    dispatch(completePersonalInfoSuccess(data));
+    if (callback) {
+      callback();
+    }
+  };
 }
 
-export function completeLoanInfo(data) {
-  return dispatch => dispatch(completeLoanInfoSuccess(data));
+export function completeLoanInfo(data, callback) {
+  return dispatch => {
+    dispatch(completeLoanInfoSuccess(data));
+    if (callback) {
+      callback();
+    }
+  };
 }
 
-export function completeAdditionalInfo(data) {
-  return dispatch => dispatch(completeAdditionalInfoSuccess(data));
+export function completeAdditionalInfo(data, callback) {
+  return dispatch => {
+    dispatch(completeAdditionalInfoSuccess(data));
+    if (callback) {
+      callback();
+    }
+  };
 }
 
 export function uploadDocument(field, path, name, data, docType) {
@@ -207,12 +261,12 @@ export function uploadDocument(field, path, name, data, docType) {
 
         dispatch(uploadDocumentSuccess(field, path, filename, docType));
         dispatch(notify(!_notify, 'อัพโหลดเอกสารแล้ว'));
-        setTimeout(() => dispatch(notify(!_notify, '')), 2000);
+        setTimeout(() => dispatch(notify(!_notify, '')), loadingTime);
       })
       .catch(error => {
         console.log('>>> uploadFile.error: ', error);
         dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify(!_notify, '')), 2000);
+        setTimeout(() => dispatch(notify(!_notify, '')), loadingTime);
       });
   };
 }
@@ -224,8 +278,19 @@ const lead = (state = initialState, action) => {
   let additionalInfo;
   let data;
   let documents;
+  let lead;
 
   switch (action.type) {
+    case SAVE_DRAFT_SUCCESS:
+
+      lead = state.get('lead').toJS();
+      lead = Object.assign(lead, action.data);
+      _state = Immutable.fromJS({
+        lead,
+      });
+
+      return state.merge(_state);
+
     case SEARCH_SUCCESS:
 
       _state = Immutable.fromJS({

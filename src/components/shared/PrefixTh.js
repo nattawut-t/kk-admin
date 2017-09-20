@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import { adminUrl, request } from '../../libs/request';
+import { adminUrl, getJson } from '../../libs/request';
 
 const endpoint = '/prefix';
 const fieldName = {
@@ -35,9 +35,9 @@ class PrefixTh extends Component {
   };
 
   componentWillMount() {
-    const _url = adminUrl(endpoint);
+    const url = adminUrl(endpoint);
 
-    request(_url)
+    getJson(url, false)
       .then(response => {
         const { data: { LIST } } = response;
         const dataList = LIST || [];

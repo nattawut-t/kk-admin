@@ -276,8 +276,9 @@ class LoanInfo extends Component {
     history.push('/personal-info');
   };
 
-  handleNext = () => {
-    const { completeLoanInfo } = this.props;
+  handleNext = e => {
+    e.preventDefault();
+
     const {
       loanAmount,
       installmentNumber,
@@ -295,9 +296,7 @@ class LoanInfo extends Component {
       bankBranchName,
     } = this.state;
 
-    console.log(this.state);
-
-    completeLoanInfo({
+    const data = {
       loanAmount,
       installmentNumber,
       beneficiary,
@@ -312,10 +311,12 @@ class LoanInfo extends Component {
       bankCode,
       bankName,
       bankBranchName,
-    });
+    };
 
-    const { history } = this.props;
-    history.push('/additional-info');
+    const { completeLoanInfo, history } = this.props;
+    completeLoanInfo(data, () => history.push('/additional-info'));
+
+    // const { history } = this.props;
   };
 
   render() {

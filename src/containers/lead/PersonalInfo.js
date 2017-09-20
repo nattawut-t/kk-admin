@@ -5,7 +5,9 @@ import { completePersonalInfo } from '../../reducers/lead';
 const transform = (state, key) => {
   if (state && key) {
     const data = state.get(key);
-    return data ? data.toJS() : null;
+    return (data && typeof data.toJS === 'function')
+      ? data.toJS()
+      : null;
   }
   return null;
 };
@@ -17,7 +19,7 @@ const mapStateToProps = ({ lead }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  completePersonalInfo: data => dispatch(completePersonalInfo(data)),
+  completePersonalInfo: (data, callback) => dispatch(completePersonalInfo(data, callback)),
 });
 
 export default connect(

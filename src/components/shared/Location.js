@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-import { adminUrl, request } from '../../libs/request';
+import { adminUrl, getJson } from '../../libs/request';
 
 class Location extends Component {
   static propTypes = {
@@ -49,11 +49,11 @@ class Location extends Component {
   }
 
   componentWillMount() {
-    const _url = adminUrl('/location/province');
+    const url = adminUrl('/location/province');
     const { provinceValue, amphurValue, tambolValue } = this.props;
     this.setState({ provinceValue, amphurValue, tambolValue });
 
-    request(_url)
+    getJson(url)
       .then(response => {
         const { data: { PROVINCE } } = response;
         const dataList = PROVINCE || [];
@@ -85,7 +85,7 @@ class Location extends Component {
       provinceValueField,
       provinceNameField,
     } = this.props;
-    const _url = adminUrl(`/location/city/${value}`);
+    const url = adminUrl(`/location/city/${value}`);
 
     if (handleChange) {
       const { provinceDataList } = this.state;
@@ -95,7 +95,7 @@ class Location extends Component {
       handleChange(provinceValueField, provinceNameField, value, PROVINCE_NAME);
     }
 
-    request(_url)
+    getJson(url)
       .then(response => {
         const { data: { CITY } } = response;
         const dataList = CITY || [];
@@ -117,7 +117,7 @@ class Location extends Component {
       amphurValueField,
       amphurNameField,
     } = this.props;
-    const _url = adminUrl(`/location/district/${provinceValue}/${value}`);
+    const url = adminUrl(`/location/district/${provinceValue}/${value}`);
 
     if (handleChange) {
       const { amphurDataList } = this.state;
@@ -129,7 +129,7 @@ class Location extends Component {
       handleChange(amphurValueField, amphurNameField, value, CITY_NAME);
     }
 
-    request(_url)
+    getJson(url)
       .then(response => {
         const { data: { DISTRICT } } = response;
         const dataList = DISTRICT || [];

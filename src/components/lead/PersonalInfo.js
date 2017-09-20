@@ -52,17 +52,6 @@ const styles = {
 const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
 
 class PersonalInfo extends Component {
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-    // mobile: PropTypes.string,
-    data: PropTypes.object,
-    completePersonalInfo: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    // mobile: '',
-    data: null,
-  };
 
   componentWillMount() {
     const { data } = this.props;
@@ -538,7 +527,7 @@ class PersonalInfo extends Component {
 
   handleNext = e => {
     e.preventDefault();
-    const { completePersonalInfo } = this.props;
+
     const {
       dateReq,
       prefixTH,
@@ -600,7 +589,7 @@ class PersonalInfo extends Component {
 
     console.log(this.state);
 
-    completePersonalInfo({
+    const data = {
       dateReq,
       prefixTH,
       firstNameTH,
@@ -612,18 +601,11 @@ class PersonalInfo extends Component {
       dateExp,
       status,
       department,
-      // departmentmsg,
       position,
-      // positionmsg,
       workTel2,
-      // workTel2Valid,
-      // workTel2msg,
       homeTel2,
-      // homeTel2msg,
-      // homeTel2Valid,
       detailRent,
       workTel,
-      // workTelmsg,
       workTelValid,
       telExtension,
       number,
@@ -664,10 +646,19 @@ class PersonalInfo extends Component {
       officeTambolCodeName,
       officeZipCode,
       //
-    });
+    };
+    // completePersonalInfo(data);
 
-    const { history } = this.props;
-    history.push('/loan-info');
+    // const { history } = this.props;
+    // history.push('/loan-info');
+
+    const {
+      completePersonalInfo,
+      // saveDraft,
+      history,
+    } = this.props;
+
+    completePersonalInfo(data, () => history.push('/loan-info'));
   };
 
   renderDetailRent() {
@@ -1430,5 +1421,16 @@ class PersonalInfo extends Component {
     );
   }
 }
+
+PersonalInfo.propTypes = {
+  history: PropTypes.object.isRequired,
+  data: PropTypes.object,
+  completePersonalInfo: PropTypes.func.isRequired,
+  // saveDraft: PropTypes.func.isRequired,
+};
+
+PersonalInfo.defaultProps = {
+  data: null,
+};
 
 export default withRouter(PersonalInfo);

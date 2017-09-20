@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  completeLoanInfo: data => dispatch(completeLoanInfo(data)),
+  completeLoanInfo: (data, callback) => dispatch(completeLoanInfo(data, callback)),
 });
 
 export default connect(

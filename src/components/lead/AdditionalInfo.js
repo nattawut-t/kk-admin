@@ -214,7 +214,7 @@ class AdditionalInfo extends Component {
       }))
       .find(({ value }) => !value);
 
-    console.log('>>> invalid: ', invalid);
+    // console.log('invalid: ', invalid);
 
     return !invalid;
   };
@@ -263,7 +263,6 @@ class AdditionalInfo extends Component {
   };
 
   handleLookupChange = (value, name, id) => {
-    console.log('>>> handleLookupChange: ', value, name, id);
     this.setState({ [id]: value }, () => {
       const valid = this.validate();
       this.setState({ valid });
@@ -370,8 +369,6 @@ class AdditionalInfo extends Component {
   handleNumberChange = (name, value, errorMessage = '') => {
     const msgKey = `${name}msg`;
 
-    console.log(name, value);
-
     this.setState({
       [name]: value,
       [msgKey]: errorMessage,
@@ -389,7 +386,7 @@ class AdditionalInfo extends Component {
 
   handleNext = e => {
     e.preventDefault();
-    const { completeAdditionalInfo } = this.props;
+
     const {
       ref1Prefix,
       ref1PrefixMsg,
@@ -447,9 +444,7 @@ class AdditionalInfo extends Component {
       isConsent2,
     } = this.state;
 
-    console.log(this.state);
-
-    completeAdditionalInfo({
+    const data = {
       ref1Prefix,
       ref1PrefixMsg,
       ref1Firstname,
@@ -504,10 +499,15 @@ class AdditionalInfo extends Component {
       shippingAddress,
       //
       isConsent2,
-    });
+    };
 
-    const { history } = this.props;
-    history.push('/summary');
+    console.log(data);
+
+    const { completeAdditionalInfo, history } = this.props;
+
+    completeAdditionalInfo(data, () => history.push('/summary'));
+    // const { history } = this.props;
+    // history.push('/summary');
   };
 
   renderShippingAddress = type => {
@@ -795,43 +795,14 @@ class AdditionalInfo extends Component {
       children,
       childrenMsg,
       shippingAddress,
-      fileName0,
       fileName0Msg,
-
-      fileName1,
       fileName1Msg,
-
-      fileName2,
       fileName2Msg,
-
-      fileName3,
       fileName3Msg,
-
-      fileName4,
       fileName4Msg,
-
-      fileName5,
       fileName5Msg,
-
-      fileName6,
       fileName6Msg,
-
       isConsent2,
-      //
-      // shippingHouseNo,
-      // shippingMoo,
-      // shippingVillage,
-      // shippingFloor,
-      // shippingSoi,
-      // shippingRoad,
-      // shippingPostalCode,
-      // shippingProvinceCode,
-      // shippingAmphurCode,
-      // shippingTambolCode,
-      // shippingProvinceCodeName,
-      // shippingAmphurCodeName,
-      // shippingTambolCodeName,
-      //
       valid,
     } = this.state;
 
@@ -1169,7 +1140,6 @@ class AdditionalInfo extends Component {
                     type="file"
                     id="fileName0"
                     name="fileName0"
-                    filename={fileName0}
                     errorText={fileName0Msg}
                     onChange={e => this.handleFileChange(e, true, 'identity')}
                     fullWidth
@@ -1185,7 +1155,6 @@ class AdditionalInfo extends Component {
                     type="file"
                     id="fileName1"
                     name="fileName1"
-                    filename={fileName1}
                     errorText={fileName1Msg}
                     onChange={e => this.handleFileChange(e, true, 'payslip')}
                     fullWidth
@@ -1201,7 +1170,6 @@ class AdditionalInfo extends Component {
                     type="file"
                     id="fileName2"
                     name="fileName2"
-                    filename={fileName2}
                     errorText={fileName2Msg}
                     onChange={e => this.handleFileChange(e, true, 'account')}
                     fullWidth
@@ -1218,7 +1186,6 @@ class AdditionalInfo extends Component {
                     type="file"
                     id="fileName3"
                     name="fileName3"
-                    filename={fileName3}
                     errorText={fileName3Msg}
                     onChange={e => this.handleFileChange(e, true, 'household_registration')}
                     fullWidth
@@ -1235,7 +1202,6 @@ class AdditionalInfo extends Component {
                     type="file"
                     id="fileName4"
                     name="fileName4"
-                    filename={fileName4}
                     errorText={fileName4Msg}
                     onChange={e => this.handleFileChange(e, true, 'statement_1')}
                     fullWidth
@@ -1252,7 +1218,6 @@ class AdditionalInfo extends Component {
                     type="file"
                     id="fileName5"
                     name="fileName5"
-                    filename={fileName5}
                     errorText={fileName5Msg}
                     onChange={e => this.handleFileChange(e, true, 'statement_2')}
                     fullWidth
@@ -1269,7 +1234,6 @@ class AdditionalInfo extends Component {
                     type="file"
                     id="fileName6"
                     name="fileName6"
-                    filename={fileName6}
                     errorText={fileName6Msg}
                     onChange={e => this.handleFileChange(e, true, 'statement_3')}
                     fullWidth
@@ -1313,6 +1277,7 @@ class AdditionalInfo extends Component {
                 label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
                 style={styles.checkbox}
                 value={isConsent2}
+                checked={isConsent2}
                 onCheck={this.handleIsConsent2Change}
               />
             </div>
