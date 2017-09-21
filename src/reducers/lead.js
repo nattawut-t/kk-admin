@@ -24,7 +24,7 @@ import {
   searchSuccess,
   setSearchInfo,
   //
-  saveDraftSuccess,
+  // saveDraftSuccess,
   SAVE_DRAFT_SUCCESS,
 } from '../actions/lead';
 import {
@@ -280,37 +280,42 @@ export function save() {
   };
 }
 
-export function saveDraft(data, callback, last = false) {
+export function saveDraft() {
   return (dispatch, getState) => {
     const _state = getState().lead;
-    let data = _state.get('lead') || {};
-    const url = saveUrl();
 
-    if (typeof data.toJS === 'function') {
-      data = data.toJS();
+    let personalInfo = _state.get('personalInfo') || {};
+    let loanInfo = _state.get('loanInfo') || {};
+    let additionalInfo = _state.get('additionalInfo') || {};
+
+    if (personalInfo && typeof personalInfo.toJS === 'function') {
+      personalInfo = personalInfo.toJS();
     }
 
+    if (loanInfo && typeof loanInfo.toJS === 'function') {
+      loanInfo = loanInfo.toJS();
+    }
+
+    if (additionalInfo && typeof additionalInfo.toJS === 'function') {
+      additionalInfo = additionalInfo.toJS();
+    }
+
+    const data = Object.assign(personalInfo, loanInfo, additionalInfo);
+    const url = saveUrl();
+
+    console.log('saveDraft: ', data);
+
     putJson(url, data)
-      .then(() => {
-        // const { data } = response;
-
-        if (last) {
-          dispatch(notify('บันทึกข้อมูลเสร็จสมบูรณ์'));
-        }
-
-        dispatch(saveDraftSuccess(data));
-        setTimeout(() => {
-          dispatch(notify(''));
-
-          if (callback) {
-            callback();
-          }
-        }, loadingTime);
+      .then(response => {
+        console.log('>>> saveDraft.response: ', response);
+        dispatch(notify('บันทึกข้อมูลแบบร่างแล้ว'));
+        dispatch(notify(''));
       })
       .catch(error => {
-        console.log('>>> save.error: ', error);
-        dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify('')), loadingTime);
+        console.log('>>> saveDraft.error: ', error);
+        dispatch(notify(''));
+        // dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+        // setTimeout(() => dispatch(notify('')), loadingTime);
       });
   };
 }
@@ -322,6 +327,8 @@ export function acceptAgreement(isConsent = false) {
 export function completePersonalInfo(data, callback) {
   return dispatch => {
     dispatch(completePersonalInfoSuccess(data));
+    dispatch(saveDraft());
+
     if (callback) {
       callback();
     }
@@ -331,6 +338,8 @@ export function completePersonalInfo(data, callback) {
 export function completeLoanInfo(data, callback) {
   return dispatch => {
     dispatch(completeLoanInfoSuccess(data));
+    dispatch(saveDraft());
+
     if (callback) {
       callback();
     }
@@ -340,6 +349,8 @@ export function completeLoanInfo(data, callback) {
 export function completeAdditionalInfo(data, callback) {
   return dispatch => {
     dispatch(completeAdditionalInfoSuccess(data));
+    dispatch(saveDraft());
+
     if (callback) {
       callback();
     }
