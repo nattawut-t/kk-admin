@@ -292,6 +292,8 @@ class PersonalInfo extends Component {
     const salary = Number.parseFloat(jobSalary) || 0;
     const valid = emailRegex.test(email) && salary > 0;
 
+    console.log('pi.invalid: ', invalid);
+
     return !invalid && valid;
   }
 
