@@ -45,9 +45,9 @@ export const uploadDocumentSuccess = (field, path, name, docType) => ({
   docType,
 });
 
-export const notify = (notify, message) => ({
+export const notify = message => ({
   type: NOTIFY,
-  notify,
+  // notify,
   message,
 });
 

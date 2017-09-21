@@ -33,20 +33,6 @@ const styles = {
 const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
 
 class AdditionalInfo extends Component {
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-    data: PropTypes.object,
-    personalInfo: PropTypes.object,
-    uploadFile: PropTypes.func.isRequired,
-    completeAdditionalInfo: PropTypes.func.isRequired,
-    message: PropTypes.string,
-  };
-
-  static defaultProps = {
-    data: null,
-    personalInfo: null,
-    message: '',
-  };
 
   componentWillMount() {
     const { data } = this.props;
@@ -1314,5 +1300,20 @@ class AdditionalInfo extends Component {
     );
   }
 }
+
+AdditionalInfo.propTypes = {
+  history: PropTypes.object.isRequired,
+  data: PropTypes.object,
+  personalInfo: PropTypes.object,
+  uploadFile: PropTypes.func.isRequired,
+  completeAdditionalInfo: PropTypes.func.isRequired,
+  message: PropTypes.string,
+};
+
+AdditionalInfo.defaultProps = {
+  data: null,
+  personalInfo: null,
+  message: '',
+};
 
 export default withRouter(AdditionalInfo);

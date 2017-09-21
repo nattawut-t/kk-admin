@@ -7,6 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import DatePicker from 'material-ui/DatePicker';
 import Checkbox from 'material-ui/Checkbox';
+import Snackbar from 'material-ui/Snackbar';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 import PrefixTh from '../shared/PrefixTh';
@@ -778,6 +779,8 @@ class PersonalInfo extends Component {
       valid,
     } = this.state;
 
+    const { message } = this.props;
+
     return (
       <div>
         <form onSubmit={this.handleNext}>
@@ -1420,12 +1423,18 @@ class PersonalInfo extends Component {
             </div>
           </div>
         </form>
+        <Snackbar
+          open={message !== ''}
+          message={message}
+          autoHideDuration={4000}
+        />
       </div>
     );
   }
 }
 
 PersonalInfo.propTypes = {
+  message: PropTypes.string,
   history: PropTypes.object.isRequired,
   data: PropTypes.object,
   completePersonalInfo: PropTypes.func.isRequired,
@@ -1433,6 +1442,7 @@ PersonalInfo.propTypes = {
 };
 
 PersonalInfo.defaultProps = {
+  message: '',
   data: null,
 };
 

@@ -7,6 +7,7 @@ import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
+import Snackbar from 'material-ui/Snackbar';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 import Bank from '../shared/Bank';
@@ -29,11 +30,6 @@ const styles = {
 const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
 
 class LoanInfo extends Component {
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    completeLoanInfo: PropTypes.func.isRequired,
-  };
 
   componentWillMount() {
     const { data } = this.props;
@@ -344,6 +340,8 @@ class LoanInfo extends Component {
       bankBranchNameMsg,
       valid,
     } = this.state;
+
+    const { message } = this.props;
 
     return (
       <div>
@@ -660,13 +658,26 @@ class LoanInfo extends Component {
             </div>
           </div>
         </form>
+        <Snackbar
+          open={message !== ''}
+          message={message}
+          autoHideDuration={4000}
+        />
       </div>
     );
   }
 }
 
 LoanInfo.propTypes = {
+  message: PropTypes.string,
   history: PropTypes.object.isRequired,
+  data: PropTypes.object,
+  completeLoanInfo: PropTypes.func.isRequired,
+};
+
+LoanInfo.defaultProps = {
+  message: '',
+  data: null,
 };
 
 export default withRouter(LoanInfo);

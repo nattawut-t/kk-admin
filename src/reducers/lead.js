@@ -44,6 +44,8 @@ import { parseLeadsIn } from '../libs/leads';
 const { NODE_ENV } = process.env;
 const requestDate = moment().format(dateFormat);
 let personalInfo = null;
+// let loanInfo = null;
+// let additionalInfo = null;
 
 if (NODE_ENV === 'test') {
   personalInfo = {
@@ -132,6 +134,32 @@ if (NODE_ENV === 'test') {
     officeZipCode: '72170',
     //
   };
+
+  // loanInfo = {
+  //   loanAmount: 100000,
+  //   loanAmountMsg: '',
+  //   installmentNumber: '12',
+  //   installmentNumberMsg: '',
+  //   beneficiary: 'others',
+  //   loanBeneficiaryName: 'Panit',
+  //   loanBeneficiaryNameMsg: '',
+  //   accumulateDebt: 10000,
+  //   accumulateDebtMsg: '',
+  //   creditCardTotal: 10000,
+  //   creditCardTotalMsg: '',
+  //   paymentHistoryExists: '1',
+  //   pLoanApplicationHositoryExists: '0',
+  //   overdueDebtExists: '1',
+  //   bankAccountNo: '',
+  //   bankAccountNoMsg: '',
+  //   bankAccountName: '',
+  //   bankAccountNameMsg: '',
+  //   bankCode: '',
+  //   bankCodeMsg: '',
+  //   bankName: '',
+  //   bankBranchName: '',
+  //   valid: false,
+  // };
 } else {
   personalInfo = {
     dateReq: requestDate,
@@ -140,9 +168,11 @@ if (NODE_ENV === 'test') {
 
 const State = Record({
   isConsent: false,
+  //
   personalInfo,
   loanInfo: null,
   additionalInfo: null,
+  //
   lead: null,
   data: null,
   documents: {},
@@ -260,27 +290,27 @@ export function save() {
     const additionalInfo = _state.get('additionalInfo').toJS();
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
     const _url = saveUrl();
-    const _notify = _state.get('notify');
+    // const _notify = _state.get('notify');
 
     postJson(_url, data, false)
       .then(() => {
         // const { data } = response;
 
-        dispatch(notify(!_notify, 'บันทึกข้อมูลเสร็จสมบูรณ์'));
+        dispatch(notify('บันทึกข้อมูลเสร็จสมบูรณ์'));
         setTimeout(() => {
-          dispatch(notify(!_notify, ''));
+          dispatch(notify(''));
           window.location.href = '/product-info';
         }, loadingTime);
       })
       .catch(error => {
         console.log('>>> save.error: ', error);
-        dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify(!_notify, '')), loadingTime);
+        dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+        setTimeout(() => dispatch(notify('')), loadingTime);
       });
   };
 }
 
-export function saveDraft() {
+export function saveDraft(callback) {
   return (dispatch, getState) => {
     const _state = getState().lead;
 
@@ -303,19 +333,22 @@ export function saveDraft() {
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
     const url = saveUrl();
 
-    console.log('saveDraft: ', data);
-
     putJson(url, data)
       .then(response => {
         console.log('>>> saveDraft.response: ', response);
+
         dispatch(notify('บันทึกข้อมูลแบบร่างแล้ว'));
-        dispatch(notify(''));
+        setTimeout(() => {
+          dispatch(notify(''));
+
+          if (callback) {
+            callback();
+          }
+        }, loadingTime);
       })
       .catch(error => {
         console.log('>>> saveDraft.error: ', error);
-        dispatch(notify(''));
-        // dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        // setTimeout(() => dispatch(notify('')), loadingTime);
+        setTimeout(() => dispatch(notify('')), loadingTime);
       });
   };
 }
@@ -327,40 +360,40 @@ export function acceptAgreement(isConsent = false) {
 export function completePersonalInfo(data, callback) {
   return dispatch => {
     dispatch(completePersonalInfoSuccess(data));
-    dispatch(saveDraft());
+    dispatch(saveDraft(callback));
 
-    if (callback) {
-      callback();
-    }
+    // if (callback) {
+    //   callback();
+    // }
   };
 }
 
 export function completeLoanInfo(data, callback) {
   return dispatch => {
     dispatch(completeLoanInfoSuccess(data));
-    dispatch(saveDraft());
+    dispatch(saveDraft(callback));
 
-    if (callback) {
-      callback();
-    }
+    // if (callback) {
+    //   callback();
+    // }
   };
 }
 
 export function completeAdditionalInfo(data, callback) {
   return dispatch => {
     dispatch(completeAdditionalInfoSuccess(data));
-    dispatch(saveDraft());
+    dispatch(saveDraft(callback));
 
-    if (callback) {
-      callback();
-    }
+    // if (callback) {
+    //   callback();
+    // }
   };
 }
 
 export function uploadDocument(field, path, name, data, docType) {
-  return (dispatch, getState) => {
-    const _state = getState().lead;
-    const _notify = _state.get('notify');
+  return dispatch => {
+    // const _state = getState().lead;
+    // const _notify = _state.get('notify');
     const _url = uploadUrl();
 
     postForm(_url, data, false)
@@ -369,13 +402,13 @@ export function uploadDocument(field, path, name, data, docType) {
         const { filename } = data;
 
         dispatch(uploadDocumentSuccess(field, path, filename, docType));
-        dispatch(notify(!_notify, 'อัพโหลดเอกสารแล้ว'));
-        setTimeout(() => dispatch(notify(!_notify, '')), loadingTime);
+        dispatch(notify('อัพโหลดเอกสารแล้ว'));
+        setTimeout(() => dispatch(notify('')), loadingTime);
       })
       .catch(error => {
         console.log('>>> uploadFile.error: ', error);
-        dispatch(notify(!_notify, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify(!_notify, '')), loadingTime);
+        dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+        setTimeout(() => dispatch(notify('')), loadingTime);
       });
   };
 }
@@ -476,7 +509,7 @@ const lead = (state = initialState, action) => {
 
     case NOTIFY:
       _state = Immutable.fromJS({
-        notify: action.notify,
+        // notify: action.notify,
         message: action.message,
       });
 

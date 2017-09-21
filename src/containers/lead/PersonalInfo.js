@@ -13,7 +13,6 @@ const merge = state => {
     }
 
     data = Object.assign(data, { workTel2: mobile });
-    console.log(data);
     return data;
   }
 
@@ -23,7 +22,8 @@ const merge = state => {
 const mapStateToProps = state => ({
   // mobile: lead.get('mobile'),
   data: merge(state),
-  loading: state.lead.get('loading'),
+  loading: state.lead.get('loading') || false,
+  message: state.lead.get('message') || '',
 });
 
 const mapDispatchToProps = dispatch => ({

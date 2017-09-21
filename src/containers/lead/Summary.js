@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
   notify: state.lead.get('notify'),
   message: state.lead.get('message') || '',
   data: getData(state, 'data'),
-  loading: state.lead.get('loading'),
+  loading: state.lead.get('loading') || false,
 });
 
 const mapDispatchToProps = dispatch => ({

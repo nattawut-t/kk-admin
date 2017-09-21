@@ -5,14 +5,17 @@ import { completeLoanInfo } from '../../reducers/lead';
 const transform = (state, key) => {
   if (state && key) {
     const data = state.lead.get(key);
-    return data ? data.toJS() : null;
+    return (data && typeof data.toJS === 'function')
+      ? data.toJS()
+      : null;
   }
   return null;
 };
 
 const mapStateToProps = state => ({
   data: transform(state, 'loanInfo'),
-  loading: state.lead.get('loading'),
+  loading: state.lead.get('loading') || false,
+  message: state.lead.get('message') || '',
 });
 
 const mapDispatchToProps = dispatch => ({
