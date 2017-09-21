@@ -2,3 +2,10 @@ $primary-border-color: #dfdfdf;
 $anchor-color: #106ba3;
 
 $mobile: "screen and (max-width: 768px)";
+
+@mixin placeholder {
+  ::-webkit-input-placeholder {@content}
+  :-moz-placeholder           {@content}
+  ::-moz-placeholder          {@content}
+  :-ms-input-placeholder      {@content}
+}
