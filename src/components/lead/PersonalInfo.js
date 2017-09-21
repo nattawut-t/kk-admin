@@ -10,15 +10,29 @@ import Checkbox from 'material-ui/Checkbox';
 import Snackbar from 'material-ui/Snackbar';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
+import areIntlLocalesSupported from 'intl-locales-supported';
+import IntlPolyfill from 'intl';
+import 'intl/locale-data/jsonp/th-TH';
+
 import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
 import Identity from '../shared/Identity';
 import MaritalStatus from '../shared/MaritalStatus';
-// import Mobile from '../shared/Mobile';
 import Tel from '../shared/Tel';
 import AddressStatus from '../shared/AddressStatus';
 import Location from '../shared/Location';
 import { dateFormat } from '../../libs/config';
+
+let DateTimeFormat;
+
+/**
+ * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+ */
+if (areIntlLocalesSupported(['th', 'th-TH'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+}
 
 const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 
@@ -895,7 +909,8 @@ class PersonalInfo extends Component {
                     onChange={this.handleDateExpChange}
                     fullWidth
                     autoOk
-                    locale="en-US"
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
                   />
                 </div>
               </div>
@@ -911,7 +926,8 @@ class PersonalInfo extends Component {
                     onChange={this.handleBirthDateChange}
                     fullWidth
                     autoOk
-                    locale="en-US"
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
                   />
                 </div>
                 <div className="col">
@@ -982,7 +998,8 @@ class PersonalInfo extends Component {
                     onChange={this.handleEmploymentDateChange}
                     fullWidth
                     autoOk
-                    locale="en-US"
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
                   />
                 </div>
                 <div className="col">
