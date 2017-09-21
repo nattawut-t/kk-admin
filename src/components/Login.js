@@ -100,11 +100,11 @@ class Login extends Component {
     const { message } = this.props;
 
     return (
-      <div className="login-page">
+      <div className="app-login">
         <div className="row" style={{ padding: '33px 0' }}>
           <div style={styles.loginContainer}>
-            <span className="header">ยินดีต้อนรับสู่ มันนี่เทเบิล</span>
-            <span className="sub-header">เข้าสู่ระบบด้วยเบอร์โทรศัพท์ของคุณ</span>
+            <span className="section-header header">ยินดีต้อนรับสู่ มันนี่เทเบิล</span>
+            <span className="section-header sub-header">เข้าสู่ระบบด้วยเบอร์โทรศัพท์ของคุณ</span>
             <Paper style={styles.paper} zDepth={2}>
 
               <form>
@@ -126,7 +126,7 @@ class Login extends Component {
                 <div className="col-12">
                   <button
                     value="ขอรับรหัส OTP ใหม่"
-                    className={`btn-otp ${!username ? 'disabled' : ''}`}
+                    className={`btn btn-otp ${!username ? 'disabled' : ''}`}
                     onClick={e => this.handleOtpClick(e, username)}
                     disabled={!username}
                   >
@@ -159,7 +159,7 @@ class Login extends Component {
                       <div className="col-12">
                         <button
                           value="เข้าสู่ระบบ่"
-                          className="btn-login"
+                          className="btn btn-login"
                           onClick={e => this.handleLoginClick(e)}
                           disabled={!username || !otp}
                         >
