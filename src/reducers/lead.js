@@ -42,11 +42,12 @@ import {
 import { parseLeadsIn } from '../libs/leads';
 
 const { NODE_ENV } = process.env;
+const requestDate = moment().format(dateFormat);
 let personalInfo = null;
 
 if (NODE_ENV === 'test') {
   personalInfo = {
-    dateReq: moment().format(dateFormat),
+    dateReq: requestDate,
     prefixTH: 'นางสาว',
     firstNameTH: 'ณัฐ',
     firstNameTHmsg: '',
@@ -130,6 +131,10 @@ if (NODE_ENV === 'test') {
     officeTambolCodeName: '',
     officeZipCode: '72170',
     //
+  };
+} else {
+  personalInfo = {
+    dateReq: requestDate,
   };
 }
 
