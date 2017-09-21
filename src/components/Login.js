@@ -130,7 +130,7 @@ class Login extends Component {
                     onClick={e => this.handleOtpClick(e, username)}
                     disabled={!username}
                   >
-                    ขอรหัส OTP ใหม่
+                    ขอรหัส OTP
                   </button>
                 </div>
                 {
