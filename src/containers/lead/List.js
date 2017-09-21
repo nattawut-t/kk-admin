@@ -38,30 +38,30 @@ const schema = [
       return icon;
     },
   },
-  {
-    id: 2,
-    name: 'ID',
-    label: 'เลขที่',
-    widthPercentage: 10,
-  },
+  // {
+  //   id: 2,
+  //   name: 'ID',
+  //   label: 'เลขที่',
+  //   widthPercentage: 10,
+  // },
   {
     id: 3,
     name: 'CreatedAt',
     label: 'วันที่สร้างคำขอกู้',
-    widthPercentage: 25,
+    widthPercentage: 30,
     format: value => moment(value).format(dateFormat),
   },
   {
     id: 4,
     name: 'TicketID',
     label: 'เลขที่อ้างอิง',
-    widthPercentage: 20,
+    widthPercentage: 30,
   },
   {
     id: 5,
-    name: 'nameTH',
-    label: 'ชื่อ/นามสกุล (TH)',
-    widthPercentage: 30,
+    name: 'loanAmount',
+    label: 'จำนวนที่ขอกู้',
+    widthPercentage: 25,
   },
   // {
   //   id: 5,

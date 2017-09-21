@@ -246,15 +246,13 @@ function _searchData(page = 1) {
     setTimeout(() =>
       promise.then(response => {
         const { data } = response;
-
-        console.log('>>> data: ', data);
         const dataList = data ? parseLeadsIn(data) : [];
 
         dispatch(searchSuccess(dataList, 0, 0, 0));
         return dispatch(setLoading(false));
       })
         .catch(error => {
-          console.log('>>> error: ', error);
+          console.log('>>> searchData.error: ', error);
           dispatch(setLoading(false));
         })
       , loadingTime);
@@ -361,10 +359,6 @@ export function completePersonalInfo(data, callback) {
   return dispatch => {
     dispatch(completePersonalInfoSuccess(data));
     dispatch(saveDraft(callback));
-
-    // if (callback) {
-    //   callback();
-    // }
   };
 }
 
@@ -372,10 +366,6 @@ export function completeLoanInfo(data, callback) {
   return dispatch => {
     dispatch(completeLoanInfoSuccess(data));
     dispatch(saveDraft(callback));
-
-    // if (callback) {
-    //   callback();
-    // }
   };
 }
 
@@ -383,17 +373,11 @@ export function completeAdditionalInfo(data, callback) {
   return dispatch => {
     dispatch(completeAdditionalInfoSuccess(data));
     dispatch(saveDraft(callback));
-
-    // if (callback) {
-    //   callback();
-    // }
   };
 }
 
 export function uploadDocument(field, path, name, data, docType) {
   return dispatch => {
-    // const _state = getState().lead;
-    // const _notify = _state.get('notify');
     const _url = uploadUrl();
 
     postForm(_url, data, false)
