@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
+// import RaisedButton from 'material-ui/RaisedButton';
 import { grey500, white } from 'material-ui/styles/colors';
-import TextField from 'material-ui/TextField';
+// import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 
 const styles = {
@@ -70,43 +70,57 @@ class AdminLogin extends Component {
     const { message } = this.props;
 
     return (
-      <div className="row" style={{ padding: '33px 0' }}>
-        <div style={styles.loginContainer}>
-          <h4>เข้าสู่ระบบ</h4>
-          <Paper style={styles.paper}>
+      <div className="app-login">
+        <div className="row" style={{ padding: '33px 0' }}>
+          <div style={styles.loginContainer}>
+            <span className="section-header header">ยินดีต้อนรับสู่ มันนี่เทเบิล</span>
+            <span className="section-header sub-header">เข้าสู่ระบบด้วยชื่อผู้ใช้ของคุณ</span>
+            <Paper style={styles.paper} zDepth={2}>
 
-            <form>
-              <TextField
-                floatingLabelText="ชื่อผู้ใช้"
-                fullWidth
-                value={username}
-                onChange={e => this.handleChange(e, 'username')}
-              />
-              <TextField
-                floatingLabelText="รหัสผ่าน"
-                fullWidth
-                value={password}
-                onChange={e => this.handleChange(e, 'password')}
-                type="password"
-              />
-
-              <div>
-                <RaisedButton
-                  label="เข้าสู่ระบบ"
-                  primary
-                  style={styles.loginBtn}
-                  onClick={this.handleLoginClick}
-                  disabled={!username || !password}
-                />
-              </div>
-            </form>
-          </Paper>
+              <form>
+                <div className="col-12">&nbsp;</div>
+                <div className="col-12">
+                  <input
+                    type="text"
+                    className="custom-textfield"
+                    placeholder="ชื่อผู้ใช้"
+                    value={username}
+                    onChange={e => this.handleChange(e, 'username')}
+                    maxLength={10}
+                  />
+                </div>
+                <div className="col-12">&nbsp;</div>
+                <div className="col-12">
+                  <input
+                    type="password"
+                    placeholder="ใส่รหัสผ่าน"
+                    className="custom-textfield"
+                    value={password}
+                    onChange={e => this.handleChange(e, 'password')}
+                  />
+                </div>
+                <div className="col-12">&nbsp;</div>
+                <div>
+                  <div className="col-12">
+                    <button
+                      value="เข้าสู่ระบบ่"
+                      className="btn btn-login"
+                      onClick={e => this.handleLoginClick(e)}
+                      disabled={!username || !password}
+                    >
+                      เข้าสู่ระบบ
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </Paper>
+          </div>
+          <Snackbar
+            open={message !== ''}
+            message={message}
+            autoHideDuration={4000}
+          />
         </div>
-        <Snackbar
-          open={message !== ''}
-          message={message}
-          autoHideDuration={4000}
-        />
       </div>
     );
   }
