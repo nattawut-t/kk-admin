@@ -54,7 +54,9 @@ class AdminLogin extends Component {
     this.setState({ [name]: value });
   }
 
-  handleLoginClick = () => {
+  handleLoginClick = e => {
+    e.preventDefault();
+
     const { username, password } = this.state;
 
     if (username && password) {
@@ -101,7 +103,13 @@ class AdminLogin extends Component {
                 </div>
                 <div className="col-12">&nbsp;</div>
                 <div>
-                  <div className="col-12">
+                  <div
+                    className="col-12"
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
                     <button
                       value="เข้าสู่ระบบ่"
                       className="btn btn-login"
@@ -121,7 +129,7 @@ class AdminLogin extends Component {
             autoHideDuration={4000}
           />
         </div>
-      </div>
+      </div >
     );
   }
 }
