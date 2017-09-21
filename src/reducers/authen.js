@@ -35,6 +35,7 @@ export function login(username, password, callback) {
         const { token } = data;
 
         localStorage.setItem('token', token);
+        localStorage.setItem('username', username);
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
         setTimeout(() => {
@@ -68,6 +69,7 @@ export function loginOtp(mobile, otp, callback) {
         const { token } = data;
 
         localStorage.setItem('token', token);
+        localStorage.setItem('username', mobile);
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
         setTimeout(() => {

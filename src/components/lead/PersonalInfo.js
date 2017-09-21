@@ -717,7 +717,7 @@ class PersonalInfo extends Component {
       position,
       positionmsg,
       workTel2,
-      workTel2msg,
+      // workTel2msg,
       homeTel2,
       homeTel2msg,
       detailRent,
@@ -1347,14 +1347,15 @@ class PersonalInfo extends Component {
             <CardText>
               <div className="row">
                 <div className="col" >
-                  <Tel
+                  <TextField
                     id="workTel2"
                     name="workTel2"
-                    label="เบอร์โทรศัพท์มือถือ"
+                    floatingLabelText="เบอร์โทรศัพท์มือถือ"
                     value={workTel2}
-                    handleChange={this.handleNumberChange}
-                    errorText={workTel2msg}
-                    required
+                    onChange={e => this.handleChange(e, true)}
+                    maxLength="10"
+                    fullWidth
+                    disabled
                   />
                 </div>
                 <div className="col" >
