@@ -40,6 +40,7 @@ import Summary from '../containers/lead/Summary';
 
 import AdminIndex from '../containers/admin/Index';
 import Index from '../containers/lead/Index';
+import { isAdmin } from '../libs/config';
 
 const Logged = ({ onSignoutClick }) => (
   <div>
@@ -62,8 +63,6 @@ const Logged = ({ onSignoutClick }) => (
 Logged.propTypes = {
   onSignoutClick: PropTypes.func.isRequired,
 };
-
-const isAdmin = () => localStorage.getItem('isAdmin') || false;
 
 class App extends React.Component {
   state = {

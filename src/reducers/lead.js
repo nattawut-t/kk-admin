@@ -38,6 +38,7 @@ import {
   pageSize,
   loadingTime,
   dateFormat,
+  isAdmin,
 } from '../libs/config';
 import { parseLeadsIn } from '../libs/leads';
 
@@ -70,7 +71,7 @@ if (NODE_ENV === 'test') {
     departmentmsg: '',
     position: 'SE',
     positionmsg: '',
-    workTel2: '020001111',
+    workTel2: '0627609997',
     workTel2Valid: false,
     workTel2msg: '',
     homeTel2: '0350001111',
@@ -288,7 +289,10 @@ export function save() {
     const additionalInfo = _state.get('additionalInfo').toJS();
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
     const _url = saveUrl();
-    // const _notify = _state.get('notify');
+
+    // const { birthDate } = data;
+    // data.birthDate = moment(birthDate).format();
+    // console.log('data.birthDate: ', data.birthDate);
 
     postJson(_url, data, false)
       .then(() => {
@@ -358,21 +362,36 @@ export function acceptAgreement(isConsent = false) {
 export function completePersonalInfo(data, callback) {
   return dispatch => {
     dispatch(completePersonalInfoSuccess(data));
-    dispatch(saveDraft(callback));
+
+    if (!isAdmin()) {
+      return dispatch(saveDraft(callback));
+    }
+
+    return callback();
   };
 }
 
 export function completeLoanInfo(data, callback) {
   return dispatch => {
     dispatch(completeLoanInfoSuccess(data));
-    dispatch(saveDraft(callback));
+
+    if (!isAdmin()) {
+      return dispatch(saveDraft(callback));
+    }
+
+    return callback();
   };
 }
 
 export function completeAdditionalInfo(data, callback) {
   return dispatch => {
     dispatch(completeAdditionalInfoSuccess(data));
-    dispatch(saveDraft(callback));
+
+    if (!isAdmin) {
+      return dispatch(saveDraft(callback));
+    }
+
+    return callback();
   };
 }
 

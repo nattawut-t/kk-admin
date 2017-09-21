@@ -18,10 +18,13 @@ import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
 import Identity from '../shared/Identity';
 import MaritalStatus from '../shared/MaritalStatus';
-import Tel from '../shared/Tel';
 import AddressStatus from '../shared/AddressStatus';
 import Location from '../shared/Location';
-import { dateFormat } from '../../libs/config';
+import Tel from '../shared/Tel';
+import {
+  dateFormat,
+  isAdmin,
+} from '../../libs/config';
 
 let DateTimeFormat;
 
@@ -604,8 +607,6 @@ class PersonalInfo extends Component {
       //
     } = this.state;
 
-    console.log(this.state);
-
     const data = {
       dateReq,
       prefixTH,
@@ -664,14 +665,11 @@ class PersonalInfo extends Component {
       officeZipCode,
       //
     };
-    // completePersonalInfo(data);
 
-    // const { history } = this.props;
-    // history.push('/loan-info');
+    // console.log('birthDate: ', moment(birthDate).format());
 
     const {
       completePersonalInfo,
-      // saveDraft,
       history,
     } = this.props;
 
@@ -794,6 +792,7 @@ class PersonalInfo extends Component {
     } = this.state;
 
     const { message } = this.props;
+    const _isAdmin = isAdmin();
 
     return (
       <div>
@@ -1377,7 +1376,7 @@ class PersonalInfo extends Component {
                     onChange={e => this.handleChange(e, true)}
                     maxLength="10"
                     fullWidth
-                    disabled
+                    disabled={!_isAdmin}
                   />
                 </div>
                 <div className="col" >

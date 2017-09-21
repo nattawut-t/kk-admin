@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/PersonalInfo';
 import { completePersonalInfo } from '../../reducers/lead';
+import { isAdmin } from '../../libs/config';
 
 const merge = state => {
   if (state) {
     const { lead } = state;
-    const mobile = localStorage.getItem('username') || '';
+    const mobile = !isAdmin()
+      ? localStorage.getItem('username') || ''
+      : '';
     let data = lead.get('personalInfo') || {};
 
     if (data && typeof data.toJS === 'function') {
