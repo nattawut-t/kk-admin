@@ -36,6 +36,7 @@ export function login(username, password, callback) {
 
         localStorage.setItem('token', token);
         localStorage.setItem('username', username);
+        localStorage.setItem('isAdmin', true);
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
         setTimeout(() => {
@@ -48,7 +49,7 @@ export function login(username, password, callback) {
         }, loadingTime);
       })
       .catch(error => {
-        console.log('>>> login.error: ', error);
+        console.log('login.error: ', error);
         dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
         setTimeout(() => dispatch(notify('')), loadingTime);
       });

@@ -9,7 +9,7 @@ import {
   selectDataSuccess,
   cancelSelection,
   setSortInfo,
-  // setSearchInfo,
+  setSearchInfo,
   SELECT_DATA_SUCCESS,
   APPROVE_SUCCESS,
   REJECT_SUCCESS,
@@ -227,11 +227,10 @@ export function reject(id, remark, callback) {
 }
 
 export function searchData(keyword) {
-  console.log('>>> admin: ', keyword);
-  // return dispatch => {
-  //   dispatch(setSearchInfo(keyword));
-  //   return dispatch(_searchData());
-  // };
+  return dispatch => {
+    dispatch(setSearchInfo(keyword));
+    return dispatch(_searchData());
+  };
 }
 
 export function sortData(field, desc) {

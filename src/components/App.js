@@ -63,6 +63,8 @@ Logged.propTypes = {
   onSignoutClick: PropTypes.func.isRequired,
 };
 
+const isAdmin = () => localStorage.getItem('isAdmin') || false;
+
 class App extends React.Component {
   state = {
     open: false,
@@ -91,8 +93,8 @@ class App extends React.Component {
   };
 
   render() {
-    const { isAdmin } = this.props;
     const authenticated = localStorage.getItem('token');
+    const _isAdmin = isAdmin();
 
     if (!authenticated) {
       return (
@@ -137,7 +139,7 @@ class App extends React.Component {
                       onClick={() => this.handleToggle()}
                     />
 
-                    {isAdmin
+                    {_isAdmin
                       ? <Menu>
                         <MenuItem
                           primaryText="เพิ่มคำขอสินเชื่อ"
@@ -199,11 +201,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  // history: PropTypes.object.isRequired,
   width: PropTypes.number,
-  // location: PropTypes.object.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
-  // authenticated: PropTypes.bool,
 };
 
 App.defaultProps = {
