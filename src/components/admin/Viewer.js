@@ -12,6 +12,8 @@ import Dialog from 'material-ui/Dialog';
 import Done from 'material-ui/svg-icons/action/done';
 import Clear from 'material-ui/svg-icons/content/clear';
 import Redo from 'material-ui/svg-icons/content/redo';
+import Undo from 'material-ui/svg-icons/content/undo';
+import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import {
   Card,
   CardActions,
@@ -117,6 +119,21 @@ class Viewer extends Component {
     this.setState({ reject: true });
   };
 
+  handleCancelClick = () => {
+    const { cancel } = this.props;
+    if (cancel) {
+      cancel();
+    }
+  };
+
+  handleEditClick = id => {
+    const { edit } = this.props;
+    if (edit) {
+      const { history } = this.props;
+      edit(id, () => history.push('/personal-info'));
+    }
+  };
+
   render() {
     const { data, loading } = this.props;
 
@@ -218,6 +235,19 @@ class Viewer extends Component {
                   icon={<Redo />}
                   disabled
                 />
+                <RaisedButton
+                  label="แก้ไข"
+                  style={styles.button}
+                  icon={<ModeEdit />}
+                  onClick={() => this.handleEditClick(id)}
+                  disabled={status !== 'created'}
+                />
+                <RaisedButton
+                  label="ยกเลิก"
+                  style={styles.button}
+                  icon={<Undo />}
+                  onClick={this.handleCancelClick}
+                />
               </div>
             </div>
           </CardActions>
@@ -250,10 +280,13 @@ class Viewer extends Component {
 }
 
 Viewer.propTypes = {
+  history: PropTypes.object.isRequired,
   data: PropTypes.object,
   loading: PropTypes.bool,
   approve: PropTypes.func,
   reject: PropTypes.func,
+  edit: PropTypes.func,
+  cancel: PropTypes.func,
 };
 
 Viewer.defaultProps = {
@@ -261,6 +294,8 @@ Viewer.defaultProps = {
   loading: false,
   approve: null,
   reject: null,
+  edit: null,
+  cancel: null,
 };
 
 export default withRouter(Viewer);

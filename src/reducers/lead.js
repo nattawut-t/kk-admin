@@ -23,12 +23,15 @@ import {
   loadNextPageSuccess,
   searchSuccess,
   setSearchInfo,
+  editSuccess,
   //
   // saveDraftSuccess,
   SAVE_DRAFT_SUCCESS,
+  EDIT_SUCCESS,
 } from '../actions/lead';
 import {
   portalUrl,
+  // adminUrl,
   postForm,
   postJson,
   putJson,
@@ -40,6 +43,7 @@ import {
   dateFormat,
   isAdmin,
 } from '../libs/config';
+import { parseLeadIn as parseIn, split } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
 
 const { NODE_ENV } = process.env;
@@ -414,6 +418,35 @@ export function uploadDocument(field, path, name, data, docType) {
   };
 }
 
+export function edit(id, callback) {
+  return dispatch => {
+    dispatch(setLoading(true));
+
+    const url = portalUrl(`/admin/leads/${id}`);
+    const promise = getJson(url);
+
+    setTimeout(() =>
+      promise.then(response => {
+        const { data } = response;
+        const lead = parseIn(data);
+        const { personalInfo, loanInfo, additionalInfo } = split(lead);
+
+        dispatch(editSuccess(personalInfo, loanInfo, additionalInfo));
+
+        if (callback) {
+          callback();
+        }
+
+        return dispatch(setLoading(false));
+      })
+        .catch(error => {
+          console.log('>>> edit.error: ', error);
+          dispatch(setLoading(false));
+        })
+      , loadingTime);
+  };
+}
+
 const lead = (state = initialState, action) => {
   let _state;
   let personalInfo;
@@ -424,6 +457,16 @@ const lead = (state = initialState, action) => {
   let lead;
 
   switch (action.type) {
+    case EDIT_SUCCESS:
+
+      _state = Immutable.fromJS({
+        personalInfo: action.personalInfo,
+        loanInfo: action.loanInfo,
+        additionalInfo: action.additionalInfo,
+      });
+      console.log('EDIT_SUCCESS', action.personalInfo, action.loanInfo, action.additionalInfo);
+      return state.merge(_state);
+
     case SAVE_DRAFT_SUCCESS:
 
       lead = state.get('lead').toJS();

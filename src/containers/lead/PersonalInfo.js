@@ -5,25 +5,29 @@ import { isAdmin } from '../../libs/config';
 
 const merge = state => {
   if (state) {
-    const { lead } = state;
-    const mobile = !isAdmin()
-      ? localStorage.getItem('username') || ''
-      : '';
-    let data = lead.get('personalInfo') || {};
+    if (!isAdmin()) {
+      const { lead } = state;
+      const mobile = localStorage.getItem('username') || '';
+      let data = lead.get('personalInfo') || {};
 
-    if (data && typeof data.toJS === 'function') {
-      data = data.toJS();
+      if (data && typeof data.toJS === 'function') {
+        data = data.toJS();
+      }
+
+      data = Object.assign(data, { workTel2: mobile });
+      return data;
     }
 
-    data = Object.assign(data, { workTel2: mobile });
-    return data;
+    const data = state.lead.get('personalInfo') || {};
+    return (data && typeof data.toJS === 'function')
+      ? data.toJS()
+      : data;
   }
 
   return null;
 };
 
 const mapStateToProps = state => ({
-  // mobile: lead.get('mobile'),
   data: merge(state),
   loading: state.lead.get('loading') || false,
   message: state.lead.get('message') || '',
