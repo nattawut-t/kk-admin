@@ -549,7 +549,9 @@ class PersonalInfo extends Component {
     e.preventDefault();
 
     const {
-      dateReq,
+      // dateReq,
+      // dateExp,
+      // birthDate,
       prefixTH,
       firstNameTH,
       lastNameTH,
@@ -557,7 +559,6 @@ class PersonalInfo extends Component {
       firstNameEN,
       lastNameEN,
       idCard,
-      dateExp,
       status,
       department,
       position,
@@ -587,7 +588,6 @@ class PersonalInfo extends Component {
       zipCode2,
       isSameAddress,
       jobCompanyName,
-      birthDate,
       email,
       employmentDate,
       jobSalary,
@@ -606,6 +606,17 @@ class PersonalInfo extends Component {
       officeZipCode,
       //
     } = this.state;
+
+    let {
+      dateReq,
+      birthDate,
+      dateExp,
+    } = this.state;
+
+    const _dateReq = moment(dateReq, 'DD/MM/YYYY').toDate();
+    dateReq = moment(_dateReq).format();
+    birthDate = moment(birthDate).format();
+    dateExp = moment(dateExp).format();
 
     const data = {
       dateReq,
@@ -665,8 +676,6 @@ class PersonalInfo extends Component {
       officeZipCode,
       //
     };
-
-    // console.log('birthDate: ', moment(birthDate).format());
 
     const {
       completePersonalInfo,

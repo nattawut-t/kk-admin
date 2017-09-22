@@ -290,9 +290,7 @@ export function save() {
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
     const _url = saveUrl();
 
-    // const { birthDate } = data;
-    // data.birthDate = moment(birthDate).format();
-    // console.log('data.birthDate: ', data.birthDate);
+    console.log('data: ', data);
 
     postJson(_url, data, false)
       .then(() => {
