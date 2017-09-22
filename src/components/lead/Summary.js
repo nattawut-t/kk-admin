@@ -38,19 +38,6 @@ const styles = {
 };
 
 class Summary extends Component {
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    save: PropTypes.func.isRequired,
-    // notify: PropTypes.bool,
-    message: PropTypes.string,
-  };
-
-  static defaultProps = {
-    notify: false,
-    message: '',
-  };
-
   state = {
     isConsent: false,
   };
@@ -242,9 +229,8 @@ class Summary extends Component {
 
   handleNext = e => {
     e.preventDefault();
-    const { save } = this.props;
-    save();
-    // history.push('/product-info');
+    const { save, history } = this.props;
+    save(() => history.push('/product-info'));
   };
 
   render() {
@@ -335,10 +321,7 @@ class Summary extends Component {
       isConsent,
     } = this.state;
 
-    const {
-      // notify,
-      message,
-    } = this.props;
+    const { message } = this.props;
 
     return (
       <div>
@@ -1406,5 +1389,16 @@ class Summary extends Component {
     );
   }
 }
+
+Summary.propTypes = {
+  history: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  save: PropTypes.func.isRequired,
+  message: PropTypes.string,
+};
+
+Summary.defaultProps = {
+  message: '',
+};
 
 export default withRouter(Summary);

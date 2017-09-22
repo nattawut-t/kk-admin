@@ -18,10 +18,10 @@ const getData = (state, key) => {
 };
 
 const mapStateToProps = state => ({
-  notify: state.lead.get('notify'),
   message: state.lead.get('message') || '',
   data: getData(state, 'data'),
   loading: state.lead.get('loading') || false,
+  editing: state.lead.get('editing') || false,
 });
 
 const mapDispatchToProps = dispatch => ({

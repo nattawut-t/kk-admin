@@ -17,6 +17,7 @@ const mapStateToProps = state => ({
   personalInfo: transform(state, 'personalInfo'),
   message: state.lead.get('message') || '',
   loading: state.lead.get('loading') || false,
+  editing: state.lead.get('editing') || false,
 });
 
 const mapDispatchToProps = dispatch => ({

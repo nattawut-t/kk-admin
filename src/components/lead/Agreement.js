@@ -23,11 +23,6 @@ const styles = {
 };
 
 class Agreement extends Component {
-  static propTypes = {
-    history: PropTypes.object.isRequired,
-    isConsent: PropTypes.bool.isRequired,
-    acceptAgreement: PropTypes.func.isRequired,
-  };
 
   componentWillMount() {
     window.scrollTo(0, 0);
@@ -46,6 +41,7 @@ class Agreement extends Component {
   render() {
     const {
       isConsent,
+      editing,
     } = this.props;
 
     return (
@@ -78,7 +74,7 @@ class Agreement extends Component {
                   id="isConsent"
                   name="isConsent"
                   label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
-                  checked={isConsent}
+                  checked={isConsent || editing}
                   disabled={false}
                   style={styles.checkbox}
                   onCheck={this.handleChange}
@@ -104,5 +100,12 @@ class Agreement extends Component {
     );
   }
 }
+
+Agreement.propTypes = {
+  history: PropTypes.object.isRequired,
+  isConsent: PropTypes.bool.isRequired,
+  editing: PropTypes.bool.isRequired,
+  acceptAgreement: PropTypes.func.isRequired,
+};
 
 export default withRouter(Agreement);

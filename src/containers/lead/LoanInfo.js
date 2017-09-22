@@ -15,6 +15,7 @@ const transform = (state, key) => {
 const mapStateToProps = state => ({
   data: transform(state, 'loanInfo'),
   loading: state.lead.get('loading') || false,
+  editing: state.lead.get('editing') || false,
   message: state.lead.get('message') || '',
 });
 

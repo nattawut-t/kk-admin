@@ -30,6 +30,7 @@ const merge = state => {
 const mapStateToProps = state => ({
   data: merge(state),
   loading: state.lead.get('loading') || false,
+  editing: state.lead.get('editing') || false,
   message: state.lead.get('message') || '',
 });
 

@@ -589,7 +589,6 @@ class PersonalInfo extends Component {
       isSameAddress,
       jobCompanyName,
       email,
-      employmentDate,
       jobSalary,
       //
       officeNumber,
@@ -611,12 +610,14 @@ class PersonalInfo extends Component {
       dateReq,
       birthDate,
       dateExp,
+      employmentDate,
     } = this.state;
 
     const _dateReq = moment(dateReq, 'DD/MM/YYYY').toDate();
     dateReq = moment(_dateReq).format();
     birthDate = moment(birthDate).format();
     dateExp = moment(dateExp).format();
+    employmentDate = moment(employmentDate).format();
 
     const data = {
       dateReq,
