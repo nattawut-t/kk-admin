@@ -24,10 +24,12 @@ import {
   searchSuccess,
   setSearchInfo,
   editSuccess,
+  saveSuccess,
   //
   // saveDraftSuccess,
-  SAVE_DRAFT_SUCCESS,
+  // SAVE_DRAFT_SUCCESS,
   EDIT_SUCCESS,
+  SAVE_SUCCESS,
 } from '../actions/lead';
 import {
   portalUrl,
@@ -172,6 +174,7 @@ if (NODE_ENV === 'test') {
 }
 
 const State = Record({
+  id: 0,
   isConsent: false,
   //
   personalInfo,
@@ -195,12 +198,14 @@ const State = Record({
   pages: 0,
   page: 0,
   //
+  editing: false,
 });
 const initialState = new State();
 // const endpoint = '/admin/leads';
 const searchUrl = (page = 1) => portalUrl(`/api/work/leads?page=${page}`);
 const uploadUrl = () => portalUrl('/api/work/leads/doc');
 const saveUrl = () => portalUrl('/api/work/leads');
+const saveAdminUrl = id => portalUrl(`/admin/leads/${id}`);
 
 function _loadNextPage(currentPage = 1, nextPage = 2) {
   console.log('>>> _loadNextPage: ', nextPage);
@@ -285,25 +290,41 @@ export function loadNextPage() {
   };
 }
 
-export function save() {
+export function save(callback) {
   return (dispatch, getState) => {
     const _state = getState().lead;
+
+    const id = _state.get('id') || 0;
+    const editing = _state.get('editing') || false;
     const personalInfo = _state.get('personalInfo').toJS();
     const loanInfo = _state.get('loanInfo').toJS();
     const additionalInfo = _state.get('additionalInfo').toJS();
+
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
-    const _url = saveUrl();
 
-    console.log('data: ', data);
+    let url = saveUrl();
+    let request = postJson;
 
-    postJson(_url, data, false)
+    if (editing) {
+      url = saveAdminUrl(id);
+      request = putJson;
+    }
+
+    // console.log('data: ', url, request, data);
+
+    request(url, data)
       .then(() => {
         // const { data } = response;
 
         dispatch(notify('บันทึกข้อมูลเสร็จสมบูรณ์'));
+        dispatch(saveSuccess());
+
         setTimeout(() => {
           dispatch(notify(''));
-          window.location.href = '/product-info';
+
+          if (callback) {
+            callback();
+          }
         }, loadingTime);
       })
       .catch(error => {
@@ -431,7 +452,7 @@ export function edit(id, callback) {
         const lead = parseIn(data);
         const { personalInfo, loanInfo, additionalInfo } = split(lead);
 
-        dispatch(editSuccess(personalInfo, loanInfo, additionalInfo));
+        dispatch(editSuccess(id, personalInfo, loanInfo, additionalInfo));
 
         if (callback) {
           callback();
@@ -454,12 +475,28 @@ const lead = (state = initialState, action) => {
   let additionalInfo;
   let data;
   let documents;
-  let lead;
+  // let lead;
 
   switch (action.type) {
+    case SAVE_SUCCESS:
+
+      _state = Immutable.fromJS({
+        editing: false,
+        isConsent: false,
+        id: 0,
+        personalInfo: null,
+        loanInfo: null,
+        additionalInfo: null,
+      });
+      console.log('SAVE_SUCCESS', _state);
+      return state.merge(_state);
+
     case EDIT_SUCCESS:
 
       _state = Immutable.fromJS({
+        editing: true,
+        isConsent: true,
+        id: action.id,
         personalInfo: action.personalInfo,
         loanInfo: action.loanInfo,
         additionalInfo: action.additionalInfo,
@@ -467,15 +504,15 @@ const lead = (state = initialState, action) => {
       console.log('EDIT_SUCCESS', action.personalInfo, action.loanInfo, action.additionalInfo);
       return state.merge(_state);
 
-    case SAVE_DRAFT_SUCCESS:
+    // case SAVE_DRAFT_SUCCESS:
 
-      lead = state.get('lead').toJS();
-      lead = Object.assign(lead, action.data);
-      _state = Immutable.fromJS({
-        lead,
-      });
+    //   lead = state.get('lead').toJS();
+    //   lead = Object.assign(lead, action.data);
+    //   _state = Immutable.fromJS({
+    //     lead,
+    //   });
 
-      return state.merge(_state);
+    //   return state.merge(_state);
 
     case SEARCH_SUCCESS:
 
