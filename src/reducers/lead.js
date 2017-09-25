@@ -1,5 +1,4 @@
 import Immutable, { Record } from 'immutable';
-import moment from 'moment';
 import {
   ACCEPT_AGREEMENT_SUCCESS,
   COMPLETE_PERSONAL_INFO_SUCCESS,
@@ -42,17 +41,14 @@ import {
 import {
   pageSize,
   loadingTime,
-  dateFormat,
+  // dateFormat,
   isAdmin,
 } from '../libs/config';
 import { parseLeadIn as parseIn, split } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
 
 const { NODE_ENV } = process.env;
-const requestDate = moment().format(dateFormat);
 let personalInfo = null;
-// let loanInfo = null;
-// let additionalInfo = null;
 
 if (NODE_ENV === 'test') {
   personalInfo = {
@@ -169,7 +165,7 @@ if (NODE_ENV === 'test') {
   // };
 } else {
   personalInfo = {
-    dateReq: requestDate,
+    dateReq: new Date(),
   };
 }
 
