@@ -414,16 +414,35 @@ export function completeAdditionalInfo(data, callback) {
   };
 }
 
-export function uploadDocument(field, path, name, data, docType) {
+export function uploadDocument(field, path, name, data, docType, callback) {
   return dispatch => {
     const _url = uploadUrl();
 
     postForm(_url, data, false)
       .then(response => {
         const { data } = response;
-        const { filename } = data;
+        const { id, filename } = data;
+
+        // {
+        //   filename: "Free Fall Desktop Wallpapers - HD Wallpapers.jpg"
+        //   id: 1087
+        //   docType,
+        //   path,
+        // }
+
+        console.log(data, path);
 
         dispatch(uploadDocumentSuccess(field, path, filename, docType));
+
+        if (callback) {
+          callback({
+            id,
+            filename,
+            docType,
+            path,
+          });
+        }
+
         dispatch(notify('อัพโหลดเอกสารแล้ว'));
         setTimeout(() => dispatch(notify('')), loadingTime);
       })

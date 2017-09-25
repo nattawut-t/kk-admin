@@ -110,7 +110,25 @@ class AdditionalInfo extends Component {
           shippingProvinceCodeName: '',
           shippingAmphurCodeName: '',
           shippingTambolCodeName: '',
+          //
+          files: [],
           // not to send
+          fileName0: '',
+          fileName1: '',
+          filename2: '',
+          fileName3: '',
+          fileName4: '',
+          filename5: '',
+          fileName6: '',
+          //
+          identity: null,
+          account: null,
+          household_registration: null,
+          payslip: null,
+          statement_1: null,
+          statement_2: null,
+          statement_3: null,
+          //
           shippingAddress: 'current',
           valid: false,
           // not to send
@@ -172,7 +190,25 @@ class AdditionalInfo extends Component {
           shippingProvinceCodeName: '',
           shippingAmphurCodeName: '',
           shippingTambolCodeName: '',
+          //
+          files: [],
           // not to send
+          fileName0: '',
+          fileName1: '',
+          filename2: '',
+          fileName3: '',
+          fileName4: '',
+          filename5: '',
+          fileName6: '',
+          //
+          identity: null,
+          account: null,
+          household_registration: null,
+          payslip: null,
+          statement_1: null,
+          statement_2: null,
+          statement_3: null,
+          //
           shippingAddress: 'current',
           valid: false,
           // not to send
@@ -335,20 +371,29 @@ class AdditionalInfo extends Component {
     );
   };
 
-  handleFileChange = (e, required = false, docType) => {
+  handleFileChange = (e, required = false, docType, fileName) => {
     const { target: { files, name, value } } = e;
 
     if (files && files.length > 0) {
       const { uploadFile } = this.props;
       const file = files[0];
-      const fileName = value.split('\\').pop().split('/').pop();
+      const _fileName = value.split('\\').pop().split('/').pop();
       const formData = new FormData();
 
-      formData.append('filename', fileName);
+      formData.append('filename', _fileName);
       formData.append('file', file);
       formData.append('docType', docType);
 
-      uploadFile(name, value, fileName, formData, docType);
+      console.log(fileName);
+      // this.setState({ [fileName]: value });
+
+      uploadFile(name, value, _fileName, formData, docType, _file => {
+        console.log('callback: ', docType, _file, fileName, value);
+        this.setState({
+          [docType]: _file,
+          [fileName]: value,
+        });
+      });
     }
   };
 
@@ -427,8 +472,34 @@ class AdditionalInfo extends Component {
       shippingTambolCodeName,
       shippingAddress,
       //
+      identity,
+      account,
+      household_registration,
+      payslip,
+      statement_1,
+      statement_2,
+      statement_3,
+      //
+      fileName0,
+      fileName1,
+      fileName3,
+      fileName4,
+      fileName5,
+      fileName6,
+      //
       isConsent2,
+      //
     } = this.state;
+
+    let files = [];
+    files.push(identity);
+    files.push(account);
+    files.push(household_registration);
+    files.push(payslip);
+    files.push(statement_1);
+    files.push(statement_2);
+    files.push(statement_3);
+    files = files.filter(file => file);
 
     const data = {
       ref1Prefix,
@@ -485,9 +556,25 @@ class AdditionalInfo extends Component {
       shippingAddress,
       //
       isConsent2,
+      files,
+      //
+      identity,
+      account,
+      household_registration,
+      payslip,
+      statement_1,
+      statement_2,
+      statement_3,
+      //
+      fileName0,
+      fileName1,
+      fileName3,
+      fileName4,
+      fileName5,
+      fileName6,
     };
 
-    console.log(data);
+    console.log(files, data);
 
     const { completeAdditionalInfo, history } = this.props;
 
@@ -495,6 +582,8 @@ class AdditionalInfo extends Component {
     // const { history } = this.props;
     // history.push('/summary');
   };
+
+  handleFileNameChange = () => { };
 
   renderShippingAddress = type => {
     let _render;
@@ -781,6 +870,15 @@ class AdditionalInfo extends Component {
       children,
       childrenMsg,
       shippingAddress,
+      //
+      fileName0,
+      fileName1,
+      fileName2,
+      fileName3,
+      fileName4,
+      fileName5,
+      fileName6,
+      //
       fileName0Msg,
       fileName1Msg,
       fileName2Msg,
@@ -788,7 +886,9 @@ class AdditionalInfo extends Component {
       fileName4Msg,
       fileName5Msg,
       fileName6Msg,
+      //
       isConsent2,
+      //
       valid,
     } = this.state;
 
@@ -1123,14 +1223,24 @@ class AdditionalInfo extends Component {
                 <div className="col-3">
                   <label htmlFor="fileName0">สำเนาบัตรประชาชน</label>
                 </div>
-                <div className="col-9">
+                <div className="col-7">
+                  <TextField
+                    id="fileName0"
+                    name="fileName0"
+                    value={fileName0}
+                    onChange={e => this.handleFileNameChange(e)}
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-2">
                   <TextField
                     type="file"
                     id="fileName0"
                     name="fileName0"
                     errorText={fileName0Msg}
-                    onChange={e => this.handleFileChange(e, true, 'identity')}
-                    fullWidth
+                    onChange={e => this.handleFileChange(e, true, 'identity', 'fileName0')}
+                    style={{ width: '105px' }}
                   />
                 </div>
               </div>
@@ -1138,14 +1248,24 @@ class AdditionalInfo extends Component {
                 <div className="col-3">
                   <label htmlFor="fileName1">สลิปเงินเดือน (เดือนล่าสุด)</label>
                 </div>
-                <div className="col-9">
+                <div className="col-7">
+                  <TextField
+                    id="fileName1"
+                    name="fileName1"
+                    value={fileName1}
+                    onChange={e => this.handleFileNameChange(e)}
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-2">
                   <TextField
                     type="file"
                     id="fileName1"
                     name="fileName1"
                     errorText={fileName1Msg}
-                    onChange={e => this.handleFileChange(e, true, 'payslip')}
-                    fullWidth
+                    onChange={e => this.handleFileChange(e, true, 'payslip', 'fileName1')}
+                    style={{ width: '105px' }}
                   />
                 </div>
               </div>
@@ -1153,14 +1273,24 @@ class AdditionalInfo extends Component {
                 <div className="col-3">
                   <label htmlFor="fileName2">สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน</label>
                 </div>
-                <div className="col-9">
+                <div className="col-7">
+                  <TextField
+                    id="fileName2"
+                    name="fileName2"
+                    value={fileName2}
+                    onChange={e => this.handleFileNameChange(e)}
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-2">
                   <TextField
                     type="file"
                     id="fileName2"
                     name="fileName2"
                     errorText={fileName2Msg}
-                    onChange={e => this.handleFileChange(e, true, 'account')}
-                    fullWidth
+                    onChange={e => this.handleFileChange(e, true, 'account', 'fileName2')}
+                    style={{ width: '105px' }}
                   />
                 </div>
               </div>
@@ -1169,14 +1299,24 @@ class AdditionalInfo extends Component {
                 <div className="col-3">
                   <label htmlFor="fileName3">ทะเบียนบ้าน</label>
                 </div>
-                <div className="col-9">
+                <div className="col-7">
+                  <TextField
+                    id="fileName3"
+                    name="fileName3"
+                    value={fileName3}
+                    onChange={e => this.handleFileNameChange(e)}
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-2">
                   <TextField
                     type="file"
                     id="fileName3"
                     name="fileName3"
                     errorText={fileName3Msg}
-                    onChange={e => this.handleFileChange(e, true, 'household_registration')}
-                    fullWidth
+                    onChange={e => this.handleFileChange(e, true, 'household_registration', 'fileName3')}
+                    style={{ width: '105px' }}
                   />
                 </div>
               </div>
@@ -1185,14 +1325,24 @@ class AdditionalInfo extends Component {
                 <div className="col-3">
                   <label htmlFor="fileName4">แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #1</label>
                 </div>
-                <div className="col-9">
+                <div className="col-7">
+                  <TextField
+                    id="fileName4"
+                    name="fileName4"
+                    value={fileName4}
+                    onChange={e => this.handleFileNameChange(e)}
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-2">
                   <TextField
                     type="file"
                     id="fileName4"
                     name="fileName4"
                     errorText={fileName4Msg}
-                    onChange={e => this.handleFileChange(e, true, 'statement_1')}
-                    fullWidth
+                    onChange={e => this.handleFileChange(e, true, 'statement_1', 'fileName4')}
+                    style={{ width: '105px' }}
                   />
                 </div>
               </div>
@@ -1201,14 +1351,24 @@ class AdditionalInfo extends Component {
                 <div className="col-3">
                   <label htmlFor="fileName5">แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #2</label>
                 </div>
-                <div className="col-9">
+                <div className="col-7">
+                  <TextField
+                    id="fileName5"
+                    name="fileName5"
+                    value={fileName5}
+                    onChange={e => this.handleFileNameChange(e)}
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-2">
                   <TextField
                     type="file"
                     id="fileName5"
                     name="fileName5"
                     errorText={fileName5Msg}
-                    onChange={e => this.handleFileChange(e, true, 'statement_2')}
-                    fullWidth
+                    onChange={e => this.handleFileChange(e, true, 'statement_2', 'fileName5')}
+                    style={{ width: '105px' }}
                   />
                 </div>
               </div>
@@ -1217,14 +1377,24 @@ class AdditionalInfo extends Component {
                 <div className="col-3">
                   <label htmlFor="fileName6">แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #3</label>
                 </div>
-                <div className="col-9">
+                <div className="col-7">
+                  <TextField
+                    id="fileName6"
+                    name="fileName6"
+                    value={fileName6}
+                    onChange={e => this.handleFileNameChange(e)}
+                    fullWidth
+                    readOnly
+                  />
+                </div>
+                <div className="col-2">
                   <TextField
                     type="file"
                     id="fileName6"
                     name="fileName6"
                     errorText={fileName6Msg}
-                    onChange={e => this.handleFileChange(e, true, 'statement_3')}
-                    fullWidth
+                    onChange={e => this.handleFileChange(e, true, 'statement_3', 'fileName6')}
+                    style={{ width: '105px' }}
                   />
                 </div>
               </div>
