@@ -29,7 +29,7 @@ import {
 import {
   pageSize,
   loadingTime,
-  dateFormat,
+  // dateFormat,
 } from '../libs/config';
 import { parseLeadIn } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
@@ -310,24 +310,56 @@ export function selectData(rowIndex) {
                 officeAmphurCodeName,
                 officeTambolCodeName,
                 officeZipCode,
+                //
+                number,
+                moo,
+                village,
+                soi,
+                road,
+                province,
+                amphurCode,
+                tambolCode,
+                provinceName,
+                amphurCodeName,
+                tambolCodeName,
+                zipCode,
+                //
+                number2,
+                moo2,
+                village2,
+                soi2,
+                road2,
+                province2,
+                amphurCode2,
+                tambolCode2,
+                province2Name,
+                amphurCode2Name,
+                tambolCode2Name,
+                zipCode2,
+                //
+                workTel2,
+                homeTel2,
+                email,
+                detailRent,
               } = parseLeadIn(data);
               const entry = {
                 id: ID,
                 status: Status,
                 //
-                dateReq: dateReq ? moment(dateReq).format(dateFormat) : '',
+                dateReq: dateReq ? moment(dateReq).toDate() : null,
                 nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
                 nameEN: `${prefixEN || ''} ${firstNameEN || ''} ${lastNameEN || ''}`.trim(),
                 idcardNo: idCard,
-                idcardExpiry: dateExp ? moment(dateExp).format(dateFormat) : '',
-                birthDate: birthDate ? moment(birthDate).format(dateFormat) : '',
+                idcardExpiry: dateExp ? moment(dateExp).toDate() : null,
+                birthDate: birthDate ? moment(birthDate).toDate() : null,
                 maritalStatus: status,
                 //
                 companyName: jobCompanyName,
                 department,
                 position,
-                employmentDate: employmentDate ? moment(employmentDate).format(dateFormat) : '',
+                employmentDate: employmentDate ? moment(employmentDate).toDate() : null,
                 salary: jobSalary,
+                //
                 officeTel: workTel,
                 officeTelExt: telExtension,
                 officeNumber,
@@ -339,6 +371,37 @@ export function selectData(rowIndex) {
                 officeAmphurCodeName,
                 officeTambolCodeName,
                 officeZipCode,
+                //
+                number,
+                moo,
+                village,
+                soi,
+                road,
+                province,
+                amphurCode,
+                tambolCode,
+                provinceName,
+                amphurCodeName,
+                tambolCodeName,
+                zipCode,
+                //
+                number2,
+                moo2,
+                village2,
+                soi2,
+                road2,
+                province2,
+                amphurCode2,
+                tambolCode2,
+                province2Name,
+                amphurCode2Name,
+                tambolCode2Name,
+                zipCode2,
+                //
+                workTel2,
+                homeTel2,
+                email,
+                detailRent,
               };
 
               dispatch(selectDataSuccess(`${ID}`, entry));

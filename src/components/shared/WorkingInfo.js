@@ -2,8 +2,24 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
-// import DatePicker from 'material-ui/DatePicker';
+import DatePicker from 'material-ui/DatePicker';
+
+import areIntlLocalesSupported from 'intl-locales-supported';
+import IntlPolyfill from 'intl';
+import 'intl/locale-data/jsonp/th-TH';
+
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+
+let DateTimeFormat;
+
+/**
+ * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+ */
+if (areIntlLocalesSupported(['th', 'th-TH'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+}
 
 const styles = {
   button: {
@@ -59,6 +75,8 @@ class WorkingInfo extends Component {
       this.setState(data);
     }
   }
+
+  handleDateChange = () => { };
 
   render() {
     const {
@@ -125,13 +143,16 @@ class WorkingInfo extends Component {
           </div>
           <div className="row">
             <div className="col-6">
-              <TextField
+              <DatePicker
                 id="employmentDate"
                 name="employmentDate"
-                value={employmentDate}
+                mode="landscape"
                 floatingLabelText="วันที่เริ่มทำงาน"
-                fullWidth
-                readOnly
+                value={employmentDate}
+                onChange={this.handleDateChange}
+                DateTimeFormat={DateTimeFormat}
+                locale="th-TH"
+                disabled
               />
             </div>
             <div className="col-6">

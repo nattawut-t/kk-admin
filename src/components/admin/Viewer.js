@@ -22,8 +22,12 @@ import {
   CardTitle,
   CardText,
 } from 'material-ui/Card';
+
 import PersonalInfo from '../../containers/shared/PersonalInfo';
 import WorkingInfo from '../../containers/shared/WorkingInfo';
+import CurrentAddress from '../../containers/shared/CurrentAddress';
+import RegisterAddress from '../../containers/shared/RegisterAddress';
+import ContactInfo from '../../containers/shared/ContactInfo';
 
 const styles = {
   button: {
@@ -54,21 +58,21 @@ const infos = [
     name: 'currentAddress',
     label: 'ที่อยู่ปัจจุบัน',
     icon: 'perm_identity',
-    component: <div>Under Construction</div>,
+    component: <CurrentAddress />,
   },
   {
     id: 4,
     name: 'registeredAddress',
     label: 'ที่อยู่ตามทะเบียนบ้าน',
     icon: 'perm_identity',
-    component: <div>Under Construction</div>,
+    component: <RegisterAddress />,
   },
   {
     id: 5,
     name: 'contact',
     label: 'ข้อมูลติดต่อ',
     icon: 'perm_identity',
-    component: <div>Under Construction</div>,
+    component: <ContactInfo />,
   },
 ];
 

@@ -2,8 +2,24 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
-// import DatePicker from 'material-ui/DatePicker';
+import DatePicker from 'material-ui/DatePicker';
+
+import areIntlLocalesSupported from 'intl-locales-supported';
+import IntlPolyfill from 'intl';
+import 'intl/locale-data/jsonp/th-TH';
+
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+
+let DateTimeFormat;
+
+/**
+ * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+ */
+if (areIntlLocalesSupported(['th', 'th-TH'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+}
 
 const styles = {
   button: {
@@ -52,6 +68,9 @@ class PersonalInfo extends Component {
     }
   }
 
+  handleDateChange = () => {
+  };
+
   render() {
     const {
       dateReq,
@@ -73,13 +92,16 @@ class PersonalInfo extends Component {
         <CardText>
           <div className="row">
             <div className="col-12">
-              <TextField
+              <DatePicker
                 id="dateReq"
                 name="dateReq"
-                value={dateReq}
+                mode="landscape"
                 floatingLabelText="วันที่คำขอ"
-                fullWidth
-                readOnly
+                value={dateReq}
+                onChange={this.handleDateChange}
+                DateTimeFormat={DateTimeFormat}
+                locale="th-TH"
+                disabled
               />
             </div>
           </div>
@@ -117,25 +139,31 @@ class PersonalInfo extends Component {
               />
             </div>
             <div className="col-6">
-              <TextField
+              <DatePicker
                 id="idcardExpiry"
                 name="idcardExpiry"
-                value={idcardExpiry}
+                mode="landscape"
                 floatingLabelText="วันหมดอายุ"
-                fullWidth
-                readOnly
+                value={idcardExpiry}
+                onChange={this.handleDateChange}
+                DateTimeFormat={DateTimeFormat}
+                locale="th-TH"
+                disabled
               />
             </div>
           </div>
           <div className="row">
             <div className="col-6">
-              <TextField
+              <DatePicker
                 id="birthDate"
                 name="birthDate"
-                value={birthDate}
+                mode="landscape"
                 floatingLabelText="วันเกิด"
-                fullWidth
-                readOnly
+                value={birthDate}
+                onChange={this.handleDateChange}
+                DateTimeFormat={DateTimeFormat}
+                locale="th-TH"
+                disabled
               />
             </div>
             <div className="col-6">
