@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { dateFormat } from '../libs/config';
+// import { dateFormat } from '../libs/config';
 
 export const parseLeadIn = ({
   ID,
@@ -173,7 +173,7 @@ export const split = data => {
   console.log('lead: ', dateReq, birthDate, dateExp, employmentDate);
 
   const personalInfo = {
-    dateReq: moment(dateReq).format(dateFormat),
+    dateReq: dateReq ? moment(dateReq).toDate() : null,
     prefixTH,
     firstNameTH,
     lastNameTH,

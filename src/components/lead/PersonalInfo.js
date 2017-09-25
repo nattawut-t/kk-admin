@@ -96,7 +96,7 @@ class PersonalInfo extends Component {
     switch (env) {
       case 'test':
         this.state = {
-          dateReq: moment().format(dateFormat),
+          dateReq: new Date(),
           prefixTH: 'นางสาว',
           firstNameTH: 'ณัฐ',
           firstNameTHmsg: '',
@@ -815,14 +815,23 @@ class PersonalInfo extends Component {
               />
             </div>
             <CardText>
-              <div className="row">
-                <div className="col-12">
-                  <TextField
+              <div className="row" >
+                <div
+                  className="col-12"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                  }}
+                >
+                  <DatePicker
                     id="dateReq"
                     name="dateReq"
-                    value={dateReq}
+                    mode="landscape"
                     floatingLabelText="วันที่คำขอ"
-                    fullWidth
+                    value={dateReq}
+                    onChange={this.handleDateExpChange}
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
                     disabled
                   />
                 </div>

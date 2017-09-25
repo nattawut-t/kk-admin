@@ -56,7 +56,7 @@ let personalInfo = null;
 
 if (NODE_ENV === 'test') {
   personalInfo = {
-    dateReq: requestDate,
+    dateReq: new Date(),
     prefixTH: 'นางสาว',
     firstNameTH: 'ณัฐ',
     firstNameTHmsg: '',
