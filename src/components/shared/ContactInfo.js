@@ -61,7 +61,7 @@ class ContactInfo extends Component {
       <Card style={styles.marginBottom}>
         <div style={styles.sectionTitle}>
           <CardHeader
-            title="ข้อมูลทั่วไป"
+            title="ข้อมูลติดต่อ"
             titleStyle={styles.TitleText}
           />
         </div>

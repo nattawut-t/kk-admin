@@ -341,7 +341,40 @@ export function selectData(rowIndex) {
                 homeTel2,
                 email,
                 detailRent,
+                //
+                loanAmount,
+                installmentNumber,
+                beneficiary,
+                loanBeneficiaryName,
+                accumulateDebt,
+                creditCardTotal,
+                paymentHistoryExists,
+                pLoanApplicationHositoryExists,
+                overdueDebtExists,
+                bankAccountNo,
+                bankAccountName,
+                bankCode,
+                bankName,
+                bankBranchName,
+                //
+                ref1Prefix,
+                ref1Firstname,
+                ref1Lastname,
+                ref1Relationship,
+                ref1Mobile,
+                ref1WorkTelephone,
+                ref1HomeTelephone,
+                //
+                ref2Prefix,
+                ref2Firstname,
+                ref2Lastname,
+                ref2Relationship,
+                ref2Mobile,
+                ref2WorkTelephone,
+                ref2HomeTelephone,
+                //
               } = parseLeadIn(data);
+
               const entry = {
                 id: ID,
                 status: Status,
@@ -402,6 +435,38 @@ export function selectData(rowIndex) {
                 homeTel2,
                 email,
                 detailRent,
+                //
+                loanAmount,
+                installmentNumber,
+                beneficiary: (beneficiary === 'others') ? loanBeneficiaryName : beneficiary,
+                loanBeneficiaryName,
+                accumulateDebt,
+                creditCardTotal,
+                paymentHistoryExists,
+                pLoanApplicationHositoryExists,
+                overdueDebtExists,
+                bankAccountNo,
+                bankAccountName,
+                bankCode,
+                bankName,
+                bankBranchName,
+                //
+                ref1Prefix,
+                ref1Firstname,
+                ref1Lastname,
+                ref1Relationship,
+                ref1Mobile,
+                ref1WorkTelephone,
+                ref1HomeTelephone,
+                //
+                ref2Prefix,
+                ref2Firstname,
+                ref2Lastname,
+                ref2Relationship,
+                ref2Mobile,
+                ref2WorkTelephone,
+                ref2HomeTelephone,
+                //
               };
 
               dispatch(selectDataSuccess(`${ID}`, entry));

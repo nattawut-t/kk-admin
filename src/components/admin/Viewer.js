@@ -28,6 +28,9 @@ import WorkingInfo from '../../containers/shared/WorkingInfo';
 import CurrentAddress from '../../containers/shared/CurrentAddress';
 import RegisterAddress from '../../containers/shared/RegisterAddress';
 import ContactInfo from '../../containers/shared/ContactInfo';
+import LoanInfo from '../../containers/shared/LoanInfo';
+import Reference1Info from '../../containers/shared/Reference1Info';
+import Reference2Info from '../../containers/shared/Reference2Info';
 
 const styles = {
   button: {
@@ -73,6 +76,27 @@ const infos = [
     label: 'ข้อมูลติดต่อ',
     icon: 'perm_identity',
     component: <ContactInfo />,
+  },
+  {
+    id: 6,
+    name: 'loan',
+    label: 'ข้อมูลการกู้',
+    // icon: 'perm_identity',
+    component: <LoanInfo />,
+  },
+  {
+    id: 7,
+    name: 'ref1',
+    label: 'บุคคลอ้างอิง 1',
+    // icon: 'perm_identity',
+    component: <Reference1Info />,
+  },
+  {
+    id: 8,
+    name: 'ref2',
+    label: 'บุคคลอ้างอิง 2',
+    // icon: 'perm_identity',
+    component: <Reference2Info />,
   },
 ];
 

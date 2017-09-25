@@ -71,7 +71,7 @@ class CurrentAddress extends Component {
       <Card style={styles.marginBottom}>
         <div style={styles.sectionTitle}>
           <CardHeader
-            title="ข้อมูลการทำงาน"
+            title="ที่อยู่ปัจจุบัน"
             titleStyle={styles.TitleText}
           />
         </div>
