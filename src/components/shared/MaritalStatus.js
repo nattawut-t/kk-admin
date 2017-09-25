@@ -11,21 +11,6 @@ const maritalStatus = [
 ];
 
 class MaritalStatus extends Component {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    label: PropTypes.string,
-    onSelectItem: PropTypes.func,
-    required: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    value: '',
-    onSelectItem: null,
-    label: 'Prefix',
-    required: false,
-  };
-
   state = {
     key: '',
     value: '',
@@ -73,5 +58,20 @@ class MaritalStatus extends Component {
     );
   }
 }
+
+MaritalStatus.propTypes = {
+  id: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  label: PropTypes.string,
+  onSelectItem: PropTypes.func,
+  required: PropTypes.bool,
+};
+
+MaritalStatus.defaultProps = {
+  value: '',
+  onSelectItem: null,
+  label: 'Prefix',
+  required: false,
+};
 
 export default MaritalStatus;

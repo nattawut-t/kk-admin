@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Viewer from '../../components/admin/Viewer';
+import Viewer from '../../components/shared/Viewer';
 import { cancelSelection } from '../../actions/admin';
 import { approve, reject } from '../../reducers/admin';
 import { edit } from '../../reducers/lead';

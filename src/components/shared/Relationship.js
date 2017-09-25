@@ -13,21 +13,6 @@ const relationshipList = [
 ];
 
 class Relationship extends Component {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    label: PropTypes.string,
-    onSelectItem: PropTypes.func,
-    required: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    value: '',
-    onSelectItem: null,
-    label: 'ความสัมพันธ์',
-    required: true,
-  };
-
   state = {
     key: '',
     value: '',
@@ -35,11 +20,18 @@ class Relationship extends Component {
   };
 
   componentWillMount() {
-    const itemList = relationshipList
+    const { value, single } = this.props;
+    const _relationshipList = relationshipList;
+
+    if (single) {
+      delete _relationshipList[0];
+    }
+
+    const itemList = _relationshipList
       .map(value =>
         <MenuItem key={value} value={value} primaryText={value} />,
-      );
-    const { value } = this.props;
+    );
+
     this.setState({
       key: value,
       itemList,
@@ -75,5 +67,22 @@ class Relationship extends Component {
     );
   }
 }
+
+Relationship.propTypes = {
+  id: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  label: PropTypes.string,
+  onSelectItem: PropTypes.func,
+  required: PropTypes.bool,
+  single: PropTypes.bool,
+};
+
+Relationship.defaultProps = {
+  value: '',
+  onSelectItem: null,
+  label: 'ความสัมพันธ์',
+  required: true,
+  single: false,
+};
 
 export default Relationship;

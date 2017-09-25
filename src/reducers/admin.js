@@ -373,6 +373,17 @@ export function selectData(rowIndex) {
                 ref2WorkTelephone,
                 ref2HomeTelephone,
                 //
+                shippingHouseNo,
+                shippingMoo,
+                shippingVillage,
+                shippingFloor,
+                shippingSoi,
+                shippingRoad,
+                shippingProvinceCodeName,
+                shippingAmphurCodeName,
+                shippingTambolCodeName,
+                shippingPostalCode,
+                //
               } = parseLeadIn(data);
 
               const entry = {
@@ -467,6 +478,16 @@ export function selectData(rowIndex) {
                 ref2WorkTelephone,
                 ref2HomeTelephone,
                 //
+                shippingHouseNo,
+                shippingMoo,
+                shippingVillage,
+                shippingFloor,
+                shippingSoi,
+                shippingRoad,
+                shippingProvinceCodeName,
+                shippingAmphurCodeName,
+                shippingTambolCodeName,
+                shippingPostalCode,
               };
 
               dispatch(selectDataSuccess(`${ID}`, entry));

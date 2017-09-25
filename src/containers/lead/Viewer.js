@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Viewer from '../../components/lead/Viewer';
+import Viewer from '../../components/shared/Viewer';
 import { approve, reject } from '../../reducers/admin';
 
 const transform = (state, key) => {

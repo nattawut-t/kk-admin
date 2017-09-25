@@ -850,6 +850,7 @@ class AdditionalInfo extends Component {
                     label="ความสัมพันธ์"
                     required
                     onSelectItem={this.handleLookupChange}
+                    single={status === 'โสด'}
                   />
                 </div>
                 <div className="col-3">
@@ -941,6 +942,7 @@ class AdditionalInfo extends Component {
                     label="ความสัมพันธ์"
                     onSelectItem={this.handleLookupChange}
                     required={false}
+                    single={status === 'โสด'}
                   />
                 </div>
                 <div className="col-3">

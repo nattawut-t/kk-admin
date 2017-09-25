@@ -31,6 +31,7 @@ import ContactInfo from '../../containers/shared/ContactInfo';
 import LoanInfo from '../../containers/shared/LoanInfo';
 import Reference1Info from '../../containers/shared/Reference1Info';
 import Reference2Info from '../../containers/shared/Reference2Info';
+import ShippingAddress from '../../containers/shared/ShippingAddress';
 
 const styles = {
   button: {
@@ -97,6 +98,13 @@ const infos = [
     label: 'บุคคลอ้างอิง 2',
     // icon: 'perm_identity',
     component: <Reference2Info />,
+  },
+  {
+    id: 9,
+    name: 'shipping',
+    label: 'ที่อยู่จัดส่งเอกสาร',
+    // icon: 'perm_identity',
+    component: <ShippingAddress />,
   },
 ];
 
