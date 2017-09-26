@@ -42,6 +42,14 @@ import AdminIndex from '../containers/admin/Index';
 import Index from '../containers/lead/Index';
 import { isAdmin } from '../libs/config';
 
+const styles = {
+  AppBar: {
+    position: 'fixed',
+    backgroundColor: '#019bc9',
+    top: 0,
+  },
+};
+
 const Logged = ({ onSignoutClick }) => (
   <div>
     <IconButton><AccountCircle /></IconButton>
@@ -118,7 +126,7 @@ class App extends React.Component {
               className={`${!authenticated ? 'pc-hide' : ''}`}
               iconElementRight={<Logged onSignoutClick={this.handleSignoutClick} />}
               onClick={() => this.handleToggle()}
-              style={{ backgroundColor: '#019bc9' }}
+              style={styles.AppBar}
             />
             <main>
               <div className="row">
