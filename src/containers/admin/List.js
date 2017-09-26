@@ -63,66 +63,6 @@ const schema = [
     label: 'ชื่อ/นามสกุล (TH)',
     widthPercentage: 30,
   },
-  // {
-  //   id: 5,
-  //   name: 'birthDate',
-  //   label: 'วันเกิด',
-  //   widthPercentage: 80,
-  // },
-  // {
-  //   id: 9,
-  //   name: 'status',
-  //   label: 'สถานภาพสมรส',
-  //   widthPercentage: 100,
-  // },
-  // {
-  //   id: 6,
-  //   name: 'jobCompanyName',
-  //   label: 'ชื่อบริษัท',
-  //   widthPercentage: 120,
-  // },
-  // {
-  //   id: 7,
-  //   name: 'department',
-  //   label: 'แผนก',
-  //   widthPercentage: 100,
-  // },
-  // {
-  //   id: 8,
-  //   name: 'position',
-  //   label: 'ตำแหน่ง',
-  //   widthPercentage: 100,
-  // },
-  // {
-  //   id: 9,
-  //   name: 'provinceName',
-  //   label: 'จังหวัด',
-  //   widthPercentage: 100,
-  // },
-  // {
-  //   id: 10,
-  //   name: 'loanAmount',
-  //   label: 'จำนวนขอกู้',
-  //   widthPercentage: 80,
-  // },
-  // {
-  //   id: 11,
-  //   name: 'installmentNumber',
-  //   label: 'งวด',
-  //   widthPercentage: 80,
-  // },
-  // {
-  //   id: 12,
-  //   name: 'accumulateDebt',
-  //   label: 'ภาระหนี้สินรวม',
-  //   widthPercentage: 80,
-  // },
-  // {
-  //   id: 13,
-  //   name: 'creditCardTotal',
-  //   label: 'เครดิตรวม',
-  //   widthPercentage: 80,
-  // },
 ];
 
 const mapStateToProps = ({ admin }) => ({

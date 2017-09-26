@@ -168,6 +168,14 @@ export const split = data => {
     shippingAddress,
     //
     isConsent2,
+    //
+    fileName0,
+    fileName1,
+    fileName2,
+    fileName3,
+    fileName4,
+    fileName5,
+    fileName6,
   } = data;
 
   console.log('lead: ', dateReq, birthDate, dateExp, employmentDate);
@@ -228,7 +236,6 @@ export const split = data => {
     officeAmphurCodeName,
     officeTambolCodeName,
     officeZipCode,
-    //
   };
 
   const loanInfo = {
@@ -303,6 +310,14 @@ export const split = data => {
     shippingAddress,
     //
     isConsent2,
+    //
+    fileName0,
+    fileName1,
+    fileName2,
+    fileName3,
+    fileName4,
+    fileName5,
+    fileName6,
   };
 
   return {

@@ -115,6 +115,7 @@ class Viewer extends Component {
     Component: () => <PersonalInfo />,
     remark: '',
     reject: false,
+    doc: false,
   };
 
   handleChipClick = (id, component) => {
@@ -151,7 +152,7 @@ class Viewer extends Component {
     this.setState({ reject: false });
   };
 
-  handleOpenRejectClick = () => {
+  handleRejectClick = () => {
     this.setState({ reject: true });
   };
 
@@ -170,6 +171,10 @@ class Viewer extends Component {
     }
   };
 
+  handleDocumentClick = () => {
+    this.setState({ doc: true });
+  };
+
   render() {
     const { data, loading } = this.props;
 
@@ -182,6 +187,7 @@ class Viewer extends Component {
       Component,
       remark,
       reject,
+      doc,
     } = this.state;
     const { id, status } = data;
 
@@ -262,7 +268,7 @@ class Viewer extends Component {
                   secondary
                   style={styles.button}
                   icon={<Clear />}
-                  onClick={this.handleOpenRejectClick}
+                  onClick={this.handleRejectClick}
                   disabled={status !== 'created'}
                 />
                 <RaisedButton
@@ -270,6 +276,12 @@ class Viewer extends Component {
                   style={styles.button}
                   icon={<Redo />}
                   disabled
+                />
+                <RaisedButton
+                  label="เอกสาร"
+                  style={styles.button}
+                  icon={<ModeEdit />}
+                  onClick={this.handleDocumentClick}
                 />
                 <RaisedButton
                   label="แก้ไข"
@@ -308,6 +320,17 @@ class Viewer extends Component {
                 onChange={this.handleChange}
               />
             </div>
+          </div>
+        </Dialog>
+        <Dialog
+          title="เอกสาร"
+          actions={actions}
+          modal={false}
+          open={doc}
+          onRequestClose={this.handleCloseDialog}
+        >
+          <div className="row">
+            <div className="col-12" />
           </div>
         </Dialog>
       </div>

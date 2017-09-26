@@ -25,7 +25,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  save: () => dispatch(save()),
+  save: callback => dispatch(save(callback)),
 });
 
 export default connect(

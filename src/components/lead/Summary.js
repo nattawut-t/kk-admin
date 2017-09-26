@@ -9,6 +9,8 @@ import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Snackbar from 'material-ui/Snackbar';
 
+import { isAdmin } from '../../libs/config';
+
 const styles = {
   button: {
     margin: 12,
@@ -230,7 +232,12 @@ class Summary extends Component {
   handleNext = e => {
     e.preventDefault();
     const { save, history } = this.props;
-    save(() => history.push('/product-info'));
+    save(() => {
+      if (isAdmin()) {
+        return history.push('/admin/leads');
+      }
+      return history.push('/product-info');
+    });
   };
 
   render() {
