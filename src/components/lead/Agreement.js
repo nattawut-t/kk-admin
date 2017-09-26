@@ -5,10 +5,22 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
+import CardFooter from '../shared/CardFooter';
 
 const styles = {
-  button: {
-    margin: 12,
+  raisedButton: {
+    margin: 0,
+  },
+  buttonStyle: {
+    minWidth: '157px',
+    height: '40px',
+    borderRadius: '3px',
+    padding: '2px',
+    boxShadow: '0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12)',
+  },
+  overlayStyle: {
+    height: '40px',
+    borderRadius: '3px',
   },
   exampleImageInput: {
     cursor: 'pointer',
@@ -19,6 +31,17 @@ const styles = {
     left: 0,
     width: '100%',
     opacity: 0,
+  },
+  checkbox: {
+    top: '8px',
+  },
+  cardTitle: {
+    fontFamily: '"Kanit", sans-serif',
+    fontSize: '16px',
+    fontWeight: '500',
+    letterSpacing: '0.6px',
+    color: '#4a4a4a',
+    padding: '16px 16px 0',
   },
 };
 
@@ -47,11 +70,11 @@ class Agreement extends Component {
     return (
       <div>
         <Card>
-          <CardTitle>เงื่อนไขและข้อตกลง</CardTitle>
+          <CardTitle style={styles.cardTitle}>เงื่อนไขและข้อตกลง</CardTitle>
           <CardText>
             <div className="row">
               <div className="col">
-                <p style={{ textAlign: 'justify' }}>
+                <p style={{ color: '#505050' }}>
                   “ข้าพเจ้าตกลงและยินยอมให้ธนาคารเกียรตินาคิน จำกัด
                   (มหาชน) (“ธนาคาร”) เข้าถึงและใช้ข้อมูลส่วนบุคคล ข้อมูลทางการเงิน
                   ข้อมูลเครดิต และข้อมูลส่วนตัวใดๆ ของข้าพเจ้าที่อยู่ในระบบของบริษัท
@@ -68,8 +91,12 @@ class Agreement extends Component {
                   </p>
               </div>
             </div>
-            <div className="row">
-              <div className="col-12">
+          </CardText>
+        </Card>
+        <CardFooter>
+          <div className="row">
+            <div className="col-sm-6">
+              <div className="form-group">
                 <Checkbox
                   id="isConsent"
                   name="isConsent"
@@ -80,22 +107,24 @@ class Agreement extends Component {
                   onCheck={this.handleChange}
                 />
               </div>
-              <div className="col" style={{ textAlign: 'right' }}>
-                <RaisedButton
-                  id="next-button"
-                  name="next-button"
-                  label="ตกลง"
-                  labelPosition="before"
-                  primary
-                  style={styles.button}
-                  disabled={!isConsent}
-                  icon={<FontIcon className="muidocs-icon-custom-github" />}
-                  onClick={this.handleNext}
-                />
-              </div>
             </div>
-          </CardText>
-        </Card>
+            <div className="col-sm-6" style={{ textAlign: 'right' }}>
+              <RaisedButton
+                id="next-button"
+                name="next-button"
+                label="ดำเนินการต่อ"
+                labelPosition="before"
+                overlayStyle={styles.overlayStyle}
+                primary
+                style={styles.raisedButton}
+                disabled={!isConsent}
+                icon={<FontIcon className="muidocs-icon-custom-github" />}
+                onClick={this.handleNext}
+                buttonStyle={styles.buttonStyle}
+              />
+            </div>
+          </div>
+        </CardFooter>
       </div>
     );
   }

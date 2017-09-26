@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import withWidth, { LARGE } from 'material-ui/utils/withWidth';
@@ -42,10 +43,14 @@ import AdminIndex from '../containers/admin/Index';
 import Index from '../containers/lead/Index';
 import { isAdmin } from '../libs/config';
 
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: 'rgb(1, 155, 201)',
+  },
+});
 const styles = {
   AppBar: {
     position: 'fixed',
-    backgroundColor: '#019bc9',
     top: 0,
   },
 };
@@ -119,7 +124,7 @@ class App extends React.Component {
 
     return (
       <Router>
-        <MuiThemeProvider>
+        <MuiThemeProvider muiTheme={muiTheme}>
           <div>
             <AppBar
               title=""
@@ -129,9 +134,9 @@ class App extends React.Component {
               style={styles.AppBar}
             />
             <main>
-              <div className="row">
+              <div className={`${!authenticated ? 'row' : 'main-container'}`}>
                 <div
-                  className={`${!authenticated ? 'col-0' : 'col-3'}`}
+                  className={`${!authenticated ? 'col-0' : 'sidebar'}`}
                   style={{ margin: 'inherit' }}
                 >
                   <Drawer
@@ -184,22 +189,20 @@ class App extends React.Component {
                   </Drawer>
 
                 </div>
-                <div className={`${!authenticated ? 'col-12' : 'col-9'}`}>
-                  <div className="container">
-                    <Switch>
-                      <Route path="/product-info" component={ProductInfo} />
-                      <Route path="/borrow-request" component={Main} />
-                      <Route path="/borrow-status" component={BorrowStatus} />
-                      <Route path="/summary" component={Summary} />
-                      <Route path="/additional-info" component={AdditionalInfo} />
-                      <Route path="/loan-info" component={LoanInfo} />
-                      <Route path="/personal-info" component={PersonalInfo} />
-                      <Route path="/borrow-request" component={Agreement} />
-                      <Route path="/leads" component={Index} />
-                      <Route path="/admin/leads" component={AdminIndex} />
-                      <Route path="*" exact component={ProductInfo} />
-                    </Switch>
-                  </div>
+                <div className={`${!authenticated ? 'col-12' : 'contain'}`}>
+                  <Switch>
+                    <Route path="/product-info" component={ProductInfo} />
+                    <Route path="/borrow-request" component={Main} />
+                    <Route path="/borrow-status" component={BorrowStatus} />
+                    <Route path="/summary" component={Summary} />
+                    <Route path="/additional-info" component={AdditionalInfo} />
+                    <Route path="/loan-info" component={LoanInfo} />
+                    <Route path="/personal-info" component={PersonalInfo} />
+                    <Route path="/borrow-request" component={Agreement} />
+                    <Route path="/leads" component={Index} />
+                    <Route path="/admin/leads" component={AdminIndex} />
+                    <Route path="*" exact component={ProductInfo} />
+                  </Switch>
                 </div>
               </div>
             </main>

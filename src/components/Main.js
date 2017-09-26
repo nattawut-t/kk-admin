@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
 import Agreement from '../containers/lead/Agreement';
@@ -8,6 +9,17 @@ import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import Summary from '../containers/lead/Summary';
 import LeadStep from './lead/LeadStep';
 import Test from './test/Test';
+import Containers from './shared/Containers';
+
+const StepContainer = styled.div`
+  float: none; 
+  margin: 0 auto;
+  background-color: #f0f0f0;
+  padding: 0 64px;
+  @media screen and (max-width: 991px){
+      padding: 15px;
+  }
+`;
 
 class Main extends React.Component {
 
@@ -18,11 +30,11 @@ class Main extends React.Component {
   render() {
     return (
       <Router>
-        <div className="col-12">
-          <div style={{ float: 'none', margin: '0 auto' }}>
+        <div className="main-contain">
+          <StepContainer>
             <LeadStep />
-          </div>
-          <div className="container">
+          </StepContainer>
+          <Containers>
             <Switch>
               <Route path="/summary" component={Summary} />
               <Route path="/additional-info" component={AdditionalInfo} />
@@ -31,7 +43,7 @@ class Main extends React.Component {
               <Route path="/personal-info" component={PersonalInfo} />
               <Route path="/borrow-request" component={Agreement} />
             </Switch>
-          </div>
+          </Containers>
         </div>
       </Router>);
   }
