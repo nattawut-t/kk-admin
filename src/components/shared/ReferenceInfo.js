@@ -26,7 +26,7 @@ const styles = {
     marginBottom: '20px',
   },
   sectionTitle: {
-    backgroundColor: 'rgb(0, 188, 212)',
+    backgroundColor: '#019ac9',
   },
   TitleText: {
     color: 'white',

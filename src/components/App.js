@@ -118,6 +118,7 @@ class App extends React.Component {
               className={`${!authenticated ? 'pc-hide' : ''}`}
               iconElementRight={<Logged onSignoutClick={this.handleSignoutClick} />}
               onClick={() => this.handleToggle()}
+              style={{ backgroundColor: '#019bc9' }}
             />
             <main>
               <div className="row">
@@ -136,6 +137,7 @@ class App extends React.Component {
                       className={`${!authenticated ? 'pc-hide' : ''}`}
                       iconClassNameRight="muidocs-icon-navigation-expand-more"
                       onClick={() => this.handleToggle()}
+                      style={{ backgroundColor: '#019bc9' }}
                     />
 
                     {_isAdmin
