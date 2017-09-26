@@ -482,6 +482,7 @@ class AdditionalInfo extends Component {
       //
       fileName0,
       fileName1,
+      fileName2,
       fileName3,
       fileName4,
       fileName5,
@@ -568,6 +569,7 @@ class AdditionalInfo extends Component {
       //
       fileName0,
       fileName1,
+      fileName2,
       fileName3,
       fileName4,
       fileName5,

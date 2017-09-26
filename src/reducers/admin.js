@@ -384,6 +384,13 @@ export function selectData(rowIndex) {
                 shippingTambolCodeName,
                 shippingPostalCode,
                 //
+                fileName0,
+                fileName1,
+                fileName2,
+                fileName3,
+                fileName4,
+                fileName5,
+                fileName6,
               } = parseLeadIn(data);
 
               const entry = {
@@ -488,6 +495,14 @@ export function selectData(rowIndex) {
                 shippingAmphurCodeName,
                 shippingTambolCodeName,
                 shippingPostalCode,
+                //
+                fileName0,
+                fileName1,
+                fileName2,
+                fileName3,
+                fileName4,
+                fileName5,
+                fileName6,
               };
 
               dispatch(selectDataSuccess(`${ID}`, entry));

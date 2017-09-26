@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-import FlatButton from 'material-ui/FlatButton';
-import AttachFile from 'material-ui/svg-icons/editor/attach-file';
-import PlaylistAddCheck from 'material-ui/svg-icons/av/playlist-add-check';
-import { grey500 } from 'material-ui/styles/colors';
+// import FlatButton from 'material-ui/FlatButton';
+// import AttachFile from 'material-ui/svg-icons/editor/attach-file';
+// import PlaylistAddCheck from 'material-ui/svg-icons/av/playlist-add-check';
+// import { grey500 } from 'material-ui/styles/colors';
 
-const styles = {
-  flatButton: {
-    color: grey500,
-  },
-};
+// const styles = {
+//   flatButton: {
+//     color: grey500,
+//   },
+// };
 
 const handleSearchClick = (searchData, input) => {
   if (searchData && input) {
@@ -31,23 +31,8 @@ const ButtonBar = ({ searchData, loading }) => {
           alignItems: 'flex-end',
         }}
       >
-        <div className="col-4">
-          <FlatButton
-            label="ข้อมูลเอกสาร"
-            style={styles.flatButton}
-            icon={<AttachFile />}
-            disabled
-          />
-
-          <FlatButton
-            label="ข้อมูลคำขอกู้"
-            style={styles.flatButton}
-            icon={<PlaylistAddCheck />}
-            disabled
-          />
-        </div>
         <div
-          className="col-8"
+          className="col-12"
           style={{
             float: 'right',
             display: 'inline-flex',
@@ -57,12 +42,13 @@ const ButtonBar = ({ searchData, loading }) => {
           <TextField
             id="keyword"
             name="keyword"
-            floatingLabelText="ค้นหา"
+            floatingLabelText="ค้นหา (under construction)"
             maxLength="100"
             fullWidth
             ref={node => {
               input = node;
             }}
+            disabled
           />
           <IconButton
             style={{ color: '#8B8C8D' }}
