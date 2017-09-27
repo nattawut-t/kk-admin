@@ -9,6 +9,7 @@ import Chip from 'material-ui/Chip';
 import { blue300, indigo900 } from 'material-ui/styles/colors';
 // import FontIcon from 'material-ui/FontIcon';
 import Dialog from 'material-ui/Dialog';
+import IconButton from 'material-ui/IconButton';
 import Done from 'material-ui/svg-icons/action/done';
 import Clear from 'material-ui/svg-icons/content/clear';
 import Redo from 'material-ui/svg-icons/content/redo';
@@ -22,6 +23,14 @@ import {
   CardTitle,
   CardText,
 } from 'material-ui/Card';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 
 import PersonalInfo from '../../containers/shared/PersonalInfo';
 import WorkingInfo from '../../containers/shared/WorkingInfo';
@@ -178,6 +187,14 @@ class Viewer extends Component {
       console.log(id);
       loadDocuments(id, () => this.setState({ doc: true }));
     }
+  };
+
+  handleDocumentViewClick = id => {
+    console.log(id);
+  };
+
+  handleDocumentDeleteClick = id => {
+    console.log(id);
   };
 
   render() {
@@ -351,13 +368,73 @@ class Viewer extends Component {
           open={doc}
           onRequestClose={() => this.handleCloseDialog('doc')}
         >
-          {documents.map(({ ID, Filename, DocType }) =>
-            <div key={ID} className="row">
-              <div className="col-4" >{ID}</div>
-              <div className="col-4" >{Filename}</div>
-              <div className="col-4" >{DocType}</div>
-            </div>,
-          )}
+
+          <Table
+            fixedHeader
+            fixedFooter
+          >
+            <TableHeader
+              displaySelectAll={false}
+              adjustForCheckbox={false}
+              enableSelectAll={false}
+            >
+              <TableRow style={{ width: '100%' }}>
+                <TableHeaderColumn style={{ width: '20%', textAlign: 'center' }}>รหัส</TableHeaderColumn>
+                <TableHeaderColumn style={{ width: '30%', textAlign: 'center' }}>ชื่อ</TableHeaderColumn>
+                <TableHeaderColumn style={{ width: '30%', textAlign: 'center' }}>ประเภท</TableHeaderColumn>
+                <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>เปิด</TableHeaderColumn>
+                <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>ลบ</TableHeaderColumn>
+              </TableRow>
+            </TableHeader>
+            <TableBody
+              displayRowCheckbox={false}
+              deselectOnClickaway
+              showRowHover
+              stripedRows={false}
+            >
+              {documents.map(({ ID, Filename, DocType }) =>
+                <TableRow key={ID} style={{ width: '100%' }}>
+                  <TableRowColumn
+                    style={{ width: '20%', textAlign: 'center' }}
+                  >
+                    {ID}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={{ width: '30%', textAlign: 'center' }}
+                  >
+                    {Filename}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={{ width: '30%', textAlign: 'center' }}
+                  >
+                    {DocType}
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={{ width: '10%', textAlign: 'center' }}
+                  >
+                    <IconButton
+                      tooltip="เปิด"
+                      style={{ color: '#8B8C8D' }}
+                      onClick={() => this.handleDocumentViewClick(ID)}
+                    >
+                      <i className="material-icons">visibility</i>
+                    </IconButton>
+                  </TableRowColumn>
+                  <TableRowColumn
+                    style={{ width: '10%', textAlign: 'center' }}
+                  >
+                    <IconButton
+                      tooltip="ลบ"
+                      style={{ color: '#8B8C8D' }}
+                      onClick={() => this.handleDocumentDeleteClick(ID)}
+                    >
+                      <i className="material-icons">delete</i>
+                    </IconButton>
+                  </TableRowColumn>
+                </TableRow>,
+              )}
+            </TableBody>
+          </Table>
         </Dialog>
       </div>
     );
