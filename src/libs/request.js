@@ -73,6 +73,7 @@ export function putJson(url, data, authenticate = true) {
 
 export function getJson(url, authenticate = true) {
   if (authenticate) {
+    console.log('token: ', localStorage.getItem('token'));
     axios.defaults.headers.common.Authorization = localStorage.getItem('token');
   }
   const options = {

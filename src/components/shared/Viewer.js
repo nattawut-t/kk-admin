@@ -148,8 +148,8 @@ class Viewer extends Component {
     this.setState({ remark: value });
   };
 
-  handleCloseDialog = () => {
-    this.setState({ reject: false });
+  handleCloseDialog = key => {
+    this.setState({ [key]: false });
   };
 
   handleRejectClick = () => {
@@ -172,11 +172,18 @@ class Viewer extends Component {
   };
 
   handleDocumentClick = () => {
-    this.setState({ doc: true });
+    const { data, loadDocuments } = this.props;
+    if (loadDocuments) {
+      const { id } = data;
+      console.log(id);
+      loadDocuments(id, () => this.setState({ doc: true }));
+    }
   };
 
   render() {
-    const { data, loading } = this.props;
+    const { data, loading, documents } = this.props;
+
+    console.log('render.documents: ', documents);
 
     if (!data || loading) {
       return <div className="loader" />;
@@ -193,11 +200,26 @@ class Viewer extends Component {
 
     console.log('>>> status: ', status);
 
-    const actions = [
+    const rejectActions = [
       <FlatButton
         label="ยกเลิก"
         primary
-        onClick={this.handleCloseDialog}
+        onClick={() => this.handleCloseDialog('reject')}
+      />,
+      <FlatButton
+        label="ปฏิเสธ"
+        primary
+        keyboardFocused
+        disabled={!remark}
+        onClick={() => this.handleRejectClick(id)}
+      />,
+    ];
+
+    const documentActions = [
+      <FlatButton
+        label="ยกเลิก"
+        primary
+        onClick={() => this.handleCloseDialog('doc')}
       />,
       <FlatButton
         label="ปฏิเสธ"
@@ -302,10 +324,10 @@ class Viewer extends Component {
         </Card >
         <Dialog
           title="ปฏิเสธคำขอกู้"
-          actions={actions}
+          actions={rejectActions}
           modal={false}
           open={reject}
-          onRequestClose={this.handleCloseDialog}
+          onRequestClose={() => this.handleCloseDialog('')}
         >
           <div className="row">
             <div className="col-12">
@@ -317,21 +339,25 @@ class Viewer extends Component {
                 fullWidth
                 rows={3}
                 value={remark}
-                onChange={this.handleChange}
+                onChange={() => this.handleChange('reject')}
               />
             </div>
           </div>
         </Dialog>
         <Dialog
           title="เอกสาร"
-          actions={actions}
+          actions={documentActions}
           modal={false}
           open={doc}
-          onRequestClose={this.handleCloseDialog}
+          onRequestClose={() => this.handleCloseDialog('doc')}
         >
-          <div className="row">
-            <div className="col-12" />
-          </div>
+          {documents.map(({ ID, Filename, DocType }) =>
+            <div key={ID} className="row">
+              <div className="col-4" >{ID}</div>
+              <div className="col-4" >{Filename}</div>
+              <div className="col-4" >{DocType}</div>
+            </div>,
+          )}
         </Dialog>
       </div>
     );
@@ -346,6 +372,8 @@ Viewer.propTypes = {
   reject: PropTypes.func,
   edit: PropTypes.func,
   cancel: PropTypes.func,
+  loadDocuments: PropTypes.func,
+  documents: PropTypes.array,
 };
 
 Viewer.defaultProps = {
@@ -355,6 +383,8 @@ Viewer.defaultProps = {
   reject: null,
   edit: null,
   cancel: null,
+  loadDocuments: null,
+  documents: [],
 };
 
 export default withRouter(Viewer);

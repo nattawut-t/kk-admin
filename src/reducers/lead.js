@@ -24,11 +24,13 @@ import {
   setSearchInfo,
   editSuccess,
   saveSuccess,
+  loadDocumentsSuccess,
   //
   // saveDraftSuccess,
   // SAVE_DRAFT_SUCCESS,
   EDIT_SUCCESS,
   SAVE_SUCCESS,
+  LOAD_DOCUMENTS_SUCCESS,
 } from '../actions/lead';
 import {
   portalUrl,
@@ -179,7 +181,6 @@ const State = Record({
   //
   lead: null,
   data: null,
-  documents: {},
   notify: false,
   message: '',
   loading: false,
@@ -193,6 +194,8 @@ const State = Record({
   total: 0,
   pages: 0,
   page: 0,
+  //
+  documents: [],
   //
   editing: false,
 });
@@ -483,6 +486,31 @@ export function edit(id, callback) {
   };
 }
 
+export function loadDocuments(id, callback) {
+  return dispatch => {
+    dispatch(setLoading(true));
+
+    const url = portalUrl(`/admin/leads/${id}/media`);
+    console.log('url: ', url);
+
+    getJson(url)
+      .then(response => {
+        const { data } = response;
+        console.log('documents: ', data);
+
+        dispatch(loadDocumentsSuccess(data));
+        if (callback) {
+          callback();
+        }
+        setTimeout(() => dispatch(setLoading(false)), loadingTime);
+      })
+      .catch(error => {
+        console.log('>>> edit.error: ', error);
+        dispatch(setLoading(false));
+      });
+  };
+}
+
 const lead = (state = initialState, action) => {
   let _state;
   let personalInfo;
@@ -493,6 +521,14 @@ const lead = (state = initialState, action) => {
   // let lead;
 
   switch (action.type) {
+    case LOAD_DOCUMENTS_SUCCESS:
+
+      _state = Immutable.fromJS({
+        documents: action.documents,
+      });
+      console.log('LOAD_DOCUMENTS_SUCCESS', action.documents);
+      return state.merge(_state);
+
     case SAVE_SUCCESS:
 
       _state = Immutable.fromJS({
@@ -518,16 +554,6 @@ const lead = (state = initialState, action) => {
       });
       console.log('EDIT_SUCCESS', action.personalInfo, action.loanInfo, action.additionalInfo);
       return state.merge(_state);
-
-    // case SAVE_DRAFT_SUCCESS:
-
-    //   lead = state.get('lead').toJS();
-    //   lead = Object.assign(lead, action.data);
-    //   _state = Immutable.fromJS({
-    //     lead,
-    //   });
-
-    //   return state.merge(_state);
 
     case SEARCH_SUCCESS:
 

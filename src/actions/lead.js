@@ -13,6 +13,7 @@ export const SEARCH_SUCCESS = 'lead/SEARCH_SUCCESS';
 export const SAVE_DRAFT_SUCCESS = 'lead/SAVE_DRAFT_SUCCESS';
 export const EDIT_SUCCESS = 'lead/EDIT_SUCCESS';
 export const SAVE_SUCCESS = 'lead/SAVE_SUCCESS';
+export const LOAD_DOCUMENTS_SUCCESS = 'lead/LOAD_DOCUMENTS_SUCCESS';
 
 export const acceptAgreementSuccess = isConsent => ({
   type: ACCEPT_AGREEMENT_SUCCESS,
@@ -93,4 +94,9 @@ export const editSuccess = (id, personalInfo, loanInfo, additionalInfo) => ({
 
 export const saveSuccess = () => ({
   type: SAVE_SUCCESS,
+});
+
+export const loadDocumentsSuccess = documents => ({
+  type: LOAD_DOCUMENTS_SUCCESS,
+  documents,
 });

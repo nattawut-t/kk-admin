@@ -391,7 +391,7 @@ class AdditionalInfo extends Component {
         console.log('callback: ', docType, _file, fileName, value);
         this.setState({
           [docType]: _file,
-          [fileName]: value,
+          [fileName]: _fileName,
         });
       });
     }
