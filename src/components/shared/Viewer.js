@@ -41,6 +41,7 @@ import LoanInfo from '../../containers/shared/LoanInfo';
 import Reference1Info from '../../containers/shared/Reference1Info';
 import Reference2Info from '../../containers/shared/Reference2Info';
 import ShippingAddress from '../../containers/shared/ShippingAddress';
+import { isAdmin } from '../../libs/config';
 
 const styles = {
   button: {
@@ -205,8 +206,6 @@ class Viewer extends Component {
   render() {
     const { data, loading, documents } = this.props;
 
-    console.log('render.documents: ', documents);
-
     if (!data || loading) {
       return <div className="loader" />;
     }
@@ -220,8 +219,6 @@ class Viewer extends Component {
       // imageData,
     } = this.state;
     const { id, status } = data;
-
-    console.log('>>> status: ', status);
 
     const rejectActions = [
       <FlatButton
@@ -291,58 +288,78 @@ class Viewer extends Component {
             <Component />
           </CardText>
           <CardActions>
-            <div className="row">
-              <div
-                className="col-12"
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                }}
-              >
-                <RaisedButton
-                  label="อนุมัติ"
-                  primary
-                  style={styles.button}
-                  icon={<Done />}
-                  onClick={() => this.handleApproveClick(id)}
-                  disabled={status !== 'created'}
-                />
-                <RaisedButton
-                  label="ปฏิเสธ"
-                  secondary
-                  style={styles.button}
-                  icon={<Clear />}
-                  onClick={this.handleRejectClick}
-                  disabled={status !== 'created'}
-                />
-                <RaisedButton
-                  label="ส่งกู้รายอื่น"
-                  style={styles.button}
-                  icon={<Redo />}
-                  disabled
-                />
-                <RaisedButton
-                  label="เอกสาร"
-                  style={styles.button}
-                  icon={<ModeEdit />}
-                  onClick={this.handleDocumentClick}
-                />
-                <RaisedButton
-                  label="แก้ไข"
-                  style={styles.button}
-                  icon={<ModeEdit />}
-                  onClick={() => this.handleEditClick(id)}
-                  disabled={status !== 'created'}
-                />
-                <RaisedButton
-                  label="ยกเลิก"
-                  style={styles.button}
-                  icon={<Undo />}
-                  onClick={this.handleCancelClick}
-                />
+            {isAdmin()
+              ? <div className="row">
+                <div
+                  className="col-12"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                  }}
+                >
+                  <RaisedButton
+                    label="อนุมัติ"
+                    primary
+                    style={styles.button}
+                    icon={<Done />}
+                    onClick={() => this.handleApproveClick(id)}
+                    disabled={status !== 'created'}
+                  />
+                  <RaisedButton
+                    label="ปฏิเสธ"
+                    secondary
+                    style={styles.button}
+                    icon={<Clear />}
+                    onClick={this.handleRejectClick}
+                    disabled={status !== 'created'}
+                  />
+                  <RaisedButton
+                    label="ส่งกู้รายอื่น"
+                    style={styles.button}
+                    icon={<Redo />}
+                    disabled
+                  />
+                  <RaisedButton
+                    label="เอกสาร"
+                    style={styles.button}
+                    icon={<ModeEdit />}
+                    onClick={this.handleDocumentClick}
+                  />
+                  <RaisedButton
+                    label="แก้ไข"
+                    style={styles.button}
+                    icon={<ModeEdit />}
+                    onClick={() => this.handleEditClick(id)}
+                    disabled={status !== 'created'}
+                  />
+                  <RaisedButton
+                    label="ยกเลิก"
+                    style={styles.button}
+                    icon={<Undo />}
+                    onClick={this.handleCancelClick}
+                  />
+                </div>
               </div>
-            </div>
+              : <div className="row">
+                <div
+                  className="col-12"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                  }}
+                >
+                  <RaisedButton
+                    label="กลับ"
+                    style={styles.button}
+                    icon={<Undo />}
+                    onClick={this.handleCancelClick}
+                  />
+                </div>
+              </div>
+            }
+
           </CardActions>
         </Card >
         <Dialog

@@ -26,12 +26,13 @@ import {
   editSuccess,
   saveSuccess,
   loadDocumentsSuccess,
+  selectDataSuccess,
   //
-  // saveDraftSuccess,
-  // SAVE_DRAFT_SUCCESS,
   EDIT_SUCCESS,
   SAVE_SUCCESS,
   LOAD_DOCUMENTS_SUCCESS,
+  SELECT_DATA_SUCCESS,
+  CANCEL_SELECTION,
 } from '../actions/lead';
 import {
   portalUrl,
@@ -253,10 +254,14 @@ function _searchData(page = 1) {
     const url = searchUrl(page);
     const promise = getJson(url);
 
+    console.log(url);
+
     setTimeout(() =>
       promise.then(response => {
         const { data } = response;
         const dataList = data ? parseLeadsIn(data) : [];
+
+        console.log('data: ', data, dataList);
 
         dispatch(searchSuccess(dataList, 0, 0, 0));
         return dispatch(setLoading(false));
@@ -278,7 +283,7 @@ export function searchData(keyword) {
 
 export function loadNextPage() {
   return (dispatch, getState) => {
-    const state = getState().admin;
+    const state = getState().lead;
     const loading = state.get('loading');
 
     if (!loading) {
@@ -546,6 +551,274 @@ export function loadDocument(id, callback) {
   };
 }
 
+export function selectData(rowIndex) {
+  return (dispatch, getState) => {
+    dispatch(setLoading(true));
+
+    const state = getState().lead;
+    const oldId = state.get('id');
+    const dataList = state.get('dataList') || [];
+
+    if (dataList) {
+      const data = dataList.get(rowIndex);
+
+      if (data) {
+        const newId = `${data.get('ID') || ''}`;
+
+        if (newId !== oldId) {
+          const _endpoint = `/api/work/leads/${newId}`;
+          const url = portalUrl(_endpoint);
+          const promise = getJson(url);
+
+          setTimeout(() =>
+            promise.then(response => {
+              const { data } = response;
+
+              const {
+                ID,
+                Status,
+                //
+                dateReq,
+                prefixTH,
+                firstNameTH,
+                lastNameTH,
+                prefixEN,
+                firstNameEN,
+                lastNameEN,
+                idCard,
+                dateExp,
+                birthDate,
+                status,
+                //
+                jobCompanyName,
+                department,
+                position,
+                employmentDate,
+                jobSalary,
+                workTel,
+                telExtension,
+                officeNumber,
+                officeMoo,
+                officeVillage,
+                officeSoi,
+                officeRoad,
+                officeProvinceName,
+                officeAmphurCodeName,
+                officeTambolCodeName,
+                officeZipCode,
+                //
+                number,
+                moo,
+                village,
+                soi,
+                road,
+                province,
+                amphurCode,
+                tambolCode,
+                provinceName,
+                amphurCodeName,
+                tambolCodeName,
+                zipCode,
+                //
+                number2,
+                moo2,
+                village2,
+                soi2,
+                road2,
+                province2,
+                amphurCode2,
+                tambolCode2,
+                province2Name,
+                amphurCode2Name,
+                tambolCode2Name,
+                zipCode2,
+                //
+                workTel2,
+                homeTel2,
+                email,
+                detailRent,
+                //
+                loanAmount,
+                installmentNumber,
+                beneficiary,
+                loanBeneficiaryName,
+                accumulateDebt,
+                creditCardTotal,
+                paymentHistoryExists,
+                pLoanApplicationHositoryExists,
+                overdueDebtExists,
+                bankAccountNo,
+                bankAccountName,
+                bankCode,
+                bankName,
+                bankBranchName,
+                //
+                ref1Prefix,
+                ref1Firstname,
+                ref1Lastname,
+                ref1Relationship,
+                ref1Mobile,
+                ref1WorkTelephone,
+                ref1HomeTelephone,
+                //
+                ref2Prefix,
+                ref2Firstname,
+                ref2Lastname,
+                ref2Relationship,
+                ref2Mobile,
+                ref2WorkTelephone,
+                ref2HomeTelephone,
+                //
+                shippingHouseNo,
+                shippingMoo,
+                shippingVillage,
+                shippingFloor,
+                shippingSoi,
+                shippingRoad,
+                shippingProvinceCodeName,
+                shippingAmphurCodeName,
+                shippingTambolCodeName,
+                shippingPostalCode,
+                //
+                fileName0,
+                fileName1,
+                fileName2,
+                fileName3,
+                fileName4,
+                fileName5,
+                fileName6,
+              } = parseIn(data);
+
+              const entry = {
+                id: ID,
+                status: Status,
+                //
+                dateReq: dateReq ? moment(dateReq).toDate() : null,
+                nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
+                nameEN: `${prefixEN || ''} ${firstNameEN || ''} ${lastNameEN || ''}`.trim(),
+                idcardNo: idCard,
+                idcardExpiry: dateExp ? moment(dateExp).toDate() : null,
+                birthDate: birthDate ? moment(birthDate).toDate() : null,
+                maritalStatus: status,
+                //
+                companyName: jobCompanyName,
+                department,
+                position,
+                employmentDate: employmentDate ? moment(employmentDate).toDate() : null,
+                salary: jobSalary,
+                //
+                officeTel: workTel,
+                officeTelExt: telExtension,
+                officeNumber,
+                officeMoo,
+                officeVillage,
+                officeSoi,
+                officeRoad,
+                officeProvinceName,
+                officeAmphurCodeName,
+                officeTambolCodeName,
+                officeZipCode,
+                //
+                number,
+                moo,
+                village,
+                soi,
+                road,
+                province,
+                amphurCode,
+                tambolCode,
+                provinceName,
+                amphurCodeName,
+                tambolCodeName,
+                zipCode,
+                //
+                number2,
+                moo2,
+                village2,
+                soi2,
+                road2,
+                province2,
+                amphurCode2,
+                tambolCode2,
+                province2Name,
+                amphurCode2Name,
+                tambolCode2Name,
+                zipCode2,
+                //
+                workTel2,
+                homeTel2,
+                email,
+                detailRent,
+                //
+                loanAmount,
+                installmentNumber,
+                beneficiary: (beneficiary === 'others') ? loanBeneficiaryName : beneficiary,
+                loanBeneficiaryName,
+                accumulateDebt,
+                creditCardTotal,
+                paymentHistoryExists,
+                pLoanApplicationHositoryExists,
+                overdueDebtExists,
+                bankAccountNo,
+                bankAccountName,
+                bankCode,
+                bankName,
+                bankBranchName,
+                //
+                ref1Prefix,
+                ref1Firstname,
+                ref1Lastname,
+                ref1Relationship,
+                ref1Mobile,
+                ref1WorkTelephone,
+                ref1HomeTelephone,
+                //
+                ref2Prefix,
+                ref2Firstname,
+                ref2Lastname,
+                ref2Relationship,
+                ref2Mobile,
+                ref2WorkTelephone,
+                ref2HomeTelephone,
+                //
+                shippingHouseNo,
+                shippingMoo,
+                shippingVillage,
+                shippingFloor,
+                shippingSoi,
+                shippingRoad,
+                shippingProvinceCodeName,
+                shippingAmphurCodeName,
+                shippingTambolCodeName,
+                shippingPostalCode,
+                //
+                fileName0,
+                fileName1,
+                fileName2,
+                fileName3,
+                fileName4,
+                fileName5,
+                fileName6,
+              };
+
+              console.log('entry: ', entry);
+
+              dispatch(selectDataSuccess(`${ID}`, entry));
+              return dispatch(setLoading(false));
+            })
+              .catch(error => {
+                console.log('>>> selectData.error: ', error);
+                dispatch(setLoading(false));
+              })
+            , loadingTime);
+        } else {
+          dispatch(cancelSelection());
+        }
+      }
+    }
+  };
+}
+
 const lead = (state = initialState, action) => {
   let _state;
   let personalInfo;
@@ -556,6 +829,22 @@ const lead = (state = initialState, action) => {
   // let lead;
 
   switch (action.type) {
+    case CANCEL_SELECTION:
+
+      _state = Immutable.fromJS({
+        id: '',
+        data: null,
+      });
+      return state.merge(_state);
+
+    case SELECT_DATA_SUCCESS:
+
+      _state = Immutable.fromJS({
+        id: action.id,
+        data: action.data,
+      });
+      return state.merge(_state);
+
     case LOAD_DOCUMENTS_SUCCESS:
 
       _state = Immutable.fromJS({
@@ -600,6 +889,7 @@ const lead = (state = initialState, action) => {
           ...action.dataList,
         ],
       });
+      console.log('SEARCH_SUCCESS: ', action);
       return state.merge(_state);
 
     case LOAD_NEXT_PAGE_SUCCESS:

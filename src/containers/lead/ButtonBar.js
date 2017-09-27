@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ButtonBar from '../../components/lead/ButtonBar';
+import ButtonBar from '../../components/shared/ButtonBar';
 import { cancelSelection } from '../../actions/lead';
 import { searchData } from '../../reducers/lead';
 

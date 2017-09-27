@@ -14,6 +14,7 @@ export const SAVE_DRAFT_SUCCESS = 'lead/SAVE_DRAFT_SUCCESS';
 export const EDIT_SUCCESS = 'lead/EDIT_SUCCESS';
 export const SAVE_SUCCESS = 'lead/SAVE_SUCCESS';
 export const LOAD_DOCUMENTS_SUCCESS = 'lead/LOAD_DOCUMENTS_SUCCESS';
+export const SELECT_DATA_SUCCESS = 'lead/SELECT_DATA_SUCCESS';
 
 export const acceptAgreementSuccess = isConsent => ({
   type: ACCEPT_AGREEMENT_SUCCESS,
@@ -99,4 +100,10 @@ export const saveSuccess = () => ({
 export const loadDocumentsSuccess = documents => ({
   type: LOAD_DOCUMENTS_SUCCESS,
   documents,
+});
+
+export const selectDataSuccess = (id, data) => ({
+  type: SELECT_DATA_SUCCESS,
+  id,
+  data,
 });

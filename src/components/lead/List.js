@@ -42,6 +42,7 @@ class List extends Component {
 
   handleCellClick = e => {
     const { selectData } = this.props;
+    console.log(selectData);
     if (selectData) {
       const rowIndex = Number.parseInt(e, 10);
       selectData(rowIndex);
@@ -68,6 +69,7 @@ class List extends Component {
     // const sortDirection = sortDesc => (!sortDesc)
     //   ? <i className="material-icons">expand_less</i>
     //   : <i className="material-icons">expand_more</i>;
+
     return (
       <div>
         <Table
@@ -88,8 +90,10 @@ class List extends Component {
                 let { widthPercentage } = col;
                 widthPercentage = widthPercentage || 100;
                 return (
-                  <TableHeaderColumn key={id} style={{ width: `${widthPercentage}%`, textAlign: 'center' }} >
-                    <span>{label}</span>
+                  <TableHeaderColumn key={id} style={{ width: `${widthPercentage}%`, textAlign: 'center' }}>
+                    <div style={{ display: 'inline-block' }} >
+                      <span>{label}</span>
+                    </div>
                   </TableHeaderColumn>
                 );
               })}

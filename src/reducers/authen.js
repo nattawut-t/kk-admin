@@ -92,7 +92,9 @@ export function loginOtp(mobile, otp, callback) {
 
 export function getOtp(username) {
   return () => {
-    const url = portalUrl(`/api/work/otp?mobile=${username}`);
+    const ref = Math.random(7);
+    const url = portalUrl(`/api/work/otp?mobile=${username}&ref=${ref}`);
+    console.log(url);
 
     getJson(url)
       .then(response => {

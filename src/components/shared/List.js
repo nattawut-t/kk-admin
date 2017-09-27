@@ -42,6 +42,7 @@ class List extends Component {
 
   handleCellClick = e => {
     const { selectData } = this.props;
+    console.log(selectData);
     if (selectData) {
       const rowIndex = Number.parseInt(e, 10);
       selectData(rowIndex);
@@ -68,6 +69,9 @@ class List extends Component {
     const sortDirection = sortDesc => (!sortDesc)
       ? <i className="material-icons">expand_less</i>
       : <i className="material-icons">expand_more</i>;
+
+    console.log('dataList: ', dataList);
+
     return (
       <div>
         <Table
