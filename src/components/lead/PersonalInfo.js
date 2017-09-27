@@ -613,11 +613,10 @@ class PersonalInfo extends Component {
       employmentDate,
     } = this.state;
 
-    const _dateReq = moment(dateReq, 'DD/MM/YYYY').toDate();
-    dateReq = moment(_dateReq).format();
-    birthDate = moment(birthDate).format();
-    dateExp = moment(dateExp).format();
-    employmentDate = moment(employmentDate).format();
+    dateReq = moment(dateReq, 'DD/MM/YYYY').toDate();
+    birthDate = moment(birthDate, 'DD/MM/YYYY').toDate();
+    dateExp = moment(dateExp, 'DD/MM/YYYY').toDate();
+    employmentDate = moment(employmentDate, 'DD/MM/YYYY').toDate();
 
     const data = {
       dateReq,
@@ -677,6 +676,8 @@ class PersonalInfo extends Component {
       officeZipCode,
       //
     };
+
+    console.log('pi.next: ', data);
 
     const {
       completePersonalInfo,

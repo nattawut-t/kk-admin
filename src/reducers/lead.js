@@ -1,4 +1,5 @@
 import Immutable, { Record } from 'immutable';
+import moment from 'moment';
 import {
   ACCEPT_AGREEMENT_SUCCESS,
   COMPLETE_PERSONAL_INFO_SUCCESS,
@@ -300,6 +301,12 @@ export function save(callback) {
     const additionalInfo = _state.get('additionalInfo').toJS();
 
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
+
+    const _dateReq = moment(data.dateReq, 'DD/MM/YYYY').toDate();
+    data.dateReq = moment(_dateReq).format();
+    data.birthDate = moment(data.birthDate).format();
+    data.dateExp = moment(data.dateExp).format();
+    data.employmentDate = moment(data.employmentDate).format();
 
     let url = saveUrl();
     let request = postJson;
