@@ -23,6 +23,7 @@ import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import Divider from 'material-ui/Divider';
 // import ContentCopy from 'material-ui/svg-icons/content/content-copy';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
+import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import List from 'material-ui/svg-icons/action/list';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
 import LinearScale from 'material-ui/svg-icons/editor/linear-scale';
@@ -43,6 +44,8 @@ import AdminIndex from '../containers/admin/Index';
 import Index from '../containers/lead/Index';
 import { isAdmin } from '../libs/config';
 
+import Logo from '../../assets/asset-1-4-x@3x.png';
+
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: 'rgb(1, 155, 201)',
@@ -52,6 +55,34 @@ const styles = {
   AppBar: {
     position: 'fixed',
     top: 0,
+    boxShadow: 'none',
+  },
+  AppBarSideBar: {
+    backgroundColor: '#ffffff',
+    boxShadow: 'none',
+  },
+  Drawer: {
+    boxShadow: 'none',
+    borderRight: '1px solid #eee',
+  },
+  Logo: {
+    height: '60px',
+    position: 'absolute',
+    top: '5px',
+    left: '0',
+    right: '0',
+    margin: 'auto',
+  },
+  MenuItem: {
+    padding: '5px 0px',
+  },
+  smallIcon: {
+    width: 36,
+    height: 36,
+  },
+  IconButtonSideBar: {
+    padding: 0,
+    top: '3px',
   },
 };
 
@@ -130,6 +161,7 @@ class App extends React.Component {
               title=""
               className={`${!authenticated ? 'pc-hide' : ''}`}
               iconElementRight={<Logged onSignoutClick={this.handleSignoutClick} />}
+              iconStyleRight={{ color: '#101010' }}
               onClick={() => this.handleToggle()}
               style={styles.AppBar}
             />
@@ -144,13 +176,19 @@ class App extends React.Component {
                     className={`${!authenticated ? 'pc-hide' : ''}`}
                     open={this.state.open}
                     width={250}
+                    containerStyle={styles.Drawer}
                   >
+
                     <AppBar
-                      title="MoneyTable"
+                      title={<img src={Logo} alt="Logo" style={styles.Logo} />}
                       className={`${!authenticated ? 'pc-hide' : ''}`}
-                      iconClassNameRight="muidocs-icon-navigation-expand-more"
+                      iconElementLeft={
+                        <IconButton style={styles.IconButtonSideBar} iconStyle={styles.smallIcon} >
+                          <NavigationMenu color="#019bc9" />
+                        </IconButton>
+                      }
                       onClick={() => this.handleToggle()}
-                      style={{ backgroundColor: '#019bc9' }}
+                      style={styles.AppBarSideBar}
                     />
 
                     {_isAdmin
@@ -159,11 +197,13 @@ class App extends React.Component {
                           primaryText="เพิ่มคำขอสินเชื่อ"
                           containerElement={<Link to="/borrow-request" />}
                           leftIcon={<LibraryBooks />}
+                          style={styles.MenuItem}
                         />
                         <MenuItem
                           primaryText="รายการคำขอสินเชื่อ"
                           containerElement={<Link to="/admin/leads" />}
                           leftIcon={<List />}
+                          style={styles.MenuItem}
                         />
                       </Menu>
                       : <Menu>
@@ -171,17 +211,20 @@ class App extends React.Component {
                           primaryText="ส่งคำขอสินเชื่อ"
                           containerElement={<Link to="/borrow-request" />}
                           leftIcon={<LibraryBooks />}
+                          style={styles.MenuItem}
                         />
                         <MenuItem
                           primaryText="ข้อมูลผลิตภัณฑ์"
                           containerElement={<Link to="/product-info" />}
                           leftIcon={<RemoveRedEye />}
+                          style={styles.MenuItem}
                         />
                         <Divider />
                         <MenuItem
                           primaryText="สถานะการกู้"
                           containerElement={<Link to="/leads" />}
                           leftIcon={<LinearScale />}
+                          style={styles.MenuItem}
                         />
                       </Menu>
                     }
