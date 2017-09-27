@@ -351,10 +351,11 @@ class Viewer extends Component {
                   }}
                 >
                   <RaisedButton
-                    label="กลับ"
+                    label="ปิด"
                     style={styles.button}
                     icon={<Undo />}
                     onClick={this.handleCancelClick}
+                    secondary
                   />
                 </div>
               </div>
