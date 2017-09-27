@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Viewer from '../../components/shared/Viewer';
 import { cancelSelection } from '../../actions/admin';
 import { approve, reject } from '../../reducers/admin';
-import { edit, loadDocuments } from '../../reducers/lead';
+import { edit, loadDocuments, loadDocument } from '../../reducers/lead';
 
 const transform = (state, key) => {
   if (state && key) {
@@ -30,6 +30,7 @@ const mapDispatchToProps = dispatch => ({
   cancel: () => dispatch(cancelSelection()),
   edit: (id, callback) => dispatch(edit(id, callback)),
   loadDocuments: (id, callback) => dispatch(loadDocuments(id, callback)),
+  loadDocument: callback => dispatch(loadDocument(callback)),
 });
 
 export default connect(

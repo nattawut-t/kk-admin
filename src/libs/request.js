@@ -85,6 +85,23 @@ export function getJson(url, authenticate = true) {
   return axios(options);
 }
 
+export function getImage(url, authenticate = true) {
+  if (authenticate) {
+    console.log('token: ', localStorage.getItem('token'));
+    axios.defaults.headers.common.Authorization = localStorage.getItem('token');
+  }
+  const options = {
+    method: 'GET',
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+      responseType: 'blob',
+    },
+  };
+
+  return axios(options);
+}
+
 export function postForm(url, data, authenticate = true) {
   if (authenticate) {
     axios.defaults.headers.common.Authorization = localStorage.getItem('token');

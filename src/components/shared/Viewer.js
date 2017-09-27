@@ -125,6 +125,7 @@ class Viewer extends Component {
     remark: '',
     reject: false,
     doc: false,
+    imageData: null,
   };
 
   handleChipClick = (id, component) => {
@@ -191,6 +192,10 @@ class Viewer extends Component {
 
   handleDocumentViewClick = id => {
     console.log(id);
+    const { loadDocument } = this.props;
+    if (loadDocument) {
+      loadDocument(id, () => { });
+    }
   };
 
   handleDocumentDeleteClick = id => {
@@ -212,6 +217,7 @@ class Viewer extends Component {
       remark,
       reject,
       doc,
+      // imageData,
     } = this.state;
     const { id, status } = data;
 
@@ -368,7 +374,6 @@ class Viewer extends Component {
           open={doc}
           onRequestClose={() => this.handleCloseDialog('doc')}
         >
-
           <Table
             fixedHeader
             fixedFooter
@@ -450,6 +455,7 @@ Viewer.propTypes = {
   edit: PropTypes.func,
   cancel: PropTypes.func,
   loadDocuments: PropTypes.func,
+  loadDocument: PropTypes.func,
   documents: PropTypes.array,
 };
 
@@ -461,6 +467,7 @@ Viewer.defaultProps = {
   edit: null,
   cancel: null,
   loadDocuments: null,
+  loadDocument: null,
   documents: [],
 };
 

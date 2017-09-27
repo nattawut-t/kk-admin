@@ -491,18 +491,46 @@ export function loadDocuments(id, callback) {
     dispatch(setLoading(true));
 
     const url = portalUrl(`/admin/leads/${id}/media`);
-    console.log('url: ', url);
 
     getJson(url)
       .then(response => {
         const { data } = response;
-        console.log('documents: ', data);
 
         dispatch(loadDocumentsSuccess(data));
         if (callback) {
           callback();
         }
         setTimeout(() => dispatch(setLoading(false)), loadingTime);
+      })
+      .catch(error => {
+        console.log('>>> edit.error: ', error);
+        dispatch(setLoading(false));
+      });
+  };
+}
+
+export function loadDocument(id, callback) {
+  return dispatch => {
+    dispatch(setLoading(true));
+
+    const url = portalUrl(`/admin/media/${id}`);
+    console.log('url: ', url);
+
+    getJson(url)
+      .then(response => {
+        const { data } = response;
+
+        console.log('document: ', data);
+
+        // const contentType = headers['x-content-type'];
+        // const mediaSrc = window.URL.createObjectURL(new Blob([data], { type: contentType }));
+
+        // dispatch(loadDocumentSuccess(data));
+        if (callback) {
+          callback({});
+        }
+        // setTimeout(() => dispatch(setLoading(false)), loadingTime);
+        dispatch(setLoading(false));
       })
       .catch(error => {
         console.log('>>> edit.error: ', error);
