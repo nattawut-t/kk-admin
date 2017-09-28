@@ -129,6 +129,14 @@ class Summary extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      //
+      fileName0,
+      fileName1,
+      fileName2,
+      fileName3,
+      fileName4,
+      fileName5,
+      fileName6,
     } = data;
 
     this.setState({
@@ -214,6 +222,14 @@ class Summary extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      //
+      fileName0,
+      fileName1,
+      fileName2,
+      fileName3,
+      fileName4,
+      fileName5,
+      fileName6,
     });
 
     window.scrollTo(0, 0);
@@ -235,11 +251,11 @@ class Summary extends Component {
     const { save } = this.props;
     save(() => {
       if (isAdmin()) {
-        // history.push('/admin/leads');
-        window.location.href = '/admin/leads';
+        history.push('/admin/leads');
+        // window.location.href = '/admin/leads';
       }
-      // return history.push('/product-info');
-      window.location.href = '/leads';
+      history.push('/product-info');
+      // window.location.href = '/leads';
     });
   };
 
@@ -329,6 +345,14 @@ class Summary extends Component {
       shippingTambolCodeName,
       //
       isConsent,
+      //
+      fileName0,
+      fileName1,
+      fileName2,
+      fileName3,
+      fileName4,
+      fileName5,
+      fileName6,
     } = this.state;
 
     const { message } = this.props;
@@ -1246,6 +1270,7 @@ class Summary extends Component {
                     id="fileName0"
                     name="fileName0"
                     floatingLabelText="สำเนาบัตรประชาชน"
+                    value={fileName0}
                     fullWidth
                     readOnly
                   />
@@ -1255,6 +1280,7 @@ class Summary extends Component {
                     id="fileName1"
                     name="fileName1"
                     floatingLabelText="สลิปเงินเดือน (เดือนล่าสุด)"
+                    value={fileName1}
                     fullWidth
                     readOnly
                   />
@@ -1267,6 +1293,7 @@ class Summary extends Component {
                     id="fileName2"
                     name="fileName2"
                     floatingLabelText="สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน"
+                    value={fileName2}
                     fullWidth
                     readOnly
                   />
@@ -1276,6 +1303,7 @@ class Summary extends Component {
                     id="fileName3"
                     name="fileName3"
                     floatingLabelText="ทะเบียนบ้าน"
+                    value={fileName3}
                     fullWidth
                     readOnly
                   />
@@ -1288,6 +1316,7 @@ class Summary extends Component {
                     id="fileName4"
                     name="fileName4"
                     floatingLabelText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #1"
+                    value={fileName4}
                     fullWidth
                     readOnly
                   />
@@ -1297,6 +1326,7 @@ class Summary extends Component {
                     id="fileName5"
                     name="fileName5"
                     floatingLabelText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #2"
+                    value={fileName5}
                     fullWidth
                     readOnly
                   />
@@ -1309,6 +1339,7 @@ class Summary extends Component {
                     id="fileName6"
                     name="fileName6"
                     floatingLabelText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #3"
+                    value={fileName6}
                     fullWidth
                     readOnly
                   />

@@ -267,14 +267,7 @@ class LoanInfo extends Component {
     });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-    history.push('/personal-info');
-  };
-
-  handleNext = e => {
-    e.preventDefault();
-
+  save = path => {
     const {
       loanAmount,
       installmentNumber,
@@ -310,9 +303,17 @@ class LoanInfo extends Component {
     };
 
     const { completeLoanInfo, history } = this.props;
-    completeLoanInfo(data, () => history.push('/additional-info'));
+    completeLoanInfo(data, () => history.push(path));
+  };
 
-    // const { history } = this.props;
+  handleBackClick = e => {
+    e.preventDefault();
+    this.save('/personal-info');
+  };
+
+  handleNextClick = e => {
+    e.preventDefault();
+    this.save('/additional-info');
   };
 
   render() {
@@ -345,7 +346,7 @@ class LoanInfo extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleNext}>
+        <form onSubmit={this.handleNextClick}>
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -644,7 +645,7 @@ class LoanInfo extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                onClick={this.handleBack}
+                onClick={this.handleBackClick}
               />
               <RaisedButton
                 type="submit"

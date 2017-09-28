@@ -540,18 +540,8 @@ class PersonalInfo extends Component {
       });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-    history.push('/borrow-request');
-  };
-
-  handleNext = e => {
-    e.preventDefault();
-
+  save = path => {
     const {
-      // dateReq,
-      // dateExp,
-      // birthDate,
       prefixTH,
       firstNameTH,
       lastNameTH,
@@ -684,7 +674,17 @@ class PersonalInfo extends Component {
       history,
     } = this.props;
 
-    completePersonalInfo(data, () => history.push('/loan-info'));
+    completePersonalInfo(data, () => history.push(path));
+  };
+
+  handleBackClick = e => {
+    e.preventDefault();
+    this.save('/borrow-request');
+  };
+
+  handleNextClick = e => {
+    e.preventDefault();
+    this.save('/loan-info');
   };
 
   renderDetailRent() {
@@ -807,7 +807,7 @@ class PersonalInfo extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleNext}>
+        <form onSubmit={this.handleNextClick}>
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -1446,7 +1446,7 @@ class PersonalInfo extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                onClick={this.handleBack}
+                onClick={this.handleBackClick}
               />
               <RaisedButton
                 type="submit"
