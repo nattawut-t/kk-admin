@@ -16,8 +16,8 @@ const StepContainer = styled.div`
   margin: 0 auto;
   background-color: #f0f0f0;
   padding: 0 64px;
-  @media screen and (max-width: 991px){
-      padding: 15px;
+  @media screen and (max-width: 1170px){
+      padding: 0 15px;
   }
 `;
 

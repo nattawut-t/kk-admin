@@ -21,8 +21,6 @@ import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import Divider from 'material-ui/Divider';
-// import ContentCopy from 'material-ui/svg-icons/content/content-copy';
-import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import List from 'material-ui/svg-icons/action/list';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
@@ -88,10 +86,9 @@ const styles = {
 
 const Logged = ({ onSignoutClick }) => (
   <div>
-    <IconButton><AccountCircle /></IconButton>
     <IconMenu
       iconButtonElement={
-        <IconButton><MoreVertIcon /></IconButton>
+        <IconButton><MoreVertIcon color="#ffffff" /></IconButton>
       }
       targetOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'top' }}

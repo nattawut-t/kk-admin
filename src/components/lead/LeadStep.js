@@ -1,11 +1,28 @@
 import React, { Component, PropTypes } from 'react';
 import { withRouter } from 'react-router';
+import styled from 'styled-components';
+
 import {
   Step,
   Stepper,
-  StepButton,
-  // StepContent,
 } from 'material-ui/Stepper';
+
+import IconCheckmark from '../../../assets/icon-checkmark.png';
+
+const ConnectorLine = styled.div`
+  display: block;
+  border-color: rgb(189,189,189);
+  border-top-style: solid;
+  border-top-width: 1px;
+  width: 30px;
+  margin: 0 16px 0 11px;
+  @media screen and (max-width: 1170px){
+    width: 10px;
+  }
+  @media screen and (max-width: 375px){
+    margin: 0 13px 0 9px;
+  }
+`;
 
 class LeadStep extends Component {
 
@@ -16,7 +33,6 @@ class LeadStep extends Component {
   state = {
     stepIndex: 0,
   };
-
   componentWillReceiveProps(nextProps) {
     if (this.props.location !== nextProps) {
       switch (location.pathname) {
@@ -65,36 +81,74 @@ class LeadStep extends Component {
     const { stepIndex } = this.state;
     return (
       <div className="stepper">
-        <Stepper
-          activeStep={stepIndex}
-          linear={false}
-        >
-          <Step>
-            <StepButton onClick={() => this.setState({ stepIndex: 0 })}>
-              <div className="step-text">ข้อตกลงและเงื่อนไข</div>
-            </StepButton>
-          </Step>
-          <Step>
-            <StepButton onClick={() => this.setState({ stepIndex: 1 })}>
-              <div className="step-text">ข้อมูลส่วนตัว</div>
-            </StepButton>
-          </Step>
-          <Step>
-            <StepButton onClick={() => this.setState({ stepIndex: 2 })}>
-              <div className="step-text">ความต้องการกู้</div>
-            </StepButton>
-          </Step>
-          <Step>
-            <StepButton onClick={() => this.setState({ stepIndex: 3 })}>
-              <div className="step-text">ข้อมูลเพิ่มเติมเพื่อการกู้</div>
-            </StepButton>
-          </Step>
-          <Step>
-            <StepButton onClick={() => this.setState({ stepIndex: 4 })}>
-              <div className="step-text">ส่งคำขอกู้</div>
-            </StepButton>
-          </Step>
-        </Stepper>
+        <div className="stepper--container">
+          <Stepper
+            activeStep={stepIndex}
+            linear={false}
+            connector={<ConnectorLine />}
+          >
+            <Step>
+              <div className={stepIndex === 0 ? 'stepper--active' : null}>
+                <div className="stepper--control">
+                  <span className="stepper--number">
+                    <div className="stepper--number--icon" style={stepIndex === 1 ? { backgroundColor: '#019bc9' } : null} >
+                      {stepIndex === 1 ? <img src={IconCheckmark} alt="Step checked" /> : 1}
+                    </div>
+                  </span>
+                  <span className="stepper--text">ข้อตกลงและเงื่อนไข</span>
+                </div>
+              </div>
+            </Step>
+            <Step>
+              <div className={stepIndex === 1 ? 'stepper--active' : null}>
+                <div className="stepper--control">
+                  <span className="stepper--number">
+                    <div className="stepper--number--icon" style={stepIndex === 2 ? { backgroundColor: '#019bc9' } : null} >
+                      {stepIndex === 2 ? <img src={IconCheckmark} alt="Step checked" /> : 2}
+                    </div>
+                  </span>
+                  <span className="stepper--text">ข้อมูลส่วนตัว</span>
+                </div>
+              </div>
+            </Step>
+            <Step>
+              <div className={stepIndex === 2 ? 'stepper--active' : null}>
+                <div className="stepper--control">
+                  <span className="stepper--number">
+                    <div className="stepper--number--icon" style={stepIndex === 3 ? { backgroundColor: '#019bc9' } : null} >
+                      {stepIndex === 3 ? <img src={IconCheckmark} alt="Step checked" /> : 3}
+                    </div>
+                  </span>
+                  <span className="stepper--text">ความต้องการกู้</span>
+                </div>
+              </div>
+            </Step>
+            <Step>
+              <div className={stepIndex === 3 ? 'stepper--active' : null}>
+                <div className="stepper--control">
+                  <span className="stepper--number">
+                    <div className="stepper--number--icon" style={stepIndex === 4 ? { backgroundColor: '#019bc9' } : null} >
+                      {stepIndex === 4 ? <img src={IconCheckmark} alt="Step checked" /> : 4}
+                    </div>
+                  </span>
+                  <span className="stepper--text">ข้อมูลเพิ่มเติมเพื่อการกู้</span>
+                </div>
+              </div>
+            </Step>
+            <Step>
+              <div className={stepIndex === 4 ? 'stepper--active' : null}>
+                <div className="stepper--control">
+                  <span className="stepper--number">
+                    <div className="stepper--number--icon" style={stepIndex === 5 ? { backgroundColor: '#019bc9' } : null} >
+                      {stepIndex === 5 ? <img src={IconCheckmark} alt="Step checked" /> : 5}
+                    </div>
+                  </span>
+                  <span className="stepper--text">ส่งคำขอกู้</span>
+                </div>
+              </div>
+            </Step>
+          </Stepper>
+        </div>
       </div>
     );
   }

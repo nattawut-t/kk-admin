@@ -7,22 +7,25 @@
   .mobile-btn-upload {
     text-align: right;
   }
-  .stepper {
-    padding-bottom: 25px;
-    margin-top: -11px;
-    padding-left: 10px;
-    .step-text {
-      position: absolute;
-      font-size: 11px;
-      width: 100%;
-      top: 50px;
-      left: 4px;
-      float: left;
-      font-weight: bold;
-      text-align: left;
+  .stepper{
+    &--text{
+      display: none;
     }
-  }
-  .mobile-hide {
-    display: none !important;
-  }
+    &--number{
+      margin-right: 0px;
+    }
+    &--active{
+      .stepper{
+        &--text{
+          display: block;
+        }
+        &--number{
+          margin-right: 8px;
+        }
+      }
+    }
+    .mobile-hide {
+      display: none !important;
+    }
+  }  
 }
