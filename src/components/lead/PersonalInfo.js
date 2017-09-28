@@ -1136,7 +1136,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="บ้านเลขที่"
                     value={number2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="10"
                     fullWidth
                   />
@@ -1148,7 +1148,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="หมู่ที่"
                     value={moo2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="3"
                     fullWidth
                   />
@@ -1160,7 +1160,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
                     value={village2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="100"
                     fullWidth
                   />
@@ -1174,7 +1174,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="ซอย"
                     value={soi2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="100"
                     fullWidth
                   />
@@ -1186,34 +1186,62 @@ class PersonalInfo extends Component {
                     floatingLabelText="ถนน"
                     value={road2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="100"
                     fullWidth
                   />
                 </div>
               </div>
-              <div className="row">
-                <div className="col">
-                  <Location
-                    id="location1"
-                    name="location1"
-                    provinceValueField="province2"
-                    provinceNameField="province2Name"
-                    amphurValueField="amphurCode2"
-                    amphurNameField="amphurCode2Name"
-                    tambolValueField="tambolCode2"
-                    tambolNameField="tambolCode2Name"
-                    provinceValue={province2}
-                    amphurValue={amphurCode2}
-                    tambolValue={tambolCode2}
-                    provinceName={province2Name}
-                    amphurName={amphurCode2Name}
-                    tambolName={tambolCode2Name}
-                    handleChange={this.handleLocationChange}
-                    disabled={isSameAddress}
-                  />
+              {isSameAddress
+                ? <div className="row">
+                  <div className="col-4">
+                    <TextField
+                      floatingLabelText="จังหวัด"
+                      value={province2Name}
+                      readOnly
+                      fullWidth
+                    />
+                  </div>
+                  <div className="col-4">
+                    <TextField
+                      floatingLabelText="อำเภอ / เขต"
+                      value={amphurCode2Name}
+                      readOnly
+                      fullWidth
+                    />
+                  </div>
+                  <div className="col-4">
+                    <TextField
+                      floatingLabelText="ตำบล / แขวง"
+                      value={tambolCode2Name}
+                      readOnly
+                      fullWidth
+                    />
+                  </div>
                 </div>
-              </div>
+                : <div className="row">
+                  <div className="col">
+                    <Location
+                      id="location1"
+                      name="location1"
+                      provinceValueField="province2"
+                      provinceNameField="province2Name"
+                      amphurValueField="amphurCode2"
+                      amphurNameField="amphurCode2Name"
+                      tambolValueField="tambolCode2"
+                      tambolNameField="tambolCode2Name"
+                      provinceValue={province2}
+                      amphurValue={amphurCode2}
+                      tambolValue={tambolCode2}
+                      provinceName={province2Name}
+                      amphurName={amphurCode2Name}
+                      tambolName={tambolCode2Name}
+                      handleChange={this.handleLocationChange}
+                      disabled={isSameAddress}
+                    />
+                  </div>
+                </div>
+              }
               <div className="row">
                 <div className="col-sm-4">
                   <TextField
@@ -1222,7 +1250,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="รหัสไปรษณีย์"
                     value={zipCode2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="5"
                     fullWidth
                   />
@@ -1248,7 +1276,7 @@ class PersonalInfo extends Component {
                     onChange={e => this.handleChange(e, true)}
                     maxLength="10"
                     fullWidth
-                    disabled={!_isAdmin}
+                    readOnly={!_isAdmin}
                   />
                 </div>
                 <div className="col-sm-4" >
