@@ -15,7 +15,7 @@ const styles = {
     minWidth: '157px',
     height: '40px',
     borderRadius: '3px',
-    padding: '2px',
+    padding: '0px',
     boxShadow: '0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12)',
   },
   overlayStyle: {

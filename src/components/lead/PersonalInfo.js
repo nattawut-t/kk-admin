@@ -58,9 +58,13 @@ const styles = {
   },
   marginBottom: {
     marginBottom: '20px',
+    borderRadius: '6px',
+    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.16)',
   },
   sectionTitle: {
     backgroundColor: '#019ac9',
+    borderTopLeftRadius: '6px',
+    borderTopRightRadius: '6px',
   },
   TitleText: {
     color: 'white',
@@ -833,13 +837,13 @@ class PersonalInfo extends Component {
               <CardHeader
                 title="ข้อมูลทั่วไป"
                 titleStyle={styles.TitleText}
-                style={{ backgroundColor: '#019bc9' }}
+                style={{ backgroundColor: '#019bc9', borderTopLeftRadius: '6px', borderTopRightRadius: '6px' }}
               />
             </div>
             <CardText>
               <div className="row" >
                 <div
-                  className="col-12"
+                  className="col-sm-12"
                   style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
