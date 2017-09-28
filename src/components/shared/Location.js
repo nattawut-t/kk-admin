@@ -77,6 +77,14 @@ class Location extends Component {
   componentDidMount() {
   }
 
+  initialize() {
+    this.setState({
+      provinceValue: '',
+      amphurValue: '',
+      tambolValue: '',
+    });
+  }
+
   handleProvinceChange = (event, index, value) => {
     this.setState({ provinceValue: value });
     const {

@@ -312,6 +312,12 @@ class AdditionalInfo extends Component {
           shippingTambolCodeName: '',
         });
 
+        // console.log('shippingLocation: ', this.shippingLocation);
+
+        if (this.shippingLocation) {
+          this.shippingLocation.initialize();
+        }
+
         const { personalInfo } = this.props;
 
         if (personalInfo) {
@@ -613,13 +619,10 @@ class AdditionalInfo extends Component {
       fileName6,
     };
 
-    console.log(files, data);
+    console.log('ai.data: ', data);
 
     const { completeAdditionalInfo, history } = this.props;
-
     completeAdditionalInfo(data, () => history.push('/summary'));
-    // const { history } = this.props;
-    // history.push('/summary');
   };
 
   handleFileNameChange = () => { };
@@ -849,6 +852,9 @@ class AdditionalInfo extends Component {
                 amphurName={shippingAmphurCodeName}
                 tambolName={shippingTambolCodeName}
                 handleChange={this.handleLocationChange}
+                ref={node => {
+                  this.shippingLocation = node;
+                }}
               />
             </div>
           </div>
