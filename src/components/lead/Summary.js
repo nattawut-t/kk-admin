@@ -231,12 +231,15 @@ class Summary extends Component {
 
   handleNext = e => {
     e.preventDefault();
-    const { save, history } = this.props;
+
+    const { save } = this.props;
     save(() => {
       if (isAdmin()) {
-        return history.push('/admin/leads');
+        // history.push('/admin/leads');
+        window.location.href = '/admin/leads';
       }
-      return history.push('/product-info');
+      // return history.push('/product-info');
+      window.location.href = '/leads';
     });
   };
 
