@@ -73,7 +73,7 @@ class Login extends Component {
 
       default:
         this.state = {
-          username: '',
+          username: '0627609997',
           otp: '',
         };
         break;

@@ -30,228 +30,57 @@ const styles = {
   },
 };
 
-const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+const requiredMessage = (required, value) =>
+  (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+
+const validationKeys = [
+  'ref1Prefix',
+  'ref1Firstname',
+  'ref1Lastname',
+  'ref1Relationship',
+  'ref1Mobile',
+  'ref1HomeTelephone',
+  // 'fileName0',
+  'isConsent2',
+];
+
+const messageKeys = [
+  'ref1Prefix',
+  'ref1Firstname',
+  'ref1Lastname',
+  'ref1Relationship',
+  'ref1Mobile',
+  'ref1HomeTelephone',
+  // 'isConsent2',
+];
 
 class AdditionalInfo extends Component {
 
   componentWillMount() {
-    const { data } = this.props;
     window.scrollTo(0, 0);
 
-    if (data) {
-      this.setState(data,
-        () => {
-          this.initialRequireMessage();
-          const valid = this.validate();
-          this.setState({ valid });
-        });
-    } else {
-      this.initialState();
-      this.initialRequireMessage();
-      const valid = this.validate();
-      this.setState({ valid });
-    }
+    const { data } = this.props;
+    this.setState(data,
+      () => {
+        this.initialMessage();
+        const valid = this.validate();
+        this.setState({ valid });
+      });
   }
 
-  initialState = () => {
-    const env = process.env.NODE_ENV;
-    switch (env) {
-      case 'test':
-        this.state = {
-          ref1Prefix: 'MR',
-          ref1PrefixMsg: '',
-          ref1Firstname: 'Panit',
-          ref1FirstnameMsg: '',
-          ref1Lastname: 'Tamm',
-          ref1LastnameMsg: '',
-          ref1Relationship: 'คู่สมรส',
-          ref1Mobile: '0627609997',
-          ref1MobileMsg: '',
-          ref1WorkTelephone: '021112222',
-          ref1WorkTelephoneMsg: '',
-          ref1HomeTelephone: '020001111',
-          ref1HomeTelephoneMsg: '',
-          ref2Prefix: 'MRS',
-          ref2PrefixMsg: '',
-          ref2Firstname: 'Jira',
-          ref2FirstnameMsg: '',
-          ref2Lastname: 'Tamm',
-          ref2LastnameMsg: '',
-          ref2Relationship: 'พี่น้อง',
-          ref2Mobile: '0840001111',
-          ref2MobileMsg: '',
-          ref2WorkTelephone: '021112222',
-          ref2WorkTelephoneMsg: '',
-          ref2HomeTelephone: '022223333',
-          ref2HomeTelephoneMsg: '',
-          conjugalPrefix: '',
-          conjugalPrefixMsg: '',
-          conjugalFirstname: '',
-          conjugalFirstnameMsg: '',
-          conjugalLastname: '',
-          conjugalLastnameMsg: '',
-          conjugalOccupation: '',
-          conjugalOccupationMsg: '',
-          conjugalIncome: '',
-          conjugalIncomeMsg: '',
-          children: '',
-          childrenMsg: '',
-          isConsent2: false,
-          shippingHouseNo: '',
-          shippingMoo: '',
-          shippingVillage: '',
-          shippingFloor: '',
-          shippingSoi: '',
-          shippingRoad: '',
-          shippingPostalCode: '',
-          shippingProvinceCode: '',
-          shippingAmphurCode: '',
-          shippingTambolCode: '',
-          shippingProvinceCodeName: '',
-          shippingAmphurCodeName: '',
-          shippingTambolCodeName: '',
-          //
-          files: [],
-          // not to send
-          fileName0: '',
-          fileName1: '',
-          filename2: '',
-          fileName3: '',
-          fileName4: '',
-          filename5: '',
-          fileName6: '',
-          //
-          identity: null,
-          account: null,
-          household_registration: null,
-          payslip: null,
-          statement_1: null,
-          statement_2: null,
-          statement_3: null,
-          //
-          shippingAddress: 'current',
-          valid: false,
-          // not to send
-        };
-
-        break;
-
-      default:
-        this.state = {
-          ref1Prefix: '',
-          ref1PrefixMsg: '',
-          ref1Firstname: '',
-          ref1FirstnameMsg: '',
-          ref1Lastname: '',
-          ref1LastnameMsg: '',
-          ref1Relationship: '',
-          ref1Mobile: '',
-          ref1MobileMsg: '',
-          ref1WorkTelephone: '',
-          ref1WorkTelephoneMsg: '',
-          ref1HomeTelephone: '',
-          ref1HomeTelephoneMsg: '',
-          ref2Prefix: '',
-          ref2PrefixMsg: '',
-          ref2Firstname: '',
-          ref2FirstnameMsg: '',
-          ref2Lastname: '',
-          ref2LastnameMsg: '',
-          ref2Relationship: '',
-          ref2Mobile: '',
-          ref2MobileMsg: '',
-          ref2WorkTelephone: '',
-          ref2WorkTelephoneMsg: '',
-          ref2HomeTelephone: '',
-          ref2HomeTelephoneMsg: '',
-          conjugalPrefix: '',
-          conjugalPrefixMsg: '',
-          conjugalFirstname: '',
-          conjugalFirstnameMsg: '',
-          conjugalLastname: '',
-          conjugalLastnameMsg: '',
-          conjugalOccupation: '',
-          conjugalOccupationMsg: '',
-          conjugalIncome: '',
-          conjugalIncomeMsg: '',
-          children: '',
-          childrenMsg: '',
-          isConsent2: false,
-          shippingHouseNo: '',
-          shippingMoo: '',
-          shippingVillage: '',
-          shippingFloor: '',
-          shippingSoi: '',
-          shippingRoad: '',
-          shippingPostalCode: '',
-          shippingProvinceCode: '',
-          shippingAmphurCode: '',
-          shippingTambolCode: '',
-          shippingProvinceCodeName: '',
-          shippingAmphurCodeName: '',
-          shippingTambolCodeName: '',
-          //
-          files: [],
-          // not to send
-          fileName0: '',
-          fileName1: '',
-          filename2: '',
-          fileName3: '',
-          fileName4: '',
-          filename5: '',
-          fileName6: '',
-          //
-          identity: null,
-          account: null,
-          household_registration: null,
-          payslip: null,
-          statement_1: null,
-          statement_2: null,
-          statement_3: null,
-          //
-          shippingAddress: 'current',
-          valid: false,
-          // not to send
-        };
-        break;
-    }
-  };
-
   validate = () => {
-    const keys = [
-      'ref1Prefix',
-      'ref1Firstname',
-      'ref1Lastname',
-      'ref1Relationship',
-      'ref1Mobile',
-      'ref1HomeTelephone',
-      // 'fileName0',
-      'isConsent2',
-    ];
-
-    const invalid = keys
+    const invalid = validationKeys
       .map(key => ({
         key,
         value: this.state[key],
       }))
       .find(({ value }) => !value);
 
-    // console.log('invalid: ', invalid);
-
     return !invalid;
   };
 
-  initialRequireMessage = () => {
-    const keys = [
-      'ref1Prefix',
-      'ref1Firstname',
-      'ref1Lastname',
-      'ref1Relationship',
-      'ref1Mobile',
-      'ref1HomeTelephone',
-      // 'isConsent2',
-    ];
-    keys
+  initialMessage = () => {
+    messageKeys
       .map(key => ({
         key,
         value: this.state[key],

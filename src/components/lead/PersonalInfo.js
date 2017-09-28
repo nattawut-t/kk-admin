@@ -22,7 +22,7 @@ import AddressStatus from '../shared/AddressStatus';
 import Location from '../shared/Location';
 import Tel from '../shared/Tel';
 import {
-  dateFormat,
+  // dateFormat,
   isAdmin,
 } from '../../libs/config';
 
@@ -72,6 +72,47 @@ const styles = {
 };
 
 const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+const validationKeys = [
+  'dateReq',
+  'prefixTH',
+  'firstNameTH',
+  'lastNameTH',
+  'prefixEN',
+  'firstNameEN',
+  'lastNameEN',
+  'idCard',
+  'dateExp',
+  'status',
+  'workTel2',
+  'homeTel2',
+  'detailRent',
+  'workTel',
+  'jobCompanyName',
+  'birthDate',
+  'email',
+  'employmentDate',
+  'jobSalary',
+];
+const messageKeys = [
+  'prefixTH',
+  'firstNameTH',
+  'lastNameTH',
+  'prefixEN',
+  'firstNameEN',
+  'lastNameEN',
+  'idCard',
+  'dateExp',
+  'status',
+  'workTel2',
+  'homeTel2',
+  'workTel',
+  'telExtension',
+  'jobCompanyName',
+  'birthDate',
+  'email',
+  'employmentDate',
+  'jobSalary',
+];
 
 class PersonalInfo extends Component {
 
@@ -79,231 +120,18 @@ class PersonalInfo extends Component {
     const { data } = this.props;
     window.scrollTo(0, 0);
 
-    if (data) {
-      this.setState(data,
-        () => {
-          this.initialRequireMessage();
-          const valid = this.validate();
-          this.setState({ valid });
-        });
-    } else {
-      this.initialState();
-      this.initialRequireMessage();
-      const valid = this.validate();
-      this.setState({ valid });
-    }
+    console.log('pi.willmount: ', data);
+
+    this.setState(data,
+      () => {
+        this.initialMessage();
+        const valid = this.validate();
+        this.setState({ valid });
+      });
   }
 
-  initialState = () => {
-    const env = process.env.NODE_ENV;
-
-    switch (env) {
-      case 'test':
-        this.state = {
-          dateReq: new Date(),
-          prefixTH: 'นางสาว',
-          firstNameTH: 'ณัฐ',
-          firstNameTHmsg: '',
-          lastNameTH: 'ธรรม',
-          lastNameTHmsg: '',
-          prefixEN: 'Mr.',
-          firstNameEN: 'Natt',
-          firstNameENmsg: '',
-          lastNameEN: 'Tamm',
-          lastNameENmsg: '',
-          idCard: '1720900004217',
-          idCardmsg: '',
-          idCardValid: true,
-          dateExp: new Date(2010, 1, 1),
-          dateExpmsg: '',
-          status: 'โสด',
-          department: 'IT',
-          departmentmsg: '',
-          position: 'SE',
-          positionmsg: '',
-          workTel2: '020001111',
-          workTel2Valid: false,
-          workTel2msg: '',
-          homeTel2: '0350001111',
-          homeTel2msg: '',
-          homeTel2Valid: false,
-          detailRent: 'ของตนเอง',
-          workTel: '020001111',
-          workTelmsg: '',
-          workTelValid: false,
-          telExtension: '02',
-          number: '88/46',
-          moo: '5',
-          village: 'Apple Condo',
-          soi: 'Bearing 34/2',
-          road: 'Sukhumvit 107',
-          province: '00001',
-          amphurCode: '00036',
-          tambolCode: '',
-          provinceName: '',
-          amphurCodeName: '',
-          tambolCodeName: '',
-          zipCode: '10270',
-          number2: '',
-          moo2: '',
-          village2: '',
-          soi2: '',
-          road2: '',
-          province2: '',
-          amphurCode2: '',
-          tambolCode2: '',
-          province2Name: '',
-          amphurCode2Name: '',
-          tambolCode2Name: '',
-          zipCode2: '',
-          isSameAddress: false,
-          jobCompanyName: 'Paysbuy',
-          jobCompanyNamemsg: '',
-          valid: false,
-          rentalFee: '',
-          etc: '',
-          birthDate: new Date(1984, 5, 9),
-          birthDatemsg: '',
-          email: 'x@y.com',
-          emailmsg: '',
-          employmentDate: new Date(2017, 1, 1),
-          employmentDatemsg: '',
-          jobSalary: 100000,
-          jobSalarymsg: '',
-          //
-          officeNumber: '1203',
-          officeMoo: '5',
-          officeVillage: 'กัญญาเฮาส์',
-          officeSoi: '4',
-          officeRoad: 'รัชดาภิเษก',
-          officeProvince: '',
-          officeAmphurCode: '',
-          officeTambolCode: '',
-          officeProvinceName: '',
-          officeAmphurCodeName: '',
-          officeTambolCodeName: '',
-          officeZipCode: '72170',
-          //
-        };
-        break;
-
-      default:
-        this.state = {
-          dateReq: moment().format(dateFormat),
-          prefixTH: '',
-          firstNameTH: '',
-          firstNameTHmsg: '',
-          lastNameTH: '',
-          lastNameTHmsg: '',
-          prefixEN: '',
-          firstNameEN: '',
-          firstNameENmsg: '',
-          lastNameEN: '',
-          lastNameENmsg: '',
-          idCard: '',
-          idCardmsg: '',
-          idCardValid: false,
-          dateExp: null,
-          dateExpmsg: '',
-          status: '',
-          department: '',
-          departmentmsg: '',
-          position: '',
-          positionmsg: '',
-          workTel2: '',
-          workTel2Valid: false,
-          workTel2msg: '',
-          homeTel2: '',
-          homeTel2msg: '',
-          homeTel2Valid: false,
-          detailRent: '',
-          workTel: '',
-          workTelmsg: '',
-          workTelValid: false,
-          telExtension: '',
-          number: '',
-          moo: '',
-          village: '',
-          soi: '',
-          road: '',
-          province: '',
-          amphurCode: '',
-          tambolCode: '',
-          provinceName: '',
-          amphurCodeName: '',
-          tambolCodeName: '',
-          zipCode: '',
-          number2: '',
-          moo2: '',
-          village2: '',
-          soi2: '',
-          road2: '',
-          province2: '',
-          amphurCode2: '',
-          tambolCode2: '',
-          province2Name: '',
-          amphurCode2Name: '',
-          tambolCode2Name: '',
-          zipCode2: '',
-          isSameAddress: false,
-          jobCompanyName: '',
-          jobCompanyNamemsg: '',
-          valid: false,
-          rentalFee: '',
-          etc: '',
-          birthDate: null,
-          birthDatemsg: '',
-          email: '',
-          emailmsg: '',
-          employmentDate: null,
-          employmentDatemsg: '',
-          jobSalary: 0,
-          jobSalarymsg: '',
-          //
-          officeNumber: '',
-          officeMoo: '',
-          officeVillage: '',
-          officeSoi: '',
-          officeRoad: '',
-          officeProvince: '',
-          officeAmphurCode: '',
-          officeTambolCode: '',
-          officeProvinceName: '',
-          officeAmphurCodeName: '',
-          officeTambolCodeName: '',
-          officeZipCode: '',
-          //
-        };
-        break;
-    }
-  };
-
   validate = () => {
-    const keys = [
-      'dateReq',
-      'prefixTH',
-      'firstNameTH',
-      'lastNameTH',
-      'prefixEN',
-      'firstNameEN',
-      'lastNameEN',
-      'idCard',
-      // 'idCardValid',
-      'dateExp',
-      'status',
-      'workTel2',
-      // 'workTel2Valid',
-      'homeTel2',
-      // 'homeTel2Valid',
-      'detailRent',
-      'workTel',
-      'jobCompanyName',
-      'birthDate',
-      'email',
-      'employmentDate',
-      'jobSalary',
-    ];
-    const invalid = keys
+    const invalid = validationKeys
       .map(key => ({
         key,
         value: this.state[key],
@@ -312,35 +140,24 @@ class PersonalInfo extends Component {
 
     const { email, jobSalary } = this.state;
     const salary = Number.parseFloat(jobSalary) || 0;
+
     const valid = emailRegex.test(email) && salary > 0;
 
-    // console.log('pi.invalid: ', invalid);
+    const { detailRent, etc, rentalFee } = this.state;
+    const valid1 = (detailRent === 'อื่นๆ' && etc) ||
+      ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
 
-    return !invalid && valid;
+    // if (detailRent === 'อื่นๆ') {
+
+    // } else if (detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') {
+
+    // }
+
+    return !invalid && valid && valid1;
   }
 
-  initialRequireMessage = () => {
-    const keys = [
-      'prefixTH',
-      'firstNameTH',
-      'lastNameTH',
-      'prefixEN',
-      'firstNameEN',
-      'lastNameEN',
-      'idCard',
-      'dateExp',
-      'status',
-      'workTel2',
-      'homeTel2',
-      'workTel',
-      'telExtension',
-      'jobCompanyName',
-      'birthDate',
-      'email',
-      'employmentDate',
-      'jobSalary',
-    ];
-    keys
+  initialMessage = () => {
+    messageKeys
       .map(key => ({
         key,
         value: this.state[key],
@@ -381,8 +198,6 @@ class PersonalInfo extends Component {
     const msgKey = `${name}msg`;
     const number = Number.parseFloat(value) || 0;
     const msg = (required && number <= 0) ? 'กรุณากรอกข้อมูล' : '';
-
-    console.log(name, value, number);
 
     this.setState({
       [name]: number,
@@ -609,6 +424,7 @@ class PersonalInfo extends Component {
       officeZipCode,
       //
       rentalFee,
+      etc,
     } = this.state;
 
     let {
@@ -691,9 +507,8 @@ class PersonalInfo extends Component {
       officeZipCode,
       //
       rentalFee,
+      etc,
     };
-
-    console.log('pi.next: ', data);
 
     const {
       completePersonalInfo,
@@ -714,7 +529,14 @@ class PersonalInfo extends Component {
   };
 
   renderDetailRent() {
-    const { detailRent } = this.state;
+    const {
+      detailRent,
+      etc,
+      rentalFee,
+      etcmsg,
+      rentalFeemsg,
+    } = this.state;
+
     if (detailRent === 'อื่นๆ') {
       return (
         <div className="col-sm-4">
@@ -722,8 +544,9 @@ class PersonalInfo extends Component {
             id="etc"
             name="etc"
             floatingLabelText="โปรดระบุเหตุผลอื่นๆ"
-            value={this.state.etc}
+            value={etc}
             onChange={e => this.handleChange(e, true)}
+            errorText={etcmsg}
             maxLength="100"
             fullWidth
           />
@@ -736,9 +559,10 @@ class PersonalInfo extends Component {
             id="rentalFee"
             name="rentalFee"
             floatingLabelText="ผ่อนชำระ/ค่าเช่าต่อเดือน"
-            value={this.state.rentalFee}
+            value={rentalFee}
             onChange={e => this.handleMoneyChange(e, true)}
-            maxLength="100"
+            errorText={rentalFeemsg}
+            maxLength="10"
             fullWidth
           />
         </div>
@@ -746,6 +570,7 @@ class PersonalInfo extends Component {
     }
     return '';
   }
+
   render() {
     const {
       dateReq,

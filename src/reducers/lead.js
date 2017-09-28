@@ -591,9 +591,15 @@ export function getDraft(callback) {
       .then(response => {
         const { data: { data } } = response;
         const draft = data ? JSON.parse(data) : {};
-        const { personalInfo, loanInfo, additionalInfo } = split(draft);
 
-        dispatch(editSuccess('', personalInfo, loanInfo, additionalInfo));
+        console.log('draft: ', draft);
+        // const { personalInfo, loanInfo, additionalInfo } = split(draft);
+
+        const _personalInfo = personalInfo.data(draft);
+        const _loanInfo = loanInfo.data(draft);
+        const _additionalInfo = additionalInfo.data(draft);
+
+        dispatch(editSuccess('', _personalInfo, _loanInfo, _additionalInfo));
 
         if (callback) {
           callback();

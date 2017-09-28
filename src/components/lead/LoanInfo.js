@@ -29,97 +29,29 @@ const styles = {
 
 const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
 
+const keys = [
+  'loanAmount',
+  'installmentNumber',
+  // 'bankAccountNo',
+  // 'bankAccountName',
+  // 'bankBranchName',
+];
+
 class LoanInfo extends Component {
 
   componentWillMount() {
     const { data } = this.props;
     window.scrollTo(0, 0);
 
-    if (data) {
-      this.setState(data,
-        () => {
-          this.initialRequireMessage();
-          const valid = this.validate();
-          this.setState({ valid });
-        });
-    } else {
-      this.initialState();
-      this.initialRequireMessage();
-      const valid = this.validate();
-      this.setState({ valid });
-    }
+    this.setState(data,
+      () => {
+        this.initialMessage();
+        const valid = this.validate();
+        this.setState({ valid });
+      });
   }
 
-  initialState = () => {
-    const env = process.env.NODE_ENV;
-
-    switch (env) {
-      case 'test':
-        this.state = {
-          loanAmount: 100000,
-          loanAmountMsg: '',
-          installmentNumber: '12',
-          installmentNumberMsg: '',
-          beneficiary: 'others',
-          loanBeneficiaryName: 'Panit',
-          loanBeneficiaryNameMsg: '',
-          accumulateDebt: 10000,
-          accumulateDebtMsg: '',
-          creditCardTotal: 10000,
-          creditCardTotalMsg: '',
-          paymentHistoryExists: '1',
-          pLoanApplicationHositoryExists: '0',
-          overdueDebtExists: '1',
-          bankAccountNo: '',
-          bankAccountNoMsg: '',
-          bankAccountName: '',
-          bankAccountNameMsg: '',
-          bankCode: '',
-          bankCodeMsg: '',
-          bankName: '',
-          bankBranchName: '',
-          valid: false,
-        };
-        break;
-
-      default:
-        this.state = {
-          loanAmount: 0,
-          loanAmountMsg: '',
-          installmentNumber: 0,
-          installmentNumberMsg: '',
-          beneficiary: 'myself',
-          loanBeneficiaryName: '',
-          loanBeneficiaryNameMsg: '',
-          accumulateDebt: 0,
-          accumulateDebtMsg: '',
-          creditCardTotal: 0,
-          creditCardTotalMsg: '',
-          paymentHistoryExists: '0',
-          pLoanApplicationHositoryExists: '0',
-          overdueDebtExists: '0',
-          bankAccountNo: '',
-          bankAccountNoMsg: '',
-          bankAccountName: '',
-          bankAccountNameMsg: '',
-          bankCode: '',
-          bankCodeMsg: '',
-          bankName: '',
-          bankBranchName: '',
-          valid: false,
-        };
-        break;
-    }
-  };
-
   validate = () => {
-    const keys = [
-      'loanAmount',
-      'installmentNumber',
-      // 'bankAccountNo',
-      // 'bankAccountName',
-      // 'bankBranchName',
-    ];
     const invalid = keys
       .map(key => ({
         key,
@@ -133,14 +65,7 @@ class LoanInfo extends Component {
     return !invalid && _valid;
   }
 
-  initialRequireMessage = () => {
-    const keys = [
-      'loanAmount',
-      'installmentNumber',
-      // 'bankAccountNo',
-      // 'bankAccountName',
-      // 'bankBranchName',
-    ];
+  initialMessage = () => {
     keys
       .map(key => ({
         key,
@@ -523,7 +448,7 @@ class LoanInfo extends Component {
                     floatingLabelText="เลขที่บัญชี"
                     onChange={e => this.handleBankAccountNoChange(e)}
                     errorText={bankAccountNoMsg}
-                    maxLength="10"
+                    maxLength="50"
                     fullWidth
                   />
                 </div>

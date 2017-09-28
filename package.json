@@ -4,7 +4,7 @@
   "description": "MoneyTable Admin Application",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=local && webpack-dev-server --open --config webpack/webpack.config.dev.js",
+    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
     "build": "NODE_ENV=${NODE_ENV:=dev} && echo ${NODE_ENV} && rm -rf dist && ./node_modules/.bin/webpack --config webpack/webpack.config.${NODE_ENV}.js  && cp -a assets/ dist/",
     "prod": "serve ./dist -s",
     "lint": "eslint src",
