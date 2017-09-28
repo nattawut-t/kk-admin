@@ -8,6 +8,7 @@ import {
   loginOtpSuccess,
   loginSuccess,
 } from '../actions/authen';
+import { getDraft } from '../reducers/lead';
 import { portalUrl, getJson, postJson } from '../libs/request';
 import { loadingTime } from '../libs/config';
 
@@ -73,6 +74,8 @@ export function loginOtp(mobile, otp, callback) {
         localStorage.setItem('username', mobile);
 
         dispatch(notify('เข้าสู่ระบบเสร็จสมบูรณ์'));
+        dispatch(getDraft());
+
         setTimeout(() => {
           dispatch(notify(''));
           dispatch(loginOtpSuccess(mobile));

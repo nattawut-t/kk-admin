@@ -146,7 +146,7 @@ class Viewer extends Component {
   handleRejectClick = id => {
     const { reject } = this.props;
     const { remark } = this.state;
-    console.log('>>> ', reject, remark);
+
     if (reject) {
       reject(id, remark, () => {
         this.setState({ reject: false });

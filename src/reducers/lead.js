@@ -50,136 +50,321 @@ import {
 } from '../libs/config';
 import { parseLeadIn as parseIn, split } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
+import personalInfo from '../libs/personalInfo';
+import loanInfo from '../libs/loanInfo';
+import additionalInfo from '../libs/additionalInfo';
 
-const { NODE_ENV } = process.env;
-let personalInfo = null;
+// const { NODE_ENV } = process.env;
+// let personalInfo;
+// let loanInfo;
+// let additionalInfo;
 
-if (NODE_ENV === 'test') {
-  personalInfo = {
-    dateReq: new Date(),
-    prefixTH: 'นางสาว',
-    firstNameTH: 'ณัฐ',
-    firstNameTHmsg: '',
-    lastNameTH: 'ธรรม',
-    lastNameTHmsg: '',
-    prefixEN: 'Mr.',
-    firstNameEN: 'Natt',
-    firstNameENmsg: '',
-    lastNameEN: 'Tamm',
-    lastNameENmsg: '',
-    idCard: '1720900004217',
-    idCardmsg: '',
-    idCardValid: true,
-    dateExp: new Date(2010, 1, 1),
-    dateExpmsg: '',
-    status: 'โสด',
-    department: 'IT',
-    departmentmsg: '',
-    position: 'SE',
-    positionmsg: '',
-    workTel2: '0627609997',
-    workTel2Valid: false,
-    workTel2msg: '',
-    homeTel2: '0350001111',
-    homeTel2msg: '',
-    homeTel2Valid: false,
-    detailRent: 'ของตนเอง',
-    workTel: '020001111',
-    workTelmsg: '',
-    workTelValid: false,
-    telExtension: '02',
-    number: '88/46',
-    moo: '5',
-    village: 'Apple Condo',
-    soi: 'Bearing 34/2',
-    road: 'Sukhumvit 107',
-    province: '00001',
-    amphurCode: '00036',
-    tambolCode: '',
-    provinceName: '',
-    amphurCodeName: '',
-    tambolCodeName: '',
-    zipCode: '10270',
-    number2: '',
-    moo2: '',
-    village2: '',
-    soi2: '',
-    road2: '',
-    province2: '',
-    amphurCode2: '',
-    tambolCode2: '',
-    province2Name: '',
-    amphurCode2Name: '',
-    tambolCode2Name: '',
-    zipCode2: '',
-    isSameAddress: false,
-    jobCompanyName: 'Paysbuy',
-    jobCompanyNamemsg: '',
-    valid: false,
-    rentalFee: '',
-    etc: '',
-    birthDate: new Date(1984, 5, 9),
-    birthDatemsg: '',
-    email: 'x@y.com',
-    emailmsg: '',
-    employmentDate: new Date(2017, 1, 1),
-    employmentDatemsg: '',
-    jobSalary: 100000,
-    jobSalarymsg: '',
-    //
-    officeNumber: '1203',
-    officeMoo: '5',
-    officeVillage: 'กัญญาเฮาส์',
-    officeSoi: '4',
-    officeRoad: 'รัชดาภิเษก',
-    officeProvince: '',
-    officeAmphurCode: '',
-    officeTambolCode: '',
-    officeProvinceName: '',
-    officeAmphurCodeName: '',
-    officeTambolCodeName: '',
-    officeZipCode: '72170',
-    //
-  };
+// if (NODE_ENV === 'test') {
+//   personalInfo = {
+//     dateReq: new Date(),
+//     prefixTH: 'นางสาว',
+//     firstNameTH: 'ณัฐ',
+//     firstNameTHmsg: '',
+//     lastNameTH: 'ธรรม',
+//     lastNameTHmsg: '',
+//     prefixEN: 'Mr.',
+//     firstNameEN: 'Natt',
+//     firstNameENmsg: '',
+//     lastNameEN: 'Tamm',
+//     lastNameENmsg: '',
+//     idCard: '1720900004217',
+//     idCardmsg: '',
+//     idCardValid: true,
+//     dateExp: new Date(2010, 1, 1),
+//     dateExpmsg: '',
+//     status: 'โสด',
+//     department: 'IT',
+//     departmentmsg: '',
+//     position: 'SE',
+//     positionmsg: '',
+//     workTel2: '0627609997',
+//     workTel2Valid: false,
+//     workTel2msg: '',
+//     homeTel2: '0350001111',
+//     homeTel2msg: '',
+//     homeTel2Valid: false,
+//     detailRent: 'ของตนเอง',
+//     workTel: '020001111',
+//     workTelmsg: '',
+//     workTelValid: false,
+//     telExtension: '02',
+//     number: '88/46',
+//     moo: '5',
+//     village: 'Apple Condo',
+//     soi: 'Bearing 34/2',
+//     road: 'Sukhumvit 107',
+//     province: '00001',
+//     amphurCode: '00036',
+//     tambolCode: '',
+//     provinceName: '',
+//     amphurCodeName: '',
+//     tambolCodeName: '',
+//     zipCode: '10270',
+//     number2: '',
+//     moo2: '',
+//     village2: '',
+//     soi2: '',
+//     road2: '',
+//     province2: '',
+//     amphurCode2: '',
+//     tambolCode2: '',
+//     province2Name: '',
+//     amphurCode2Name: '',
+//     tambolCode2Name: '',
+//     zipCode2: '',
+//     isSameAddress: false,
+//     jobCompanyName: 'Paysbuy',
+//     jobCompanyNamemsg: '',
+//     valid: false,
+//     rentalFee: '',
+//     etc: '',
+//     birthDate: new Date(1984, 5, 9),
+//     birthDatemsg: '',
+//     email: 'x@y.com',
+//     emailmsg: '',
+//     employmentDate: new Date(2017, 1, 1),
+//     employmentDatemsg: '',
+//     jobSalary: 100000,
+//     jobSalarymsg: '',
+//     //
+//     officeNumber: '1203',
+//     officeMoo: '5',
+//     officeVillage: 'กัญญาเฮาส์',
+//     officeSoi: '4',
+//     officeRoad: 'รัชดาภิเษก',
+//     officeProvince: '',
+//     officeAmphurCode: '',
+//     officeTambolCode: '',
+//     officeProvinceName: '',
+//     officeAmphurCodeName: '',
+//     officeTambolCodeName: '',
+//     officeZipCode: '72170',
+//     //
+//   };
 
-  // loanInfo = {
-  //   loanAmount: 100000,
-  //   loanAmountMsg: '',
-  //   installmentNumber: '12',
-  //   installmentNumberMsg: '',
-  //   beneficiary: 'others',
-  //   loanBeneficiaryName: 'Panit',
-  //   loanBeneficiaryNameMsg: '',
-  //   accumulateDebt: 10000,
-  //   accumulateDebtMsg: '',
-  //   creditCardTotal: 10000,
-  //   creditCardTotalMsg: '',
-  //   paymentHistoryExists: '1',
-  //   pLoanApplicationHositoryExists: '0',
-  //   overdueDebtExists: '1',
-  //   bankAccountNo: '',
-  //   bankAccountNoMsg: '',
-  //   bankAccountName: '',
-  //   bankAccountNameMsg: '',
-  //   bankCode: '',
-  //   bankCodeMsg: '',
-  //   bankName: '',
-  //   bankBranchName: '',
-  //   valid: false,
-  // };
-} else {
-  personalInfo = {
-    dateReq: new Date(),
-  };
-}
+//   loanInfo = {
+//     loanAmount: 100000,
+//     loanAmountMsg: '',
+//     installmentNumber: '12',
+//     installmentNumberMsg: '',
+//     beneficiary: 'others',
+//     loanBeneficiaryName: 'Panit',
+//     loanBeneficiaryNameMsg: '',
+//     accumulateDebt: 10000,
+//     accumulateDebtMsg: '',
+//     creditCardTotal: 10000,
+//     creditCardTotalMsg: '',
+//     paymentHistoryExists: '1',
+//     pLoanApplicationHositoryExists: '0',
+//     overdueDebtExists: '1',
+//     bankAccountNo: '',
+//     bankAccountNoMsg: '',
+//     bankAccountName: '',
+//     bankAccountNameMsg: '',
+//     bankCode: '',
+//     bankCodeMsg: '',
+//     bankName: '',
+//     bankBranchName: '',
+//     valid: false,
+//   };
+
+//   additionalInfo = {
+//     ref1Prefix: 'MR',
+//     ref1PrefixMsg: '',
+//     ref1Firstname: 'Panit',
+//     ref1FirstnameMsg: '',
+//     ref1Lastname: 'Tamm',
+//     ref1LastnameMsg: '',
+//     ref1Relationship: 'คู่สมรส',
+//     ref1Mobile: '0627609997',
+//     ref1MobileMsg: '',
+//     ref1WorkTelephone: '021112222',
+//     ref1WorkTelephoneMsg: '',
+//     ref1HomeTelephone: '020001111',
+//     ref1HomeTelephoneMsg: '',
+//     ref2Prefix: 'MRS',
+//     ref2PrefixMsg: '',
+//     ref2Firstname: 'Jira',
+//     ref2FirstnameMsg: '',
+//     ref2Lastname: 'Tamm',
+//     ref2LastnameMsg: '',
+//     ref2Relationship: 'พี่น้อง',
+//     ref2Mobile: '0840001111',
+//     ref2MobileMsg: '',
+//     ref2WorkTelephone: '021112222',
+//     ref2WorkTelephoneMsg: '',
+//     ref2HomeTelephone: '022223333',
+//     ref2HomeTelephoneMsg: '',
+//     conjugalPrefix: '',
+//     conjugalPrefixMsg: '',
+//     conjugalFirstname: '',
+//     conjugalFirstnameMsg: '',
+//     conjugalLastname: '',
+//     conjugalLastnameMsg: '',
+//     conjugalOccupation: '',
+//     conjugalOccupationMsg: '',
+//     conjugalIncome: '',
+//     conjugalIncomeMsg: '',
+//     children: '',
+//     childrenMsg: '',
+//     isConsent2: false,
+//     shippingHouseNo: '',
+//     shippingMoo: '',
+//     shippingVillage: '',
+//     shippingFloor: '',
+//     shippingSoi: '',
+//     shippingRoad: '',
+//     shippingPostalCode: '',
+//     shippingProvinceCode: '',
+//     shippingAmphurCode: '',
+//     shippingTambolCode: '',
+//     shippingProvinceCodeName: '',
+//     shippingAmphurCodeName: '',
+//     shippingTambolCodeName: '',
+//     //
+//     files: [],
+//     // not to send
+//     fileName0: '',
+//     fileName1: '',
+//     filename2: '',
+//     fileName3: '',
+//     fileName4: '',
+//     filename5: '',
+//     fileName6: '',
+//     //
+//     identity: null,
+//     account: null,
+//     household_registration: null,
+//     payslip: null,
+//     statement_1: null,
+//     statement_2: null,
+//     statement_3: null,
+//     //
+//     shippingAddress: 'current',
+//     valid: false,
+//     // not to send
+//   };
+// } else {
+//   personalInfo = {
+//     dateReq: new Date(),
+//   };
+
+//   loanInfo = {
+//     loanAmount: 0,
+//     loanAmountMsg: '',
+//     installmentNumber: 0,
+//     installmentNumberMsg: '',
+//     beneficiary: 'myself',
+//     loanBeneficiaryName: '',
+//     loanBeneficiaryNameMsg: '',
+//     accumulateDebt: 0,
+//     accumulateDebtMsg: '',
+//     creditCardTotal: 0,
+//     creditCardTotalMsg: '',
+//     paymentHistoryExists: '0',
+//     pLoanApplicationHositoryExists: '0',
+//     overdueDebtExists: '0',
+//     bankAccountNo: '',
+//     bankAccountNoMsg: '',
+//     bankAccountName: '',
+//     bankAccountNameMsg: '',
+//     bankCode: '',
+//     bankCodeMsg: '',
+//     bankName: '',
+//     bankBranchName: '',
+//     valid: false,
+//   };
+
+//   additionalInfo = {
+//     ref1Prefix: '',
+//     ref1PrefixMsg: '',
+//     ref1Firstname: '',
+//     ref1FirstnameMsg: '',
+//     ref1Lastname: '',
+//     ref1LastnameMsg: '',
+//     ref1Relationship: '',
+//     ref1Mobile: '',
+//     ref1MobileMsg: '',
+//     ref1WorkTelephone: '',
+//     ref1WorkTelephoneMsg: '',
+//     ref1HomeTelephone: '',
+//     ref1HomeTelephoneMsg: '',
+//     ref2Prefix: '',
+//     ref2PrefixMsg: '',
+//     ref2Firstname: '',
+//     ref2FirstnameMsg: '',
+//     ref2Lastname: '',
+//     ref2LastnameMsg: '',
+//     ref2Relationship: '',
+//     ref2Mobile: '',
+//     ref2MobileMsg: '',
+//     ref2WorkTelephone: '',
+//     ref2WorkTelephoneMsg: '',
+//     ref2HomeTelephone: '',
+//     ref2HomeTelephoneMsg: '',
+//     conjugalPrefix: '',
+//     conjugalPrefixMsg: '',
+//     conjugalFirstname: '',
+//     conjugalFirstnameMsg: '',
+//     conjugalLastname: '',
+//     conjugalLastnameMsg: '',
+//     conjugalOccupation: '',
+//     conjugalOccupationMsg: '',
+//     conjugalIncome: '',
+//     conjugalIncomeMsg: '',
+//     children: '',
+//     childrenMsg: '',
+//     isConsent2: false,
+//     shippingHouseNo: '',
+//     shippingMoo: '',
+//     shippingVillage: '',
+//     shippingFloor: '',
+//     shippingSoi: '',
+//     shippingRoad: '',
+//     shippingPostalCode: '',
+//     shippingProvinceCode: '',
+//     shippingAmphurCode: '',
+//     shippingTambolCode: '',
+//     shippingProvinceCodeName: '',
+//     shippingAmphurCodeName: '',
+//     shippingTambolCodeName: '',
+//     //
+//     files: [],
+//     // not to send
+//     fileName0: '',
+//     fileName1: '',
+//     filename2: '',
+//     fileName3: '',
+//     fileName4: '',
+//     filename5: '',
+//     fileName6: '',
+//     //
+//     identity: null,
+//     account: null,
+//     household_registration: null,
+//     payslip: null,
+//     statement_1: null,
+//     statement_2: null,
+//     statement_3: null,
+//     //
+//     shippingAddress: 'current',
+//     valid: false,
+//     // not to send
+//   };
+// }
 
 const State = Record({
   id: 0,
   isConsent: false,
   //
-  personalInfo,
-  loanInfo: null,
-  additionalInfo: null,
+  personalInfo: personalInfo.data(),
+  loanInfo: loanInfo.data(),
+  additionalInfo: additionalInfo.data(),
   //
   lead: null,
   data: null,
@@ -348,6 +533,8 @@ export function save(callback) {
 
 export function saveDraft(callback) {
   return (dispatch, getState) => {
+    dispatch(setLoading(true));
+
     const _state = getState().lead;
 
     let personalInfo = _state.get('personalInfo') || {};
@@ -380,10 +567,43 @@ export function saveDraft(callback) {
           if (callback) {
             callback();
           }
+
+          dispatch(setLoading(false));
         }, loadingTime);
       })
       .catch(error => {
         console.log('>>> saveDraft.error: ', error);
+        setTimeout(() => {
+          dispatch(notify(''));
+          dispatch(setLoading(false));
+        }, loadingTime);
+      });
+  };
+}
+
+export function getDraft(callback) {
+  console.log('getDraft');
+
+  return dispatch => {
+    const url = saveUrl();
+
+    putJson(url, {})
+      .then(response => {
+        const { data: { data } } = response;
+        const draft = data ? JSON.parse(data) : {};
+        const { personalInfo, loanInfo, additionalInfo } = split(draft);
+
+        dispatch(editSuccess('', personalInfo, loanInfo, additionalInfo));
+
+        if (callback) {
+          callback();
+        }
+
+        dispatch(notify('โหลดข้อมูลแบบร่างแล้ว'));
+        setTimeout(() => dispatch(notify('')), loadingTime);
+      })
+      .catch(error => {
+        console.log('>>> getDraft.error: ', error);
         setTimeout(() => dispatch(notify('')), loadingTime);
       });
   };
@@ -488,7 +708,7 @@ export function edit(id, callback) {
           callback();
         }
 
-        return dispatch(setLoading(false));
+        dispatch(setLoading(false));
       })
         .catch(error => {
           console.log('>>> edit.error: ', error);

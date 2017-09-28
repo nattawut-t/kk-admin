@@ -608,6 +608,7 @@ class PersonalInfo extends Component {
       officeTambolCodeName,
       officeZipCode,
       //
+      rentalFee,
     } = this.state;
 
     let {
@@ -689,6 +690,7 @@ class PersonalInfo extends Component {
       officeTambolCodeName,
       officeZipCode,
       //
+      rentalFee,
     };
 
     console.log('pi.next: ', data);
@@ -735,7 +737,7 @@ class PersonalInfo extends Component {
             name="rentalFee"
             floatingLabelText="ผ่อนชำระ/ค่าเช่าต่อเดือน"
             value={this.state.rentalFee}
-            onChange={e => this.handleChange(e, true)}
+            onChange={e => this.handleMoneyChange(e, true)}
             maxLength="100"
             fullWidth
           />
@@ -1497,14 +1499,13 @@ class PersonalInfo extends Component {
 PersonalInfo.propTypes = {
   message: PropTypes.string,
   history: PropTypes.object.isRequired,
-  data: PropTypes.object,
+  data: PropTypes.object.isRequired,
   completePersonalInfo: PropTypes.func.isRequired,
-  // saveDraft: PropTypes.func.isRequired,
 };
 
 PersonalInfo.defaultProps = {
   message: '',
-  data: null,
+  // data: null,
 };
 
 export default withRouter(PersonalInfo);

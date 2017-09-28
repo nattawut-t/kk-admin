@@ -672,13 +672,13 @@ class LoanInfo extends Component {
 LoanInfo.propTypes = {
   message: PropTypes.string,
   history: PropTypes.object.isRequired,
-  data: PropTypes.object,
+  data: PropTypes.object.isRequired,
   completeLoanInfo: PropTypes.func.isRequired,
 };
 
 LoanInfo.defaultProps = {
   message: '',
-  data: null,
+  // data: null,
 };
 
 export default withRouter(LoanInfo);
