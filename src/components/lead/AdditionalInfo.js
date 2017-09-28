@@ -453,14 +453,7 @@ class AdditionalInfo extends Component {
     });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-    history.push('/loan-info');
-  };
-
-  handleNext = e => {
-    e.preventDefault();
-
+  save = path => {
     const {
       ref1Prefix,
       ref1PrefixMsg,
@@ -622,7 +615,17 @@ class AdditionalInfo extends Component {
     console.log('ai.data: ', data);
 
     const { completeAdditionalInfo, history } = this.props;
-    completeAdditionalInfo(data, () => history.push('/summary'));
+    completeAdditionalInfo(data, () => history.push(path));
+  }
+
+  handleBackClick = e => {
+    e.preventDefault();
+    this.save('/loan-info');
+  };
+
+  handleNextClick = e => {
+    e.preventDefault();
+    this.save('/summary');
   };
 
   handleFileNameChange = () => { };
@@ -1494,7 +1497,7 @@ class AdditionalInfo extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                onClick={this.handleBack}
+                onClick={this.handleBackClick}
               />
               <RaisedButton
                 type="submit"
@@ -1504,7 +1507,7 @@ class AdditionalInfo extends Component {
                 style={styles.button}
                 disabled={!valid}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
-                onClick={this.handleNext}
+                onClick={this.handleNextClick}
               />
             </div>
           </div>

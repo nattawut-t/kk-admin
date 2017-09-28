@@ -540,18 +540,8 @@ class PersonalInfo extends Component {
       });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-    history.push('/borrow-request');
-  };
-
-  handleNext = e => {
-    e.preventDefault();
-
+  save = path => {
     const {
-      // dateReq,
-      // dateExp,
-      // birthDate,
       prefixTH,
       firstNameTH,
       lastNameTH,
@@ -560,14 +550,16 @@ class PersonalInfo extends Component {
       lastNameEN,
       idCard,
       status,
+      //
       department,
       position,
       workTel2,
       homeTel2,
       detailRent,
       workTel,
-      workTelValid,
+      // workTelValid,
       telExtension,
+      //
       number,
       moo,
       village,
@@ -580,12 +572,20 @@ class PersonalInfo extends Component {
       amphurCodeName,
       tambolCodeName,
       zipCode,
+      //
       number2,
       moo2,
       village2,
       soi2,
       road2,
       zipCode2,
+      province2,
+      amphurCode2,
+      tambolCode2,
+      province2Name,
+      amphurCode2Name,
+      tambolCode2Name,
+      //
       isSameAddress,
       jobCompanyName,
       email,
@@ -629,14 +629,16 @@ class PersonalInfo extends Component {
       idCard,
       dateExp,
       status,
+      //
       department,
       position,
       workTel2,
       homeTel2,
       detailRent,
       workTel,
-      workTelValid,
+      // workTelValid,
       telExtension,
+      //
       number,
       moo,
       village,
@@ -649,12 +651,20 @@ class PersonalInfo extends Component {
       amphurCodeName,
       tambolCodeName,
       zipCode,
+      //
       number2,
       moo2,
       village2,
       soi2,
       road2,
       zipCode2,
+      province2,
+      amphurCode2,
+      tambolCode2,
+      province2Name,
+      amphurCode2Name,
+      tambolCode2Name,
+      //
       isSameAddress,
       jobCompanyName,
       birthDate,
@@ -684,7 +694,17 @@ class PersonalInfo extends Component {
       history,
     } = this.props;
 
-    completePersonalInfo(data, () => history.push('/loan-info'));
+    completePersonalInfo(data, () => history.push(path));
+  };
+
+  handleBackClick = e => {
+    e.preventDefault();
+    this.save('/borrow-request');
+  };
+
+  handleNextClick = e => {
+    e.preventDefault();
+    this.save('/loan-info');
   };
 
   renderDetailRent() {
@@ -807,7 +827,7 @@ class PersonalInfo extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleNext}>
+        <form onSubmit={this.handleNextClick}>
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -1446,7 +1466,7 @@ class PersonalInfo extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                onClick={this.handleBack}
+                onClick={this.handleBackClick}
               />
               <RaisedButton
                 type="submit"
