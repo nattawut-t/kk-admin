@@ -314,7 +314,7 @@ class AdditionalInfo extends Component {
 
         const { personalInfo } = this.props;
 
-        if (value === 'current' && personalInfo) {
+        if (personalInfo) {
           const {
             number,
             moo,
@@ -328,22 +328,59 @@ class AdditionalInfo extends Component {
             amphurCodeName,
             tambolCodeName,
             zipCode,
+            //
+            officeNumber,
+            officeMoo,
+            officeVillage,
+            officeSoi,
+            officeRoad,
+            officeProvince,
+            officeAmphurCode,
+            officeTambolCode,
+            officeProvinceName,
+            officeAmphurCodeName,
+            officeTambolCodeName,
+            officeZipCode,
           } = personalInfo;
 
-          this.setState({
-            shippingHouseNo: number,
-            shippingMoo: moo,
-            shippingVillage: village,
-            shippingSoi: soi,
-            shippingRoad: road,
-            shippingPostalCode: zipCode,
-            shippingProvinceCode: province,
-            shippingAmphurCode: amphurCode,
-            shippingTambolCode: tambolCode,
-            shippingProvinceCodeName: provinceName,
-            shippingAmphurCodeName: amphurCodeName,
-            shippingTambolCodeName: tambolCodeName,
-          });
+          switch (value) {
+            case 'current':
+              this.setState({
+                shippingHouseNo: number,
+                shippingMoo: moo,
+                shippingVillage: village,
+                shippingSoi: soi,
+                shippingRoad: road,
+                shippingProvinceCode: province,
+                shippingAmphurCode: amphurCode,
+                shippingTambolCode: tambolCode,
+                shippingProvinceCodeName: provinceName,
+                shippingAmphurCodeName: amphurCodeName,
+                shippingTambolCodeName: tambolCodeName,
+                shippingPostalCode: zipCode,
+              });
+              break;
+
+            case 'office':
+              this.setState({
+                shippingHouseNo: officeNumber,
+                shippingMoo: officeMoo,
+                shippingVillage: officeVillage,
+                shippingSoi: officeSoi,
+                shippingRoad: officeRoad,
+                shippingProvinceCode: officeProvince,
+                shippingAmphurCode: officeAmphurCode,
+                shippingTambolCode: officeTambolCode,
+                shippingProvinceCodeName: officeProvinceName,
+                shippingAmphurCodeName: officeAmphurCodeName,
+                shippingTambolCodeName: officeTambolCodeName,
+                shippingPostalCode: officeZipCode,
+              });
+              break;
+
+            default:
+              break;
+          }
         }
       },
     );
@@ -608,6 +645,7 @@ class AdditionalInfo extends Component {
 
     switch (type) {
       case 'current':
+      case 'office':
         _render = <div className="col-12">
           <div className="row">
             <div className="col-4">
@@ -617,7 +655,7 @@ class AdditionalInfo extends Component {
                 floatingLabelText="บ้านเลขที่"
                 value={shippingHouseNo}
                 maxLength="10"
-                disabled
+                readOnly
                 fullWidth
               />
             </div>
@@ -628,7 +666,7 @@ class AdditionalInfo extends Component {
                 floatingLabelText="หมู่ที่"
                 value={shippingMoo}
                 maxLength="3"
-                disabled
+                readOnly
                 fullWidth
               />
             </div>
@@ -640,7 +678,7 @@ class AdditionalInfo extends Component {
                 value={shippingVillage}
                 maxLength="100"
                 fullWidth
-                disabled
+                readOnly
               />
             </div>
           </div>
@@ -652,7 +690,7 @@ class AdditionalInfo extends Component {
                 floatingLabelText="ซอย"
                 value={shippingSoi}
                 maxLength="100"
-                disabled
+                readOnly
                 fullWidth
               />
             </div>
@@ -663,7 +701,7 @@ class AdditionalInfo extends Component {
                 floatingLabelText="ถนน"
                 value={shippingRoad}
                 maxLength="100"
-                disabled
+                readOnly
                 fullWidth
               />
             </div>
@@ -676,7 +714,7 @@ class AdditionalInfo extends Component {
                 floatingLabelText="จังหวัด"
                 value={shippingProvinceCodeName}
                 maxLength="5"
-                disabled
+                readOnly
                 fullWidth
               />
             </div>
@@ -687,7 +725,7 @@ class AdditionalInfo extends Component {
                 floatingLabelText="อำเภอ / เขต"
                 value={shippingAmphurCodeName}
                 maxLength="5"
-                disabled
+                readOnly
                 fullWidth
               />
             </div>
@@ -698,7 +736,7 @@ class AdditionalInfo extends Component {
                 floatingLabelText="ตำบล / แขวง"
                 value={shippingTambolCodeName}
                 maxLength="5"
-                disabled
+                readOnly
                 fullWidth
               />
             </div>
@@ -711,7 +749,7 @@ class AdditionalInfo extends Component {
                 floatingLabelText="รหัสไปรษณีย์"
                 value={shippingPostalCode}
                 maxLength="5"
-                disabled
+                readOnly
                 fullWidth
               />
             </div>
