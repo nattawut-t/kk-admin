@@ -8,8 +8,24 @@ import Checkbox from 'material-ui/Checkbox';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Snackbar from 'material-ui/Snackbar';
+import DatePicker from 'material-ui/DatePicker';
+
+import areIntlLocalesSupported from 'intl-locales-supported';
+import IntlPolyfill from 'intl';
+import 'intl/locale-data/jsonp/th-TH';
 
 import { isAdmin } from '../../libs/config';
+
+let DateTimeFormat;
+
+/**
+ * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+ */
+if (areIntlLocalesSupported(['th', 'th-TH'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+}
 
 const styles = {
   button: {
@@ -57,7 +73,9 @@ class Summary extends Component {
       idCard,
       idCardValid,
       dateExp,
+      birthDate,
       status,
+      //
       department,
       position,
       workTel2,
@@ -65,6 +83,7 @@ class Summary extends Component {
       detailRent,
       workTel,
       telExtension,
+      //
       number,
       moo,
       village,
@@ -77,6 +96,7 @@ class Summary extends Component {
       amphurCodeName,
       tambolCodeName,
       zipCode,
+      //
       number2,
       moo2,
       village2,
@@ -150,7 +170,9 @@ class Summary extends Component {
       idCard,
       idCardValid,
       dateExp,
+      birthDate,
       status,
+      //
       department,
       position,
       workTel2,
@@ -158,6 +180,7 @@ class Summary extends Component {
       detailRent,
       workTel,
       telExtension,
+      //
       number,
       moo,
       village,
@@ -170,6 +193,7 @@ class Summary extends Component {
       amphurCodeName,
       tambolCodeName,
       zipCode,
+      //
       number2,
       moo2,
       village2,
@@ -269,8 +293,8 @@ class Summary extends Component {
       firstNameEN,
       lastNameEN,
       idCard,
-      // idCardValid,
       dateExp,
+      birthDate,
       status,
       department,
       position,
@@ -589,11 +613,12 @@ class Summary extends Component {
             <CardText>
               <div className="row">
                 <div className="col-12">
-                  <TextField
-                    value={dateReq}
+                  <DatePicker
                     floatingLabelText="วันที่คำขอ"
-                    fullWidth
-                    readOnly
+                    value={dateReq}
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
+                    disabled
                   />
                 </div>
               </div>
@@ -650,7 +675,7 @@ class Summary extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-4">
+                <div className="col-6">
                   <TextField
                     value={idCard}
                     floatingLabelText="เลขบัตรประชาชน"
@@ -658,15 +683,27 @@ class Summary extends Component {
                     readOnly
                   />
                 </div>
-                <div className="col-4">
-                  <TextField
+                <div className="col-6">
+                  <DatePicker
                     value={dateExp}
                     floatingLabelText="วันหมดอายุบัตรประชาชน"
-                    fullWidth
-                    readOnly
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
+                    disabled
                   />
                 </div>
-                <div className="col-4">
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <DatePicker
+                    value={birthDate}
+                    floatingLabelText="วันเกิด"
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
+                    disabled
+                  />
+                </div>
+                <div className="col-6">
                   <TextField
                     value={status}
                     floatingLabelText="สถานภาพสมรส"
