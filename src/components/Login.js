@@ -8,6 +8,8 @@ import { grey500, white } from 'material-ui/styles/colors';
 // import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 
+import Logo from '../../assets/asset-1-4-x@3x.png';
+
 const styles = {
   loginContainer: {
     minWidth: 320,
@@ -42,6 +44,15 @@ const styles = {
     borderRadius: 2,
     margin: 2,
     fontSize: 13,
+  },
+  Logo: {
+    marginBottom: '12px',
+    height: '80px',
+    width: '80px',
+    margin: '0 auto 12px',
+  },
+  LogoImg: {
+    width: '100%',
   },
 };
 
@@ -103,6 +114,9 @@ class Login extends Component {
       <div className="app-login">
         <div className="row" style={{ padding: '33px 0' }}>
           <div style={styles.loginContainer}>
+            <div className="loginLogo" style={styles.Logo}>
+              <img src={Logo} alt="Logo" style={styles.LogoImg} />
+            </div>
             <span className="section-header header">ยินดีต้อนรับสู่ มันนี่เทเบิล</span>
             <span className="section-header sub-header">เข้าสู่ระบบด้วยเบอร์โทรศัพท์ของคุณ</span>
             <Paper style={styles.paper} zDepth={2}>
