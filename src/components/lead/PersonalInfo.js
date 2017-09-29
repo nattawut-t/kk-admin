@@ -145,12 +145,6 @@ class PersonalInfo extends Component {
     const valid1 = (detailRent === 'อื่นๆ' && etc) ||
       ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
 
-    // if (detailRent === 'อื่นๆ') {
-
-    // } else if (detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') {
-
-    // }
-
     return !invalid && valid && valid1;
   }
 

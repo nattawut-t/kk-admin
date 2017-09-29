@@ -8,14 +8,10 @@ const merge = state => {
     if (!isAdmin()) {
       const { lead } = state;
       const mobile = localStorage.getItem('username') || '';
-      let data = lead.get('personalInfo') || {};
+      const data = lead.get('personalInfo').toJS();
+      const _data = Object.assign(data, { workTel2: mobile });
 
-      if (data && typeof data.toJS === 'function') {
-        data = data.toJS();
-      }
-
-      data = Object.assign(data, { workTel2: mobile });
-      return data;
+      return _data;
     }
 
     const data = state.lead.get('personalInfo') || {};

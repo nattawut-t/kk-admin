@@ -184,6 +184,13 @@ const data = (raw = {}) => {
     soi2: soi2 || '',
     road2: road2 || '',
     zipCode2: zipCode2 || '',
+    province2: province2 || '',
+    amphurCode2: amphurCode2 || '',
+    tambolCode2: tambolCode2 || '',
+    province2Name: province2Name || '',
+    amphurCode2Name: amphurCode2Name || '',
+    tambolCode2Name: tambolCode2Name || '',
+    //
     isSameAddress: isSameAddress || false,
     jobCompanyName: jobCompanyName || '',
     birthDate: birthDate ? moment(birthDate).toDate() : null,

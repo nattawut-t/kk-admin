@@ -267,8 +267,6 @@ export function saveDraft(callback) {
 }
 
 export function getDraft(callback) {
-  console.log('getDraft');
-
   return dispatch => {
     const url = saveUrl();
 
