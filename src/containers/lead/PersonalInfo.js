@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/PersonalInfo';
-import { completePersonalInfo } from '../../reducers/lead';
+import { savePersonalInfo } from '../../reducers/lead';
 import { isAdmin } from '../../libs/config';
 
 const merge = state => {
@@ -35,7 +35,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  completePersonalInfo: (data, callback) => dispatch(completePersonalInfo(data, callback)),
+  save: (data, callback) => dispatch(savePersonalInfo(data, callback)),
 });
 
 export default connect(

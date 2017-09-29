@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/LoanInfo';
-import { completeLoanInfo } from '../../reducers/lead';
+import { saveLoanInfo } from '../../reducers/lead';
 
 const getData = state => {
   if (state) {
@@ -20,7 +20,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  completeLoanInfo: (data, callback) => dispatch(completeLoanInfo(data, callback)),
+  save: (data, callback) => dispatch(saveLoanInfo(data, callback)),
 });
 
 export default connect(

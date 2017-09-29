@@ -60,6 +60,7 @@ class AdditionalInfo extends Component {
     window.scrollTo(0, 0);
 
     const { data } = this.props;
+    console.log('ai.data: ', data);
     this.setState(data,
       () => {
         this.initialMessage();
@@ -285,41 +286,26 @@ class AdditionalInfo extends Component {
   save = path => {
     const {
       ref1Prefix,
-      ref1PrefixMsg,
       ref1Firstname,
-      ref1FirstnameMsg,
       ref1Lastname,
-      ref1LastnameMsg,
       ref1Relationship,
       ref1Mobile,
-      ref1MobileMsg,
       ref1WorkTelephone,
-      ref1WorkTelephoneMsg,
       ref1HomeTelephone,
-      ref1HomeTelephoneMsg,
+      //
       ref2Prefix,
-      ref2PrefixMsg,
       ref2Firstname,
-      ref2FirstnameMsg,
       ref2Lastname,
-      ref2LastnameMsg,
       ref2Relationship,
       ref2Mobile,
-      ref2MobileMsg,
       ref2WorkTelephone,
-      ref2WorkTelephoneMsg,
       ref2HomeTelephone,
-      ref2HomeTelephoneMsg,
+      //
       conjugalPrefix,
-      conjugalPrefixMsg,
       conjugalFirstname,
-      conjugalFirstnameMsg,
       conjugalLastname,
-      conjugalLastnameMsg,
       conjugalOccupation,
-      conjugalOccupationMsg,
       conjugalIncome,
-      conjugalIncomeMsg,
       children,
       //
       shippingHouseNo,
@@ -369,41 +355,26 @@ class AdditionalInfo extends Component {
 
     const data = {
       ref1Prefix,
-      ref1PrefixMsg,
       ref1Firstname,
-      ref1FirstnameMsg,
       ref1Lastname,
-      ref1LastnameMsg,
       ref1Relationship,
       ref1Mobile,
-      ref1MobileMsg,
       ref1WorkTelephone,
-      ref1WorkTelephoneMsg,
       ref1HomeTelephone,
-      ref1HomeTelephoneMsg,
+      //
       ref2Prefix,
-      ref2PrefixMsg,
       ref2Firstname,
-      ref2FirstnameMsg,
       ref2Lastname,
-      ref2LastnameMsg,
       ref2Relationship,
       ref2Mobile,
-      ref2MobileMsg,
       ref2WorkTelephone,
-      ref2WorkTelephoneMsg,
       ref2HomeTelephone,
-      ref2HomeTelephoneMsg,
+      //
       conjugalPrefix,
-      conjugalPrefixMsg,
       conjugalFirstname,
-      conjugalFirstnameMsg,
       conjugalLastname,
-      conjugalLastnameMsg,
       conjugalOccupation,
-      conjugalOccupationMsg,
       conjugalIncome,
-      conjugalIncomeMsg,
       children,
       //
       shippingHouseNo,
@@ -441,10 +412,10 @@ class AdditionalInfo extends Component {
       fileName6,
     };
 
-    console.log('ai.data: ', data);
+    console.log('ai.handleNextClick.data: ', data);
 
-    const { completeAdditionalInfo, history } = this.props;
-    completeAdditionalInfo(data, () => history.push(path));
+    const { save, history } = this.props;
+    save(data, () => history.push(path));
   }
 
   handleBackClick = e => {
@@ -1356,7 +1327,7 @@ AdditionalInfo.propTypes = {
   data: PropTypes.object,
   personalInfo: PropTypes.object,
   uploadFile: PropTypes.func.isRequired,
-  completeAdditionalInfo: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
   message: PropTypes.string,
 };
 

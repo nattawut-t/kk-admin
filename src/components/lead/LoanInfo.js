@@ -227,8 +227,8 @@ class LoanInfo extends Component {
       bankBranchName,
     };
 
-    const { completeLoanInfo, history } = this.props;
-    completeLoanInfo(data, () => history.push(path));
+    const { save, history } = this.props;
+    save(data, () => history.push(path));
   };
 
   handleBackClick = e => {
@@ -598,7 +598,7 @@ LoanInfo.propTypes = {
   message: PropTypes.string,
   history: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  completeLoanInfo: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
 };
 
 LoanInfo.defaultProps = {

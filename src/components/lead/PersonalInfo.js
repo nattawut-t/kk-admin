@@ -510,12 +510,8 @@ class PersonalInfo extends Component {
       etc,
     };
 
-    const {
-      completePersonalInfo,
-      history,
-    } = this.props;
-
-    completePersonalInfo(data, () => history.push(path));
+    const { save, history } = this.props;
+    save(data, () => history.push(path));
   };
 
   handleBackClick = e => {
@@ -1353,7 +1349,7 @@ PersonalInfo.propTypes = {
   message: PropTypes.string,
   history: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  completePersonalInfo: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
 };
 
 PersonalInfo.defaultProps = {

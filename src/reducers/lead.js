@@ -541,6 +541,8 @@ export function saveDraft(callback) {
     let loanInfo = _state.get('loanInfo') || {};
     let additionalInfo = _state.get('additionalInfo') || {};
 
+    console.log('saveDraft.ai: ', additionalInfo);
+
     if (personalInfo && typeof personalInfo.toJS === 'function') {
       personalInfo = personalInfo.toJS();
     }
@@ -555,6 +557,8 @@ export function saveDraft(callback) {
 
     const data = Object.assign(personalInfo, loanInfo, additionalInfo);
     const url = saveUrl();
+
+    console.log('saveDraft.data: ', data);
 
     putJson(url, data)
       .then(response => {
@@ -592,12 +596,11 @@ export function getDraft(callback) {
         const { data: { data } } = response;
         const draft = data ? JSON.parse(data) : {};
 
-        console.log('draft: ', draft);
-        // const { personalInfo, loanInfo, additionalInfo } = split(draft);
-
         const _personalInfo = personalInfo.data(draft);
         const _loanInfo = loanInfo.data(draft);
         const _additionalInfo = additionalInfo.data(draft);
+
+        console.log('getDraft.data: ', _personalInfo, _loanInfo, _additionalInfo);
 
         dispatch(editSuccess('', _personalInfo, _loanInfo, _additionalInfo));
 
@@ -619,7 +622,7 @@ export function acceptAgreement(isConsent = false) {
   return dispatch => dispatch(acceptAgreementSuccess(isConsent));
 }
 
-export function completePersonalInfo(data, callback) {
+export function savePersonalInfo(data, callback) {
   return dispatch => {
     dispatch(completePersonalInfoSuccess(data));
 
@@ -631,7 +634,7 @@ export function completePersonalInfo(data, callback) {
   };
 }
 
-export function completeLoanInfo(data, callback) {
+export function saveLoanInfo(data, callback) {
   return dispatch => {
     dispatch(completeLoanInfoSuccess(data));
 
@@ -643,11 +646,14 @@ export function completeLoanInfo(data, callback) {
   };
 }
 
-export function completeAdditionalInfo(data, callback) {
+export function saveAdditionalInfo(data, callback) {
+  console.log('reducer.lead.completeAdditionalInfo');
   return dispatch => {
     dispatch(completeAdditionalInfoSuccess(data));
 
-    if (!isAdmin) {
+    console.log(1);
+    if (!isAdmin()) {
+      console.log(2);
       return dispatch(saveDraft(callback));
     }
 
@@ -1158,6 +1164,8 @@ const lead = (state = initialState, action) => {
       loanInfo = state.get('loanInfo').toJS();
       additionalInfo = action.data;
       data = Object.assign(personalInfo, loanInfo, additionalInfo);
+
+      console.log('COMPLETE_ADDITIONAL_INFO_SUCCESS: ', action.data);
 
       _state = Immutable.fromJS({
         additionalInfo,
