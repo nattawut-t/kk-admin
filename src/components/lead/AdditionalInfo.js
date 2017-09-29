@@ -12,7 +12,6 @@ import Snackbar from 'material-ui/Snackbar';
 import PrefixTh from '../shared/PrefixTh';
 import Relationship from '../shared/Relationship';
 import Location from '../shared/Location';
-import Mobile from '../shared/Mobile';
 import Tel from '../shared/Tel';
 
 const styles = {
@@ -895,13 +894,13 @@ class AdditionalInfo extends Component {
                   />
                 </div>
                 <div className="col-3">
-                  <Mobile
+                  <Tel
                     id="ref2Mobile"
                     name="ref2Mobile"
                     value={ref2Mobile}
                     label="เบอร์โทรศัพท์มือถือ"
+                    handleChange={this.handleNumberChange}
                     errorText={ref2MobileMsg}
-                    onChange={this.handleLookupChange}
                     fullWidth
                   />
                 </div>
@@ -912,7 +911,7 @@ class AdditionalInfo extends Component {
                     value={ref2WorkTelephone}
                     label="เบอร์โทรศัพท์ที่ทำงาน"
                     errorText={ref2WorkTelephoneMsg}
-                    handleChange={this.handleLookupChange}
+                    handleChange={this.handleNumberChange}
                     fullWidth
                   />
                 </div>
@@ -923,7 +922,7 @@ class AdditionalInfo extends Component {
                     value={ref2HomeTelephone}
                     label="เบอร์โทรศัพท์บ้าน"
                     errorText={ref2HomeTelephoneMsg}
-                    handleChange={this.handleLookupChange}
+                    handleChange={this.handleNumberChange}
                     fullWidth
                   />
                 </div>
