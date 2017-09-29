@@ -27,12 +27,14 @@ import {
   saveSuccess,
   loadDocumentsSuccess,
   selectDataSuccess,
+  getDraftSuccess,
   //
   EDIT_SUCCESS,
   SAVE_SUCCESS,
   LOAD_DOCUMENTS_SUCCESS,
   SELECT_DATA_SUCCESS,
   CANCEL_SELECTION,
+  GET_DRAFT_SUCCESS,
 } from '../actions/lead';
 import {
   portalUrl,
@@ -50,318 +52,17 @@ import {
 } from '../libs/config';
 import { parseLeadIn as parseIn, split } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
+
+import agreement from '../libs/agreement';
 import personalInfo from '../libs/personalInfo';
 import loanInfo from '../libs/loanInfo';
 import additionalInfo from '../libs/additionalInfo';
-
-// const { NODE_ENV } = process.env;
-// let personalInfo;
-// let loanInfo;
-// let additionalInfo;
-
-// if (NODE_ENV === 'test') {
-//   personalInfo = {
-//     dateReq: new Date(),
-//     prefixTH: 'นางสาว',
-//     firstNameTH: 'ณัฐ',
-//     firstNameTHmsg: '',
-//     lastNameTH: 'ธรรม',
-//     lastNameTHmsg: '',
-//     prefixEN: 'Mr.',
-//     firstNameEN: 'Natt',
-//     firstNameENmsg: '',
-//     lastNameEN: 'Tamm',
-//     lastNameENmsg: '',
-//     idCard: '1720900004217',
-//     idCardmsg: '',
-//     idCardValid: true,
-//     dateExp: new Date(2010, 1, 1),
-//     dateExpmsg: '',
-//     status: 'โสด',
-//     department: 'IT',
-//     departmentmsg: '',
-//     position: 'SE',
-//     positionmsg: '',
-//     workTel2: '0627609997',
-//     workTel2Valid: false,
-//     workTel2msg: '',
-//     homeTel2: '0350001111',
-//     homeTel2msg: '',
-//     homeTel2Valid: false,
-//     detailRent: 'ของตนเอง',
-//     workTel: '020001111',
-//     workTelmsg: '',
-//     workTelValid: false,
-//     telExtension: '02',
-//     number: '88/46',
-//     moo: '5',
-//     village: 'Apple Condo',
-//     soi: 'Bearing 34/2',
-//     road: 'Sukhumvit 107',
-//     province: '00001',
-//     amphurCode: '00036',
-//     tambolCode: '',
-//     provinceName: '',
-//     amphurCodeName: '',
-//     tambolCodeName: '',
-//     zipCode: '10270',
-//     number2: '',
-//     moo2: '',
-//     village2: '',
-//     soi2: '',
-//     road2: '',
-//     province2: '',
-//     amphurCode2: '',
-//     tambolCode2: '',
-//     province2Name: '',
-//     amphurCode2Name: '',
-//     tambolCode2Name: '',
-//     zipCode2: '',
-//     isSameAddress: false,
-//     jobCompanyName: 'Paysbuy',
-//     jobCompanyNamemsg: '',
-//     valid: false,
-//     rentalFee: '',
-//     etc: '',
-//     birthDate: new Date(1984, 5, 9),
-//     birthDatemsg: '',
-//     email: 'x@y.com',
-//     emailmsg: '',
-//     employmentDate: new Date(2017, 1, 1),
-//     employmentDatemsg: '',
-//     jobSalary: 100000,
-//     jobSalarymsg: '',
-//     //
-//     officeNumber: '1203',
-//     officeMoo: '5',
-//     officeVillage: 'กัญญาเฮาส์',
-//     officeSoi: '4',
-//     officeRoad: 'รัชดาภิเษก',
-//     officeProvince: '',
-//     officeAmphurCode: '',
-//     officeTambolCode: '',
-//     officeProvinceName: '',
-//     officeAmphurCodeName: '',
-//     officeTambolCodeName: '',
-//     officeZipCode: '72170',
-//     //
-//   };
-
-//   loanInfo = {
-//     loanAmount: 100000,
-//     loanAmountMsg: '',
-//     installmentNumber: '12',
-//     installmentNumberMsg: '',
-//     beneficiary: 'others',
-//     loanBeneficiaryName: 'Panit',
-//     loanBeneficiaryNameMsg: '',
-//     accumulateDebt: 10000,
-//     accumulateDebtMsg: '',
-//     creditCardTotal: 10000,
-//     creditCardTotalMsg: '',
-//     paymentHistoryExists: '1',
-//     pLoanApplicationHositoryExists: '0',
-//     overdueDebtExists: '1',
-//     bankAccountNo: '',
-//     bankAccountNoMsg: '',
-//     bankAccountName: '',
-//     bankAccountNameMsg: '',
-//     bankCode: '',
-//     bankCodeMsg: '',
-//     bankName: '',
-//     bankBranchName: '',
-//     valid: false,
-//   };
-
-//   additionalInfo = {
-//     ref1Prefix: 'MR',
-//     ref1PrefixMsg: '',
-//     ref1Firstname: 'Panit',
-//     ref1FirstnameMsg: '',
-//     ref1Lastname: 'Tamm',
-//     ref1LastnameMsg: '',
-//     ref1Relationship: 'คู่สมรส',
-//     ref1Mobile: '0627609997',
-//     ref1MobileMsg: '',
-//     ref1WorkTelephone: '021112222',
-//     ref1WorkTelephoneMsg: '',
-//     ref1HomeTelephone: '020001111',
-//     ref1HomeTelephoneMsg: '',
-//     ref2Prefix: 'MRS',
-//     ref2PrefixMsg: '',
-//     ref2Firstname: 'Jira',
-//     ref2FirstnameMsg: '',
-//     ref2Lastname: 'Tamm',
-//     ref2LastnameMsg: '',
-//     ref2Relationship: 'พี่น้อง',
-//     ref2Mobile: '0840001111',
-//     ref2MobileMsg: '',
-//     ref2WorkTelephone: '021112222',
-//     ref2WorkTelephoneMsg: '',
-//     ref2HomeTelephone: '022223333',
-//     ref2HomeTelephoneMsg: '',
-//     conjugalPrefix: '',
-//     conjugalPrefixMsg: '',
-//     conjugalFirstname: '',
-//     conjugalFirstnameMsg: '',
-//     conjugalLastname: '',
-//     conjugalLastnameMsg: '',
-//     conjugalOccupation: '',
-//     conjugalOccupationMsg: '',
-//     conjugalIncome: '',
-//     conjugalIncomeMsg: '',
-//     children: '',
-//     childrenMsg: '',
-//     isConsent2: false,
-//     shippingHouseNo: '',
-//     shippingMoo: '',
-//     shippingVillage: '',
-//     shippingFloor: '',
-//     shippingSoi: '',
-//     shippingRoad: '',
-//     shippingPostalCode: '',
-//     shippingProvinceCode: '',
-//     shippingAmphurCode: '',
-//     shippingTambolCode: '',
-//     shippingProvinceCodeName: '',
-//     shippingAmphurCodeName: '',
-//     shippingTambolCodeName: '',
-//     //
-//     files: [],
-//     // not to send
-//     fileName0: '',
-//     fileName1: '',
-//     filename2: '',
-//     fileName3: '',
-//     fileName4: '',
-//     filename5: '',
-//     fileName6: '',
-//     //
-//     identity: null,
-//     account: null,
-//     household_registration: null,
-//     payslip: null,
-//     statement_1: null,
-//     statement_2: null,
-//     statement_3: null,
-//     //
-//     shippingAddress: 'current',
-//     valid: false,
-//     // not to send
-//   };
-// } else {
-//   personalInfo = {
-//     dateReq: new Date(),
-//   };
-
-//   loanInfo = {
-//     loanAmount: 0,
-//     loanAmountMsg: '',
-//     installmentNumber: 0,
-//     installmentNumberMsg: '',
-//     beneficiary: 'myself',
-//     loanBeneficiaryName: '',
-//     loanBeneficiaryNameMsg: '',
-//     accumulateDebt: 0,
-//     accumulateDebtMsg: '',
-//     creditCardTotal: 0,
-//     creditCardTotalMsg: '',
-//     paymentHistoryExists: '0',
-//     pLoanApplicationHositoryExists: '0',
-//     overdueDebtExists: '0',
-//     bankAccountNo: '',
-//     bankAccountNoMsg: '',
-//     bankAccountName: '',
-//     bankAccountNameMsg: '',
-//     bankCode: '',
-//     bankCodeMsg: '',
-//     bankName: '',
-//     bankBranchName: '',
-//     valid: false,
-//   };
-
-//   additionalInfo = {
-//     ref1Prefix: '',
-//     ref1PrefixMsg: '',
-//     ref1Firstname: '',
-//     ref1FirstnameMsg: '',
-//     ref1Lastname: '',
-//     ref1LastnameMsg: '',
-//     ref1Relationship: '',
-//     ref1Mobile: '',
-//     ref1MobileMsg: '',
-//     ref1WorkTelephone: '',
-//     ref1WorkTelephoneMsg: '',
-//     ref1HomeTelephone: '',
-//     ref1HomeTelephoneMsg: '',
-//     ref2Prefix: '',
-//     ref2PrefixMsg: '',
-//     ref2Firstname: '',
-//     ref2FirstnameMsg: '',
-//     ref2Lastname: '',
-//     ref2LastnameMsg: '',
-//     ref2Relationship: '',
-//     ref2Mobile: '',
-//     ref2MobileMsg: '',
-//     ref2WorkTelephone: '',
-//     ref2WorkTelephoneMsg: '',
-//     ref2HomeTelephone: '',
-//     ref2HomeTelephoneMsg: '',
-//     conjugalPrefix: '',
-//     conjugalPrefixMsg: '',
-//     conjugalFirstname: '',
-//     conjugalFirstnameMsg: '',
-//     conjugalLastname: '',
-//     conjugalLastnameMsg: '',
-//     conjugalOccupation: '',
-//     conjugalOccupationMsg: '',
-//     conjugalIncome: '',
-//     conjugalIncomeMsg: '',
-//     children: '',
-//     childrenMsg: '',
-//     isConsent2: false,
-//     shippingHouseNo: '',
-//     shippingMoo: '',
-//     shippingVillage: '',
-//     shippingFloor: '',
-//     shippingSoi: '',
-//     shippingRoad: '',
-//     shippingPostalCode: '',
-//     shippingProvinceCode: '',
-//     shippingAmphurCode: '',
-//     shippingTambolCode: '',
-//     shippingProvinceCodeName: '',
-//     shippingAmphurCodeName: '',
-//     shippingTambolCodeName: '',
-//     //
-//     files: [],
-//     // not to send
-//     fileName0: '',
-//     fileName1: '',
-//     filename2: '',
-//     fileName3: '',
-//     fileName4: '',
-//     filename5: '',
-//     fileName6: '',
-//     //
-//     identity: null,
-//     account: null,
-//     household_registration: null,
-//     payslip: null,
-//     statement_1: null,
-//     statement_2: null,
-//     statement_3: null,
-//     //
-//     shippingAddress: 'current',
-//     valid: false,
-//     // not to send
-//   };
-// }
 
 const State = Record({
   id: 0,
   isConsent: false,
   //
+  agreement: agreement.data(),
   personalInfo: personalInfo.data(),
   loanInfo: loanInfo.data(),
   additionalInfo: additionalInfo.data(),
@@ -386,16 +87,14 @@ const State = Record({
   //
   editing: false,
 });
+
 const initialState = new State();
-// const endpoint = '/admin/leads';
 const searchUrl = (page = 1) => portalUrl(`/api/work/leads?page=${page}`);
 const uploadUrl = () => portalUrl('/api/work/leads/doc');
 const saveUrl = () => portalUrl('/api/work/leads');
 const saveAdminUrl = id => portalUrl(`/admin/leads/${id}`);
 
 function _loadNextPage(currentPage = 1, nextPage = 2) {
-  console.log('>>> _loadNextPage: ', nextPage);
-
   return (dispatch, getState) => {
     dispatch(setLoading(true));
     dispatch(cancelSelection());
@@ -486,11 +185,13 @@ export function save(callback) {
 
     const id = _state.get('id') || 0;
     const editing = _state.get('editing') || false;
-    const personalInfo = _state.get('personalInfo').toJS();
-    const loanInfo = _state.get('loanInfo').toJS();
-    const additionalInfo = _state.get('additionalInfo').toJS();
 
-    const data = Object.assign(personalInfo, loanInfo, additionalInfo);
+    const agreement = _state.get('agreement').toJS() || {};
+    const personalInfo = _state.get('personalInfo').toJS() || {};
+    const loanInfo = _state.get('loanInfo').toJS() || {};
+    const additionalInfo = _state.get('additionalInfo').toJS() || {};
+
+    const data = Object.assign(agreement, personalInfo, loanInfo, additionalInfo);
 
     const _dateReq = moment(data.dateReq, 'DD/MM/YYYY').toDate();
     data.dateReq = moment(_dateReq).format();
@@ -506,12 +207,8 @@ export function save(callback) {
       request = putJson;
     }
 
-    // console.log('data: ', url, request, data);
-
     request(url, data)
       .then(() => {
-        // const { data } = response;
-
         dispatch(notify('บันทึกข้อมูลเสร็จสมบูรณ์'));
         dispatch(saveSuccess());
 
@@ -537,28 +234,13 @@ export function saveDraft(callback) {
 
     const _state = getState().lead;
 
-    let personalInfo = _state.get('personalInfo') || {};
-    let loanInfo = _state.get('loanInfo') || {};
-    let additionalInfo = _state.get('additionalInfo') || {};
+    const agreement = _state.get('agreement').toJS() || {};
+    const personalInfo = _state.get('personalInfo').toJS() || {};
+    const loanInfo = _state.get('loanInfo').toJS() || {};
+    const additionalInfo = _state.get('additionalInfo').toJS() || {};
 
-    console.log('saveDraft.ai: ', additionalInfo);
-
-    if (personalInfo && typeof personalInfo.toJS === 'function') {
-      personalInfo = personalInfo.toJS();
-    }
-
-    if (loanInfo && typeof loanInfo.toJS === 'function') {
-      loanInfo = loanInfo.toJS();
-    }
-
-    if (additionalInfo && typeof additionalInfo.toJS === 'function') {
-      additionalInfo = additionalInfo.toJS();
-    }
-
-    const data = Object.assign(personalInfo, loanInfo, additionalInfo);
+    const data = Object.assign(agreement, personalInfo, loanInfo, additionalInfo);
     const url = saveUrl();
-
-    console.log('saveDraft.data: ', data);
 
     putJson(url, data)
       .then(response => {
@@ -596,13 +278,12 @@ export function getDraft(callback) {
         const { data: { data } } = response;
         const draft = data ? JSON.parse(data) : {};
 
+        const _agreement = agreement.data(draft);
         const _personalInfo = personalInfo.data(draft);
         const _loanInfo = loanInfo.data(draft);
         const _additionalInfo = additionalInfo.data(draft);
 
-        console.log('getDraft.data: ', _personalInfo, _loanInfo, _additionalInfo);
-
-        dispatch(editSuccess('', _personalInfo, _loanInfo, _additionalInfo));
+        dispatch(getDraftSuccess(_agreement, _personalInfo, _loanInfo, _additionalInfo));
 
         if (callback) {
           callback();
@@ -618,8 +299,16 @@ export function getDraft(callback) {
   };
 }
 
-export function acceptAgreement(isConsent = false) {
-  return dispatch => dispatch(acceptAgreementSuccess(isConsent));
+export function saveAgreement(data, callback) {
+  return dispatch => {
+    dispatch(acceptAgreementSuccess(data));
+
+    if (!isAdmin()) {
+      return dispatch(saveDraft(callback));
+    }
+
+    return callback();
+  };
 }
 
 export function savePersonalInfo(data, callback) {
@@ -1061,6 +750,16 @@ const lead = (state = initialState, action) => {
   // let lead;
 
   switch (action.type) {
+    case GET_DRAFT_SUCCESS:
+
+      _state = Immutable.fromJS({
+        agreement: action.agreement,
+        personalInfo: action.personalInfo,
+        loanInfo: action.loanInfo,
+        additionalInfo: action.additionalInfo,
+      });
+      return state.merge(_state);
+
     case CANCEL_SELECTION:
 
       _state = Immutable.fromJS({
@@ -1082,7 +781,6 @@ const lead = (state = initialState, action) => {
       _state = Immutable.fromJS({
         documents: action.documents,
       });
-      console.log('LOAD_DOCUMENTS_SUCCESS', action.documents);
       return state.merge(_state);
 
     case SAVE_SUCCESS:
@@ -1095,7 +793,6 @@ const lead = (state = initialState, action) => {
         loanInfo: null,
         additionalInfo: null,
       });
-      console.log('SAVE_SUCCESS', _state);
       return state.merge(_state);
 
     case EDIT_SUCCESS:
@@ -1108,7 +805,6 @@ const lead = (state = initialState, action) => {
         loanInfo: action.loanInfo,
         additionalInfo: action.additionalInfo,
       });
-      console.log('EDIT_SUCCESS', action.personalInfo, action.loanInfo, action.additionalInfo);
       return state.merge(_state);
 
     case SEARCH_SUCCESS:
@@ -1121,7 +817,6 @@ const lead = (state = initialState, action) => {
           ...action.dataList,
         ],
       });
-      console.log('SEARCH_SUCCESS: ', action);
       return state.merge(_state);
 
     case LOAD_NEXT_PAGE_SUCCESS:
@@ -1140,7 +835,7 @@ const lead = (state = initialState, action) => {
     case ACCEPT_AGREEMENT_SUCCESS:
 
       _state = Immutable.fromJS({
-        isConsent: action.isConsent,
+        agreement: action.data,
       });
       return state.merge(_state);
 
@@ -1164,8 +859,6 @@ const lead = (state = initialState, action) => {
       loanInfo = state.get('loanInfo').toJS();
       additionalInfo = action.data;
       data = Object.assign(personalInfo, loanInfo, additionalInfo);
-
-      console.log('COMPLETE_ADDITIONAL_INFO_SUCCESS: ', action.data);
 
       _state = Immutable.fromJS({
         additionalInfo,

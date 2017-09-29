@@ -264,22 +264,22 @@ class Summary extends Component {
     this.setState({ isConsent: !isConsent });
   };
 
-  handleBack = () => {
+  handleBackClick = () => {
     const { history } = this.props;
     history.push('/additional-info');
   };
 
-  handleNext = e => {
+  handleNextClick = e => {
     e.preventDefault();
 
     const { save } = this.props;
     save(() => {
       if (isAdmin()) {
-        history.push('/admin/leads');
-        // window.location.href = '/admin/leads';
+        // history.push('/admin/leads');
+        window.location.href = '/admin/leads';
       }
-      history.push('/product-info');
-      // window.location.href = '/leads';
+      // history.push('/leads');
+      window.location.href = '/leads';
     });
   };
 
@@ -1443,7 +1443,7 @@ class Summary extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                onClick={this.handleBack}
+                onClick={this.handleBackClick}
               />
               <RaisedButton
                 type="submit"
@@ -1453,7 +1453,7 @@ class Summary extends Component {
                 style={styles.button}
                 disabled={!isConsent}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
-                onClick={this.handleNext}
+                onClick={this.handleNextClick}
               />
             </div>
           </div>

@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/Agreement';
-import { acceptAgreement } from '../../reducers/lead';
+import { saveAgreement } from '../../reducers/lead';
 
 const mapStateToProps = ({ lead }) => ({
-  isConsent: lead.get('isConsent') || false,
+  data: lead.get('agreement').toJS() || {},
   loading: lead.get('loading') || false,
   editing: lead.get('editing') || false,
+  message: lead.get('message') || '',
 });
 
 const mapDispatchToProps = dispatch => ({
-  acceptAgreement: isConsent => dispatch(acceptAgreement(isConsent)),
+  save: (data, callback) => dispatch(saveAgreement(data, callback)),
 });
 
 export default connect(

@@ -5,6 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
+import Snackbar from 'material-ui/Snackbar';
+
 import CardFooter from '../shared/CardFooter';
 
 const styles = {
@@ -49,23 +51,24 @@ class Agreement extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0);
+    const { data } = this.props;
+    this.setState(data);
   }
 
   handleChange = () => {
-    const { isConsent, acceptAgreement } = this.props;
-    acceptAgreement(!isConsent);
+    const { isConsent } = this.state;
+    this.setState({ isConsent: !isConsent });
   };
 
-  handleNext = () => {
-    const { history } = this.props;
-    history.push('/personal-info');
+  handleNextClick = () => {
+    const { isConsent } = this.state;
+    const { save, history } = this.props;
+    save({ isConsent }, () => history.push('/personal-info'));
   };
 
   render() {
-    const {
-      isConsent,
-      editing,
-    } = this.props;
+    const { isConsent } = this.state;
+    const { editing, message } = this.props;
 
     return (
       <div>
@@ -119,12 +122,17 @@ class Agreement extends Component {
                 style={styles.raisedButton}
                 disabled={!isConsent}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
-                onClick={this.handleNext}
+                onClick={this.handleNextClick}
                 buttonStyle={styles.buttonStyle}
               />
             </div>
           </div>
         </CardFooter>
+        <Snackbar
+          open={message !== ''}
+          message={message}
+          autoHideDuration={4000}
+        />
       </div>
     );
   }
@@ -132,9 +140,14 @@ class Agreement extends Component {
 
 Agreement.propTypes = {
   history: PropTypes.object.isRequired,
-  isConsent: PropTypes.bool.isRequired,
+  data: PropTypes.object.isRequired,
   editing: PropTypes.bool.isRequired,
-  acceptAgreement: PropTypes.func.isRequired,
+  save: PropTypes.func.isRequired,
+  message: PropTypes.string,
+};
+
+Agreement.defaultProps = {
+  message: '',
 };
 
 export default withRouter(Agreement);

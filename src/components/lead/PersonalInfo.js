@@ -117,11 +117,9 @@ const messageKeys = [
 class PersonalInfo extends Component {
 
   componentWillMount() {
-    const { data } = this.props;
     window.scrollTo(0, 0);
 
-    console.log('pi.willmount: ', data);
-
+    const { data } = this.props;
     this.setState(data,
       () => {
         this.initialMessage();
@@ -1354,7 +1352,6 @@ PersonalInfo.propTypes = {
 
 PersonalInfo.defaultProps = {
   message: '',
-  // data: null,
 };
 
 export default withRouter(PersonalInfo);
