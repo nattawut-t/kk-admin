@@ -60,7 +60,6 @@ import additionalInfo from '../libs/additionalInfo';
 
 const State = Record({
   id: 0,
-  isConsent: false,
   //
   agreement: agreement.data(),
   personalInfo: personalInfo.data(),
@@ -786,21 +785,23 @@ const lead = (state = initialState, action) => {
     case SAVE_SUCCESS:
 
       _state = Immutable.fromJS({
-        editing: false,
-        isConsent: false,
         id: 0,
-        personalInfo: null,
-        loanInfo: null,
-        additionalInfo: null,
+        editing: false,
+        //
+        agreement: agreement.data(),
+        personalInfo: personalInfo.data(),
+        loanInfo: loanInfo.data(),
+        additionalInfo: additionalInfo.data(),
       });
       return state.merge(_state);
 
     case EDIT_SUCCESS:
 
       _state = Immutable.fromJS({
-        editing: true,
-        isConsent: true,
         id: action.id,
+        editing: true,
+        //
+        agreement: agreement.data({ isConsent: true }),
         personalInfo: action.personalInfo,
         loanInfo: action.loanInfo,
         additionalInfo: action.additionalInfo,
