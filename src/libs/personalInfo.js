@@ -146,7 +146,7 @@ const data = (raw = {}) => {
     };
   }
   return {
-    dateReq: dateReq ? moment(dateReq).toDate() : null,
+    dateReq: dateReq ? moment(dateReq).toDate() : new Date(),
     prefixTH: prefixTH || '',
     firstNameTH: firstNameTH || '',
     lastNameTH: lastNameTH || '',

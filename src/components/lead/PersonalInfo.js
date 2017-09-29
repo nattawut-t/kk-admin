@@ -142,8 +142,13 @@ class PersonalInfo extends Component {
     const valid = emailRegex.test(email) && salary > 0;
 
     const { detailRent, etc, rentalFee } = this.state;
-    const valid1 = (detailRent === 'อื่นๆ' && etc) ||
+    const valid1 = (detailRent === 'ของตนเอง') ||
+      (detailRent === 'ของบิดามารดา') ||
+      (detailRent === 'ของญาติ') ||
+      (detailRent === 'อื่นๆ' && etc) ||
       ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
+
+    // console.log('invalid: ', invalid, valid, valid1);
 
     return !invalid && valid && valid1;
   }
@@ -204,9 +209,6 @@ class PersonalInfo extends Component {
     const { name, value } = e.target;
     const msgKey = `${name}msg`;
     let msg = '';
-    // const valid = !value || !emailRegex.test(value);
-
-    // console.log(name, valid);
 
     if (required && !value.trim()) {
       msg = 'กรุณากรอกข้อมูล';
@@ -291,8 +293,49 @@ class PersonalInfo extends Component {
   };
 
   handleLookupChange = (value, name, id) => {
-    console.log(value, name, id);
     this.setState({ [id]: value }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
+  handleDetailRentChange = (value, name, key) => {
+    console.log(value, name, key);
+    const { rentalFee, etc } = this.state;
+    let messageKey = '';
+    let messageValue = '';
+
+    switch (value) {
+      case 'อื่นๆ':
+        messageKey = 'etcmsg';
+        messageValue = !etc ? 'กรุณากรอกข้อมูล' : '';
+        console.log(1);
+        break;
+
+      case 'เช่าอยู่':
+      case 'กำลังผ่อนชำระ':
+        messageKey = 'rentalFeemsg';
+        messageValue = !rentalFee ? 'กรุณากรอกข้อมูล' : '';
+        console.log(2);
+        break;
+
+      default:
+        console.log(3);
+        break;
+    }
+
+    if (messageValue) {
+      this.setState({ [messageKey]: messageValue });
+    }
+
+    console.log(messageKey, messageValue);
+
+    // const valid1 = (detailRent === 'ของตนเอง') ||
+    //   (detailRent === 'ของบิดามารดา') ||
+    //   (detailRent === 'ของญาติ') ||
+    //   (detailRent === 'อื่นๆ' && etc) ||
+    //   ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
+    this.setState({ [key]: value }, () => {
       const valid = this.validate();
       this.setState({ valid });
     });
@@ -470,13 +513,13 @@ class PersonalInfo extends Component {
       village2,
       soi2,
       road2,
-      zipCode2,
       province2,
       amphurCode2,
       tambolCode2,
       province2Name,
       amphurCode2Name,
       tambolCode2Name,
+      zipCode2,
       //
       isSameAddress,
       jobCompanyName,
@@ -516,6 +559,13 @@ class PersonalInfo extends Component {
     this.save('/loan-info');
   };
 
+  handleLookupChange = (value, name, id) => {
+    this.setState({ [id]: value }, () => {
+      const valid = this.validate();
+      this.setState({ valid });
+    });
+  };
+
   renderDetailRent() {
     const {
       detailRent,
@@ -546,7 +596,7 @@ class PersonalInfo extends Component {
           <TextField
             id="rentalFee"
             name="rentalFee"
-            floatingLabelText="ผ่อนชำระ/ค่าเช่าต่อเดือน"
+            floatingLabelText="ผ่อนชำระ / ค่าเช่าต่อเดือน"
             value={rentalFee}
             onChange={e => this.handleMoneyChange(e, true)}
             errorText={rentalFeemsg}
@@ -1299,7 +1349,7 @@ class PersonalInfo extends Component {
                     value={detailRent}
                     label="สถานภาพที่อยู่อาศัย"
                     required
-                    onSelectItem={this.handleLookupChange}
+                    onSelectItem={this.handleDetailRentChange}
                   />
                 </div>
                 {this.renderDetailRent()}
