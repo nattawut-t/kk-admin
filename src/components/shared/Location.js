@@ -6,34 +6,6 @@ import MenuItem from 'material-ui/MenuItem';
 import { adminUrl, getJson } from '../../libs/request';
 
 class Location extends Component {
-  static propTypes = {
-    // name: PropTypes.string.isRequired,
-    provinceValueField: PropTypes.string.isRequired,
-    provinceNameField: PropTypes.string.isRequired,
-    amphurValueField: PropTypes.string.isRequired,
-    amphurNameField: PropTypes.string.isRequired,
-    tambolValueField: PropTypes.string.isRequired,
-    tambolNameField: PropTypes.string.isRequired,
-    provinceLabel: PropTypes.string,
-    amphurLabel: PropTypes.string,
-    tambolLabel: PropTypes.string,
-    provinceValue: PropTypes.string,
-    amphurValue: PropTypes.string,
-    tambolValue: PropTypes.string,
-    handleChange: PropTypes.func,
-    disabled: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    provinceLabel: 'จังหวัด',
-    amphurLabel: 'อำเภอ / เขต',
-    tambolLabel: 'ตำบล / แขวง',
-    provinceValue: '',
-    amphurValue: '',
-    tambolValue: '',
-    handleChange: null,
-    disabled: false,
-  };
 
   constructor(props) {
     super(props);
@@ -197,9 +169,10 @@ class Location extends Component {
       amphurLabel,
       tambolLabel,
       disabled,
+      required,
     } = this.props;
-    const provinceErrorText = '';
-    const amphurErrorText = '';
+    const provinceErrorText = (required && !provinceValue) ? 'กรุณาเลือกจังหวัด' : '';
+    const amphurErrorText = (required && !amphurValue) ? 'กรุณาเลือกอำเภอ / เขต' : '';
     const tambolErrorText = '';
 
     return (
@@ -252,5 +225,35 @@ class Location extends Component {
     );
   }
 }
+
+Location.propTypes = {
+  provinceValueField: PropTypes.string.isRequired,
+  provinceNameField: PropTypes.string.isRequired,
+  amphurValueField: PropTypes.string.isRequired,
+  amphurNameField: PropTypes.string.isRequired,
+  tambolValueField: PropTypes.string.isRequired,
+  tambolNameField: PropTypes.string.isRequired,
+  provinceLabel: PropTypes.string,
+  amphurLabel: PropTypes.string,
+  tambolLabel: PropTypes.string,
+  provinceValue: PropTypes.string,
+  amphurValue: PropTypes.string,
+  tambolValue: PropTypes.string,
+  handleChange: PropTypes.func,
+  disabled: PropTypes.bool,
+  required: PropTypes.bool,
+};
+
+Location.defaultProps = {
+  provinceLabel: 'จังหวัด',
+  amphurLabel: 'อำเภอ / เขต',
+  tambolLabel: 'ตำบล / แขวง',
+  provinceValue: '',
+  amphurValue: '',
+  tambolValue: '',
+  handleChange: null,
+  disabled: false,
+  required: false,
+};
 
 export default Location;

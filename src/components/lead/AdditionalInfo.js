@@ -39,7 +39,6 @@ const validationKeys = [
   'ref1Relationship',
   'ref1Mobile',
   'ref1HomeTelephone',
-  // 'fileName0',
   'isConsent2',
 ];
 
@@ -50,7 +49,6 @@ const messageKeys = [
   'ref1Relationship',
   'ref1Mobile',
   'ref1HomeTelephone',
-  // 'isConsent2',
 ];
 
 class AdditionalInfo extends Component {
@@ -83,7 +81,34 @@ class AdditionalInfo extends Component {
       }))
       .find(({ value }) => !value);
 
-    return !invalid;
+    const {
+      shippingAddress,
+      shippingHouseNo,
+      shippingMoo,
+      shippingVillage,
+      shippingSoi,
+      shippingRoad,
+      shippingProvinceCode,
+      shippingAmphurCode,
+      shippingTambolCode,
+      shippingPostalCode,
+    } = this.state;
+
+    const valid = (shippingAddress === 'current') ||
+      (shippingAddress === 'office') ||
+      (shippingAddress === 'others' &&
+        shippingHouseNo &&
+        shippingMoo &&
+        shippingVillage &&
+        shippingSoi &&
+        shippingRoad &&
+        shippingProvinceCode &&
+        shippingAmphurCode &&
+        shippingTambolCode &&
+        shippingPostalCode
+      );
+
+    return !invalid && valid;
   };
 
   initialMessage = () => {
@@ -775,6 +800,7 @@ class AdditionalInfo extends Component {
               amphurName={shippingAmphurCodeName}
               tambolName={shippingTambolCodeName}
               handleChange={this.handleLocationChange}
+              required
               ref={node => {
                 this.shippingLocation = node;
               }}
