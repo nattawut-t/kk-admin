@@ -154,21 +154,21 @@ class AdditionalInfo extends Component {
 
     this.setState({ shippingAddress: value },
       () => {
-        this.setState({
-          shippingHouseNo: '',
-          shippingMoo: '',
-          shippingVillage: '',
-          shippingFloor: '',
-          shippingSoi: '',
-          shippingRoad: '',
-          shippingPostalCode: '',
-          shippingProvinceCode: '',
-          shippingAmphurCode: '',
-          shippingTambolCode: '',
-          shippingProvinceCodeName: '',
-          shippingAmphurCodeName: '',
-          shippingTambolCodeName: '',
-        });
+        // this.setState({
+        //   shippingHouseNo: '',
+        //   shippingMoo: '',
+        //   shippingVillage: '',
+        //   shippingFloor: '',
+        //   shippingSoi: '',
+        //   shippingRoad: '',
+        //   shippingPostalCode: '',
+        //   shippingProvinceCode: '',
+        //   shippingAmphurCode: '',
+        //   shippingTambolCode: '',
+        //   shippingProvinceCodeName: '',
+        //   shippingAmphurCodeName: '',
+        //   shippingTambolCodeName: '',
+        // });
 
         if (this.shippingLocation) {
           this.shippingLocation.initialize();
@@ -201,7 +201,14 @@ class AdditionalInfo extends Component {
           officeAmphurCodeName,
           officeTambolCodeName,
           officeZipCode,
-          } = this.state;
+          //
+          shippingHouseNo,
+          shippingMoo,
+          shippingVillage,
+          shippingSoi,
+          shippingRoad,
+          shippingPostalCode,
+        } = this.state;
 
         const message = 'กรุณากรอกข้อมูล';
 
@@ -244,21 +251,24 @@ class AdditionalInfo extends Component {
 
           default:
             this.setState({
-              shippingHouseNoMsg: message,
-              shippingMooMsg: message,
-              shippingVillageMsg: message,
-              shippingSoiMsg: message,
-              shippingRoadMsg: message,
+              shippingHouseNoMsg: !shippingHouseNo ? message : '',
+              shippingMooMsg: !shippingMoo ? message : '',
+              shippingVillageMsg: !shippingVillage ? message : '',
+              shippingSoiMsg: !shippingSoi ? message : '',
+              shippingRoadMsg: !shippingRoad ? message : '',
               // shippingProvinceCode: officeProvince,
               // shippingAmphurCode: officeAmphurCode,
               // shippingTambolCode: officeTambolCode,
               // shippingProvinceCodeName: officeProvinceName,
               // shippingAmphurCodeName: officeAmphurCodeName,
               // shippingTambolCodeName: officeTambolCodeName,
-              shippingPostalCodeMsg: message,
+              shippingPostalCodeMsg: !shippingPostalCode ? message : '',
             });
             break;
         }
+
+        const valid = this.validate();
+        this.setState({ valid });
       },
     );
   };
@@ -497,7 +507,15 @@ class AdditionalInfo extends Component {
       shippingPostalCodeMsg,
     } = this.state;
 
-    console.log('shippingFloor: ', shippingFloor);
+    // console.log(
+    //   'shipping: ',
+    //   shippingProvinceCode,
+    //   shippingAmphurCode,
+    //   shippingTambolCode,
+    //   shippingProvinceCodeName,
+    //   shippingAmphurCodeName,
+    //   shippingTambolCodeName,
+    // );
 
     switch (type) {
       case 'current':
