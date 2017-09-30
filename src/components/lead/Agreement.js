@@ -51,7 +51,16 @@ class Agreement extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0);
+    console.log('agree.componentWillMount');
+    const { getDraft } = this.props;
+    getDraft();
+  }
+
+  componentDidMount() {
     const { data } = this.props;
+
+    console.log('agree.componentDidMount', data);
+
     this.setState(data);
   }
 
@@ -62,13 +71,19 @@ class Agreement extends Component {
 
   handleNextClick = () => {
     const { isConsent } = this.state;
-    const { save, history } = this.props;
-    save({ isConsent }, () => history.push('/personal-info'));
+    const { saveDraft, history } = this.props;
+    saveDraft({ isConsent }, () => history.push('/personal-info'));
   };
 
   render() {
+    if (!this.state) {
+      return <div className="loader" />;
+    }
+
     const { isConsent } = this.state;
-    const { editing, message } = this.props;
+    const { message } = this.props;
+
+    console.log('agree.render: ', isConsent);
 
     return (
       <div>
@@ -104,7 +119,7 @@ class Agreement extends Component {
                   id="isConsent"
                   name="isConsent"
                   label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
-                  checked={isConsent || editing}
+                  checked={isConsent}
                   disabled={false}
                   style={styles.checkbox}
                   onCheck={this.handleChange}
@@ -139,11 +154,12 @@ class Agreement extends Component {
 }
 
 Agreement.propTypes = {
+  message: PropTypes.string,
   history: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  editing: PropTypes.bool.isRequired,
-  save: PropTypes.func.isRequired,
-  message: PropTypes.string,
+  // editing: PropTypes.bool.isRequired,
+  getDraft: PropTypes.func.isRequired,
+  saveDraft: PropTypes.func.isRequired,
 };
 
 Agreement.defaultProps = {

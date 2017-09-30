@@ -1,4 +1,4 @@
-const data = (raw = {}) => {
+export const data = (raw = {}) => {
   const {
     loanAmount,
     installmentNumber,

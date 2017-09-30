@@ -40,8 +40,16 @@ const keys = [
 class LoanInfo extends Component {
 
   componentWillMount() {
-    const { data } = this.props;
     window.scrollTo(0, 0);
+    console.log('li.componentWillMount');
+    const { getDraft } = this.props;
+    getDraft();
+  }
+
+  componentDidMount() {
+    const { data } = this.props;
+
+    console.log('li.componentDidMount', data);
 
     this.setState(data,
       () => {
@@ -227,8 +235,8 @@ class LoanInfo extends Component {
       bankBranchName,
     };
 
-    const { save, history } = this.props;
-    save(data, () => history.push(path));
+    const { saveDraft, history } = this.props;
+    saveDraft(data, () => history.push(path));
   };
 
   handleBackClick = e => {
@@ -242,6 +250,10 @@ class LoanInfo extends Component {
   };
 
   render() {
+    if (!this.state) {
+      return <div className="loader" />;
+    }
+
     const {
       loanAmount,
       loanAmountMsg,
@@ -598,12 +610,12 @@ LoanInfo.propTypes = {
   message: PropTypes.string,
   history: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  save: PropTypes.func.isRequired,
+  getDraft: PropTypes.func.isRequired,
+  saveDraft: PropTypes.func.isRequired,
 };
 
 LoanInfo.defaultProps = {
   message: '',
-  // data: null,
 };
 
 export default withRouter(LoanInfo);

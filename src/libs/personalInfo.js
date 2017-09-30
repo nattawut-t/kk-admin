@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const data = (raw = {}) => {
+export const data = (raw = {}) => {
   const {
     dateReq,
     prefixTH,
@@ -52,6 +52,7 @@ const data = (raw = {}) => {
     email,
     employmentDate,
     jobSalary,
+    ot,
     //
     officeNumber,
     officeMoo,
@@ -89,7 +90,7 @@ const data = (raw = {}) => {
       //
       department: department || 'IT',
       position: position || 'Programmer',
-      workTel2: workTel2 || '',
+      workTel2: workTel2 || '0627609997',
       homeTel2: homeTel2 || '020000000',
       detailRent: detailRent || '',
       workTel: workTel || '020000000',
@@ -127,6 +128,7 @@ const data = (raw = {}) => {
       email: email || '1203ball@gmail.com',
       employmentDate: employmentDate ? moment(employmentDate).toDate() : new Date(2017, 1, 1),
       jobSalary: jobSalary || 100000,
+      ot: ot || 1000,
       //
       officeNumber: officeNumber || '1',
       officeMoo: officeMoo || '2',
@@ -197,6 +199,7 @@ const data = (raw = {}) => {
     email: email || '',
     employmentDate: employmentDate ? moment(employmentDate).toDate() : null,
     jobSalary: jobSalary || 0,
+    ot: ot || 0,
     //
     officeNumber: officeNumber || '',
     officeMoo: officeMoo || '',

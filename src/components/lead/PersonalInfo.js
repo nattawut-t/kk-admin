@@ -118,8 +118,16 @@ class PersonalInfo extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0);
+    console.log('pi.componentWillMount');
+    const { getDraft } = this.props;
+    getDraft();
+  }
 
+  componentDidMount() {
     const { data } = this.props;
+
+    console.log('pi.componentDidMount', data);
+
     this.setState(data,
       () => {
         this.initialMessage();
@@ -142,13 +150,11 @@ class PersonalInfo extends Component {
     const valid = emailRegex.test(email) && salary > 0;
 
     const { detailRent, etc, rentalFee } = this.state;
-    const valid1 = (detailRent === 'ของตนเอง') ||
-      (detailRent === 'ของบิดามารดา') ||
-      (detailRent === 'ของญาติ') ||
+    const valid1 = ['ของตนเอง', 'ของบิดามารดา', 'ของญาติ'].indexOf(detailRent) > -1 ||
       (detailRent === 'อื่นๆ' && etc) ||
       ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
 
-    // console.log('invalid: ', invalid, valid, valid1);
+    console.log('invalid: ', invalid, valid, valid1);
 
     return !invalid && valid && valid1;
   }
@@ -328,13 +334,8 @@ class PersonalInfo extends Component {
       this.setState({ [messageKey]: messageValue });
     }
 
-    console.log(messageKey, messageValue);
+    console.log(messageKey, messageValue, rentalFee, etc);
 
-    // const valid1 = (detailRent === 'ของตนเอง') ||
-    //   (detailRent === 'ของบิดามารดา') ||
-    //   (detailRent === 'ของญาติ') ||
-    //   (detailRent === 'อื่นๆ' && etc) ||
-    //   ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
     this.setState({ [key]: value }, () => {
       const valid = this.validate();
       this.setState({ valid });
@@ -444,6 +445,7 @@ class PersonalInfo extends Component {
       jobCompanyName,
       email,
       jobSalary,
+      ot,
       //
       officeNumber,
       officeMoo,
@@ -527,6 +529,7 @@ class PersonalInfo extends Component {
       email,
       employmentDate,
       jobSalary,
+      ot,
       //
       officeNumber,
       officeMoo,
@@ -545,8 +548,8 @@ class PersonalInfo extends Component {
       etc,
     };
 
-    const { save, history } = this.props;
-    save(data, () => history.push(path));
+    const { saveDraft, history } = this.props;
+    saveDraft(data, () => history.push(path));
   };
 
   handleBackClick = e => {
@@ -610,23 +613,36 @@ class PersonalInfo extends Component {
   }
 
   render() {
+    // console.log('pi.render: ', this.state);
+    if (!this.state) {
+      return <div className="loader" />;
+    }
+
     const {
       dateReq,
+      //
       prefixTH,
       firstNameTH,
       firstNameTHmsg,
       lastNameTH,
       lastNameTHmsg,
+      //
       prefixEN,
       firstNameEN,
       firstNameENmsg,
       lastNameEN,
       lastNameENmsg,
+      //
       idCard,
       idCardmsg,
       dateExp,
       dateExpmsg,
       status,
+      birthDate,
+      birthDatemsg,
+      email,
+      emailmsg,
+      //
       department,
       departmentmsg,
       position,
@@ -639,6 +655,7 @@ class PersonalInfo extends Component {
       workTel,
       workTelmsg,
       telExtension,
+      //
       number,
       moo,
       village,
@@ -651,6 +668,7 @@ class PersonalInfo extends Component {
       amphurCodeName,
       tambolCodeName,
       zipCode,
+      //
       number2,
       moo2,
       village2,
@@ -663,17 +681,16 @@ class PersonalInfo extends Component {
       amphurCode2Name,
       tambolCode2Name,
       zipCode2,
+      //
       isSameAddress,
       jobCompanyName,
       jobCompanyNamemsg,
-      birthDate,
-      birthDatemsg,
-      email,
-      emailmsg,
       employmentDate,
       employmentDatemsg,
       jobSalary,
       jobSalarymsg,
+      ot,
+      otmsg,
       //
       officeNumber,
       officeMoo,
@@ -896,7 +913,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-sm-6">
+                <div className="col-sm-4">
                   <DatePicker
                     id="employmentDate"
                     name="employmentDate"
@@ -911,7 +928,7 @@ class PersonalInfo extends Component {
                     locale="th-TH"
                   />
                 </div>
-                <div className="col-sm-6">
+                <div className="col-sm-4">
                   <TextField
                     id="jobSalary"
                     name="jobSalary"
@@ -919,6 +936,17 @@ class PersonalInfo extends Component {
                     floatingLabelText="เงินเดือน"
                     onChange={e => this.handleMoneyChange(e, true)}
                     errorText={jobSalarymsg}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-sm-4">
+                  <TextField
+                    id="ot"
+                    name="ot"
+                    value={ot}
+                    floatingLabelText="OT, COM, โบนัส"
+                    onChange={e => this.handleMoneyChange(e)}
+                    errorText={otmsg}
                     fullWidth
                   />
                 </div>
@@ -1391,7 +1419,8 @@ PersonalInfo.propTypes = {
   message: PropTypes.string,
   history: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
-  save: PropTypes.func.isRequired,
+  getDraft: PropTypes.func.isRequired,
+  saveDraft: PropTypes.func.isRequired,
 };
 
 PersonalInfo.defaultProps = {

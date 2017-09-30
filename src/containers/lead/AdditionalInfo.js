@@ -1,29 +1,49 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/AdditionalInfo';
-import { saveAdditionalInfo, uploadDocument } from '../../reducers/lead';
+import { uploadDocument } from '../../reducers/lead';
 
-const transform = (state, key) => {
-  if (state && key) {
-    const data = state.lead.get(key);
-    return (data && typeof data.toJS === 'function')
-      ? data.toJS()
-      : data;
-  }
-  return null;
-};
+import {
+  get,
+  save,
+} from '../../reducers/draft';
+// import { data } from '../../libs/additionalInfo';
+
+// const getData = (state, key) => {
+//   if (state && key) {
+//     const _data = state.lead.get(key);
+//     return (_data && typeof _data.toJS === 'function')
+//       ? _data.toJS()
+//       : data();
+//   }
+//   return data();
+// };
+
+// const mapStateToProps = state => ({
+//   data: getData(state, 'additionalInfo'),
+//   personalInfo: state.lead.get('personalInfo').toJS(),
+//   message: state.lead.get('message') || '',
+//   loading: state.lead.get('loading') || false,
+//   editing: state.lead.get('editing') || false,
+// });
+
+// const mapDispatchToProps = dispatch => ({
+//   uploadFile: (field, path, name, data, docType, callback) =>
+//     dispatch(uploadDocument(field, path, name, data, docType, callback)),
+//   save: (data, callback) => dispatch(saveAdditionalInfo(data, callback)),
+// });
 
 const mapStateToProps = state => ({
-  data: transform(state, 'additionalInfo'),
-  personalInfo: transform(state, 'personalInfo'),
-  message: state.lead.get('message') || '',
+  data: state.draft.data,
   loading: state.lead.get('loading') || false,
   editing: state.lead.get('editing') || false,
+  message: state.lead.get('message') || '',
 });
 
 const mapDispatchToProps = dispatch => ({
+  getDraft: callback => dispatch(get(callback)),
+  saveDraft: (data, callback) => dispatch(save(data, callback)),
   uploadFile: (field, path, name, data, docType, callback) =>
     dispatch(uploadDocument(field, path, name, data, docType, callback)),
-  save: (data, callback) => dispatch(saveAdditionalInfo(data, callback)),
 });
 
 export default connect(

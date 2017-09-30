@@ -1,37 +1,47 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/PersonalInfo';
-import { savePersonalInfo } from '../../reducers/lead';
-import { isAdmin } from '../../libs/config';
 
-const merge = state => {
-  if (state) {
-    if (!isAdmin()) {
-      const { lead } = state;
-      const mobile = localStorage.getItem('username') || '';
-      const data = lead.get('personalInfo').toJS();
-      const _data = Object.assign(data, { workTel2: mobile });
+// import { savePersonalInfo } from '../../reducers/lead';
+import {
+  get,
+  save,
+} from '../../reducers/draft';
 
-      return _data;
-    }
+// import { isAdmin } from '../../libs/config';
+// import { data as parse } from '../../libs/personalInfo';
 
-    const data = state.lead.get('personalInfo') || {};
-    return (data && typeof data.toJS === 'function')
-      ? data.toJS()
-      : data;
-  }
+// const merge = state => {
+//   if (state) {
+//     if (isAdmin()) {
+//       const _data = state.lead.get('personalInfo') || {};
+//       return (_data && typeof _data.toJS === 'function')
+//         ? _data.toJS()
+//         : parse();
+//     }
 
-  return null;
-};
+//     let { draft: { personalInfo } } = state;
+
+//     console.log('pi.container: ', personalInfo);
+
+//     const mobile = localStorage.getItem('username') || '';
+//     personalInfo = personalInfo || {};
+
+//     return Object.assign(personalInfo, { workTel2: mobile });
+//   }
+
+//   return parse();
+// };
 
 const mapStateToProps = state => ({
-  data: merge(state),
+  data: state.draft.data,
   loading: state.lead.get('loading') || false,
   editing: state.lead.get('editing') || false,
   message: state.lead.get('message') || '',
 });
 
 const mapDispatchToProps = dispatch => ({
-  save: (data, callback) => dispatch(savePersonalInfo(data, callback)),
+  getDraft: callback => dispatch(get(callback)),
+  saveDraft: (data, callback) => dispatch(save(data, callback)),
 });
 
 export default connect(

@@ -57,9 +57,16 @@ class AdditionalInfo extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0);
+    console.log('ai.componentWillMount');
+    const { getDraft } = this.props;
+    getDraft();
+  }
 
+  componentDidMount() {
     const { data } = this.props;
-    console.log('ai.data: ', data);
+
+    console.log('ai.componentDidMount', data);
+
     this.setState(data,
       () => {
         this.initialMessage();
@@ -147,76 +154,76 @@ class AdditionalInfo extends Component {
           this.shippingLocation.initialize();
         }
 
-        const { personalInfo } = this.props;
+        // const { personalInfo } = this.props;
 
-        if (personalInfo) {
-          const {
-            number,
-            moo,
-            village,
-            soi,
-            road,
-            province,
-            amphurCode,
-            tambolCode,
-            provinceName,
-            amphurCodeName,
-            tambolCodeName,
-            zipCode,
-            //
-            officeNumber,
-            officeMoo,
-            officeVillage,
-            officeSoi,
-            officeRoad,
-            officeProvince,
-            officeAmphurCode,
-            officeTambolCode,
-            officeProvinceName,
-            officeAmphurCodeName,
-            officeTambolCodeName,
-            officeZipCode,
-          } = personalInfo;
+        // if (personalInfo) {
+        const {
+          number,
+          moo,
+          village,
+          soi,
+          road,
+          province,
+          amphurCode,
+          tambolCode,
+          provinceName,
+          amphurCodeName,
+          tambolCodeName,
+          zipCode,
+          //
+          officeNumber,
+          officeMoo,
+          officeVillage,
+          officeSoi,
+          officeRoad,
+          officeProvince,
+          officeAmphurCode,
+          officeTambolCode,
+          officeProvinceName,
+          officeAmphurCodeName,
+          officeTambolCodeName,
+          officeZipCode,
+          } = this.state;
 
-          switch (value) {
-            case 'current':
-              this.setState({
-                shippingHouseNo: number,
-                shippingMoo: moo,
-                shippingVillage: village,
-                shippingSoi: soi,
-                shippingRoad: road,
-                shippingProvinceCode: province,
-                shippingAmphurCode: amphurCode,
-                shippingTambolCode: tambolCode,
-                shippingProvinceCodeName: provinceName,
-                shippingAmphurCodeName: amphurCodeName,
-                shippingTambolCodeName: tambolCodeName,
-                shippingPostalCode: zipCode,
-              });
-              break;
+        switch (value) {
+          case 'current':
+            this.setState({
+              shippingHouseNo: number,
+              shippingMoo: moo,
+              shippingVillage: village,
+              shippingSoi: soi,
+              shippingRoad: road,
+              shippingProvinceCode: province,
+              shippingAmphurCode: amphurCode,
+              shippingTambolCode: tambolCode,
+              shippingProvinceCodeName: provinceName,
+              shippingAmphurCodeName: amphurCodeName,
+              shippingTambolCodeName: tambolCodeName,
+              shippingPostalCode: zipCode,
+            });
+            break;
 
-            case 'office':
-              this.setState({
-                shippingHouseNo: officeNumber,
-                shippingMoo: officeMoo,
-                shippingVillage: officeVillage,
-                shippingSoi: officeSoi,
-                shippingRoad: officeRoad,
-                shippingProvinceCode: officeProvince,
-                shippingAmphurCode: officeAmphurCode,
-                shippingTambolCode: officeTambolCode,
-                shippingProvinceCodeName: officeProvinceName,
-                shippingAmphurCodeName: officeAmphurCodeName,
-                shippingTambolCodeName: officeTambolCodeName,
-                shippingPostalCode: officeZipCode,
-              });
-              break;
+          case 'office':
+            this.setState({
+              shippingHouseNo: officeNumber,
+              shippingMoo: officeMoo,
+              shippingVillage: officeVillage,
+              shippingSoi: officeSoi,
+              shippingRoad: officeRoad,
+              shippingProvinceCode: officeProvince,
+              shippingAmphurCode: officeAmphurCode,
+              shippingTambolCode: officeTambolCode,
+              shippingProvinceCodeName: officeProvinceName,
+              shippingAmphurCodeName: officeAmphurCodeName,
+              shippingTambolCodeName: officeTambolCodeName,
+              shippingPostalCode: officeZipCode,
+            });
+            break;
 
-            default:
-              break;
-          }
+          default:
+            break;
         }
+        // }
       },
     );
   };
@@ -413,8 +420,8 @@ class AdditionalInfo extends Component {
 
     console.log('ai.handleNextClick.data: ', data);
 
-    const { save, history } = this.props;
-    save(data, () => history.push(path));
+    const { saveDraft, history } = this.props;
+    saveDraft(data, () => history.push(path));
   }
 
   handleBackClick = e => {
@@ -680,6 +687,10 @@ class AdditionalInfo extends Component {
   };
 
   render() {
+    if (!this.state) {
+      return <div className="loader" />;
+    }
+
     const {
       ref1Prefix,
       ref1Firstname,
@@ -738,10 +749,12 @@ class AdditionalInfo extends Component {
       isConsent2,
       //
       valid,
+      //
+      status,
     } = this.state;
 
-    const { personalInfo, message } = this.props;
-    const status = personalInfo ? personalInfo.status : '';
+    const { message } = this.props;
+    // const status = personalInfo ? personalInfo.status : '';
 
     return (
       <div>
@@ -1321,18 +1334,31 @@ class AdditionalInfo extends Component {
   }
 }
 
+// AdditionalInfo.propTypes = {
+//   history: PropTypes.object.isRequired,
+//   data: PropTypes.object,
+//   personalInfo: PropTypes.object,
+//   uploadFile: PropTypes.func.isRequired,
+//   save: PropTypes.func.isRequired,
+//   message: PropTypes.string,
+// };
+
+// AdditionalInfo.defaultProps = {
+//   data: null,
+//   personalInfo: null,
+//   message: '',
+// };
+
 AdditionalInfo.propTypes = {
-  history: PropTypes.object.isRequired,
-  data: PropTypes.object,
-  personalInfo: PropTypes.object,
-  uploadFile: PropTypes.func.isRequired,
-  save: PropTypes.func.isRequired,
   message: PropTypes.string,
+  history: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  getDraft: PropTypes.func.isRequired,
+  saveDraft: PropTypes.func.isRequired,
+  uploadFile: PropTypes.func.isRequired,
 };
 
 AdditionalInfo.defaultProps = {
-  data: null,
-  personalInfo: null,
   message: '',
 };
 

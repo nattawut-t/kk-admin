@@ -184,13 +184,9 @@ export function save(callback) {
 
     const id = _state.get('id') || 0;
     const editing = _state.get('editing') || false;
+    const data = getState().draft.data;
 
-    const agreement = _state.get('agreement').toJS() || {};
-    const personalInfo = _state.get('personalInfo').toJS() || {};
-    const loanInfo = _state.get('loanInfo').toJS() || {};
-    const additionalInfo = _state.get('additionalInfo').toJS() || {};
-
-    const data = Object.assign(agreement, personalInfo, loanInfo, additionalInfo);
+    console.log('lead.reducer: ', data);
 
     const _dateReq = moment(data.dateReq, 'DD/MM/YYYY').toDate();
     data.dateReq = moment(_dateReq).format();
@@ -233,12 +229,24 @@ export function saveDraft(callback) {
 
     const _state = getState().lead;
 
-    const agreement = _state.get('agreement').toJS() || {};
-    const personalInfo = _state.get('personalInfo').toJS() || {};
-    const loanInfo = _state.get('loanInfo').toJS() || {};
-    const additionalInfo = _state.get('additionalInfo').toJS() || {};
+    let _agreement = _state.get('agreement');
+    let _personalInfo = _state.get('personalInfo');
+    let _loanInfo = _state.get('loanInfo');
+    let _additionalInfo = _state.get('additionalInfo');
 
-    const data = Object.assign(agreement, personalInfo, loanInfo, additionalInfo);
+    _agreement = (_agreement && typeof _agreement.toJS === 'function')
+      ? _agreement.toJS() : agreement.data();
+
+    _personalInfo = (_personalInfo && typeof _personalInfo.toJS === 'function')
+      ? _personalInfo.toJS() : personalInfo.data();
+
+    _loanInfo = (_loanInfo && typeof _loanInfo.toJS === 'function')
+      ? _loanInfo.toJS() : loanInfo.data();
+
+    _additionalInfo = (_additionalInfo && typeof _additionalInfo.toJS === 'function')
+      ? _additionalInfo.toJS() : additionalInfo.data();
+
+    const data = Object.assign(_agreement, _personalInfo, _loanInfo, _additionalInfo);
     const url = saveUrl();
 
     putJson(url, data)
@@ -786,10 +794,10 @@ const lead = (state = initialState, action) => {
         id: 0,
         editing: false,
         //
-        agreement: agreement.data(),
-        personalInfo: personalInfo.data(),
-        loanInfo: loanInfo.data(),
-        additionalInfo: additionalInfo.data(),
+        // agreement: agreement.data(),
+        // personalInfo: personalInfo.data(),
+        // loanInfo: loanInfo.data(),
+        // additionalInfo: additionalInfo.data(),
       });
       return state.merge(_state);
 
