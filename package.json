@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
-    "build": "NODE_ENV=${NODE_ENV:=dev} && echo ${NODE_ENV} && rm -rf dist && ./node_modules/.bin/webpack --config webpack/webpack.config.${NODE_ENV}.js  && cp -a assets/ dist/",
+    "build": "NODE_ENV=${NODE_ENV:=dev} && echo ${NODE_ENV} && rm -rf dist && ./node_modules/.bin/webpack --config webpack/webpack.config.${NODE_ENV}.js && cp -a assets/ dist/",
     "prod": "serve ./dist -s",
     "lint": "eslint src",
     "test": "jest",
@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/didierfranc/redux-react-starter.git"
   },
-  "author": "Metz Charusasi<metz@moneytable.com>",
+  "author": "Nattawut Tammaratmetee<nattawut@moneytable.com>",
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
@@ -53,11 +53,14 @@
     "@blueprintjs/datetime": "^1.20.0",
     "@blueprintjs/table": "^1.22.0",
     "axios": "^0.16.2",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
     "bootstrap": "4.0.0-beta",
     "bourbon": "^4.3.4",
     "css-loader": "^0.28.4",
     "eslint-import-resolver-webpack": "^0.8.3",
     "eslint-loader": "^1.9.0",
+    "eslint-plugin-async-await": "^0.0.0",
     "file-loader": "^0.11.2",
     "file-saver": "^1.3.3",
     "humps": "^2.0.1",
@@ -88,71 +91,5 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "styled-components": "^2.1.2"
-  },
-  "babel": {
-    "presets": [
-      [
-        "es2015",
-        {
-          "modules": false
-        }
-      ],
-      "react",
-      "stage-0"
-    ],
-    "plugins": [
-      [
-        "transform-runtime",
-        {
-          "helpers": false,
-          "polyfill": false
-        }
-      ]
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "transform-es2015-modules-commonjs"
-        ]
-      }
-    }
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "jest": true
-    },
-    "extends": "airbnb",
-    "parser": "babel-eslint",
-    "settings": {
-      "import/resolver": {
-        "webpack": {
-          "config": "webpack/webpack.config.dev.js"
-        }
-      }
-    },
-    "rules": {
-      "arrow-parens": [
-        "error",
-        "as-needed"
-      ],
-      "no-confusing-arrow": 0,
-      "no-shadow": 0,
-      "no-underscore-dangle": 0,
-      "import/no-extraneous-dependencies": 0,
-      "import/prefer-default-export": 0,
-      "import/no-duplicates": 0,
-      "react/forbid-prop-types": 0,
-      "react/jsx-filename-extension": [
-        1,
-        {
-          "extensions": [
-            ".js"
-          ]
-        }
-      ],
-      "react/jsx-wrap-multilines": 0,
-      "space-before-function-paren": 0
-    }
   }
 }
