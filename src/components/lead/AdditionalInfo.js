@@ -148,15 +148,10 @@ class AdditionalInfo extends Component {
           shippingTambolCodeName: '',
         });
 
-        // console.log('shippingLocation: ', this.shippingLocation);
-
         if (this.shippingLocation) {
           this.shippingLocation.initialize();
         }
 
-        // const { personalInfo } = this.props;
-
-        // if (personalInfo) {
         const {
           number,
           moo,
@@ -174,6 +169,7 @@ class AdditionalInfo extends Component {
           officeNumber,
           officeMoo,
           officeVillage,
+          officeFloor,
           officeSoi,
           officeRoad,
           officeProvince,
@@ -185,12 +181,15 @@ class AdditionalInfo extends Component {
           officeZipCode,
           } = this.state;
 
+        const message = 'กรุณากรอกข้อมูล';
+
         switch (value) {
           case 'current':
             this.setState({
               shippingHouseNo: number,
               shippingMoo: moo,
               shippingVillage: village,
+              shippingFloor: 1,
               shippingSoi: soi,
               shippingRoad: road,
               shippingProvinceCode: province,
@@ -208,6 +207,7 @@ class AdditionalInfo extends Component {
               shippingHouseNo: officeNumber,
               shippingMoo: officeMoo,
               shippingVillage: officeVillage,
+              shippingFloor: officeFloor,
               shippingSoi: officeSoi,
               shippingRoad: officeRoad,
               shippingProvinceCode: officeProvince,
@@ -221,9 +221,22 @@ class AdditionalInfo extends Component {
             break;
 
           default:
+            this.setState({
+              shippingHouseNoMsg: message,
+              shippingMooMsg: message,
+              shippingVillageMsg: message,
+              shippingSoiMsg: message,
+              shippingRoadMsg: message,
+              // shippingProvinceCode: officeProvince,
+              // shippingAmphurCode: officeAmphurCode,
+              // shippingTambolCode: officeTambolCode,
+              // shippingProvinceCodeName: officeProvinceName,
+              // shippingAmphurCodeName: officeAmphurCodeName,
+              // shippingTambolCodeName: officeTambolCodeName,
+              shippingPostalCodeMsg: message,
+            });
             break;
         }
-        // }
       },
     );
   };
@@ -277,7 +290,7 @@ class AdditionalInfo extends Component {
   };
 
   handleNumberChange = (name, value, errorMessage = '') => {
-    const msgKey = `${name}msg`;
+    const msgKey = `${name}Msg`;
 
     this.setState({
       [name]: value,
@@ -453,232 +466,331 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      //
+      shippingHouseNoMsg,
+      shippingMooMsg,
+      shippingVillageMsg,
+      shippingSoiMsg,
+      shippingRoadMsg,
+      shippingPostalCodeMsg,
     } = this.state;
+
+    console.log('shippingFloor: ', shippingFloor);
 
     switch (type) {
       case 'current':
+        _render = <div>
+
+          <div className="col-3">
+            <TextField
+              id="shippingHouseNo"
+              name="shippingHouseNo"
+              floatingLabelText="บ้านเลขที่"
+              value={shippingHouseNo}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-3">
+            <TextField
+              id="shippingMoo"
+              name="shippingMoo"
+              floatingLabelText="หมู่ที่"
+              value={shippingMoo}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-6">
+            <TextField
+              id="shippingVillage"
+              name="shippingVillage"
+              floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+              value={shippingVillage}
+              fullWidth
+              readOnly
+            />
+          </div>
+          <div className="col-6">
+            <TextField
+              id="shippingSoi"
+              name="shippingSoi"
+              floatingLabelText="ซอย"
+              value={shippingSoi}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-6">
+            <TextField
+              id="shippingRoad"
+              name="shippingRoad"
+              floatingLabelText="ถนน"
+              value={shippingRoad}
+              maxLength="100"
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="จังหวัด"
+              value={shippingProvinceCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="อำเภอ / เขต"
+              value={shippingAmphurCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="ตำบล / แขวง"
+              value={shippingTambolCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="รหัสไปรษณีย์"
+              value={shippingPostalCode}
+              readOnly
+              fullWidth
+            />
+          </div>
+        </div>;
+        break;
+
       case 'office':
-        _render = <div className="col-12">
-          <div className="row">
-            <div className="col-4">
-              <TextField
-                id="shippingHouseNo"
-                name="shippingHouseNo"
-                floatingLabelText="บ้านเลขที่"
-                value={shippingHouseNo}
-                maxLength="10"
-                readOnly
-                fullWidth
-              />
-            </div>
-            <div className="col-4">
-              <TextField
-                id="shippingMoo"
-                name="shippingMoo"
-                floatingLabelText="หมู่ที่"
-                value={shippingMoo}
-                maxLength="3"
-                readOnly
-                fullWidth
-              />
-            </div>
-            <div className="col-4">
-              <TextField
-                id="shippingVillage"
-                name="shippingVillage"
-                floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
-                value={shippingVillage}
-                maxLength="100"
-                fullWidth
-                readOnly
-              />
-            </div>
+        _render = <div>
+
+          <div className="col-3">
+            <TextField
+              id="shippingHouseNo"
+              name="shippingHouseNo"
+              floatingLabelText="บ้านเลขที่"
+              value={shippingHouseNo}
+              readOnly
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col-4">
-              <TextField
-                id="shippingSoi"
-                name="shippingSoi"
-                floatingLabelText="ซอย"
-                value={shippingSoi}
-                maxLength="100"
-                readOnly
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="shippingRoad"
-                name="shippingRoad"
-                floatingLabelText="ถนน"
-                value={shippingRoad}
-                maxLength="100"
-                readOnly
-                fullWidth
-              />
-            </div>
+          <div className="col-3">
+            <TextField
+              id="shippingMoo"
+              name="shippingMoo"
+              floatingLabelText="หมู่ที่"
+              value={shippingMoo}
+              readOnly
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col-4">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="จังหวัด"
-                value={shippingProvinceCodeName}
-                maxLength="5"
-                readOnly
-                fullWidth
-              />
-            </div>
-            <div className="col-4">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="อำเภอ / เขต"
-                value={shippingAmphurCodeName}
-                maxLength="5"
-                readOnly
-                fullWidth
-              />
-            </div>
-            <div className="col-4">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="ตำบล / แขวง"
-                value={shippingTambolCodeName}
-                maxLength="5"
-                readOnly
-                fullWidth
-              />
-            </div>
+          <div className="col-6">
+            <TextField
+              id="shippingVillage"
+              name="shippingVillage"
+              floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+              value={shippingVillage}
+              fullWidth
+              readOnly
+            />
           </div>
-          <div className="row">
-            <div className="col-4">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="รหัสไปรษณีย์"
-                value={shippingPostalCode}
-                maxLength="5"
-                readOnly
-                fullWidth
-              />
-            </div>
+          <div className="col-2">
+            <TextField
+              id="shippingSoi"
+              name="shippingSoi"
+              floatingLabelText="ชั้น"
+              value={shippingFloor}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingSoi"
+              name="shippingSoi"
+              floatingLabelText="ซอย"
+              value={shippingSoi}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-6">
+            <TextField
+              id="shippingRoad"
+              name="shippingRoad"
+              floatingLabelText="ถนน"
+              value={shippingRoad}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="จังหวัด"
+              value={shippingProvinceCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="อำเภอ / เขต"
+              value={shippingAmphurCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="ตำบล / แขวง"
+              value={shippingTambolCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="รหัสไปรษณีย์"
+              value={shippingPostalCode}
+              readOnly
+              fullWidth
+            />
           </div>
         </div>;
         break;
 
       default:
-        _render = <div className="col-10">
-          <div className="row">
-            <div className="col">
-              <TextField
-                id="shippingHouseNo"
-                name="shippingHouseNo"
-                floatingLabelText="บ้านเลขที่"
-                value={shippingHouseNo}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="10"
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="shippingMoo"
-                name="shippingMoo"
-                floatingLabelText="หมู่ที่"
-                value={shippingMoo}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="3"
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="shippingFloor"
-                name="shippingFloor"
-                floatingLabelText="ชั้น"
-                value={shippingFloor}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="3"
-                fullWidth
-              />
-            </div>
+        _render = <div>
+          <div className="col-3">
+            <TextField
+              id="shippingHouseNo"
+              name="shippingHouseNo"
+              floatingLabelText="บ้านเลขที่"
+              value={shippingHouseNo}
+              errorText={shippingHouseNoMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="10"
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col-12">
-              <TextField
-                id="shippingVillage"
-                name="shippingVillage"
-                floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
-                value={shippingVillage}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="100"
-                fullWidth
-              />
-            </div>
+          <div className="col-3">
+            <TextField
+              id="shippingMoo"
+              name="shippingMoo"
+              floatingLabelText="หมู่ที่"
+              value={shippingMoo}
+              errorText={shippingMooMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="3"
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col">
-              <TextField
-                id="shippingSoi"
-                name="shippingSoi"
-                floatingLabelText="ซอย"
-                value={shippingSoi}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="100"
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="shippingRoad"
-                name="shippingRoad"
-                floatingLabelText="ถนน"
-                value={shippingRoad}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="100"
-                fullWidth
-              />
-            </div>
+          <div className="col-6">
+            <TextField
+              id="shippingVillage"
+              name="shippingVillage"
+              floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+              value={shippingVillage}
+              errorText={shippingVillageMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="100"
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col">
-              <Location
-                id="location1"
-                name="location1"
-                provinceValueField="shippingProvinceCode"
-                provinceNameField="shippingProvinceCodeName"
-                amphurValueField="shippingAmphurCode"
-                amphurNameField="shippingAmphurCodeName"
-                tambolValueField="shippingTambolCode"
-                tambolNameField="shippingTambolCodeName"
-                provinceValue={shippingProvinceCode}
-                amphurValue={shippingAmphurCode}
-                tambolValue={shippingTambolCode}
-                provinceName={shippingProvinceCodeName}
-                amphurName={shippingAmphurCodeName}
-                tambolName={shippingTambolCodeName}
-                handleChange={this.handleLocationChange}
-                ref={node => {
-                  this.shippingLocation = node;
-                }}
-              />
-            </div>
+          <div className="col-2">
+            <TextField
+              id="shippingFloor"
+              name="shippingFloor"
+              floatingLabelText="ชั้น"
+              value={shippingFloor}
+              onChange={({ target: { value } }) =>
+                this.setState({
+                  shippingFloor: Number.parseFloat(value) || 0,
+                })
+              }
+              maxLength="3"
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="รหัสไปรษณีย์"
-                value={shippingPostalCode}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="5"
-                fullWidth
-              />
-            </div>
+          <div className="col-4">
+            <TextField
+              id="shippingSoi"
+              name="shippingSoi"
+              floatingLabelText="ซอย"
+              value={shippingSoi}
+              errorText={shippingSoiMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="100"
+              fullWidth
+            />
+          </div>
+          <div className="col-6">
+            <TextField
+              id="shippingRoad"
+              name="shippingRoad"
+              floatingLabelText="ถนน"
+              value={shippingRoad}
+              errorText={shippingRoadMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="100"
+              fullWidth
+            />
+          </div>
+          <div className="col-12">
+            <Location
+              id="location1"
+              name="location1"
+              provinceValueField="shippingProvinceCode"
+              provinceNameField="shippingProvinceCodeName"
+              amphurValueField="shippingAmphurCode"
+              amphurNameField="shippingAmphurCodeName"
+              tambolValueField="shippingTambolCode"
+              tambolNameField="shippingTambolCodeName"
+              provinceValue={shippingProvinceCode}
+              amphurValue={shippingAmphurCode}
+              tambolValue={shippingTambolCode}
+              provinceName={shippingProvinceCodeName}
+              amphurName={shippingAmphurCodeName}
+              tambolName={shippingTambolCodeName}
+              handleChange={this.handleLocationChange}
+              ref={node => {
+                this.shippingLocation = node;
+              }}
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="รหัสไปรษณีย์"
+              value={shippingPostalCode}
+              errorText={shippingPostalCodeMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="10"
+              fullWidth
+            />
           </div>
         </div>;
     }
