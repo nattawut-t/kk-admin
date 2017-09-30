@@ -126,8 +126,6 @@ class PersonalInfo extends Component {
   componentDidMount() {
     const { data } = this.props;
 
-    console.log('pi.componentDidMount', data);
-
     this.setState(data,
       () => {
         this.initialMessage();
@@ -420,9 +418,11 @@ class PersonalInfo extends Component {
       village,
       soi,
       road,
+      //
       province,
       amphurCode,
       tambolCode,
+      //
       provinceName,
       amphurCodeName,
       tambolCodeName,
@@ -502,12 +502,15 @@ class PersonalInfo extends Component {
       village,
       soi,
       road,
+      //
       province,
       amphurCode,
       tambolCode,
+      //
       provinceName,
       amphurCodeName,
       tambolCodeName,
+
       zipCode,
       //
       number2,
@@ -1051,7 +1054,12 @@ class PersonalInfo extends Component {
                     provinceName={officeProvinceName}
                     amphurName={officeAmphurCodeName}
                     tambolName={officeTambolCodeName}
-                    handleChange={this.handleLocationChange}
+                    handleChange={(valueField, nameField, value, name) => this.handleLocationChange(
+                      valueField,
+                      nameField,
+                      value,
+                      name,
+                    )}
                   />
                 </div>
               </div>
@@ -1154,7 +1162,12 @@ class PersonalInfo extends Component {
                     provinceName={provinceName}
                     amphurName={amphurCodeName}
                     tambolName={tambolCodeName}
-                    handleChange={this.handleLocationChange}
+                    handleChange={(valueField, nameField, value, name) => this.handleLocationChange(
+                      valueField,
+                      nameField,
+                      value,
+                      name,
+                    )}
                   />
                 </div>
               </div>
@@ -1302,7 +1315,13 @@ class PersonalInfo extends Component {
                       provinceName={province2Name}
                       amphurName={amphurCode2Name}
                       tambolName={tambolCode2Name}
-                      handleChange={this.handleLocationChange}
+                      handleChange={(valueField, nameField, value, name) =>
+                        this.handleLocationChange(
+                          valueField,
+                          nameField,
+                          value,
+                          name,
+                        )}
                       disabled={isSameAddress}
                     />
                   </div>

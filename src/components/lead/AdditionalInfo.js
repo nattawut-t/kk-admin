@@ -55,15 +55,12 @@ class AdditionalInfo extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0);
-    console.log('ai.componentWillMount');
     const { getDraft } = this.props;
     getDraft();
   }
 
   componentDidMount() {
     const { data } = this.props;
-
-    console.log('ai.componentDidMount', data);
 
     this.setState(data,
       () => {
