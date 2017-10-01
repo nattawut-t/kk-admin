@@ -42,12 +42,8 @@ const initialState = {
 export const get = callback => dispatch =>
   putJson(url(), {})
     .then(response => {
-      console.log('>>> getPersonalInfo.response: ', response);
-
       const { data: { data } } = response;
       const _draft = JSON.parse(data);
-
-      console.log('>>> getPersonalInfo.data: ', _draft);
 
       dispatch(getSuccess(parse(_draft)));
 
@@ -68,7 +64,6 @@ export const save = (_data, callback) =>
       const _draft = Object.assign(draft, _data);
       const { data: { data } } = await putJson(url(), _draft);
 
-      console.log('>>> savePersonalInfo.response: ', data);
       dispatch(savePersonalInfoSuccess(data));
 
       if (callback) {
@@ -96,8 +91,6 @@ const draft = (state = initialState, action) => {
           data: _personalInfo,
         },
       );
-
-      console.log('GET_PERSONAL_INFO_SUCCESS', state, _state);
 
       return _state;
 

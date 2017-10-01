@@ -10,11 +10,6 @@ import {
   LOAD_NEXT_PAGE_SUCCESS,
   SEARCH_SUCCESS,
   SET_LOADING,
-  //
-  acceptAgreementSuccess,
-  completePersonalInfoSuccess,
-  completeLoanInfoSuccess,
-  completeAdditionalInfoSuccess,
   uploadDocumentSuccess,
   notify,
   //
@@ -27,7 +22,6 @@ import {
   saveSuccess,
   loadDocumentsSuccess,
   selectDataSuccess,
-  getDraftSuccess,
   //
   EDIT_SUCCESS,
   SAVE_SUCCESS,
@@ -48,7 +42,7 @@ import {
   pageSize,
   loadingTime,
   // dateFormat,
-  isAdmin,
+  // isAdmin,
 } from '../libs/config';
 import { parseLeadIn as parseIn, split } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
@@ -194,6 +188,8 @@ export function save(callback) {
     data.dateExp = moment(data.dateExp).format();
     data.employmentDate = moment(data.employmentDate).format();
 
+    console.log('save.date: ', data.dateReq, data.birthDate, data.dateExp, data.employmentDate);
+
     let url = saveUrl();
     let request = postJson;
 
@@ -223,137 +219,137 @@ export function save(callback) {
   };
 }
 
-export function saveDraft(callback) {
-  return (dispatch, getState) => {
-    dispatch(setLoading(true));
+// export function saveDraft(callback) {
+//   return (dispatch, getState) => {
+//     dispatch(setLoading(true));
 
-    const _state = getState().lead;
+//     const _state = getState().lead;
 
-    let _agreement = _state.get('agreement');
-    let _personalInfo = _state.get('personalInfo');
-    let _loanInfo = _state.get('loanInfo');
-    let _additionalInfo = _state.get('additionalInfo');
+//     let _agreement = _state.get('agreement');
+//     let _personalInfo = _state.get('personalInfo');
+//     let _loanInfo = _state.get('loanInfo');
+//     let _additionalInfo = _state.get('additionalInfo');
 
-    _agreement = (_agreement && typeof _agreement.toJS === 'function')
-      ? _agreement.toJS() : agreement.data();
+//     _agreement = (_agreement && typeof _agreement.toJS === 'function')
+//       ? _agreement.toJS() : agreement.data();
 
-    _personalInfo = (_personalInfo && typeof _personalInfo.toJS === 'function')
-      ? _personalInfo.toJS() : personalInfo.data();
+//     _personalInfo = (_personalInfo && typeof _personalInfo.toJS === 'function')
+//       ? _personalInfo.toJS() : personalInfo.data();
 
-    _loanInfo = (_loanInfo && typeof _loanInfo.toJS === 'function')
-      ? _loanInfo.toJS() : loanInfo.data();
+//     _loanInfo = (_loanInfo && typeof _loanInfo.toJS === 'function')
+//       ? _loanInfo.toJS() : loanInfo.data();
 
-    _additionalInfo = (_additionalInfo && typeof _additionalInfo.toJS === 'function')
-      ? _additionalInfo.toJS() : additionalInfo.data();
+//     _additionalInfo = (_additionalInfo && typeof _additionalInfo.toJS === 'function')
+//       ? _additionalInfo.toJS() : additionalInfo.data();
 
-    const data = Object.assign(_agreement, _personalInfo, _loanInfo, _additionalInfo);
-    const url = saveUrl();
+//     const data = Object.assign(_agreement, _personalInfo, _loanInfo, _additionalInfo);
+//     const url = saveUrl();
 
-    putJson(url, data)
-      .then(response => {
-        console.log('>>> saveDraft.response: ', response);
+//     putJson(url, data)
+//       .then(response => {
+//         console.log('>>> saveDraft.response: ', response);
 
-        dispatch(notify('บันทึกข้อมูลแบบร่างแล้ว'));
-        setTimeout(() => {
-          dispatch(notify(''));
+//         dispatch(notify('บันทึกข้อมูลแบบร่างแล้ว'));
+//         setTimeout(() => {
+//           dispatch(notify(''));
 
-          if (callback) {
-            callback();
-          }
+//           if (callback) {
+//             callback();
+//           }
 
-          dispatch(setLoading(false));
-        }, loadingTime);
-      })
-      .catch(error => {
-        console.log('>>> saveDraft.error: ', error);
-        setTimeout(() => {
-          dispatch(notify(''));
-          dispatch(setLoading(false));
-        }, loadingTime);
-      });
-  };
-}
+//           dispatch(setLoading(false));
+//         }, loadingTime);
+//       })
+//       .catch(error => {
+//         console.log('>>> saveDraft.error: ', error);
+//         setTimeout(() => {
+//           dispatch(notify(''));
+//           dispatch(setLoading(false));
+//         }, loadingTime);
+//       });
+//   };
+// }
 
-export function getDraft(callback) {
-  return dispatch => {
-    const url = saveUrl();
+// export function getDraft(callback) {
+//   return dispatch => {
+//     const url = saveUrl();
 
-    putJson(url, {})
-      .then(response => {
-        const { data: { data } } = response;
-        const draft = data ? JSON.parse(data) : {};
+//     putJson(url, {})
+//       .then(response => {
+//         const { data: { data } } = response;
+//         const draft = data ? JSON.parse(data) : {};
 
-        const _agreement = agreement.data(draft);
-        const _personalInfo = personalInfo.data(draft);
-        const _loanInfo = loanInfo.data(draft);
-        const _additionalInfo = additionalInfo.data(draft);
+//         const _agreement = agreement.data(draft);
+//         const _personalInfo = personalInfo.data(draft);
+//         const _loanInfo = loanInfo.data(draft);
+//         const _additionalInfo = additionalInfo.data(draft);
 
-        dispatch(getDraftSuccess(_agreement, _personalInfo, _loanInfo, _additionalInfo));
+//         dispatch(getDraftSuccess(_agreement, _personalInfo, _loanInfo, _additionalInfo));
 
-        if (callback) {
-          callback();
-        }
+//         if (callback) {
+//           callback();
+//         }
 
-        dispatch(notify('โหลดข้อมูลแบบร่างแล้ว'));
-        setTimeout(() => dispatch(notify('')), loadingTime);
-      })
-      .catch(error => {
-        console.log('>>> getDraft.error: ', error);
-        setTimeout(() => dispatch(notify('')), loadingTime);
-      });
-  };
-}
+//         dispatch(notify('โหลดข้อมูลแบบร่างแล้ว'));
+//         setTimeout(() => dispatch(notify('')), loadingTime);
+//       })
+//       .catch(error => {
+//         console.log('>>> getDraft.error: ', error);
+//         setTimeout(() => dispatch(notify('')), loadingTime);
+//       });
+//   };
+// }
 
-export function saveAgreement(data, callback) {
-  return dispatch => {
-    dispatch(acceptAgreementSuccess(data));
+// export function saveAgreement(data, callback) {
+//   return dispatch => {
+//     dispatch(acceptAgreementSuccess(data));
 
-    if (!isAdmin()) {
-      return dispatch(saveDraft(callback));
-    }
+//     if (!isAdmin()) {
+//       return dispatch(saveDraft(callback));
+//     }
 
-    return callback();
-  };
-}
+//     return callback();
+//   };
+// }
 
-export function savePersonalInfo(data, callback) {
-  return dispatch => {
-    dispatch(completePersonalInfoSuccess(data));
+// export function savePersonalInfo(data, callback) {
+//   return dispatch => {
+//     dispatch(completePersonalInfoSuccess(data));
 
-    if (!isAdmin()) {
-      return dispatch(saveDraft(callback));
-    }
+//     if (!isAdmin()) {
+//       return dispatch(saveDraft(callback));
+//     }
 
-    return callback();
-  };
-}
+//     return callback();
+//   };
+// }
 
-export function saveLoanInfo(data, callback) {
-  return dispatch => {
-    dispatch(completeLoanInfoSuccess(data));
+// export function saveLoanInfo(data, callback) {
+//   return dispatch => {
+//     dispatch(completeLoanInfoSuccess(data));
 
-    if (!isAdmin()) {
-      return dispatch(saveDraft(callback));
-    }
+//     if (!isAdmin()) {
+//       return dispatch(saveDraft(callback));
+//     }
 
-    return callback();
-  };
-}
+//     return callback();
+//   };
+// }
 
-export function saveAdditionalInfo(data, callback) {
-  console.log('reducer.lead.completeAdditionalInfo');
-  return dispatch => {
-    dispatch(completeAdditionalInfoSuccess(data));
+// export function saveAdditionalInfo(data, callback) {
+//   console.log('reducer.lead.completeAdditionalInfo');
+//   return dispatch => {
+//     dispatch(completeAdditionalInfoSuccess(data));
 
-    console.log(1);
-    if (!isAdmin()) {
-      console.log(2);
-      return dispatch(saveDraft(callback));
-    }
+//     console.log(1);
+//     if (!isAdmin()) {
+//       console.log(2);
+//       return dispatch(saveDraft(callback));
+//     }
 
-    return callback();
-  };
-}
+//     return callback();
+//   };
+// }
 
 export function uploadDocument(field, path, name, data, docType, callback) {
   return dispatch => {
@@ -499,237 +495,20 @@ export function selectData(rowIndex) {
           setTimeout(() =>
             promise.then(response => {
               const { data } = response;
+              const raw = parseIn(data);
+              const { ID } = raw;
+              const _data = Object.assign(
+                agreement.data(raw),
+                personalInfo.data(raw),
+                loanInfo.data(raw),
+                additionalInfo.data(raw),
+              );
 
-              const {
-                ID,
-                Status,
-                //
-                dateReq,
-                prefixTH,
-                firstNameTH,
-                lastNameTH,
-                prefixEN,
-                firstNameEN,
-                lastNameEN,
-                idCard,
-                dateExp,
-                birthDate,
-                status,
-                //
-                jobCompanyName,
-                department,
-                position,
-                employmentDate,
-                jobSalary,
-                workTel,
-                telExtension,
-                officeNumber,
-                officeMoo,
-                officeVillage,
-                officeSoi,
-                officeRoad,
-                officeProvinceName,
-                officeAmphurCodeName,
-                officeTambolCodeName,
-                officeZipCode,
-                //
-                number,
-                moo,
-                village,
-                soi,
-                road,
-                province,
-                amphurCode,
-                tambolCode,
-                provinceName,
-                amphurCodeName,
-                tambolCodeName,
-                zipCode,
-                //
-                number2,
-                moo2,
-                village2,
-                soi2,
-                road2,
-                province2,
-                amphurCode2,
-                tambolCode2,
-                province2Name,
-                amphurCode2Name,
-                tambolCode2Name,
-                zipCode2,
-                //
-                workTel2,
-                homeTel2,
-                email,
-                detailRent,
-                //
-                loanAmount,
-                installmentNumber,
-                beneficiary,
-                loanBeneficiaryName,
-                accumulateDebt,
-                creditCardTotal,
-                paymentHistoryExists,
-                pLoanApplicationHositoryExists,
-                overdueDebtExists,
-                bankAccountNo,
-                bankAccountName,
-                bankCode,
-                bankName,
-                bankBranchName,
-                //
-                ref1Prefix,
-                ref1Firstname,
-                ref1Lastname,
-                ref1Relationship,
-                ref1Mobile,
-                ref1WorkTelephone,
-                ref1HomeTelephone,
-                //
-                ref2Prefix,
-                ref2Firstname,
-                ref2Lastname,
-                ref2Relationship,
-                ref2Mobile,
-                ref2WorkTelephone,
-                ref2HomeTelephone,
-                //
-                shippingHouseNo,
-                shippingMoo,
-                shippingVillage,
-                shippingFloor,
-                shippingSoi,
-                shippingRoad,
-                shippingProvinceCodeName,
-                shippingAmphurCodeName,
-                shippingTambolCodeName,
-                shippingPostalCode,
-                //
-                fileName0,
-                fileName1,
-                fileName2,
-                fileName3,
-                fileName4,
-                fileName5,
-                fileName6,
-              } = parseIn(data);
+              console.log('selectData.data: ', _data);
 
-              const entry = {
-                id: ID,
-                status: Status,
-                //
-                dateReq: dateReq ? moment(dateReq).toDate() : null,
-                nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
-                nameEN: `${prefixEN || ''} ${firstNameEN || ''} ${lastNameEN || ''}`.trim(),
-                idcardNo: idCard,
-                idcardExpiry: dateExp ? moment(dateExp).toDate() : null,
-                birthDate: birthDate ? moment(birthDate).toDate() : null,
-                maritalStatus: status,
-                //
-                companyName: jobCompanyName,
-                department,
-                position,
-                employmentDate: employmentDate ? moment(employmentDate).toDate() : null,
-                salary: jobSalary,
-                //
-                officeTel: workTel,
-                officeTelExt: telExtension,
-                officeNumber,
-                officeMoo,
-                officeVillage,
-                officeSoi,
-                officeRoad,
-                officeProvinceName,
-                officeAmphurCodeName,
-                officeTambolCodeName,
-                officeZipCode,
-                //
-                number,
-                moo,
-                village,
-                soi,
-                road,
-                province,
-                amphurCode,
-                tambolCode,
-                provinceName,
-                amphurCodeName,
-                tambolCodeName,
-                zipCode,
-                //
-                number2,
-                moo2,
-                village2,
-                soi2,
-                road2,
-                province2,
-                amphurCode2,
-                tambolCode2,
-                province2Name,
-                amphurCode2Name,
-                tambolCode2Name,
-                zipCode2,
-                //
-                workTel2,
-                homeTel2,
-                email,
-                detailRent,
-                //
-                loanAmount,
-                installmentNumber,
-                beneficiary: (beneficiary === 'others') ? loanBeneficiaryName : beneficiary,
-                loanBeneficiaryName,
-                accumulateDebt,
-                creditCardTotal,
-                paymentHistoryExists,
-                pLoanApplicationHositoryExists,
-                overdueDebtExists,
-                bankAccountNo,
-                bankAccountName,
-                bankCode,
-                bankName,
-                bankBranchName,
-                //
-                ref1Prefix,
-                ref1Firstname,
-                ref1Lastname,
-                ref1Relationship,
-                ref1Mobile,
-                ref1WorkTelephone,
-                ref1HomeTelephone,
-                //
-                ref2Prefix,
-                ref2Firstname,
-                ref2Lastname,
-                ref2Relationship,
-                ref2Mobile,
-                ref2WorkTelephone,
-                ref2HomeTelephone,
-                //
-                shippingHouseNo,
-                shippingMoo,
-                shippingVillage,
-                shippingFloor,
-                shippingSoi,
-                shippingRoad,
-                shippingProvinceCodeName,
-                shippingAmphurCodeName,
-                shippingTambolCodeName,
-                shippingPostalCode,
-                //
-                fileName0,
-                fileName1,
-                fileName2,
-                fileName3,
-                fileName4,
-                fileName5,
-                fileName6,
-              };
+              // console.log('data: ', _data);
 
-              console.log('entry: ', entry);
-
-              dispatch(selectDataSuccess(`${ID}`, entry));
+              dispatch(selectDataSuccess(`${ID}`, _data));
               return dispatch(setLoading(false));
             })
               .catch(error => {

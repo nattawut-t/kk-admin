@@ -74,12 +74,16 @@ class PersonalInfo extends Component {
   render() {
     const {
       dateReq,
-      nameTH,
-      nameEN,
-      idcardNo,
-      idcardExpiry,
+      prefixTH,
+      firstNameTH,
+      lastNameTH,
+      prefixEN,
+      firstNameEN,
+      lastNameEN,
+      idCard,
+      dateExp,
       birthDate,
-      maritalStatus,
+      status,
     } = this.state;
     return (
       <Card style={styles.marginBottom}>
@@ -106,22 +110,64 @@ class PersonalInfo extends Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-6">
+            <div className="col-4">
               <TextField
-                id="nameTH"
-                name="nameTH"
-                value={nameTH}
-                floatingLabelText="ชื่อ / นามสกุล (TH)"
+                id="prefixTH"
+                name="prefixTH"
+                value={prefixTH}
+                floatingLabelText="คำนำหน้าชื่อ (TH)"
                 fullWidth
                 readOnly
               />
             </div>
-            <div className="col-6">
+            <div className="col-4">
               <TextField
-                id="nameEN"
-                name="nameEN"
-                value={nameEN}
-                floatingLabelText="ชื่อ / นามสกุล (EN)"
+                id="firstNameTH"
+                name="firstNameTH"
+                value={firstNameTH}
+                floatingLabelText="ชื่อ (TH)"
+                fullWidth
+                readOnly
+              />
+            </div>
+            <div className="col-4">
+              <TextField
+                id="lastNameTH"
+                name="lastNameTH"
+                value={lastNameTH}
+                floatingLabelText="นามสกุล (TH)"
+                fullWidth
+                readOnly
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-4">
+              <TextField
+                id="prefixEN"
+                name="prefixEN"
+                value={prefixEN}
+                floatingLabelText="คำนำหน้าชื่อ (EN)"
+                fullWidth
+                readOnly
+              />
+            </div>
+            <div className="col-4">
+              <TextField
+                id="firstNameEN"
+                name="firstNameEN"
+                value={firstNameEN}
+                floatingLabelText="ชื่อ (EN)"
+                fullWidth
+                readOnly
+              />
+            </div>
+            <div className="col-4">
+              <TextField
+                id="lastNameEN"
+                name="lastNameEN"
+                value={lastNameEN}
+                floatingLabelText="นามสกุล (EN)"
                 fullWidth
                 readOnly
               />
@@ -130,9 +176,9 @@ class PersonalInfo extends Component {
           <div className="row">
             <div className="col-6">
               <TextField
-                id="idcardNo"
-                name="idcardNo"
-                value={idcardNo}
+                id="idCard"
+                name="idCard"
+                value={idCard}
                 floatingLabelText="เลขบัตรประชาชน"
                 fullWidth
                 readOnly
@@ -140,11 +186,11 @@ class PersonalInfo extends Component {
             </div>
             <div className="col-6">
               <DatePicker
-                id="idcardExpiry"
-                name="idcardExpiry"
+                id="dateExp"
+                name="dateExp"
                 mode="landscape"
                 floatingLabelText="วันหมดอายุ"
-                value={idcardExpiry}
+                value={dateExp}
                 onChange={this.handleDateChange}
                 DateTimeFormat={DateTimeFormat}
                 locale="th-TH"
@@ -168,9 +214,9 @@ class PersonalInfo extends Component {
             </div>
             <div className="col-6">
               <TextField
-                id="maritalStatus"
-                name="maritalStatus"
-                value={maritalStatus}
+                id="status"
+                name="status"
+                value={status}
                 floatingLabelText="สถานภาพสมรส"
                 fullWidth
                 readOnly

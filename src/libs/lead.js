@@ -16,11 +16,9 @@ export const parseLeadIn = ({
   ReferenceID,
   Data,
 }) => {
-  let entry = JSON.parse(Data) || {};
-  const { prefixTH, firstNameTH, lastNameTH } = entry;
-  const nameTH = `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim();
+  const data = JSON.parse(Data) || {};
 
-  entry = Object.assign({
+  const _data = Object.assign({
     ID,
     CreatedAt,
     UpdatedAt,
@@ -34,11 +32,11 @@ export const parseLeadIn = ({
     Status,
     ReferenceID,
   },
-    entry,
-    { nameTH },
+    data,
+    // { nameTH },
   );
 
-  return entry;
+  return _data;
 };
 
 export const split = data => {
@@ -53,14 +51,15 @@ export const split = data => {
     idCard,
     dateExp,
     status,
+    //
     department,
     position,
     workTel2,
     homeTel2,
     detailRent,
     workTel,
-    // workTelValid,
     telExtension,
+    //
     number,
     moo,
     village,
@@ -73,6 +72,7 @@ export const split = data => {
     amphurCodeName,
     tambolCodeName,
     zipCode,
+    //
     number2,
     moo2,
     village2,
@@ -85,10 +85,12 @@ export const split = data => {
     email,
     employmentDate,
     jobSalary,
+    ot,
     //
     officeNumber,
     officeMoo,
     officeVillage,
+    officeFloor,
     officeSoi,
     officeRoad,
     officeProvince,
@@ -115,41 +117,24 @@ export const split = data => {
     bankBranchName,
     //
     ref1Prefix,
-    // ref1PrefixMsg,
     ref1Firstname,
-    // ref1FirstnameMsg,
     ref1Lastname,
-    // ref1LastnameMsg,
     ref1Relationship,
     ref1Mobile,
-    // ref1MobileMsg,
     ref1WorkTelephone,
-    // ref1WorkTelephoneMsg,
     ref1HomeTelephone,
-    // ref1HomeTelephoneMsg,
     ref2Prefix,
-    // ref2PrefixMsg,
     ref2Firstname,
-    // ref2FirstnameMsg,
     ref2Lastname,
-    // ref2LastnameMsg,
     ref2Relationship,
     ref2Mobile,
-    // ref2MobileMsg,
     ref2WorkTelephone,
-    // ref2WorkTelephoneMsg,
     ref2HomeTelephone,
-    // ref2HomeTelephoneMsg,
     conjugalPrefix,
-    // conjugalPrefixMsg,
     conjugalFirstname,
-    // conjugalFirstnameMsg,
     conjugalLastname,
-    // conjugalLastnameMsg,
     conjugalOccupation,
-    // conjugalOccupationMsg,
     conjugalIncome,
-    // conjugalIncomeMsg,
     children,
     //
     shippingHouseNo,
@@ -221,6 +206,7 @@ export const split = data => {
     zipCode2: zipCode2 || '',
     isSameAddress: isSameAddress || false,
     jobCompanyName: jobCompanyName || '',
+    ot: ot || 0,
     birthDate: birthDate ? moment(birthDate).toDate() : null,
     email: email || '',
     employmentDate: employmentDate ? moment(employmentDate).toDate() : null,
@@ -229,6 +215,7 @@ export const split = data => {
     officeNumber: officeNumber || '',
     officeMoo: officeMoo || '',
     officeVillage: officeVillage || '',
+    officeFloor: officeFloor || 1,
     officeSoi: officeSoi || '',
     officeRoad: officeRoad || '',
     officeProvince: officeProvince || '',
@@ -259,22 +246,22 @@ export const split = data => {
     bankBranchName: bankBranchName || '',
   };
   // ref1PrefixMsg,
-// ref1FirstnameMsg,
-// ref1LastnameMsg,
-// ref1MobileMsg,
-// ref1WorkTelephoneMsg,
-// ref1HomeTelephoneMsg,
-// ref2PrefixMsg,
-// ref2FirstnameMsg,
-// ref2MobileMsg,
-// ref2LastnameMsg,
-// ref2WorkTelephoneMsg,
-// ref2HomeTelephoneMsg,
-// conjugalPrefixMsg,
-// conjugalFirstnameMsg,
-// conjugalLastnameMsg,
-// conjugalOccupationMsg,
-// conjugalIncomeMsg,
+  // ref1FirstnameMsg,
+  // ref1LastnameMsg,
+  // ref1MobileMsg,
+  // ref1WorkTelephoneMsg,
+  // ref1HomeTelephoneMsg,
+  // ref2PrefixMsg,
+  // ref2FirstnameMsg,
+  // ref2MobileMsg,
+  // ref2LastnameMsg,
+  // ref2WorkTelephoneMsg,
+  // ref2HomeTelephoneMsg,
+  // conjugalPrefixMsg,
+  // conjugalFirstnameMsg,
+  // conjugalLastnameMsg,
+  // conjugalOccupationMsg,
+  // conjugalIncomeMsg,
   const additionalInfo = {
     ref1Prefix: ref1Prefix || '',
     ref1Firstname: ref1Firstname || '',
