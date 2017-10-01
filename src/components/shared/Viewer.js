@@ -184,8 +184,7 @@ class Viewer extends Component {
 
   handleDocumentClick = () => {
     const { id, loadDocuments } = this.props;
-    if (loadDocuments) {
-      console.log(id);
+    if (id && loadDocuments) {
       loadDocuments(id, () => this.setState({ doc: true }));
     }
   };
@@ -203,7 +202,8 @@ class Viewer extends Component {
   };
 
   render() {
-    const { data, loading, documents } = this.props;
+    const { id, data, loading, documents } = this.props;
+    // console.log('render.documents: ', documents);
 
     if (!data || loading) {
       return <div className="loader" />;
@@ -217,7 +217,8 @@ class Viewer extends Component {
       doc,
       // imageData,
     } = this.state;
-    const { id, status } = data;
+
+    const { status } = data;
 
     const rejectActions = [
       <FlatButton

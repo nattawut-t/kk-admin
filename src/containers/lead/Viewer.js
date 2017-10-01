@@ -11,8 +11,6 @@ const transform = (state, key) => {
       ? data.toJS()
       : data;
 
-    console.log('ctn.data: ', data);
-
     return data;
   }
   return null;

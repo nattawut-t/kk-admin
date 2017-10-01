@@ -295,6 +295,7 @@ export function edit(id, callback) {
 }
 
 export function loadDocuments(id, callback) {
+  console.log('loadDocuments');
   return dispatch => {
     dispatch(setLoading(true));
 
@@ -303,6 +304,8 @@ export function loadDocuments(id, callback) {
     getJson(url)
       .then(response => {
         const { data } = response;
+
+        console.log('documents: ', data);
 
         dispatch(loadDocumentsSuccess(data));
         if (callback) {
@@ -366,9 +369,6 @@ export function selectData(rowIndex) {
             ? `/admin/leads/${newId}`
             : `/api/work/leads/${newId}`;
           const url = portalUrl(_endpoint);
-
-          console.log('selectData.url: ', url);
-
           const promise = getJson(url);
 
           setTimeout(() =>
@@ -382,8 +382,6 @@ export function selectData(rowIndex) {
                 loanInfo.data(raw),
                 additionalInfo.data(raw),
               );
-
-              console.log('selectData.data: ', _data);
 
               dispatch(selectDataSuccess(`${ID}`, _data));
               return dispatch(setLoading(false));

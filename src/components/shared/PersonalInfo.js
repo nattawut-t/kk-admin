@@ -69,7 +69,6 @@ class PersonalInfo extends Component {
 
   componentWillMount() {
     const { data } = this.props;
-    console.log('pi.data: ', data);
     if (data) {
       this.setState(data);
     }
@@ -92,21 +91,6 @@ class PersonalInfo extends Component {
       birthDate,
       status,
     } = this.state;
-
-    console.log(
-      'pi.render: ',
-      dateReq,
-      prefixTH,
-      firstNameTH,
-      lastNameTH,
-      prefixEN,
-      firstNameEN,
-      lastNameEN,
-      idCard,
-      dateExp,
-      birthDate,
-      status,
-    );
 
     return (
       <Card style={styles.marginBottom}>

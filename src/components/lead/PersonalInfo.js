@@ -616,7 +616,6 @@ class PersonalInfo extends Component {
   }
 
   render() {
-    // console.log('pi.render: ', this.state);
     if (!this.state) {
       return <div className="loader" />;
     }
