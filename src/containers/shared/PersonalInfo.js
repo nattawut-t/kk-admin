@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import Component from '../../components/shared/PersonalInfo';
-// import { isAdmin } from '../../libs/config';
 
 const transform = (state, key) => {
   if (state && key) {
@@ -9,10 +8,6 @@ const transform = (state, key) => {
   }
   return null;
 };
-
-// const getState = state => isAdmin()
-//   ? state.admin
-//   : state.lead;
 
 const mapStateToProps = ({ lead }) => ({
   id: lead.get('id') || '',

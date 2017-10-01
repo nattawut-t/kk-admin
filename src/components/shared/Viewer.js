@@ -41,6 +41,8 @@ import LoanInfo from '../../containers/shared/LoanInfo';
 import Reference1Info from '../../containers/shared/Reference1Info';
 import Reference2Info from '../../containers/shared/Reference2Info';
 import ShippingAddress from '../../containers/shared/ShippingAddress';
+// import Document from '../../containers/shared/Document';
+
 import { isAdmin } from '../../libs/config';
 
 const styles = {
@@ -116,6 +118,13 @@ const infos = [
     // icon: 'perm_identity',
     component: <ShippingAddress />,
   },
+  // {
+  //   id: 10,
+  //   name: 'document',
+  //   label: 'เอกสาร',
+  //   // icon: 'perm_identity',
+  //   component: <Document />,
+  // },
 ];
 
 class Viewer extends Component {

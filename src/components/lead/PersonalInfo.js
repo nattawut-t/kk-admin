@@ -71,9 +71,45 @@ const styles = {
   },
 };
 
-const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+const emptyInputMessage = 'กรุณากรอกข้อมูล';
+const requiredMessage = (required, value) => (required && !value) ? emptyInputMessage : '';
+
+const validateBirthDate = value => {
+  const age = moment().diff(value, 'years');
+
+  if (!value) {
+    return emptyInputMessage;
+  } else if ((age < 20) || (age > 60)) {
+    return 'ผู้สมัครต้องมีอายุระหว่าง 20 - 60 ปี';
+  }
+
+  return '';
+};
+
+const validateDateExp = value => {
+  const diff = moment().diff(value, 'days');
+
+  if (!value) {
+    return emptyInputMessage;
+  } else if (diff >= 0) {
+    return 'วันหมดอายุบัตรประชาชนไม่ถูกต้อง';
+  }
+
+  return '';
+};
+
+// const validateSalary = value => {
+//   if (!value) {
+//     return emptyInputMessage;
+//   } else if (value < 8000) {
+//     return 'เงินเดือนต้องไม่ต่ำกว่า 8,000 บาท';
+//   }
+
+//   return '';
+// }
+
 const validationKeys = [
-  'dateReq',
+  // 'dateReq',
   'prefixTH',
   'firstNameTH',
   'lastNameTH',
@@ -88,7 +124,7 @@ const validationKeys = [
   'detailRent',
   'workTel',
   'jobCompanyName',
-  'birthDate',
+  // 'birthDate',
   'email',
   'employmentDate',
   'jobSalary',
@@ -142,19 +178,22 @@ class PersonalInfo extends Component {
       }))
       .find(({ value }) => !value);
 
-    const { email, jobSalary } = this.state;
-    const salary = Number.parseFloat(jobSalary) || 0;
+    const { email, jobSalary, birthDate, dateExp } = this.state;
 
+    const salary = Number.parseFloat(jobSalary) || 0;
     const valid = emailRegex.test(email) && salary > 0;
 
     const { detailRent, etc, rentalFee } = this.state;
-    const valid1 = ['ของตนเอง', 'ของบิดามารดา', 'ของญาติ'].indexOf(detailRent) > -1 ||
+    const detailRentValid = ['ของตนเอง', 'ของบิดามารดา', 'ของญาติ'].indexOf(detailRent) > -1 ||
       (detailRent === 'อื่นๆ' && etc) ||
       ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
 
-    console.log('invalid: ', invalid, valid, valid1);
+    const birthDateErrorMessage = validateBirthDate(birthDate);
+    const dateExpErrorMessage = validateDateExp(dateExp);
 
-    return !invalid && valid && valid1;
+    console.log('invalid: ', invalid, valid, detailRentValid, birthDateErrorMessage);
+
+    return !invalid && valid && detailRentValid && !birthDateErrorMessage && !dateExpErrorMessage;
   }
 
   initialMessage = () => {
@@ -233,15 +272,13 @@ class PersonalInfo extends Component {
   };
 
   handleDateExpChange = (e, value) => {
-    this.setState({ dateExp: value },
+    this.setState({
+      dateExp: value,
+      dateExpmsg: validateDateExp(value),
+    },
       () => {
-        const msg = requiredMessage(true, value);
-        this.setState({ dateExpmsg: msg },
-          () => {
-            const valid = this.validate();
-            this.setState({ valid });
-          },
-        );
+        const valid = this.validate();
+        this.setState({ valid });
       });
   };
 
@@ -259,15 +296,13 @@ class PersonalInfo extends Component {
   };
 
   handleBirthDateChange = (e, value) => {
-    this.setState({ birthDate: value },
+    this.setState({
+      birthDate: value,
+      birthDatemsg: validateBirthDate(value),
+    },
       () => {
-        const msg = requiredMessage(true, value);
-        this.setState({ birthDatemsg: msg },
-          () => {
-            const valid = this.validate();
-            this.setState({ valid });
-          },
-        );
+        const valid = this.validate();
+        this.setState({ valid });
       });
   };
 
