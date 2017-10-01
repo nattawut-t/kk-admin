@@ -183,9 +183,8 @@ class Viewer extends Component {
   };
 
   handleDocumentClick = () => {
-    const { data, loadDocuments } = this.props;
+    const { id, loadDocuments } = this.props;
     if (loadDocuments) {
-      const { id } = data;
       console.log(id);
       loadDocuments(id, () => this.setState({ doc: true }));
     }
@@ -405,7 +404,7 @@ class Viewer extends Component {
                 <TableHeaderColumn style={{ width: '20%', textAlign: 'center' }}>รหัส</TableHeaderColumn>
                 <TableHeaderColumn style={{ width: '30%', textAlign: 'center' }}>ชื่อ</TableHeaderColumn>
                 <TableHeaderColumn style={{ width: '30%', textAlign: 'center' }}>ประเภท</TableHeaderColumn>
-                <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>เปิด</TableHeaderColumn>
+                <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>ดู</TableHeaderColumn>
                 <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>ลบ</TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -465,6 +464,7 @@ class Viewer extends Component {
 }
 
 Viewer.propTypes = {
+  id: PropTypes.string,
   history: PropTypes.object.isRequired,
   data: PropTypes.object,
   loading: PropTypes.bool,
@@ -478,6 +478,7 @@ Viewer.propTypes = {
 };
 
 Viewer.defaultProps = {
+  id: '',
   data: null,
   loading: false,
   approve: null,

@@ -18,10 +18,10 @@ const transform = (state, key) => {
   return null;
 };
 
-const mapStateToProps = state => ({
-  data: transform(state.admin, 'data'),
-  loading: state.admin.get('loading') || false,
-  documents: transform(state.lead, 'documents'),
+const mapStateToProps = ({ lead }) => ({
+  data: transform(lead, 'data'),
+  loading: lead.get('loading') || false,
+  documents: transform(lead, 'documents'),
 });
 
 const mapDispatchToProps = dispatch => ({

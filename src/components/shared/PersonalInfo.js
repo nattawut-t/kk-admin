@@ -53,16 +53,23 @@ class PersonalInfo extends Component {
   state = {
     id: '',
     dateReq: '',
-    nameTH: '',
-    nameEN: '',
-    idcardNo: '',
+    //
+    prefixTH: '',
+    firstNameTH: '',
+    lastNameTH: '',
+    //
+    prefixEN: '',
+    firstNameEN: '',
+    lastNameEN: '',
+    //
     idcardExpiry: '',
     birthDate: '',
-    maritalStatus: '',
+    status: '',
   };
 
   componentWillMount() {
     const { data } = this.props;
+    console.log('pi.data: ', data);
     if (data) {
       this.setState(data);
     }
@@ -85,6 +92,22 @@ class PersonalInfo extends Component {
       birthDate,
       status,
     } = this.state;
+
+    console.log(
+      'pi.render: ',
+      dateReq,
+      prefixTH,
+      firstNameTH,
+      lastNameTH,
+      prefixEN,
+      firstNameEN,
+      lastNameEN,
+      idCard,
+      dateExp,
+      birthDate,
+      status,
+    );
+
     return (
       <Card style={styles.marginBottom}>
         <div style={styles.sectionTitle}>

@@ -79,12 +79,16 @@ export const data = (raw = {}) => {
   if (env === 'test') {
     return {
       dateReq: dateReq ? moment(dateReq).toDate() : new Date(),
+      //
       prefixTH: prefixTH || 'MR',
       firstNameTH: firstNameTH || 'ณัฐวุฒิ',
       lastNameTH: lastNameTH || 'ธรรมรัตน์เมธี',
+      nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
+      //
       prefixEN: prefixEN || 'Mr.',
       firstNameEN: firstNameEN || 'Nattawut',
       lastNameEN: lastNameEN || 'Tammaratmetee',
+      //
       idCard: idCard || '1720900004217',
       dateExp: dateExp ? moment(dateExp).toDate() : new Date(2020, 1, 1),
       status: status || 'โสด',
@@ -151,12 +155,16 @@ export const data = (raw = {}) => {
   }
   return {
     dateReq: dateReq ? moment(dateReq).toDate() : new Date(),
+    //
     prefixTH: prefixTH || '',
     firstNameTH: firstNameTH || '',
     lastNameTH: lastNameTH || '',
+    nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
+    //
     prefixEN: prefixEN || '',
     firstNameEN: firstNameEN || '',
     lastNameEN: lastNameEN || '',
+    //
     idCard: idCard || '',
     dateExp: dateExp ? moment(dateExp).toDate() : null,
     status: status || '',

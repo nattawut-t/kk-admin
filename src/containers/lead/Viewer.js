@@ -19,6 +19,7 @@ const transform = (state, key) => {
 };
 
 const mapStateToProps = state => ({
+  id: state.lead.get('id') || '',
   data: transform(state.lead, 'data'),
   loading: state.lead.get('loading') || false,
   documents: transform(state.lead, 'documents'),

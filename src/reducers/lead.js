@@ -14,6 +14,7 @@ import {
   notify,
   //
   setLoading,
+  setSortInfo,
   cancelSelection,
   loadNextPageSuccess,
   searchSuccess,
@@ -29,6 +30,7 @@ import {
   SELECT_DATA_SUCCESS,
   CANCEL_SELECTION,
   GET_DRAFT_SUCCESS,
+  SET_SORT_INFO,
 } from '../actions/lead';
 import {
   portalUrl,
@@ -42,7 +44,7 @@ import {
   pageSize,
   loadingTime,
   // dateFormat,
-  // isAdmin,
+  isAdmin,
 } from '../libs/config';
 import { parseLeadIn as parseIn, split } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
@@ -82,7 +84,11 @@ const State = Record({
 });
 
 const initialState = new State();
-const searchUrl = (page = 1) => portalUrl(`/api/work/leads?page=${page}`);
+
+const searchUrl = (page = 1) => isAdmin()
+  ? portalUrl('/admin/leads')
+  : portalUrl(`/api/work/leads?page=${page}`);
+
 const uploadUrl = () => portalUrl('/api/work/leads/doc');
 const saveUrl = () => portalUrl('/api/work/leads');
 const saveAdminUrl = id => portalUrl(`/admin/leads/${id}`);
@@ -92,21 +98,16 @@ function _loadNextPage(currentPage = 1, nextPage = 2) {
     dispatch(setLoading(true));
     dispatch(cancelSelection());
 
-    const state = getState().admin;
+    const state = getState().lead;
     const total = state.get('total') || 0;
 
     if ((currentPage * pageSize) < total) {
-      // const _endpoint = searchUrl();
       const url = searchUrl(nextPage);
       const promise = getJson(url);
-
-      console.log('>>> url: ', url);
 
       setTimeout(() =>
         promise.then(response => {
           const { data } = response;
-
-          console.log('>>> data: ', data);
           const dataList = data ? parseLeadsIn(data) : [];
 
           dispatch(loadNextPageSuccess(dataList, 0, 0, 0));
@@ -131,17 +132,13 @@ function _searchData(page = 1) {
     const url = searchUrl(page);
     const promise = getJson(url);
 
-    console.log(url);
-
     setTimeout(() =>
-      promise.then(response => {
-        const { data } = response;
-        const dataList = data ? parseLeadsIn(data) : [];
-
-        console.log('data: ', data, dataList);
+      promise.then(({ data }) => {
+        const _data = isAdmin() ? data.entries : data;
+        const dataList = _data ? parseLeadsIn(_data) : [];
 
         dispatch(searchSuccess(dataList, 0, 0, 0));
-        return dispatch(setLoading(false));
+        dispatch(setLoading(false));
       })
         .catch(error => {
           console.log('>>> searchData.error: ', error);
@@ -163,12 +160,21 @@ export function loadNextPage() {
     const state = getState().lead;
     const loading = state.get('loading');
 
+    console.log('loadNextPage');
+
     if (!loading) {
       const page = state.get('page') || 1;
       return dispatch(_loadNextPage(page, page + 1));
     }
 
     return dispatch(setLoading(false));
+  };
+}
+
+export function sortData(field, desc) {
+  return dispatch => {
+    dispatch(setSortInfo(field, desc));
+    return dispatch(_searchData());
   };
 }
 
@@ -218,138 +224,6 @@ export function save(callback) {
       });
   };
 }
-
-// export function saveDraft(callback) {
-//   return (dispatch, getState) => {
-//     dispatch(setLoading(true));
-
-//     const _state = getState().lead;
-
-//     let _agreement = _state.get('agreement');
-//     let _personalInfo = _state.get('personalInfo');
-//     let _loanInfo = _state.get('loanInfo');
-//     let _additionalInfo = _state.get('additionalInfo');
-
-//     _agreement = (_agreement && typeof _agreement.toJS === 'function')
-//       ? _agreement.toJS() : agreement.data();
-
-//     _personalInfo = (_personalInfo && typeof _personalInfo.toJS === 'function')
-//       ? _personalInfo.toJS() : personalInfo.data();
-
-//     _loanInfo = (_loanInfo && typeof _loanInfo.toJS === 'function')
-//       ? _loanInfo.toJS() : loanInfo.data();
-
-//     _additionalInfo = (_additionalInfo && typeof _additionalInfo.toJS === 'function')
-//       ? _additionalInfo.toJS() : additionalInfo.data();
-
-//     const data = Object.assign(_agreement, _personalInfo, _loanInfo, _additionalInfo);
-//     const url = saveUrl();
-
-//     putJson(url, data)
-//       .then(response => {
-//         console.log('>>> saveDraft.response: ', response);
-
-//         dispatch(notify('บันทึกข้อมูลแบบร่างแล้ว'));
-//         setTimeout(() => {
-//           dispatch(notify(''));
-
-//           if (callback) {
-//             callback();
-//           }
-
-//           dispatch(setLoading(false));
-//         }, loadingTime);
-//       })
-//       .catch(error => {
-//         console.log('>>> saveDraft.error: ', error);
-//         setTimeout(() => {
-//           dispatch(notify(''));
-//           dispatch(setLoading(false));
-//         }, loadingTime);
-//       });
-//   };
-// }
-
-// export function getDraft(callback) {
-//   return dispatch => {
-//     const url = saveUrl();
-
-//     putJson(url, {})
-//       .then(response => {
-//         const { data: { data } } = response;
-//         const draft = data ? JSON.parse(data) : {};
-
-//         const _agreement = agreement.data(draft);
-//         const _personalInfo = personalInfo.data(draft);
-//         const _loanInfo = loanInfo.data(draft);
-//         const _additionalInfo = additionalInfo.data(draft);
-
-//         dispatch(getDraftSuccess(_agreement, _personalInfo, _loanInfo, _additionalInfo));
-
-//         if (callback) {
-//           callback();
-//         }
-
-//         dispatch(notify('โหลดข้อมูลแบบร่างแล้ว'));
-//         setTimeout(() => dispatch(notify('')), loadingTime);
-//       })
-//       .catch(error => {
-//         console.log('>>> getDraft.error: ', error);
-//         setTimeout(() => dispatch(notify('')), loadingTime);
-//       });
-//   };
-// }
-
-// export function saveAgreement(data, callback) {
-//   return dispatch => {
-//     dispatch(acceptAgreementSuccess(data));
-
-//     if (!isAdmin()) {
-//       return dispatch(saveDraft(callback));
-//     }
-
-//     return callback();
-//   };
-// }
-
-// export function savePersonalInfo(data, callback) {
-//   return dispatch => {
-//     dispatch(completePersonalInfoSuccess(data));
-
-//     if (!isAdmin()) {
-//       return dispatch(saveDraft(callback));
-//     }
-
-//     return callback();
-//   };
-// }
-
-// export function saveLoanInfo(data, callback) {
-//   return dispatch => {
-//     dispatch(completeLoanInfoSuccess(data));
-
-//     if (!isAdmin()) {
-//       return dispatch(saveDraft(callback));
-//     }
-
-//     return callback();
-//   };
-// }
-
-// export function saveAdditionalInfo(data, callback) {
-//   console.log('reducer.lead.completeAdditionalInfo');
-//   return dispatch => {
-//     dispatch(completeAdditionalInfoSuccess(data));
-
-//     console.log(1);
-//     if (!isAdmin()) {
-//       console.log(2);
-//       return dispatch(saveDraft(callback));
-//     }
-
-//     return callback();
-//   };
-// }
 
 export function uploadDocument(field, path, name, data, docType, callback) {
   return dispatch => {
@@ -488,8 +362,13 @@ export function selectData(rowIndex) {
         const newId = `${data.get('ID') || ''}`;
 
         if (newId !== oldId) {
-          const _endpoint = `/api/work/leads/${newId}`;
+          const _endpoint = isAdmin()
+            ? `/admin/leads/${newId}`
+            : `/api/work/leads/${newId}`;
           const url = portalUrl(_endpoint);
+
+          console.log('selectData.url: ', url);
+
           const promise = getJson(url);
 
           setTimeout(() =>
@@ -505,8 +384,6 @@ export function selectData(rowIndex) {
               );
 
               console.log('selectData.data: ', _data);
-
-              // console.log('data: ', _data);
 
               dispatch(selectDataSuccess(`${ID}`, _data));
               return dispatch(setLoading(false));
@@ -678,6 +555,13 @@ const lead = (state = initialState, action) => {
     case SET_LOADING:
       _state = Immutable.fromJS({
         loading: action.loading,
+      });
+      return state.merge(_state);
+
+    case SET_SORT_INFO:
+      _state = Immutable.fromJS({
+        sortField: action.field,
+        sortDesc: action.desc,
       });
       return state.merge(_state);
 

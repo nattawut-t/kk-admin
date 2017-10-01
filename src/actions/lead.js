@@ -16,6 +16,7 @@ export const SAVE_SUCCESS = 'lead/SAVE_SUCCESS';
 export const LOAD_DOCUMENTS_SUCCESS = 'lead/LOAD_DOCUMENTS_SUCCESS';
 export const SELECT_DATA_SUCCESS = 'lead/SELECT_DATA_SUCCESS';
 export const GET_DRAFT_SUCCESS = 'lead/GET_DRAFT_SUCCESS';
+export const SET_SORT_INFO = 'lead/SET_SORT_INFO';
 
 export const acceptAgreementSuccess = data => ({
   type: ACCEPT_AGREEMENT_SUCCESS,
@@ -67,6 +68,12 @@ export const loadNextPageSuccess = (dataList, total, pages, page) => ({
 export const setSearchInfo = (keyword = '') => ({
   type: SET_SEARCH_INFO,
   keyword,
+});
+
+export const setSortInfo = (field = '', desc = false) => ({
+  type: SET_SORT_INFO,
+  field,
+  desc,
 });
 
 export const cancelSelection = () => ({
