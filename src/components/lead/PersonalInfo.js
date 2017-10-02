@@ -16,7 +16,7 @@ import 'intl/locale-data/jsonp/th-TH';
 
 import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
-import Identity from '../shared/Identity';
+// import Identity from '../shared/Identity';
 import MaritalStatus from '../shared/MaritalStatus';
 import AddressStatus from '../shared/AddressStatus';
 import Location from '../shared/Location';
@@ -38,6 +38,8 @@ if (areIntlLocalesSupported(['th', 'th-TH'])) {
 }
 
 const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+const telRegex = /^\d{9,10}$/;
+const idcardNoRegex = /^\d{13}$/;
 
 const styles = {
   button: {
@@ -98,15 +100,78 @@ const validateDateExp = value => {
   return '';
 };
 
-// const validateSalary = value => {
-//   if (!value) {
-//     return emptyInputMessage;
-//   } else if (value < 8000) {
-//     return 'เงินเดือนต้องไม่ต่ำกว่า 8,000 บาท';
-//   }
+const validateEmploymentDate = value => {
+  const diff = moment().diff(value, 'days');
 
-//   return '';
-// }
+  if (!value) {
+    return emptyInputMessage;
+  } else if (diff < 0) {
+    return 'วันที่เริ่มงานไม่ถูกต้อง';
+  }
+
+  return '';
+};
+
+const validateSalary = value => {
+  const salary = Number.parseFloat(value) || 0;
+
+  if (!salary) {
+    return emptyInputMessage;
+  } else if (salary < 8000) {
+    return 'เงินเดือนต้องไม่ต่ำกว่า 8,000 บาท';
+  }
+
+  return '';
+};
+
+const validateEmail = value => {
+  if (!value) {
+    return emptyInputMessage;
+  } else if (!emailRegex.test(value)) {
+    return 'รูปแบบอีเมลไม่ถูกต้อง';
+  }
+  return '';
+};
+
+const validateTel = (value, required = false) => {
+  if (required && !value) {
+    return emptyInputMessage;
+  }
+
+  if (value && !telRegex.test(value)) {
+    return 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง';
+  }
+
+  return '';
+};
+
+const validateIdcardNo = value => {
+  if (!value) {
+    return emptyInputMessage;
+  } else if (!idcardNoRegex.test(value)) {
+    return 'รูปแบบเลขบัตรประชาชนไม่ถูกต้อง';
+  }
+  return '';
+};
+
+const rentalFeeTypes = ['เช่าอยู่', 'กำลังผ่อนชำระ'];
+const validateRentalFee = (value, type) => {
+  const rentalFee = Number.parseFloat(value) || 0;
+
+  if (rentalFeeTypes.indexOf(type) > -1 && !rentalFee) {
+    return emptyInputMessage;
+  }
+
+  return '';
+};
+
+const etcTypes = ['อื่นๆ'];
+const validateEtc = (value, type) => {
+  if (etcTypes.indexOf(type) > -1 && !value) {
+    return emptyInputMessage;
+  }
+  return '';
+};
 
 const validationKeys = [
   // 'dateReq',
@@ -117,38 +182,38 @@ const validationKeys = [
   'firstNameEN',
   'lastNameEN',
   'idCard',
-  'dateExp',
+  // 'dateExp',
   'status',
-  'workTel2',
-  'homeTel2',
-  'workTel',
+  // 'workTel2',
+  // 'homeTel2',
+  // 'workTel',
   'detailRent',
   'jobCompanyName',
   // 'birthDate',
-  'email',
-  'employmentDate',
-  'jobSalary',
+  // 'email',
+  // 'employmentDate',
+  // 'jobSalary',
 ];
-const messageKeys = [
-  'prefixTH',
-  'firstNameTH',
-  'lastNameTH',
-  'prefixEN',
-  'firstNameEN',
-  'lastNameEN',
-  'idCard',
-  'dateExp',
-  'status',
-  'workTel2',
-  'homeTel2',
-  'workTel',
-  'telExtension',
-  'jobCompanyName',
-  'birthDate',
-  'email',
-  'employmentDate',
-  'jobSalary',
-];
+// const messageKeys = [
+//   'prefixTH',
+//   'firstNameTH',
+//   'lastNameTH',
+//   'prefixEN',
+//   'firstNameEN',
+//   'lastNameEN',
+//   'idCard',
+//   'dateExp',
+//   'status',
+//   'workTel2',
+//   'homeTel2',
+//   'workTel',
+//   'telExtension',
+//   'jobCompanyName',
+//   'birthDate',
+//   'email',
+//   'employmentDate',
+//   'jobSalary',
+// ];
 
 class PersonalInfo extends Component {
 
@@ -161,69 +226,164 @@ class PersonalInfo extends Component {
 
   componentDidMount() {
     const { data } = this.props;
-
-    this.setState(data,
-      () => {
-        this.initialMessage();
-        const valid = this.validate();
-        this.setState({ valid });
-      });
+    this.setState(data, () => this.validate());
   }
 
   validate = () => {
-    const invalid = validationKeys
+    validationKeys
       .map(key => ({
         key,
         value: this.state[key],
       }))
-      .find(({ value }) => !value);
+      .forEach(({ key, value }) => this.setState({
+        [`${key}msg`]: !value ? emptyInputMessage : '',
+      }));
 
-    const { email, jobSalary, birthDate, dateExp } = this.state;
+    const {
+      email,
+      jobSalary,
+      birthDate,
+      dateExp,
+      employmentDate,
+      workTel,
+      workTel2,
+      homeTel2,
+      //
+      detailRent,
+      etc,
+      rentalFee,
+      //
+      idCard,
+    } = this.state;
 
-    const salary = Number.parseFloat(jobSalary) || 0;
-    const valid = emailRegex.test(email) && salary > 0;
-
-    const { detailRent, etc, rentalFee } = this.state;
-    const detailRentValid = ['ของตนเอง', 'ของบิดามารดา', 'ของญาติ'].indexOf(detailRent) > -1 ||
-      (detailRent === 'อื่นๆ' && etc) ||
-      ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
-
-    const birthDateErrorMessage = validateBirthDate(birthDate);
-    const dateExpErrorMessage = validateDateExp(dateExp);
-
-    console.log('invalid: ', invalid, valid, detailRentValid, birthDateErrorMessage, dateExpErrorMessage);
-
-    return !invalid && valid && detailRentValid && !birthDateErrorMessage && !dateExpErrorMessage;
-  }
-
-  initialMessage = () => {
-    messageKeys
-      .map(key => ({
-        key,
-        value: this.state[key],
-      }))
-      .forEach(({ key, value }) => {
-        const msgKey = `${key}msg`;
-        const msg = requiredMessage(true, value);
-        this.setState({ [msgKey]: msg });
-      });
-
-    ['workTel', 'workTel2', 'homeTel2']
-      .map(key => ({
-        key,
-        value: this.state[key],
-      }))
-      .forEach(({ key, value }) => {
-        const valid = /^\d{9,10}$/.test(value);
-        this.setState({ [`${key}Valid`]: valid });
-      });
-
-    const { birthDate, dateExp } = this.state;
     this.setState({
       birthDatemsg: validateBirthDate(birthDate),
       dateExpmsg: validateDateExp(dateExp),
+      jobSalarymsg: validateSalary(jobSalary),
+      emailmsg: validateEmail(email),
+      employmentDatemsg: validateEmploymentDate(employmentDate),
+      workTelmsg: validateTel(workTel, true),
+      workTel2msg: validateTel(workTel2, true),
+      homeTel2msg: validateTel(homeTel2, true),
+      etcmsg: validateEtc(etc, detailRent),
+      rentalFeemsg: validateRentalFee(rentalFee, detailRent),
+      idCardmsg: validateIdcardNo(idCard),
+    }, () => {
+      const {
+        prefixTHmsg,
+        firstNameTHmsg,
+        lastNameTHmsg,
+        prefixENmsg,
+        firstNameENmsg,
+        lastNameENmsg,
+        statusmsg,
+        //
+        idCardmsg,
+        //
+        workTel2msg,
+        homeTel2msg,
+        workTelmsg,
+        //
+        detailRentmsg,
+        etcmsg,
+        rentalFeemsg,
+        //
+        jobCompanyNamemsg,
+        birthDatemsg,
+        dateExpmsg,
+        emailmsg,
+        employmentDatemsg,
+        jobSalarymsg,
+      } = this.state;
+
+      const message = [
+        prefixTHmsg,
+        firstNameTHmsg,
+        lastNameTHmsg,
+        //
+        prefixENmsg,
+        firstNameENmsg,
+        lastNameENmsg,
+        statusmsg,
+        //
+        idCardmsg,
+        //
+        workTel2msg,
+        homeTel2msg,
+        workTelmsg,
+        //
+        detailRentmsg,
+        etcmsg,
+        rentalFeemsg,
+        //
+        jobCompanyNamemsg,
+        birthDatemsg,
+        dateExpmsg,
+        emailmsg,
+        employmentDatemsg,
+        jobSalarymsg,
+      ].find(msg => msg);
+
+      console.log('errorMessage: ', message);
+
+      this.setState({ valid: !message });
     });
-  };
+
+    // const invalid = validationKeys
+    //   .map(key => ({
+    //     key,
+    //     value: this.state[key],
+    //   }))
+    //   .find(({ value }) => !value);
+
+    // const { email, jobSalary, birthDate, dateExp } = this.state;
+
+    // const salary = Number.parseFloat(jobSalary) || 0;
+    // const valid = emailRegex.test(email) && salary > 0;
+
+    // const { detailRent, etc, rentalFee } = this.state;
+    // const detailRentValid = ['ของตนเอง', 'ของบิดามารดา', 'ของญาติ'].indexOf(detailRent) > -1 ||
+    //   (detailRent === 'อื่นๆ' && etc) ||
+    //   ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
+
+    // const birthDateErrorMessage = validateBirthDate(birthDate);
+    // const dateExpErrorMessage = validateDateExp(dateExp);
+
+    // console.log('invalid: ', invalid, valid, detailRentValid,
+    // birthDateErrorMessage, dateExpErrorMessage);
+
+    // return !invalid && valid && detailRentValid &&
+    // !birthDateErrorMessage && !dateExpErrorMessage;
+  }
+
+  // initialMessage = () => {
+  //   messageKeys
+  //     .map(key => ({
+  //       key,
+  //       value: this.state[key],
+  //     }))
+  //     .forEach(({ key, value }) => {
+  //       const msgKey = `${key}msg`;
+  //       const msg = requiredMessage(true, value);
+  //       this.setState({ [msgKey]: msg });
+  //     });
+
+  //   ['workTel', 'workTel2', 'homeTel2']
+  //     .map(key => ({
+  //       key,
+  //       value: this.state[key],
+  //     }))
+  //     .forEach(({ key, value }) => {
+  //       const valid = /^\d{9,10}$/.test(value);
+  //       this.setState({ [`${key}Valid`]: valid });
+  //     });
+
+  //   const { birthDate, dateExp } = this.state;
+  //   this.setState({
+  //     birthDatemsg: validateBirthDate(birthDate),
+  //     dateExpmsg: validateDateExp(dateExp),
+  //   });
+  // };
 
   handleChange = (e, required = false) => {
     const { name, value } = e.target;
@@ -233,10 +393,16 @@ class PersonalInfo extends Component {
       [name]: value,
       [msgKey]: requiredMessage(required, value),
       [`${name}Valid`]: !required || (required && value),
-    }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    }, () => this.validate());
+  };
+
+  handleSalaryChange = e => {
+    const { target: { name, value } } = e;
+
+    this.setState({
+      [name]: Number.parseFloat(value) || 0,
+      [`${name}msg`]: validateSalary(value),
+    }, () => this.validate());
   };
 
   handleMoneyChange = (e, required = false) => {
@@ -248,10 +414,7 @@ class PersonalInfo extends Component {
     this.setState({
       [name]: number,
       [msgKey]: msg,
-    }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    }, () => this.validate());
   };
 
   handleEmailChange = (e, required = false) => {
@@ -270,11 +433,19 @@ class PersonalInfo extends Component {
     this.setState({
       [name]: value,
       [msgKey]: msg,
-      // [`${name}Valid`]: valid,
-    }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    }, () => this.validate());
+  };
+
+  handleIdcardNoChange = e => {
+    const { target: { value } } = e;
+    const message = validateIdcardNo(value);
+
+    console.log('handleIdcardNoChange', message);
+
+    this.setState({
+      idCard: value,
+      idCardmsg: message,
+    }, () => this.validate());
   };
 
   handleDateExpChange = (e, value) => {
@@ -283,67 +454,39 @@ class PersonalInfo extends Component {
     this.setState({
       dateExp: value,
       dateExpmsg: message,
-    },
-      () => {
-        const valid = this.validate();
-        this.setState({ valid });
-      });
+    }, () => this.validate());
   };
 
   handleEmploymentDateChange = (e, value) => {
-    this.setState({ employmentDate: value },
-      () => {
-        const msg = requiredMessage(true, value);
-        this.setState({ employmentDatemsg: msg },
-          () => {
-            const valid = this.validate();
-            this.setState({ valid });
-          },
-        );
-      });
+    this.setState({
+      employmentDate: value,
+      employmentDatemsg: validateEmploymentDate(value),
+    }, () => this.validate());
   };
 
   handleBirthDateChange = (e, value) => {
     this.setState({
       birthDate: value,
       birthDatemsg: validateBirthDate(value),
-    },
-      () => {
-        const valid = this.validate();
-        this.setState({ valid });
-      });
+    }, () => this.validate());
   };
 
   handleNumberChange = (name, value, errorMessage = '') => {
-    const msgKey = `${name}msg`;
-
     this.setState({
       [name]: value,
-      [msgKey]: errorMessage,
-      [`${name}Valid`]: !errorMessage,
-    }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+      [`${name}msg`]: errorMessage,
+    }, () => this.validate());
   };
 
   handleLocationChange = (valueField, nameField, value, name) => {
     this.setState({
       [valueField]: value,
       [nameField]: name,
-    },
-      () => {
-        const valid = this.validate();
-        this.setState({ valid });
-      },
-    );
+    }, () => this.validate());
   };
 
   handleLookupChange = (value, name, id) => {
-    this.setState({ [id]: value }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    this.setState({ [id]: value }, () => this.validate());
   };
 
   handleDetailRentChange = (value, name, key) => {
@@ -377,10 +520,7 @@ class PersonalInfo extends Component {
 
     console.log(messageKey, messageValue, rentalFee, etc);
 
-    this.setState({ [key]: value }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    this.setState({ [key]: value }, () => this.validate());
   };
 
   handleSameAddressChange = () => {
@@ -609,10 +749,7 @@ class PersonalInfo extends Component {
   };
 
   handleLookupChange = (value, name, id) => {
-    this.setState({ [id]: value }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    this.setState({ [id]: value }, () => this.validate());
   };
 
   renderDetailRent() {
@@ -859,14 +996,14 @@ class PersonalInfo extends Component {
               </div>
               <div className="row">
                 <div className="col-sm-6">
-                  <Identity
+                  <TextField
                     id="idCard"
                     name="idCard"
-                    label="เลขบัตรประชาชน"
                     value={idCard}
-                    handleChange={this.handleNumberChange}
+                    floatingLabelText="เลขบัตรประชาชน"
                     errorText={idCardmsg}
-                    required
+                    onChange={this.handleIdcardNoChange}
+                    fullWidth
                   />
                 </div>
                 <div className="col-sm-6">
@@ -979,7 +1116,7 @@ class PersonalInfo extends Component {
                     name="jobSalary"
                     value={jobSalary}
                     floatingLabelText="เงินเดือน"
-                    onChange={e => this.handleMoneyChange(e, true)}
+                    onChange={e => this.handleSalaryChange(e, true)}
                     errorText={jobSalarymsg}
                     fullWidth
                   />
