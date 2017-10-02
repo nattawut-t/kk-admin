@@ -121,8 +121,8 @@ const validationKeys = [
   'status',
   'workTel2',
   'homeTel2',
-  'detailRent',
   'workTel',
+  'detailRent',
   'jobCompanyName',
   // 'birthDate',
   'email',
@@ -191,7 +191,7 @@ class PersonalInfo extends Component {
     const birthDateErrorMessage = validateBirthDate(birthDate);
     const dateExpErrorMessage = validateDateExp(dateExp);
 
-    console.log('invalid: ', invalid, valid, detailRentValid, birthDateErrorMessage);
+    console.log('invalid: ', invalid, valid, detailRentValid, birthDateErrorMessage, dateExpErrorMessage);
 
     return !invalid && valid && detailRentValid && !birthDateErrorMessage && !dateExpErrorMessage;
   }
@@ -217,6 +217,12 @@ class PersonalInfo extends Component {
         const valid = /^\d{9,10}$/.test(value);
         this.setState({ [`${key}Valid`]: valid });
       });
+
+    const { birthDate, dateExp } = this.state;
+    this.setState({
+      birthDatemsg: validateBirthDate(birthDate),
+      dateExpmsg: validateDateExp(dateExp),
+    });
   };
 
   handleChange = (e, required = false) => {
@@ -272,9 +278,11 @@ class PersonalInfo extends Component {
   };
 
   handleDateExpChange = (e, value) => {
+    const message = validateDateExp(value);
+
     this.setState({
       dateExp: value,
-      dateExpmsg: validateDateExp(value),
+      dateExpmsg: message,
     },
       () => {
         const valid = this.validate();
