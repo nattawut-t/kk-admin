@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
 import Agreement from '../containers/lead/Agreement';
+import IdentityInfo from '../containers/lead/IdentityInfo';
 import PersonalInfo from '../containers/lead/PersonalInfo';
 import LoanInfo from '../containers/lead/LoanInfo';
 import AdditionalInfo from '../containers/lead/AdditionalInfo';
@@ -41,6 +42,7 @@ class Main extends React.Component {
               <Route path="/test" component={Test} />
               <Route path="/loan-info" component={LoanInfo} />
               <Route path="/personal-info" component={PersonalInfo} />
+              <Route path="/identity-info" component={IdentityInfo} />
               <Route path="/borrow-request" component={Agreement} />
             </Switch>
           </Containers>

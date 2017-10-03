@@ -72,7 +72,7 @@ class Agreement extends Component {
   handleNextClick = () => {
     const { isConsent } = this.state;
     const { saveDraft, history } = this.props;
-    saveDraft({ isConsent }, () => history.push('/personal-info'));
+    saveDraft({ isConsent }, () => history.push('/identity-info'));
   };
 
   render() {

@@ -110,6 +110,12 @@ export function getOtp(username) {
   };
 }
 
+export const forceSignout = () => {
+  localStorage.clear();
+  sessionStorage.clear();
+  window.location.href = '/';
+};
+
 const lead = (state = initialState, action) => {
   let _state;
 

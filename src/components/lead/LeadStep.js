@@ -40,20 +40,24 @@ class LeadStep extends Component {
           this.setState({ stepIndex: 0 });
           break;
 
-        case '/personal-info':
+        case '/identity-info':
           this.setState({ stepIndex: 1 });
           break;
 
-        case '/loan-info':
+        case '/personal-info':
           this.setState({ stepIndex: 2 });
           break;
 
-        case '/additional-info':
+        case '/loan-info':
           this.setState({ stepIndex: 3 });
           break;
 
-        case '/summary':
+        case '/additional-info':
           this.setState({ stepIndex: 4 });
+          break;
+
+        case '/summary':
+          this.setState({ stepIndex: 5 });
           break;
 
         default: this.setState({ stepIndex: 0 });
@@ -107,7 +111,7 @@ class LeadStep extends Component {
                       {stepIndex === 2 ? <img src={IconCheckmark} alt="Step checked" /> : 2}
                     </div>
                   </span>
-                  <span className="stepper--text">ข้อมูลส่วนตัว</span>
+                  <span className="stepper--text">Upload บัตรประชาชน</span>
                 </div>
               </div>
             </Step>
@@ -119,7 +123,7 @@ class LeadStep extends Component {
                       {stepIndex === 3 ? <img src={IconCheckmark} alt="Step checked" /> : 3}
                     </div>
                   </span>
-                  <span className="stepper--text">ความต้องการกู้</span>
+                  <span className="stepper--text">ข้อมูลส่วนตัว</span>
                 </div>
               </div>
             </Step>
@@ -131,12 +135,24 @@ class LeadStep extends Component {
                       {stepIndex === 4 ? <img src={IconCheckmark} alt="Step checked" /> : 4}
                     </div>
                   </span>
-                  <span className="stepper--text">ข้อมูลเพิ่มเติมเพื่อการกู้</span>
+                  <span className="stepper--text">ความต้องการกู้</span>
                 </div>
               </div>
             </Step>
             <Step>
               <div className={stepIndex === 4 ? 'stepper--active' : null}>
+                <div className="stepper--control">
+                  <span className="stepper--number">
+                    <div className="stepper--number--icon" style={stepIndex === 5 ? { backgroundColor: '#019bc9' } : null} >
+                      {stepIndex === 5 ? <img src={IconCheckmark} alt="Step checked" /> : 5}
+                    </div>
+                  </span>
+                  <span className="stepper--text">ข้อมูลเพิ่มเติมเพื่อการกู้</span>
+                </div>
+              </div>
+            </Step>
+            <Step>
+              <div className={stepIndex === 5 ? 'stepper--active' : null}>
                 <div className="stepper--control">
                   <span className="stepper--number">
                     <div className="stepper--number--icon" style={stepIndex === 5 ? { backgroundColor: '#019bc9' } : null} >

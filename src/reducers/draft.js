@@ -8,6 +8,9 @@ import personalInfo from '../libs/personalInfo';
 import loanInfo from '../libs/loanInfo';
 import additionalInfo from '../libs/additionalInfo';
 
+import { isAdmin } from '../libs/config';
+import { handleError } from '../handlers/api';
+
 export const GET_SUCCESS = 'draft/GET_SUCCESS';
 export const getSuccess = data => ({
   type: GET_SUCCESS,
@@ -39,22 +42,23 @@ const initialState = {
   data: parse(),
 };
 
-export const get = callback => dispatch =>
-  putJson(url(), {})
-    .then(response => {
-      const { data: { data } } = response;
-      const _draft = JSON.parse(data);
+export const get = callback =>
+  dispatch => {
+    if (!isAdmin()) {
+      putJson(url(), {})
+        .then(response => {
+          const { data: { data } } = response;
+          const _draft = JSON.parse(data);
 
-      dispatch(getSuccess(parse(_draft)));
+          dispatch(getSuccess(parse(_draft)));
 
-      if (callback) {
-        callback();
-      }
-    })
-    .catch(error => {
-      console.log('>>> getPersonalInfo.error: ', error);
-      dispatch(getFailed(parse()));
-    });
+          if (callback) {
+            callback();
+          }
+        })
+        .catch(error => handleError(error));
+    }
+  };
 
 
 export const save = (_data, callback) =>
@@ -70,7 +74,8 @@ export const save = (_data, callback) =>
         callback();
       }
     } catch (error) {
-      console.log('>>> savePersonalInfo.error: ', error);
+      console.log('error: ', error);
+      handleError(error);
     }
   };
 
