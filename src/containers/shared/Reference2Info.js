@@ -13,7 +13,7 @@ const transform = (state, key) => {
         ref2Firstname,
         ref2Lastname,
         ref2Relationship,
-        ref2Mobile,
+        ref2MobileNo,
         ref2WorkTelephone,
         ref2HomeTelephone,
       } = data;
@@ -23,7 +23,7 @@ const transform = (state, key) => {
         firstName: ref2Firstname,
         lastName: ref2Lastname,
         relationship: ref2Relationship,
-        mobile: ref2Mobile,
+        mobile: ref2MobileNo,
         workTel: ref2WorkTelephone,
         homeTel: ref2HomeTelephone,
       };

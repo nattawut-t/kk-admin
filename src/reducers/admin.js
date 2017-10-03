@@ -318,7 +318,7 @@ export function reject(id, remark, callback) {
 //                 ref1Firstname,
 //                 ref1Lastname,
 //                 ref1Relationship,
-//                 ref1Mobile,
+//                 ref1MobileNo,
 //                 ref1WorkTelephone,
 //                 ref1HomeTelephone,
 //                 //
@@ -326,7 +326,7 @@ export function reject(id, remark, callback) {
 //                 ref2Firstname,
 //                 ref2Lastname,
 //                 ref2Relationship,
-//                 ref2Mobile,
+//                 ref2MobileNo,
 //                 ref2WorkTelephone,
 //                 ref2HomeTelephone,
 //                 //
@@ -430,7 +430,7 @@ export function reject(id, remark, callback) {
 //                 ref1Firstname,
 //                 ref1Lastname,
 //                 ref1Relationship,
-//                 ref1Mobile,
+//                 ref1MobileNo,
 //                 ref1WorkTelephone,
 //                 ref1HomeTelephone,
 //                 //
@@ -438,7 +438,7 @@ export function reject(id, remark, callback) {
 //                 ref2Firstname,
 //                 ref2Lastname,
 //                 ref2Relationship,
-//                 ref2Mobile,
+//                 ref2MobileNo,
 //                 ref2WorkTelephone,
 //                 ref2HomeTelephone,
 //                 //

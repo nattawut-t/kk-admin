@@ -125,14 +125,14 @@ class Summary extends Component {
       ref1Firstname,
       ref1Lastname,
       ref1Relationship,
-      ref1Mobile,
+      ref1MobileNo,
       ref1WorkTelephone,
       ref1HomeTelephone,
       ref2Prefix,
       ref2Firstname,
       ref2Lastname,
       ref2Relationship,
-      ref2Mobile,
+      ref2MobileNo,
       ref2WorkTelephone,
       ref2HomeTelephone,
       //
@@ -222,14 +222,14 @@ class Summary extends Component {
       ref1Firstname,
       ref1Lastname,
       ref1Relationship,
-      ref1Mobile,
+      ref1MobileNo,
       ref1WorkTelephone,
       ref1HomeTelephone,
       ref2Prefix,
       ref2Firstname,
       ref2Lastname,
       ref2Relationship,
-      ref2Mobile,
+      ref2MobileNo,
       ref2WorkTelephone,
       ref2HomeTelephone,
       //
@@ -343,14 +343,14 @@ class Summary extends Component {
       ref1Firstname,
       ref1Lastname,
       ref1Relationship,
-      ref1Mobile,
+      ref1MobileNo,
       ref1WorkTelephone,
       ref1HomeTelephone,
       ref2Prefix,
       ref2Firstname,
       ref2Lastname,
       ref2Relationship,
-      ref2Mobile,
+      ref2MobileNo,
       ref2WorkTelephone,
       ref2HomeTelephone,
       //
@@ -1059,9 +1059,9 @@ class Summary extends Component {
                 </div>
                 <div className="col-3">
                   <TextField
-                    id="ref1Mobile"
-                    name="ref1Mobile"
-                    value={ref1Mobile}
+                    id="ref1MobileNo"
+                    name="ref1MobileNo"
+                    value={ref1MobileNo}
                     floatingLabelText="เบอร์โทรศัพท์มือถือ"
                     fullWidth
                     readOnly
@@ -1132,8 +1132,8 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-3">
                   <TextField
-                    id="ref2Mobile"
-                    name="ref2Mobile"
+                    id="ref2MobileNo"
+                    name="ref2MobileNo"
                     value={ref2Relationship}
                     floatingLabelText="ความสัมพันธ์"
                     fullWidth
@@ -1142,9 +1142,9 @@ class Summary extends Component {
                 </div>
                 <div className="col-3">
                   <TextField
-                    id="ref2Mobile"
-                    name="ref2Mobile"
-                    value={ref2Mobile}
+                    id="ref2MobileNo"
+                    name="ref2MobileNo"
+                    value={ref2MobileNo}
                     floatingLabelText="เบอร์โทรศัพท์มือถือ"
                     fullWidth
                     readOnly

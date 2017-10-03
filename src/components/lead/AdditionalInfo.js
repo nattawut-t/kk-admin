@@ -37,7 +37,7 @@ const validationKeys = [
   'ref1Firstname',
   'ref1Lastname',
   'ref1Relationship',
-  'ref1Mobile',
+  'ref1MobileNo',
   'ref1HomeTelephone',
   'isConsent2',
 ];
@@ -47,7 +47,7 @@ const messageKeys = [
   'ref1Firstname',
   'ref1Lastname',
   'ref1Relationship',
-  'ref1Mobile',
+  'ref1MobileNo',
   'ref1HomeTelephone',
 ];
 
@@ -79,7 +79,7 @@ class AdditionalInfo extends Component {
       .find(({ value }) => !value);
 
     const {
-      shippingAddress,
+      sendingAddress,
       shippingHouseNo,
       shippingMoo,
       shippingVillage,
@@ -91,9 +91,9 @@ class AdditionalInfo extends Component {
       shippingPostalCode,
     } = this.state;
 
-    const valid = (shippingAddress === 'current') ||
-      (shippingAddress === 'office') ||
-      (shippingAddress === 'others' &&
+    const valid = (sendingAddress === 'current') ||
+      (sendingAddress === 'office') ||
+      (sendingAddress === 'others' &&
         shippingHouseNo &&
         shippingMoo &&
         shippingVillage &&
@@ -120,10 +120,10 @@ class AdditionalInfo extends Component {
         this.setState({ [msgKey]: msg });
       });
 
-    const { shippingAddress } = this.state;
+    const { sendingAddress } = this.state;
     this.handleShippingAddressChange({
       target: {
-        value: shippingAddress,
+        value: sendingAddress,
       },
     });
   };
@@ -152,7 +152,7 @@ class AdditionalInfo extends Component {
   handleShippingAddressChange = e => {
     const { target: { value } } = e;
 
-    this.setState({ shippingAddress: value },
+    this.setState({ sendingAddress: value },
       () => {
         // this.setState({
         //   shippingHouseNo: '',
@@ -340,7 +340,7 @@ class AdditionalInfo extends Component {
       ref1Firstname,
       ref1Lastname,
       ref1Relationship,
-      ref1Mobile,
+      ref1MobileNo,
       ref1WorkTelephone,
       ref1HomeTelephone,
       //
@@ -348,7 +348,7 @@ class AdditionalInfo extends Component {
       ref2Firstname,
       ref2Lastname,
       ref2Relationship,
-      ref2Mobile,
+      ref2MobileNo,
       ref2WorkTelephone,
       ref2HomeTelephone,
       //
@@ -372,7 +372,7 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
-      shippingAddress,
+      sendingAddress,
       //
       identity,
       account,
@@ -409,7 +409,7 @@ class AdditionalInfo extends Component {
       ref1Firstname,
       ref1Lastname,
       ref1Relationship,
-      ref1Mobile,
+      ref1MobileNo,
       ref1WorkTelephone,
       ref1HomeTelephone,
       //
@@ -417,7 +417,7 @@ class AdditionalInfo extends Component {
       ref2Firstname,
       ref2Lastname,
       ref2Relationship,
-      ref2Mobile,
+      ref2MobileNo,
       ref2WorkTelephone,
       ref2HomeTelephone,
       //
@@ -441,7 +441,7 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
-      shippingAddress,
+      sendingAddress,
       //
       isConsent2,
       files,
@@ -851,8 +851,8 @@ class AdditionalInfo extends Component {
       ref1Lastname,
       ref1LastnameMsg,
       ref1Relationship,
-      ref1Mobile,
-      ref1MobileMsg,
+      ref1MobileNo,
+      ref1MobileNoMsg,
       ref1WorkTelephone,
       ref1WorkTelephoneMsg,
       ref1HomeTelephone,
@@ -863,8 +863,8 @@ class AdditionalInfo extends Component {
       ref2Lastname,
       ref2LastnameMsg,
       ref2Relationship,
-      ref2Mobile,
-      ref2MobileMsg,
+      ref2MobileNo,
+      ref2MobileNoMsg,
       ref2WorkTelephone,
       ref2WorkTelephoneMsg,
       ref2HomeTelephone,
@@ -881,7 +881,7 @@ class AdditionalInfo extends Component {
       conjugalIncomeMsg,
       children,
       childrenMsg,
-      shippingAddress,
+      sendingAddress,
       //
       fileName0,
       fileName1,
@@ -969,12 +969,12 @@ class AdditionalInfo extends Component {
                 </div>
                 <div className="col-3">
                   <Tel
-                    id="ref1Mobile"
-                    name="ref1Mobile"
+                    id="ref1MobileNo"
+                    name="ref1MobileNo"
                     label="เบอร์โทรศัพท์มือถือ"
-                    value={ref1Mobile}
+                    value={ref1MobileNo}
                     handleChange={this.handleNumberChange}
-                    errorText={ref1MobileMsg}
+                    errorText={ref1MobileNoMsg}
                     required
                   />
                 </div>
@@ -1061,12 +1061,12 @@ class AdditionalInfo extends Component {
                 </div>
                 <div className="col-3">
                   <Tel
-                    id="ref2Mobile"
-                    name="ref2Mobile"
-                    value={ref2Mobile}
+                    id="ref2MobileNo"
+                    name="ref2MobileNo"
+                    value={ref2MobileNo}
                     label="เบอร์โทรศัพท์มือถือ"
                     handleChange={this.handleNumberChange}
-                    errorText={ref2MobileMsg}
+                    errorText={ref2MobileNoMsg}
                     fullWidth
                   />
                 </div>
@@ -1202,8 +1202,8 @@ class AdditionalInfo extends Component {
               <div className="row">
                 <div className="col-12">
                   <RadioButtonGroup
-                    name="shippingAddress"
-                    defaultSelected={shippingAddress}
+                    name="sendingAddress"
+                    defaultSelected={sendingAddress}
                     onChange={e => this.handleShippingAddressChange(e)}
                   >
                     <RadioButton
@@ -1220,7 +1220,7 @@ class AdditionalInfo extends Component {
                     />
                   </RadioButtonGroup>
                 </div>
-                {this.renderShippingAddress(shippingAddress)}
+                {this.renderShippingAddress(sendingAddress)}
               </div>
             </CardText>
           </Card>
