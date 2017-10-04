@@ -178,7 +178,6 @@ class IdentityInfo extends Component {
                 <div
                   className="col-12"
                   style={{
-                    display: 'flex',
                     justifyContent: 'center',
                     marginTop: '30px',
                     marginBottom: '50px',
@@ -190,8 +189,8 @@ class IdentityInfo extends Component {
                       alt=""
                       src={url}
                       style={{
-                        maxWidth: '100%',
                         height: 'auto',
+                        maxWidth: '100%',
                       }}
                     />
                   }
