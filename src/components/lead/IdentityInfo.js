@@ -115,9 +115,11 @@ class IdentityInfo extends Component {
   };
 
   handleDialogClick = () => {
-    const { history } = this.props;
-    this.setState({ back: false },
-      () => history.push('/product-info'));
+    // const { history } = this.props;
+    window.location.href = '/product-info';
+    // history.push('/product-info');
+    // this.setState({ back: false },
+    //   () => history.push('/product-info'));
   };
 
   handleBackClick = e => {
@@ -227,7 +229,7 @@ class IdentityInfo extends Component {
                 onClick={e => this.handleBackClick(e)}
               />
               <RaisedButton
-                label="กู้ภายหลัง"
+                label="บันทึก/กู้ภายหลัง"
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
