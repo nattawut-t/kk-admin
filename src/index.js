@@ -7,14 +7,10 @@ import { FocusStyleManager } from '@blueprintjs/core';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import { store } from './store';
-// import './definitions';
-
 import App from './containers/App';
 
 import './styles/site.scss';
 import './styles/loader.scss';
-// import './styles/style.scss';
-// import './styles/login.scss';
 
 injectTapEventPlugin();
 

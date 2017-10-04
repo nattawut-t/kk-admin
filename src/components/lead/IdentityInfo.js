@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+
 import TextField from 'material-ui/TextField';
-// import SelectField from 'material-ui/SelectField';
-// import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-// import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+
+// import ImageViewer from 'react-image-viewer-zoom';
+// import 'react-image-viewer-zoom/dist/style.css';
 
 const styles = {
   button: {
@@ -27,6 +28,13 @@ const styles = {
   },
 };
 
+// const images = [
+//   { src: 'https://unsplash.it/800/300?image=1', title: 'title', content: 'content' },
+//   { src: 'https://unsplash.it/300/800?image=2', title: 'title', content: 'content' },
+//   { src: 'https://unsplash.it/1800/300?image=3', title: 'title', content: 'content' },
+//   { src: 'https://unsplash.it/800/1800?image=4', title: 'title', content: 'content' },
+// ];
+
 class IdentityInfo extends Component {
 
   componentWillMount() {
@@ -37,7 +45,10 @@ class IdentityInfo extends Component {
 
   componentDidMount() {
     const { data } = this.props;
-    this.setState(Object.assign(data, { back: false }));
+    this.setState(Object.assign(data, {
+      back: false,
+      url: '',
+    }));
   }
 
   save = callback => {
@@ -88,7 +99,8 @@ class IdentityInfo extends Component {
     const { target: { files, name, value } } = e;
 
     if (files && files.length > 0) {
-      const { uploadFile } = this.props;
+      const { uploadFile, getIdentityUrl } = this.props;
+
       const file = files[0];
       const _fileName = value.split('\\').pop().split('/').pop();
       const formData = new FormData();
@@ -99,12 +111,15 @@ class IdentityInfo extends Component {
 
       // console.log('file: ', fileName, docType, name, file, uploadFile);
 
-      uploadFile(name, value, _fileName, formData, docType, _file => {
-        console.log('callback: ', docType, _file, fileName, value);
+      uploadFile(name, value, _fileName, formData, docType, doc => {
+        const { id } = doc;
+        console.log('identity: ', doc);
         this.setState({
-          [docType]: _file,
+          [docType]: doc,
           [fileName]: _fileName,
         });
+
+        getIdentityUrl(id, url => this.setState({ url }));
       });
     }
   };
@@ -137,11 +152,8 @@ class IdentityInfo extends Component {
       return <div className="loader" />;
     }
 
-    const { fileName0, back } = this.state;
-    const { message } = this.props;
-
-    // if (data) {
-    // }
+    const { fileName0, back, url } = this.state;
+    const { message, loading } = this.props;
 
     const actions = [
       <FlatButton
@@ -164,6 +176,9 @@ class IdentityInfo extends Component {
             </div>
             <CardText>
               <div className="row">
+                <div className="col-12">
+                  <img alt="" src={url} />
+                </div>
                 <div className="col-10">
                   <TextField
                     id="fileName0"
@@ -230,6 +245,7 @@ class IdentityInfo extends Component {
           message={message}
           autoHideDuration={4000}
         />
+        <div className={loading ? 'loader' : ''} />
       </div>
     );
   }
@@ -237,15 +253,19 @@ class IdentityInfo extends Component {
 
 IdentityInfo.propTypes = {
   message: PropTypes.string,
+  loading: PropTypes.bool,
   history: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   getDraft: PropTypes.func.isRequired,
   saveDraft: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
+  getIdentityUrl: PropTypes.func.isRequired,
 };
 
 IdentityInfo.defaultProps = {
   message: '',
+  loading: false,
+  url: '',
 };
 
 export default withRouter(IdentityInfo);

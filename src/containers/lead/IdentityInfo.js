@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/IdentityInfo';
 import { get, save } from '../../reducers/draft';
-import { uploadDocument } from '../../reducers/document';
+import { uploadDocument, getIdentityUrl } from '../../reducers/document';
 
 const mapStateToProps = state => ({
   data: state.draft.data,
@@ -15,6 +15,7 @@ const mapDispatchToProps = dispatch => ({
   saveDraft: (data, callback) => dispatch(save(data, callback)),
   uploadFile: (field, path, name, data, docType, callback) =>
     dispatch(uploadDocument(field, path, name, data, docType, callback)),
+  getIdentityUrl: (id, callback) => dispatch(getIdentityUrl(id, callback)),
 });
 
 export default connect(
