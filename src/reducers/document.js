@@ -53,14 +53,19 @@ export const uploadDocument = (field, path, name, data, docType, callback) =>
         });
       }
 
-      dispatch(notify('อัพโหลดเอกสารแล้ว'));
+      // dispatch(notify('อัพโหลดเอกสารแล้ว'));
       setTimeout(() => {
         dispatch(notify());
         dispatch(loading());
       }, loadingTime);
     } catch (error) {
       dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-      dispatch(loading());
+
+      setTimeout(() => {
+        dispatch(notify());
+        dispatch(loading());
+      }, loadingTime);
+
       handleError(error);
     }
   };
@@ -128,7 +133,7 @@ export const getUrl = (id, callback) =>
     try {
       const { data: { url } } = await getJson(_url);
 
-      dispatch(notify('โหลดไฟล์เอกสาร'));
+      // dispatch(notify('โหลดไฟล์เอกสาร'));
       setTimeout(() => {
         dispatch(notify());
         dispatch(loading());
@@ -138,10 +143,15 @@ export const getUrl = (id, callback) =>
         }
       }, loadingTime);
     } catch (error) {
-      console.log('uploadDocument.error: ', error);
+      // console.log('uploadDocument.error: ', error);
 
       dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-      dispatch(loading());
+
+      setTimeout(() => {
+        dispatch(notify());
+        dispatch(loading());
+      }, loadingTime);
+
       handleError(error);
     }
   };
