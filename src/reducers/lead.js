@@ -48,6 +48,7 @@ import {
 } from '../libs/config';
 import { parseLeadIn as parseIn, split } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
+import { handleError } from '../handlers/api';
 
 import agreement from '../libs/agreement';
 import personalInfo from '../libs/personalInfo';
@@ -133,17 +134,15 @@ function _searchData(page = 1) {
     const promise = getJson(url);
 
     setTimeout(() =>
-      promise.then(({ data }) => {
-        const _data = isAdmin() ? data.entries : data;
-        const dataList = _data ? parseLeadsIn(_data) : [];
+      promise
+        .then(({ data }) => {
+          const _data = isAdmin() ? data.entries : data;
+          const dataList = _data ? parseLeadsIn(_data) : [];
 
-        dispatch(searchSuccess(dataList, 0, 0, 0));
-        dispatch(setLoading(false));
-      })
-        .catch(error => {
-          console.log('>>> searchData.error: ', error);
+          dispatch(searchSuccess(dataList, 0, 0, 0));
           dispatch(setLoading(false));
         })
+        .catch(error => handleError(error))
       , loadingTime);
   };
 }

@@ -27,16 +27,15 @@ import LibraryBooks from 'material-ui/svg-icons/av/library-books';
 import LinearScale from 'material-ui/svg-icons/editor/linear-scale';
 
 import ProductInfo from './ProductInfo';
-import BorrowStatus from './BorrowStatus';
 import Main from './Main';
 import Login from '../containers/Login';
 import AdminLogin from '../containers/AdminLogin';
-// import History from './History';
-import Agreement from '../containers/lead/Agreement';
-import PersonalInfo from '../containers/lead/PersonalInfo';
-import LoanInfo from '../containers/lead/LoanInfo';
-import AdditionalInfo from '../containers/lead/AdditionalInfo';
-import Summary from '../containers/lead/Summary';
+
+// import Agreement from '../containers/lead/Agreement';
+// import PersonalInfo from '../containers/lead/PersonalInfo';
+// import LoanInfo from '../containers/lead/LoanInfo';
+// import AdditionalInfo from '../containers/lead/AdditionalInfo';
+// import Summary from '../containers/lead/Summary';
 
 import AdminIndex from '../containers/admin/Index';
 import Index from '../containers/lead/Index';
@@ -231,14 +230,13 @@ class App extends React.Component {
                 </div>
                 <div className={`${!authenticated ? 'col-12' : 'contain'}`}>
                   <Switch>
-                    <Route path="/product-info" component={ProductInfo} />
+                    {/* <Route path="/product-info" component={ProductInfo} /> */}
                     <Route path="/borrow-request" component={Main} />
-                    <Route path="/borrow-status" component={BorrowStatus} />
-                    <Route path="/summary" component={Summary} />
+                    {/* <Route path="/summary" component={Summary} />
                     <Route path="/additional-info" component={AdditionalInfo} />
                     <Route path="/loan-info" component={LoanInfo} />
                     <Route path="/personal-info" component={PersonalInfo} />
-                    <Route path="/borrow-request" component={Agreement} />
+                    <Route path="/borrow-request" component={Agreement} /> */}
                     <Route path="/leads" component={Index} />
                     <Route path="/admin/leads" component={AdminIndex} />
                     <Route path="*" exact component={ProductInfo} />

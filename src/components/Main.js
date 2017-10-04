@@ -9,7 +9,6 @@ import LoanInfo from '../containers/lead/LoanInfo';
 import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import Summary from '../containers/lead/Summary';
 import LeadStep from './lead/LeadStep';
-import Test from './test/Test';
 import Containers from './shared/Containers';
 
 const StepContainer = styled.div`
@@ -39,7 +38,6 @@ class Main extends React.Component {
             <Switch>
               <Route path="/summary" component={Summary} />
               <Route path="/additional-info" component={AdditionalInfo} />
-              <Route path="/test" component={Test} />
               <Route path="/loan-info" component={LoanInfo} />
               <Route path="/personal-info" component={PersonalInfo} />
               <Route path="/identity-info" component={IdentityInfo} />
