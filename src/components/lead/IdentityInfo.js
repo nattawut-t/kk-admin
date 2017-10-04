@@ -12,8 +12,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
-// import Bank from '../shared/Bank';
-
 const styles = {
   button: {
     margin: 12,
@@ -31,11 +29,6 @@ const styles = {
 
 class IdentityInfo extends Component {
 
-  state = {
-    identity: '',
-    back: false,
-  };
-
   componentWillMount() {
     window.scrollTo(0, 0);
     const { getDraft } = this.props;
@@ -43,18 +36,77 @@ class IdentityInfo extends Component {
   }
 
   componentDidMount() {
-    // const { data } = this.props;
-    // this.setState(Object.assign(this.state, data));
+    const { data } = this.props;
+    this.setState(Object.assign(data, { back: false }));
   }
 
   save = callback => {
+    const {
+      fileName0,
+      //
+      identity,
+      account,
+      household_registration,
+      payslip,
+      statement_1,
+      statement_2,
+      statement_3,
+    } = this.state;
+
+    console.log('identity: ', identity);
+
+    let files = [];
+    files.push(identity);
+    files.push(account);
+    files.push(household_registration);
+    files.push(payslip);
+    files.push(statement_1);
+    files.push(statement_2);
+    files.push(statement_3);
+    files = files.filter(file => file);
+
     const { saveDraft, data } = this.props;
-    saveDraft(data, callback);
+    const _data = Object.assign(data, {
+      files,
+      fileName0,
+      //
+      identity,
+      account,
+      household_registration,
+      payslip,
+      statement_1,
+      statement_2,
+      statement_3,
+    });
+
+    console.log('data: ', _data);
+
+    saveDraft(_data, callback);
   };
 
-  handleChange = e => {
-    const { target: { name, value } } = e;
-    this.setState({ [name]: value });
+  handleChange = (e, required = false, docType = 'identity', fileName = 'fileName0') => {
+    const { target: { files, name, value } } = e;
+
+    if (files && files.length > 0) {
+      const { uploadFile } = this.props;
+      const file = files[0];
+      const _fileName = value.split('\\').pop().split('/').pop();
+      const formData = new FormData();
+
+      formData.append('filename', _fileName);
+      formData.append('file', file);
+      formData.append('docType', docType);
+
+      // console.log('file: ', fileName, docType, name, file, uploadFile);
+
+      uploadFile(name, value, _fileName, formData, docType, _file => {
+        console.log('callback: ', docType, _file, fileName, value);
+        this.setState({
+          [docType]: _file,
+          [fileName]: _fileName,
+        });
+      });
+    }
   };
 
   handleDialogClick = () => {
@@ -65,14 +117,13 @@ class IdentityInfo extends Component {
 
   handleBackClick = e => {
     e.preventDefault();
-    console.log('handleBackClick');
-    // const { history } = this.props;
     this.save(() => this.setState({ back: true }));
   };
 
   handleNextClick = e => {
     e.preventDefault();
-    this.save('/additional-info');
+    const { history } = this.props;
+    this.save(() => history.push('/personal-info'));
   };
 
   render() {
@@ -80,7 +131,7 @@ class IdentityInfo extends Component {
       return <div className="loader" />;
     }
 
-    const { identity, back } = this.state;
+    const { fileName0, back } = this.state;
     const { message } = this.props;
 
     // if (data) {
@@ -109,10 +160,10 @@ class IdentityInfo extends Component {
               <div className="row">
                 <div className="col-10">
                   <TextField
-                    id="fakeIdentity"
-                    name="fakeIdentity"
-                    value={identity}
-                    errorText={!identity ? 'กรุณาเลือกรูปเพื่ออัพโหลด' : ''}
+                    id="fileName0"
+                    name="fileName0"
+                    value={fileName0}
+                    errorText={!fileName0 ? 'กรุณาเลือกรูปเพื่ออัพโหลด' : ''}
                     fullWidth
                     readOnly
                   />
@@ -120,9 +171,9 @@ class IdentityInfo extends Component {
                 <div className="col-2">
                   <TextField
                     type="file"
-                    id="identity"
-                    name="identity"
-                    onChange={this.handleChange}
+                    id="fileName0"
+                    name="fileName0"
+                    onChange={e => this.handleChange(e, true, 'identity', 'fileName0')}
                     style={{ width: '105px' }}
                   />
                 </div>
@@ -136,7 +187,7 @@ class IdentityInfo extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                disabled={!identity}
+                disabled={!fileName0}
                 onClick={e => this.handleBackClick(e)}
               />
               <RaisedButton
@@ -145,7 +196,7 @@ class IdentityInfo extends Component {
                 labelPosition="before"
                 primary
                 style={styles.button}
-                disabled={!identity}
+                disabled={!fileName0}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
               />
             </div>
@@ -177,6 +228,7 @@ IdentityInfo.propTypes = {
   data: PropTypes.object.isRequired,
   getDraft: PropTypes.func.isRequired,
   saveDraft: PropTypes.func.isRequired,
+  uploadFile: PropTypes.func.isRequired,
 };
 
 IdentityInfo.defaultProps = {

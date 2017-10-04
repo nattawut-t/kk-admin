@@ -328,62 +328,7 @@ class PersonalInfo extends Component {
 
       this.setState({ valid: !message });
     });
-
-    // const invalid = validationKeys
-    //   .map(key => ({
-    //     key,
-    //     value: this.state[key],
-    //   }))
-    //   .find(({ value }) => !value);
-
-    // const { email, jobSalary, birthDate, dateExp } = this.state;
-
-    // const salary = Number.parseFloat(jobSalary) || 0;
-    // const valid = emailRegex.test(email) && salary > 0;
-
-    // const { detailRent, etc, rentalFee } = this.state;
-    // const detailRentValid = ['ของตนเอง', 'ของบิดามารดา', 'ของญาติ'].indexOf(detailRent) > -1 ||
-    //   (detailRent === 'อื่นๆ' && etc) ||
-    //   ((detailRent === 'กำลังผ่อนชำระ' || detailRent === 'เช่าอยู่') && rentalFee);
-
-    // const birthDateErrorMessage = validateBirthDate(birthDate);
-    // const dateExpErrorMessage = validateDateExp(dateExp);
-
-    // console.log('invalid: ', invalid, valid, detailRentValid,
-    // birthDateErrorMessage, dateExpErrorMessage);
-
-    // return !invalid && valid && detailRentValid &&
-    // !birthDateErrorMessage && !dateExpErrorMessage;
   }
-
-  // initialMessage = () => {
-  //   messageKeys
-  //     .map(key => ({
-  //       key,
-  //       value: this.state[key],
-  //     }))
-  //     .forEach(({ key, value }) => {
-  //       const msgKey = `${key}msg`;
-  //       const msg = requiredMessage(true, value);
-  //       this.setState({ [msgKey]: msg });
-  //     });
-
-  //   ['workTel', 'workTel2', 'homeTel2']
-  //     .map(key => ({
-  //       key,
-  //       value: this.state[key],
-  //     }))
-  //     .forEach(({ key, value }) => {
-  //       const valid = /^\d{9,10}$/.test(value);
-  //       this.setState({ [`${key}Valid`]: valid });
-  //     });
-
-  //   const { birthDate, dateExp } = this.state;
-  //   this.setState({
-  //     birthDatemsg: validateBirthDate(birthDate),
-  //     dateExpmsg: validateDateExp(dateExp),
-  //   });
-  // };
 
   handleChange = (e, required = false) => {
     const { name, value } = e.target;
@@ -740,7 +685,7 @@ class PersonalInfo extends Component {
 
   handleBackClick = e => {
     e.preventDefault();
-    this.save('/borrow-request');
+    this.save('/identity-info');
   };
 
   handleNextClick = e => {

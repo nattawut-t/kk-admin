@@ -82,18 +82,18 @@ export const save = (_data, callback) =>
 
 const draft = (state = initialState, action) => {
   let _state;
-  let _personalInfo;
+  let _data;
   let mobile;
 
   switch (action.type) {
     case GET_SUCCESS:
 
       mobile = localStorage.getItem('username') || '';
-      _personalInfo = Object.assign(action.data, { workTel2: mobile });
+      _data = Object.assign(action.data, { workTel2: mobile });
       _state = Object.assign(
         state,
         {
-          data: _personalInfo,
+          data: _data,
         },
       );
 
