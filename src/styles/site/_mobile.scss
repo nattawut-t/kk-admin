@@ -1,3 +1,17 @@
+@media screen and (min-width: 768px){
+  .landing{
+    &--home{
+      .landing{
+        &--text{
+          &--copyright{
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1366px){
   .landing{
     &--container{
@@ -28,6 +42,35 @@
     &--group{
       &--g1 {
         margin: 25px 0 98px;
+      }
+      &--left{
+        .landing{
+          &--title{
+            line-height: 1.4;
+          }
+        }
+      }
+    }
+    &--index{
+      &--bg {
+        position: inherit;
+        > img {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1170px){
+  .landing{
+    &--index{
+      &--bg {
+        position: inherit;
+        > img {
+          width: 100%;
+          left: 50%;
+        }
       }
     }
   }
@@ -62,7 +105,15 @@
     .mobile-hide {
       display: none !important;
     }
-  }  
+  }
+  .landing{
+    &--index{
+      &--bg{
+        width: 100%;
+        height: 588px;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -87,6 +138,19 @@
       letter-spacing: 0.9px;
       &--lg{
         line-height: 1.68;
+      }
+    }
+    &--index{
+      &--bg{
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 500px;
+        height: 400px;
+      }
+    }
+    &--header{
+      &--logo{
+        text-align: center;
+        width: 100%;
       }
     }
     &--logo-poster{
@@ -138,17 +202,55 @@
       &--g1 {
         margin: 40px 0 26px;
       }
+      &--left{
+        text-align: left;
+        .landing{
+          &--list{
+            display: flex;
+            float: none;
+            > li {
+              float: none;
+              margin-left: 0px;
+              margin-right: 32px;
+            }
+          }
+          &--btn{
+            margin-left: 0;
+            height: 35px;
+            padding: 6px 0;
+            font-size: 14px;
+            width: 129px;
+          }
+        }
+      }
+      &--box{
+        margin-top: 160px;
+        margin-bottom: 50px;
+      }
     }
     &--link{
       text-align: center;
     }
   }
 }
+
+@media screen and (max-width: 640px) {
+  .landing{
+    &--home {
+      padding: 0px 15px 15px;
+    }
+  }
+}
+
 @media screen and (max-width: 480px) {
   .mbr{
     display: block;
   }
   .landing{
+    &--home{
+      overflow: hidden;
+      background-color: #f5f5f5;
+    }
     &--container{
       overflow: hidden;
     }
@@ -178,6 +280,12 @@
       height: 35px;
       font-size: 14px;
       padding: 8px 0;
+    }
+    &--index{
+      margin: 0 -15px;
+      &--bg{
+        height: 350px;
+      }
     }
   }
 }

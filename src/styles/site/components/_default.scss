@@ -198,10 +198,43 @@ a:hover {
       color: #ffffff;
       text-decoration: none;
     }
+    &--main{
+      border: none;
+      width: 167px;
+      background-image: linear-gradient(107deg, #50b899, #009ec7);
+    }
   }
   &--group{
     &--g1{
       margin: 43px 0 134px;
+    }
+    &--left{
+      text-align: right;
+      .landing{
+        &--btn{
+          margin-left: auto;
+        }
+        &--list {
+          float: right;
+          > li {
+            margin-left: 32px;
+            margin-right: 0px;
+            float: left;
+          }
+        }
+      }
+    }
+    &--box{
+      margin-top: 190px;
+    }
+  }
+  &--header{
+    &--logo{
+      position: absolute;
+      top: 26px;
+      > img {
+        height: 76px;
+      }
     }
   }
   &--logo-poster{
@@ -233,6 +266,38 @@ a:hover {
         line-height: 1.79;
         color: #ffffff;
       }
+    }
+  }
+  &--index{
+    &--bg {
+      width: 463px;
+      height: 688px;
+      mix-blend-mode: lighten;
+      border-bottom-left-radius: 500px;
+      border-bottom-right-radius: 500px;
+      background-image: linear-gradient(148deg, #50b899, #009ec7);
+      position: relative;
+      margin-left: auto;
+      > img {
+        width: 698px;
+        position: absolute;
+        top: 50%;
+        left: 60%;
+        -ms-transform: translate(-50%,-50%);
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+      }
+    }
+  }
+  &--home{
+    max-width: 1170px;
+    padding: 0px 84px 15px;
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+    &--box{
+      padding: 100px 0 0;
+      width: 65%;
     }
   }
 }
