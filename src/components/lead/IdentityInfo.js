@@ -117,6 +117,12 @@ class IdentityInfo extends Component {
 
   handleBackClick = e => {
     e.preventDefault();
+    const { history } = this.props;
+    this.save(() => history.push('/borrow-request'));
+  };
+
+  handleLaterClick = e => {
+    e.preventDefault();
     this.save(() => this.setState({ back: true }));
   };
 
@@ -183,12 +189,19 @@ class IdentityInfo extends Component {
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
+                label="ก่อนหน้า"
+                labelPosition="before"
+                style={styles.button}
+                containerElement="label"
+                onClick={e => this.handleBackClick(e)}
+              />
+              <RaisedButton
                 label="กู้ภายหลัง"
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
                 disabled={!fileName0}
-                onClick={e => this.handleBackClick(e)}
+                onClick={e => this.handleLaterClick(e)}
               />
               <RaisedButton
                 type="submit"
