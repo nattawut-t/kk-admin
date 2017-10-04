@@ -10,8 +10,6 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
-import { Lightbox } from 'react-lightbox-component';
-
 const styles = {
   button: {
     margin: 12,
@@ -60,13 +58,14 @@ class IdentityInfo extends Component {
 
     getIdentityUrl(id, url =>
       this.setState({
-        images: [
-          {
-            src: url,
-            title: 'บัตรประชาชน',
-            description: 'บัตรประชาชน',
-          },
-        ],
+        // images: [
+        //   {
+        //     src: url,
+        //     title: 'บัตรประชาชน',
+        //     description: 'บัตรประชาชน',
+        //   },
+        // ],
+        url,
       }));
   };
 
@@ -143,7 +142,7 @@ class IdentityInfo extends Component {
       return <div className="loader" />;
     }
 
-    const { back, images, files } = this.state;
+    const { back, files, url } = this.state;
     const { message, loading } = this.props;
     let fileName = '';
 
@@ -187,11 +186,13 @@ class IdentityInfo extends Component {
                 >
                   {loading
                     ? <div className="loader" />
-                    : <Lightbox
-                      images={images}
-                      thumbnailWidth="350px"
-                      thumbnailHeight="350px"
-                      onClick={e => e.preventDefault()}
+                    : <img
+                      alt=""
+                      src={url}
+                      style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                      }}
                     />
                   }
                 </div>
