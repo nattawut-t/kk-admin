@@ -59,8 +59,6 @@ export const uploadDocument = (field, path, name, data, docType, callback) =>
         dispatch(loading());
       }, loadingTime);
     } catch (error) {
-      // console.log('uploadDocument.error: ', error);
-
       dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
       dispatch(loading());
       handleError(error);
@@ -122,15 +120,15 @@ export function downloadDocument(id, callback) {
   };
 }
 
-export const getIdentityUrl = (id, callback) =>
+export const getUrl = (id, callback) =>
   async dispatch => {
+    dispatch(loading(true));
     const _url = portalUrl(`/api/work/media/${id}/url`);
 
     try {
       const { data: { url } } = await getJson(_url);
 
-      console.log('getUrl.data: ', url);
-
+      dispatch(notify('โหลดไฟล์เอกสาร'));
       setTimeout(() => {
         dispatch(notify());
         dispatch(loading());

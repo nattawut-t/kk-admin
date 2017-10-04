@@ -10,8 +10,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
-// import ImageViewer from 'react-image-viewer-zoom';
-// import 'react-image-viewer-zoom/dist/style.css';
+import { Lightbox } from 'react-lightbox-component';
 
 const styles = {
   button: {
@@ -47,9 +46,35 @@ class IdentityInfo extends Component {
     const { data } = this.props;
     this.setState(Object.assign(data, {
       back: false,
-      url: '',
-    }));
+      images: [],
+    }), () => {
+      const { files } = this.state;
+
+      if (files && files.length > 0) {
+        const doc = files.find(({ docType }) => docType === 'identity');
+
+        if (doc) {
+          const { id } = doc;
+          this.getImageUrl(id);
+        }
+      }
+    });
   }
+
+  getImageUrl = id => {
+    const { getIdentityUrl } = this.props;
+
+    getIdentityUrl(id, url =>
+      this.setState({
+        images: [
+          {
+            src: url,
+            title: 'บัตรประชาชน',
+            description: 'บัตรประชาชน',
+          },
+        ],
+      }));
+  };
 
   save = callback => {
     const {
@@ -99,7 +124,7 @@ class IdentityInfo extends Component {
     const { target: { files, name, value } } = e;
 
     if (files && files.length > 0) {
-      const { uploadFile, getIdentityUrl } = this.props;
+      const { uploadFile } = this.props;
 
       const file = files[0];
       const _fileName = value.split('\\').pop().split('/').pop();
@@ -113,13 +138,13 @@ class IdentityInfo extends Component {
 
       uploadFile(name, value, _fileName, formData, docType, doc => {
         const { id } = doc;
-        console.log('identity: ', doc);
+
         this.setState({
           [docType]: doc,
           [fileName]: _fileName,
         });
 
-        getIdentityUrl(id, url => this.setState({ url }));
+        this.getImageUrl(id);
       });
     }
   };
@@ -152,7 +177,7 @@ class IdentityInfo extends Component {
       return <div className="loader" />;
     }
 
-    const { fileName0, back, url } = this.state;
+    const { fileName0, back, images } = this.state;
     const { message, loading } = this.props;
 
     const actions = [
@@ -176,8 +201,24 @@ class IdentityInfo extends Component {
             </div>
             <CardText>
               <div className="row">
-                <div className="col-12">
-                  <img alt="" src={url} />
+                <div
+                  className="col-12"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginTop: '30px',
+                    marginBottom: '50px',
+                  }}
+                >
+                  {loading
+                    ? <div className="loader" />
+                    : <Lightbox
+                      images={images}
+                      thumbnailWidth="350px"
+                      thumbnailHeight="350px"
+                      onClick={e => e.preventDefault()}
+                    />
+                  }
                 </div>
                 <div className="col-10">
                   <TextField
@@ -245,7 +286,6 @@ class IdentityInfo extends Component {
           message={message}
           autoHideDuration={4000}
         />
-        <div className={loading ? 'loader' : ''} />
       </div>
     );
   }

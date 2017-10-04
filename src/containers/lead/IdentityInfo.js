@@ -1,13 +1,12 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/IdentityInfo';
 import { get, save } from '../../reducers/draft';
-import { uploadDocument, getIdentityUrl } from '../../reducers/document';
+import { uploadDocument, getUrl } from '../../reducers/document';
 
-const mapStateToProps = state => ({
-  data: state.draft.data,
-  loading: state.lead.get('loading') || false,
-  editing: state.lead.get('editing') || false,
-  message: state.lead.get('message') || '',
+const mapStateToProps = ({ draft, notification }) => ({
+  data: draft.data,
+  loading: notification.loading,
+  message: notification.message,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -15,7 +14,7 @@ const mapDispatchToProps = dispatch => ({
   saveDraft: (data, callback) => dispatch(save(data, callback)),
   uploadFile: (field, path, name, data, docType, callback) =>
     dispatch(uploadDocument(field, path, name, data, docType, callback)),
-  getIdentityUrl: (id, callback) => dispatch(getIdentityUrl(id, callback)),
+  getIdentityUrl: (id, callback) => dispatch(getUrl(id, callback)),
 });
 
 export default connect(
