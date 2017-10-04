@@ -30,17 +30,11 @@ import ProductInfo from './ProductInfo';
 import Main from './Main';
 import Login from '../containers/Login';
 import AdminLogin from '../containers/AdminLogin';
-
-// import Agreement from '../containers/lead/Agreement';
-// import PersonalInfo from '../containers/lead/PersonalInfo';
-// import LoanInfo from '../containers/lead/LoanInfo';
-// import AdditionalInfo from '../containers/lead/AdditionalInfo';
-// import Summary from '../containers/lead/Summary';
-
 import AdminIndex from '../containers/admin/Index';
 import Index from '../containers/lead/Index';
-import { isAdmin } from '../libs/config';
+import Landing from './Landing';
 
+import { isAdmin } from '../libs/config';
 import Logo from '../../assets/asset-1-4-x@3x.png';
 
 const muiTheme = getMuiTheme({
@@ -140,9 +134,10 @@ class App extends React.Component {
         <Router>
           <MuiThemeProvider>
             <Switch>
+              <Route exact path="/" component={Landing} />
               <Route path="/login" component={Login} />
               <Route path="/admin/login" component={AdminLogin} />
-              <Route path="*" exact component={Login} />
+              <Route path="*" exact component={Landing} />
             </Switch>
           </MuiThemeProvider>
         </Router>
@@ -230,13 +225,7 @@ class App extends React.Component {
                 </div>
                 <div className={`${!authenticated ? 'col-12' : 'contain'}`}>
                   <Switch>
-                    {/* <Route path="/product-info" component={ProductInfo} /> */}
                     <Route path="/borrow-request" component={Main} />
-                    {/* <Route path="/summary" component={Summary} />
-                    <Route path="/additional-info" component={AdditionalInfo} />
-                    <Route path="/loan-info" component={LoanInfo} />
-                    <Route path="/personal-info" component={PersonalInfo} />
-                    <Route path="/borrow-request" component={Agreement} /> */}
                     <Route path="/leads" component={Index} />
                     <Route path="/admin/leads" component={AdminIndex} />
                     <Route path="*" exact component={ProductInfo} />
