@@ -220,7 +220,7 @@ class IdentityInfo extends Component {
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
-                label="ก่อนหน้า"
+                label="กลับ"
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
