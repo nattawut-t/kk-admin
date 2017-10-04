@@ -27,13 +27,6 @@ const styles = {
   },
 };
 
-// const images = [
-//   { src: 'https://unsplash.it/800/300?image=1', title: 'title', content: 'content' },
-//   { src: 'https://unsplash.it/300/800?image=2', title: 'title', content: 'content' },
-//   { src: 'https://unsplash.it/1800/300?image=3', title: 'title', content: 'content' },
-//   { src: 'https://unsplash.it/800/1800?image=4', title: 'title', content: 'content' },
-// ];
-
 class IdentityInfo extends Component {
 
   componentWillMount() {
@@ -44,6 +37,7 @@ class IdentityInfo extends Component {
 
   componentDidMount() {
     const { data } = this.props;
+
     this.setState(Object.assign(data, {
       back: false,
       images: [],
@@ -77,50 +71,14 @@ class IdentityInfo extends Component {
   };
 
   save = callback => {
-    const {
-      fileName0,
-      //
-      identity,
-      account,
-      household_registration,
-      payslip,
-      statement_1,
-      statement_2,
-      statement_3,
-    } = this.state;
-
-    console.log('identity: ', identity);
-
-    let files = [];
-    files.push(identity);
-    files.push(account);
-    files.push(household_registration);
-    files.push(payslip);
-    files.push(statement_1);
-    files.push(statement_2);
-    files.push(statement_3);
-    files = files.filter(file => file);
-
+    const { files } = this.state;
     const { saveDraft, data } = this.props;
-    const _data = Object.assign(data, {
-      files,
-      fileName0,
-      //
-      identity,
-      account,
-      household_registration,
-      payslip,
-      statement_1,
-      statement_2,
-      statement_3,
-    });
-
-    console.log('data: ', _data);
+    const _data = Object.assign(data, { files });
 
     saveDraft(_data, callback);
   };
 
-  handleChange = (e, required = false, docType = 'identity', fileName = 'fileName0') => {
+  handleChange = (e, required = false, docType = 'identity') => {
     const { target: { files, name, value } } = e;
 
     if (files && files.length > 0) {
@@ -134,16 +92,24 @@ class IdentityInfo extends Component {
       formData.append('file', file);
       formData.append('docType', docType);
 
-      // console.log('file: ', fileName, docType, name, file, uploadFile);
-
       uploadFile(name, value, _fileName, formData, docType, doc => {
         const { id } = doc;
+        let { files } = this.state;
+        files = files || [];
 
-        this.setState({
-          [docType]: doc,
-          [fileName]: _fileName,
-        });
+        const identity = files.find(({ docType }) => docType === 'identity');
+        if (identity) {
+          identity.id = doc.id;
+          identity.path = doc.path;
+          identity.docType = doc.docType;
+          identity.filename = doc.filename;
+        } else {
+          files.push(doc);
+        }
 
+        console.log('files: ', files);
+
+        this.setState({ files });
         this.getImageUrl(id);
       });
     }
@@ -177,8 +143,17 @@ class IdentityInfo extends Component {
       return <div className="loader" />;
     }
 
-    const { fileName0, back, images } = this.state;
+    const { back, images, files } = this.state;
     const { message, loading } = this.props;
+    let fileName = '';
+
+    if (files && files.length > 0) {
+      const file = files.find(({ docType }) => docType === 'identity');
+
+      if (file) {
+        fileName = file.filename;
+      }
+    }
 
     const actions = [
       <FlatButton
@@ -222,10 +197,10 @@ class IdentityInfo extends Component {
                 </div>
                 <div className="col-10">
                   <TextField
-                    id="fileName0"
-                    name="fileName0"
-                    value={fileName0}
-                    errorText={!fileName0 ? 'กรุณาเลือกรูปเพื่ออัพโหลด' : ''}
+                    id="fileName"
+                    name="fileName"
+                    value={fileName}
+                    errorText={!fileName ? 'กรุณาเลือกรูปเพื่ออัพโหลด' : ''}
                     fullWidth
                     readOnly
                   />
@@ -233,9 +208,9 @@ class IdentityInfo extends Component {
                 <div className="col-2">
                   <TextField
                     type="file"
-                    id="fileName0"
-                    name="fileName0"
-                    onChange={e => this.handleChange(e, true, 'identity', 'fileName0')}
+                    id="file"
+                    name="file"
+                    onChange={e => this.handleChange(e, true, 'identity')}
                     style={{ width: '105px' }}
                   />
                 </div>
@@ -256,7 +231,7 @@ class IdentityInfo extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                disabled={!fileName0}
+                disabled={!fileName}
                 onClick={e => this.handleLaterClick(e)}
               />
               <RaisedButton
@@ -265,7 +240,7 @@ class IdentityInfo extends Component {
                 labelPosition="before"
                 primary
                 style={styles.button}
-                disabled={!fileName0}
+                disabled={!fileName}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
               />
             </div>
