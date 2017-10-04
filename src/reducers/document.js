@@ -22,6 +22,13 @@ export const downloadDocumentsSuccess = documents => ({
   documents,
 });
 
+// export const GET_URL_SUCCESS = 'GET_URL_SUCCESS';
+// export const getUrlSuccess = (key, url) => ({
+//   type: GET_URL_SUCCESS,
+//   key,
+//   url,
+// });
+
 const initialState = {
   files: [],
 };
@@ -30,6 +37,7 @@ const url = (postfix = '') => portalUrl(`/api/work/leads/doc${postfix}`);
 
 export const uploadDocument = (field, path, name, data, docType, callback) =>
   async dispatch => {
+    dispatch(loading(true));
     const _url = url();
 
     try {
@@ -46,12 +54,13 @@ export const uploadDocument = (field, path, name, data, docType, callback) =>
       }
 
       dispatch(notify('อัพโหลดเอกสารแล้ว'));
-      setTimeout(() => dispatch(notify('')), loadingTime);
+      setTimeout(() => {
+        dispatch(notify());
+        dispatch(loading());
+      }, loadingTime);
     } catch (error) {
-      console.log('uploadDocument.error: ', error);
-
       dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-      setTimeout(() => dispatch(notify('')), loadingTime);
+      dispatch(loading());
       handleError(error);
     }
   };
@@ -110,6 +119,32 @@ export function downloadDocument(id, callback) {
       });
   };
 }
+
+export const getUrl = (id, callback) =>
+  async dispatch => {
+    dispatch(loading(true));
+    const _url = portalUrl(`/api/work/media/${id}/url`);
+
+    try {
+      const { data: { url } } = await getJson(_url);
+
+      dispatch(notify('โหลดไฟล์เอกสาร'));
+      setTimeout(() => {
+        dispatch(notify());
+        dispatch(loading());
+
+        if (callback) {
+          callback(url);
+        }
+      }, loadingTime);
+    } catch (error) {
+      console.log('uploadDocument.error: ', error);
+
+      dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+      dispatch(loading());
+      handleError(error);
+    }
+  };
 
 // /api/work/media/<mediaID>/url
 

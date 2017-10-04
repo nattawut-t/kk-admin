@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
+
 import TextField from 'material-ui/TextField';
-// import SelectField from 'material-ui/SelectField';
-// import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-// import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+
+import { Lightbox } from 'react-lightbox-component';
 
 const styles = {
   button: {
@@ -27,6 +27,13 @@ const styles = {
   },
 };
 
+// const images = [
+//   { src: 'https://unsplash.it/800/300?image=1', title: 'title', content: 'content' },
+//   { src: 'https://unsplash.it/300/800?image=2', title: 'title', content: 'content' },
+//   { src: 'https://unsplash.it/1800/300?image=3', title: 'title', content: 'content' },
+//   { src: 'https://unsplash.it/800/1800?image=4', title: 'title', content: 'content' },
+// ];
+
 class IdentityInfo extends Component {
 
   componentWillMount() {
@@ -37,8 +44,37 @@ class IdentityInfo extends Component {
 
   componentDidMount() {
     const { data } = this.props;
-    this.setState(Object.assign(data, { back: false }));
+    this.setState(Object.assign(data, {
+      back: false,
+      images: [],
+    }), () => {
+      const { files } = this.state;
+
+      if (files && files.length > 0) {
+        const doc = files.find(({ docType }) => docType === 'identity');
+
+        if (doc) {
+          const { id } = doc;
+          this.getImageUrl(id);
+        }
+      }
+    });
   }
+
+  getImageUrl = id => {
+    const { getIdentityUrl } = this.props;
+
+    getIdentityUrl(id, url =>
+      this.setState({
+        images: [
+          {
+            src: url,
+            title: 'บัตรประชาชน',
+            description: 'บัตรประชาชน',
+          },
+        ],
+      }));
+  };
 
   save = callback => {
     const {
@@ -89,6 +125,7 @@ class IdentityInfo extends Component {
 
     if (files && files.length > 0) {
       const { uploadFile } = this.props;
+
       const file = files[0];
       const _fileName = value.split('\\').pop().split('/').pop();
       const formData = new FormData();
@@ -99,12 +136,15 @@ class IdentityInfo extends Component {
 
       // console.log('file: ', fileName, docType, name, file, uploadFile);
 
-      uploadFile(name, value, _fileName, formData, docType, _file => {
-        console.log('callback: ', docType, _file, fileName, value);
+      uploadFile(name, value, _fileName, formData, docType, doc => {
+        const { id } = doc;
+
         this.setState({
-          [docType]: _file,
+          [docType]: doc,
           [fileName]: _fileName,
         });
+
+        this.getImageUrl(id);
       });
     }
   };
@@ -116,6 +156,12 @@ class IdentityInfo extends Component {
   };
 
   handleBackClick = e => {
+    e.preventDefault();
+    const { history } = this.props;
+    this.save(() => history.push('/borrow-request'));
+  };
+
+  handleLaterClick = e => {
     e.preventDefault();
     this.save(() => this.setState({ back: true }));
   };
@@ -131,11 +177,8 @@ class IdentityInfo extends Component {
       return <div className="loader" />;
     }
 
-    const { fileName0, back } = this.state;
-    const { message } = this.props;
-
-    // if (data) {
-    // }
+    const { fileName0, back, images } = this.state;
+    const { message, loading } = this.props;
 
     const actions = [
       <FlatButton
@@ -158,6 +201,25 @@ class IdentityInfo extends Component {
             </div>
             <CardText>
               <div className="row">
+                <div
+                  className="col-12"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    marginTop: '30px',
+                    marginBottom: '50px',
+                  }}
+                >
+                  {loading
+                    ? <div className="loader" />
+                    : <Lightbox
+                      images={images}
+                      thumbnailWidth="350px"
+                      thumbnailHeight="350px"
+                      onClick={e => e.preventDefault()}
+                    />
+                  }
+                </div>
                 <div className="col-10">
                   <TextField
                     id="fileName0"
@@ -183,12 +245,19 @@ class IdentityInfo extends Component {
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
+                label="ก่อนหน้า"
+                labelPosition="before"
+                style={styles.button}
+                containerElement="label"
+                onClick={e => this.handleBackClick(e)}
+              />
+              <RaisedButton
                 label="กู้ภายหลัง"
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
                 disabled={!fileName0}
-                onClick={e => this.handleBackClick(e)}
+                onClick={e => this.handleLaterClick(e)}
               />
               <RaisedButton
                 type="submit"
@@ -224,15 +293,19 @@ class IdentityInfo extends Component {
 
 IdentityInfo.propTypes = {
   message: PropTypes.string,
+  loading: PropTypes.bool,
   history: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   getDraft: PropTypes.func.isRequired,
   saveDraft: PropTypes.func.isRequired,
   uploadFile: PropTypes.func.isRequired,
+  getIdentityUrl: PropTypes.func.isRequired,
 };
 
 IdentityInfo.defaultProps = {
   message: '',
+  loading: false,
+  url: '',
 };
 
 export default withRouter(IdentityInfo);

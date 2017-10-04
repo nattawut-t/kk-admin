@@ -12,12 +12,16 @@ export const loading = (loading = false) => ({
 
 const initialState = {
   message: '',
+  loading: false,
 };
 
 const notificatiion = (state = initialState, action) => {
   switch (action.type) {
     case NOTIFY:
       return { message: action.message };
+
+    case LOADING:
+      return { loading: action.loading };
 
     default:
       return state;
