@@ -25,7 +25,7 @@ const styles = {
   paper: {
     padding: '25px 0',
     overflow: 'auto',
-    margin: '0 16px',
+    margin: '0px 16px 30px',
   },
   buttonsDiv: {
     textAlign: 'center',

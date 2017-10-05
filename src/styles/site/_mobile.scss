@@ -117,6 +117,10 @@
 }
 
 @media screen and (max-width: 768px) {
+  .app-login{
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
   .m-inline{
     display: inline-block;
     margin-right: 15px;
