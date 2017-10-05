@@ -636,7 +636,8 @@ class PersonalInfo extends Component {
 
   handleBackClick = e => {
     e.preventDefault();
-    this.save('/borrow-request');
+    const { history } = this.props;
+    history.push('/leads');
   };
 
   handleNextClick = e => {
@@ -1491,7 +1492,7 @@ class PersonalInfo extends Component {
           <div className="row">
             <div className="col-12" style={{ textAlign: 'right' }}>
               <RaisedButton
-                label="กลับ"
+                label="ยกเลิก"
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"

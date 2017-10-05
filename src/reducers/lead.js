@@ -86,11 +86,7 @@ const State = Record({
 
 const initialState = new State();
 
-// const searchUrl = () => portalUrl('/admin/leads');
 const uploadUrl = () => portalUrl('/api/work/leads/doc');
-// const saveUrl = () => portalUrl('/admin/leads');
-// const saveAdminUrl = id => portalUrl(`/admin/leads/${id}`);
-
 const url = (postfix = '') => portalUrl(`/admin/leads${postfix}`);
 
 function _loadNextPage(currentPage = 1, nextPage = 2) {

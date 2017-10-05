@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Viewer from '../../components/shared/Viewer';
 import { cancelSelection } from '../../actions/lead';
-// import { approve, reject } from '../../reducers/admin';
+import { approve, reject } from '../../reducers/admin';
 import { loadDocuments, loadDocument } from '../../reducers/lead';
 import { edit } from '../../reducers/draft';
 
@@ -25,8 +25,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // approve: id => dispatch(approve(id)),
-  // reject: (id, remark, callback) => dispatch(reject(id, remark, callback)),
+  approve: id => dispatch(approve(id)),
+  reject: (id, remark, callback) => dispatch(reject(id, remark, callback)),
   cancel: () => dispatch(cancelSelection()),
   edit: (id, callback) => dispatch(edit(id, callback)),
   loadDocuments: (id, callback) => dispatch(loadDocuments(id, callback)),

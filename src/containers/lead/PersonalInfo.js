@@ -7,9 +7,9 @@ import {
 
 const mapStateToProps = state => ({
   data: state.draft.data,
-  loading: state.lead.get('loading') || false,
-  editing: state.lead.get('editing') || false,
-  message: state.lead.get('message') || '',
+  editing: state.draft.editing,
+  loading: state.notification.loading,
+  message: state.notification.message,
 });
 
 const mapDispatchToProps = dispatch => ({

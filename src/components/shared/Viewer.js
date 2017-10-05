@@ -147,6 +147,7 @@ class Viewer extends Component {
 
   handleApproveClick = id => {
     const { approve } = this.props;
+    console.log(id, approve);
     if (approve) {
       approve(id);
     }
@@ -163,7 +164,7 @@ class Viewer extends Component {
     }
   };
 
-  handleChange = e => {
+  handleRemarkChange = e => {
     const { target: { value } } = e;
     this.setState({ remark: value });
   };
@@ -172,7 +173,7 @@ class Viewer extends Component {
     this.setState({ [key]: false });
   };
 
-  handleRejectClick = () => {
+  handleRejectOpenClick = () => {
     this.setState({ reject: true });
   };
 
@@ -323,8 +324,8 @@ class Viewer extends Component {
                     secondary
                     style={styles.button}
                     icon={<Clear />}
-                    onClick={this.handleRejectClick}
-                    disabled={Status !== 'created'}
+                    onClick={this.handleRejectOpenClick}
+                    disabled
                   />
                   <RaisedButton
                     label="ส่งกู้รายอื่น"
@@ -392,7 +393,7 @@ class Viewer extends Component {
                 fullWidth
                 rows={3}
                 value={remark}
-                onChange={() => this.handleChange('reject')}
+                onChange={e => this.handleRemarkChange(e)}
               />
             </div>
           </div>

@@ -95,7 +95,7 @@ class LeadStep extends Component {
                       {stepIndex === 1 ? <img src={IconCheckmark} alt="Step checked" /> : 1}
                     </div>
                   </span>
-                  <span className="stepper--text">ข้อตกลงและเงื่อนไข</span>
+                  <span className="stepper--text">ข้อมูลส่วนตัว</span>
                 </div>
               </div>
             </Step>
@@ -107,7 +107,7 @@ class LeadStep extends Component {
                       {stepIndex === 2 ? <img src={IconCheckmark} alt="Step checked" /> : 2}
                     </div>
                   </span>
-                  <span className="stepper--text">ข้อมูลส่วนตัว</span>
+                  <span className="stepper--text">ความต้องการกู้</span>
                 </div>
               </div>
             </Step>
@@ -119,7 +119,7 @@ class LeadStep extends Component {
                       {stepIndex === 3 ? <img src={IconCheckmark} alt="Step checked" /> : 3}
                     </div>
                   </span>
-                  <span className="stepper--text">ความต้องการกู้</span>
+                  <span className="stepper--text">ข้อมูลเพิ่มเติมเพื่อการกู้</span>
                 </div>
               </div>
             </Step>
@@ -129,18 +129,6 @@ class LeadStep extends Component {
                   <span className="stepper--number">
                     <div className="stepper--number--icon" style={stepIndex === 4 ? { backgroundColor: '#019bc9' } : null} >
                       {stepIndex === 4 ? <img src={IconCheckmark} alt="Step checked" /> : 4}
-                    </div>
-                  </span>
-                  <span className="stepper--text">ข้อมูลเพิ่มเติมเพื่อการกู้</span>
-                </div>
-              </div>
-            </Step>
-            <Step>
-              <div className={stepIndex === 4 ? 'stepper--active' : null}>
-                <div className="stepper--control">
-                  <span className="stepper--number">
-                    <div className="stepper--number--icon" style={stepIndex === 5 ? { backgroundColor: '#019bc9' } : null} >
-                      {stepIndex === 5 ? <img src={IconCheckmark} alt="Step checked" /> : 5}
                     </div>
                   </span>
                   <span className="stepper--text">ส่งคำขอกู้</span>

@@ -19,28 +19,20 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-import Divider from 'material-ui/Divider';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import List from 'material-ui/svg-icons/action/list';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
-import LinearScale from 'material-ui/svg-icons/editor/linear-scale';
 
-import ProductInfo from './ProductInfo';
 import Layout from './Layout';
-import Login from '../containers/Login';
 import AdminLogin from '../containers/AdminLogin';
 import AdminIndex from '../containers/admin/Index';
-import Index from '../containers/lead/Index';
 import Landing from './Landing';
 
-import Agreement from '../containers/lead/Agreement';
 import PersonalInfo from '../containers/lead/PersonalInfo';
 import LoanInfo from '../containers/lead/LoanInfo';
 import AdditionalInfo from '../containers/lead/AdditionalInfo';
 import Summary from '../containers/lead/Summary';
 
-import { isAdmin } from '../libs/config';
 import Logo from '../../assets/asset-1-4-x@3x.png';
 
 const muiTheme = getMuiTheme({
@@ -133,7 +125,7 @@ class App extends React.Component {
 
   render() {
     const authenticated = localStorage.getItem('token');
-    const _isAdmin = isAdmin();
+    // const _isAdmin = isAdmin();
 
     if (!authenticated) {
       return (
@@ -141,8 +133,8 @@ class App extends React.Component {
           <MuiThemeProvider>
             <Switch>
               <Route exact path="/" component={Landing} />
-              <Route path="/login" component={Login} />
-              <Route path="/admin/login" component={AdminLogin} />
+              <Route path="/login" component={AdminLogin} />
+              {/* <Route path="/admin/login" component={AdminLogin} /> */}
               <Route path="*" exact component={Landing} />
             </Switch>
           </MuiThemeProvider>
@@ -188,60 +180,32 @@ class App extends React.Component {
                       style={styles.AppBarSideBar}
                     />
 
-                    {_isAdmin
-                      ? <Menu>
-                        <MenuItem
-                          primaryText="เพิ่มคำขอสินเชื่อ"
-                          containerElement={<Link to="/borrow-request" />}
-                          leftIcon={<LibraryBooks />}
-                          style={styles.MenuItem}
-                        />
-                        <MenuItem
-                          primaryText="รายการคำขอสินเชื่อ"
-                          containerElement={<Link to="/admin/leads" />}
-                          leftIcon={<List />}
-                          style={styles.MenuItem}
-                        />
-                      </Menu>
-                      : <Menu>
-                        <MenuItem
-                          primaryText="ส่งคำขอสินเชื่อ"
-                          containerElement={<Link to="/borrow-request" />}
-                          leftIcon={<LibraryBooks />}
-                          style={styles.MenuItem}
-                        />
-                        <MenuItem
-                          primaryText="ข้อมูลผลิตภัณฑ์"
-                          containerElement={<Link to="/product-info" />}
-                          leftIcon={<RemoveRedEye />}
-                          style={styles.MenuItem}
-                        />
-                        <Divider />
-                        <MenuItem
-                          primaryText="สถานะการกู้"
-                          containerElement={<Link to="/leads" />}
-                          leftIcon={<LinearScale />}
-                          style={styles.MenuItem}
-                        />
-                      </Menu>
-                    }
-
+                    <Menu>
+                      <MenuItem
+                        primaryText="เพิ่มคำขอสินเชื่อ"
+                        containerElement={<Link to="/personal-info" />}
+                        leftIcon={<LibraryBooks />}
+                        style={styles.MenuItem}
+                      />
+                      <MenuItem
+                        primaryText="รายการคำขอสินเชื่อ"
+                        containerElement={<Link to="/leads" />}
+                        leftIcon={<List />}
+                        style={styles.MenuItem}
+                      />
+                    </Menu>
                   </Drawer>
 
                 </div>
                 <div className={`${!authenticated ? 'col-12' : 'contain'}`}>
                   <Switch>
-                    {/* <Route path="/borrow-request" component={Main} /> */}
-
                     <Route path="/summary" render={() => <Layout><Summary /></Layout>} />
                     <Route path="/additional-info" render={() => <Layout><AdditionalInfo /></Layout>} />
                     <Route path="/loan-info" render={() => <Layout><LoanInfo /></Layout>} />
                     <Route path="/personal-info" render={() => <Layout><PersonalInfo /></Layout>} />
-                    <Route path="/borrow-request" render={() => <Layout><Agreement /></Layout>} />
 
-                    <Route path="/leads" component={Index} />
-                    <Route path="/admin/leads" component={AdminIndex} />
-                    <Route path="*" exact component={ProductInfo} />
+                    <Route path="/leads" component={AdminIndex} />
+                    <Route path="*" exact component={AdminIndex} />
                   </Switch>
                 </div>
               </div>

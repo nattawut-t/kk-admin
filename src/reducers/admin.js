@@ -1,136 +1,24 @@
-import Immutable, { Record } from 'immutable';
-// import moment from 'moment';
 import {
   approveSuccess,
   rejectSuccess,
-  // searchSuccess,
-  // loadNextPageSuccess,
-  setLoading,
-  // selectDataSuccess,
-  // cancelSelection,
-  // setSortInfo,
-  // setSearchInfo,
-  SELECT_DATA_SUCCESS,
-  APPROVE_SUCCESS,
-  REJECT_SUCCESS,
-  SEARCH_SUCCESS,
-  CANCEL_SELECTION,
-  LOAD_NEXT_PAGE_SUCCESS,
-  SET_LOADING,
-  SET_SORT_INFO,
-  SET_SEARCH_INFO,
 } from '../actions/admin';
+import { searchData } from './lead';
+import { notify, loading } from './notification';
 import {
   portalUrl,
   postJson,
   putJson,
-  // getJson,
 } from '../libs/request';
-import {
-  // pageSize,
-  loadingTime,
-  // dateFormat,
-} from '../libs/config';
-// import { parseLeadIn } from '../libs/lead';
-// import { parseLeadsIn } from '../libs/leads';
+import { loadingTime } from '../libs/config';
+import { handleError } from '../handlers/api';
 
-const State = Record({
-  id: '',
-  message: '',
-  //
-  data: null,
-  // dataList: [],
-  // total: 0,
-  // pages: 0,
-  // page: 0,
-  //
-  // keyword: '',
-  // sortField: '',
-  // sortDesc: false,
-  loading: false,
-});
-const initialState = new State();
-const endpoint = '/admin/leads';
+const url = (postfix = '') => portalUrl(`/admin/leads${postfix}`);
 
-// function _searchData(page = 1) {
-//   return dispatch => {
-//     dispatch(setLoading(true));
-//     dispatch(cancelSelection());
+export const approve = (id, callback) =>
+  async dispatch => {
+    dispatch(loading(true));
 
-//     const _endpoint = `${endpoint}?page=${page}`;
-//     const url = portalUrl(_endpoint);
-//     const promise = getJson(url);
-
-//     setTimeout(() =>
-//       promise.then(response => {
-//         const { data } = response;
-//         const {
-//           count,
-//           entries,
-//           numOfPages,
-//           page,
-//         } = data;
-
-//         console.log('>>> entries: ', entries);
-//         const dataList = entries ? parseLeadsIn(entries) : [];
-
-//         dispatch(searchSuccess(dataList, count, numOfPages, page));
-//         return dispatch(setLoading(false));
-//       })
-//         .catch(error => {
-//           console.log('>>> error: ', error);
-//           dispatch(setLoading(false));
-//         })
-//       , loadingTime);
-//   };
-// }
-
-// function _loadNextPage(currentPage = 1, nextPage = 2) {
-//   return (dispatch, getState) => {
-//     dispatch(setLoading(true));
-//     dispatch(cancelSelection());
-
-//     const state = getState().admin;
-//     const total = state.get('total') || 0;
-
-//     if ((currentPage * pageSize) < total) {
-//       const _endpoint = `${endpoint}?page=${nextPage}`;
-//       const url = portalUrl(_endpoint);
-//       const promise = getJson(url);
-
-//       setTimeout(() =>
-//         promise.then(response => {
-//           const { data } = response;
-//           const {
-//             count,
-//             entries,
-//             numOfPages,
-//             page,
-//           } = data;
-
-//           console.log('>>> entries: ', entries);
-//           const dataList = entries ? parseLeadsIn(entries) : [];
-
-//           dispatch(loadNextPageSuccess(dataList, count, numOfPages, page));
-//           return dispatch(setLoading(false));
-//         })
-//           .catch(error => {
-//             console.log('>>> error: ', error);
-//             dispatch(setLoading(false));
-//           })
-//         , loadingTime);
-//     }
-
-//     dispatch(setLoading(false));
-//   };
-// }
-
-export function approve(id) {
-  return dispatch => {
-    dispatch(setLoading(true));
-
-    const path = `${endpoint}/${id}/approve`;
-    const url = portalUrl(path);
+    const _url = url(`/${id}/approve`);
     const options = {
       method: 'post',
       data: {
@@ -138,434 +26,110 @@ export function approve(id) {
         status: 'verified',
       },
     };
-    const promise = postJson(url, options);
 
-    setTimeout(() =>
-      promise.then(() => {
-        const message = 'อนุมัติคำขอกู้แล้ว';
-        dispatch(approveSuccess(id, message));
-        return dispatch(setLoading(false));
-      })
-        .catch(error => {
-          console.log('>>> error: ', error);
-          dispatch(setLoading(false));
-        })
-      , loadingTime);
+    try {
+      await postJson(_url, options);
+
+      dispatch(notify('อนุมัติคำขอกู้แล้ว'));
+      dispatch(approveSuccess());
+      dispatch(searchData());
+
+      setTimeout(() => {
+        if (callback) {
+          callback();
+        }
+
+        dispatch(notify());
+        dispatch(loading());
+      }
+        , loadingTime);
+    } catch (error) {
+      dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+
+      setTimeout(() => {
+        dispatch(notify());
+        dispatch(loading());
+      }, loadingTime);
+
+      handleError(error);
+    }
   };
-}
 
-export function reject(id, remark, callback) {
-  return dispatch => {
-    dispatch(setLoading(true));
+export const reject = (id, remark, callback) =>
+  async dispatch => {
+    dispatch(loading(true));
 
-    const path = `${endpoint}/${id}/rejected`;
-    const url = portalUrl(path);
+    const _url = url(`/${id}/rejected`);
     const options = {
       method: 'put',
       data: { remark },
     };
-    const promise = putJson(url, options);
 
-    setTimeout(() =>
-      promise.then(() => {
-        const message = 'ปฏิเสธคำขอกู้แล้ว';
-        dispatch(rejectSuccess(id, message));
-        dispatch(setLoading(false));
+    try {
+      await putJson(_url, options);
+
+      dispatch(notify('ปฏิเสธคำขอกู้แล้ว'));
+      dispatch(rejectSuccess());
+      dispatch(searchData());
+
+      setTimeout(() => {
         if (callback) {
           callback();
         }
-      })
-        .catch(error => {
-          console.log('>>> error: ', error);
-          dispatch(setLoading(false));
-        })
-      , loadingTime);
+
+        dispatch(notify());
+        dispatch(loading());
+      }
+        , loadingTime);
+    } catch (error) {
+      dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+
+      setTimeout(() => {
+        dispatch(notify());
+        dispatch(loading());
+      }, loadingTime);
+
+      handleError(error);
+    }
   };
-}
 
-// export function searchData(keyword) {
-//   return dispatch => {
-//     dispatch(setSearchInfo(keyword));
-//     return dispatch(_searchData());
-//   };
-// }
 
-// export function sortData(field, desc) {
-//   return dispatch => {
-//     dispatch(setSortInfo(field, desc));
-//     return dispatch(_searchData());
-//   };
-// }
-
-// export function loadNextPage() {
-//   console.log('>>> admin');
-//   return (dispatch, getState) => {
-//     const state = getState().admin;
-//     const loading = state.get('loading');
-
-//     if (!loading) {
-//       const page = state.get('page') || 1;
-//       return dispatch(_loadNextPage(page, page + 1));
-//     }
-
-//     return dispatch(setLoading(false));
-//   };
-// }
-
-// export function selectData(rowIndex) {
-//   return (dispatch, getState) => {
-//     dispatch(setLoading(true));
-
-//     const state = getState().admin;
-//     const oldId = state.get('id');
-//     const dataList = state.get('dataList');
-
-//     if (dataList) {
-//       const data = dataList.get(rowIndex);
-
-//       if (data) {
-//         const newId = `${data.get('ID') || ''}`;
-
-//         if (newId !== oldId) {
-//           const _endpoint = `${endpoint}/${newId}`;
-//           const url = portalUrl(_endpoint);
-//           const promise = getJson(url);
-
-//           setTimeout(() =>
-//             promise.then(response => {
-//               const { data } = response;
-
-//               const {
-//                 ID,
-//                 Status,
-//                 //
-//                 dateReq,
-//                 prefixTH,
-//                 firstNameTH,
-//                 lastNameTH,
-//                 prefixEN,
-//                 firstNameEN,
-//                 lastNameEN,
-//                 idCard,
-//                 dateExp,
-//                 birthDate,
-//                 status,
-//                 //
-//                 jobCompanyName,
-//                 department,
-//                 position,
-//                 employmentDate,
-//                 jobSalary,
-//                 workTel,
-//                 telExtension,
-//                 officeNumber,
-//                 officeMoo,
-//                 officeVillage,
-//                 officeSoi,
-//                 officeRoad,
-//                 officeProvinceName,
-//                 officeAmphurCodeName,
-//                 officeTambolCodeName,
-//                 officeZipCode,
-//                 //
-//                 number,
-//                 moo,
-//                 village,
-//                 soi,
-//                 road,
-//                 province,
-//                 amphurCode,
-//                 tambolCode,
-//                 provinceName,
-//                 amphurCodeName,
-//                 tambolCodeName,
-//                 zipCode,
-//                 //
-//                 number2,
-//                 moo2,
-//                 village2,
-//                 soi2,
-//                 road2,
-//                 province2,
-//                 amphurCode2,
-//                 tambolCode2,
-//                 province2Name,
-//                 amphurCode2Name,
-//                 tambolCode2Name,
-//                 zipCode2,
-//                 //
-//                 workTel2,
-//                 homeTel2,
-//                 email,
-//                 detailRent,
-//                 //
-//                 loanAmount,
-//                 installmentNumber,
-//                 beneficiary,
-//                 loanBeneficiaryName,
-//                 accumulateDebt,
-//                 creditCardTotal,
-//                 paymentHistoryExists,
-//                 pLoanApplicationHositoryExists,
-//                 overdueDebtExists,
-//                 bankAccountNo,
-//                 bankAccountName,
-//                 bankCode,
-//                 bankName,
-//                 bankBranchName,
-//                 //
-//                 ref1Prefix,
-//                 ref1Firstname,
-//                 ref1Lastname,
-//                 ref1Relationship,
-//                 ref1MobileNo,
-//                 ref1WorkTelephone,
-//                 ref1HomeTelephone,
-//                 //
-//                 ref2Prefix,
-//                 ref2Firstname,
-//                 ref2Lastname,
-//                 ref2Relationship,
-//                 ref2MobileNo,
-//                 ref2WorkTelephone,
-//                 ref2HomeTelephone,
-//                 //
-//                 shippingHouseNo,
-//                 shippingMoo,
-//                 shippingVillage,
-//                 shippingFloor,
-//                 shippingSoi,
-//                 shippingRoad,
-//                 shippingProvinceCodeName,
-//                 shippingAmphurCodeName,
-//                 shippingTambolCodeName,
-//                 shippingPostalCode,
-//                 //
-//                 fileName0,
-//                 fileName1,
-//                 fileName2,
-//                 fileName3,
-//                 fileName4,
-//                 fileName5,
-//                 fileName6,
-//               } = parseLeadIn(data);
-
-//               const entry = {
-//                 id: ID,
-//                 status: Status,
-//                 //
-//                 dateReq: dateReq ? moment(dateReq).toDate() : null,
-//                 nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
-//                 nameEN: `${prefixEN || ''} ${firstNameEN || ''} ${lastNameEN || ''}`.trim(),
-//                 idcardNo: idCard,
-//                 idcardExpiry: dateExp ? moment(dateExp).toDate() : null,
-//                 birthDate: birthDate ? moment(birthDate).toDate() : null,
-//                 maritalStatus: status,
-//                 //
-//                 companyName: jobCompanyName,
-//                 department,
-//                 position,
-//                 employmentDate: employmentDate ? moment(employmentDate).toDate() : null,
-//                 salary: jobSalary,
-//                 //
-//                 officeTel: workTel,
-//                 officeTelExt: telExtension,
-//                 officeNumber,
-//                 officeMoo,
-//                 officeVillage,
-//                 officeSoi,
-//                 officeRoad,
-//                 officeProvinceName,
-//                 officeAmphurCodeName,
-//                 officeTambolCodeName,
-//                 officeZipCode,
-//                 //
-//                 number,
-//                 moo,
-//                 village,
-//                 soi,
-//                 road,
-//                 province,
-//                 amphurCode,
-//                 tambolCode,
-//                 provinceName,
-//                 amphurCodeName,
-//                 tambolCodeName,
-//                 zipCode,
-//                 //
-//                 number2,
-//                 moo2,
-//                 village2,
-//                 soi2,
-//                 road2,
-//                 province2,
-//                 amphurCode2,
-//                 tambolCode2,
-//                 province2Name,
-//                 amphurCode2Name,
-//                 tambolCode2Name,
-//                 zipCode2,
-//                 //
-//                 workTel2,
-//                 homeTel2,
-//                 email,
-//                 detailRent,
-//                 //
-//                 loanAmount,
-//                 installmentNumber,
-//                 beneficiary: (beneficiary === 'others') ? loanBeneficiaryName : beneficiary,
-//                 loanBeneficiaryName,
-//                 accumulateDebt,
-//                 creditCardTotal,
-//                 paymentHistoryExists,
-//                 pLoanApplicationHositoryExists,
-//                 overdueDebtExists,
-//                 bankAccountNo,
-//                 bankAccountName,
-//                 bankCode,
-//                 bankName,
-//                 bankBranchName,
-//                 //
-//                 ref1Prefix,
-//                 ref1Firstname,
-//                 ref1Lastname,
-//                 ref1Relationship,
-//                 ref1MobileNo,
-//                 ref1WorkTelephone,
-//                 ref1HomeTelephone,
-//                 //
-//                 ref2Prefix,
-//                 ref2Firstname,
-//                 ref2Lastname,
-//                 ref2Relationship,
-//                 ref2MobileNo,
-//                 ref2WorkTelephone,
-//                 ref2HomeTelephone,
-//                 //
-//                 shippingHouseNo,
-//                 shippingMoo,
-//                 shippingVillage,
-//                 shippingFloor,
-//                 shippingSoi,
-//                 shippingRoad,
-//                 shippingProvinceCodeName,
-//                 shippingAmphurCodeName,
-//                 shippingTambolCodeName,
-//                 shippingPostalCode,
-//                 //
-//                 fileName0,
-//                 fileName1,
-//                 fileName2,
-//                 fileName3,
-//                 fileName4,
-//                 fileName5,
-//                 fileName6,
-//               };
-
-//               dispatch(selectDataSuccess(`${ID}`, entry));
-//               return dispatch(setLoading(false));
-//             })
-//               .catch(error => {
-//                 console.log('>>> selectData.error: ', error);
-//                 dispatch(setLoading(false));
-//               })
-//             , loadingTime);
-//         } else {
-//           dispatch(cancelSelection());
-//         }
-//       }
-//     }
-//   };
-// }
-
-const admin = (state = initialState, action) => {
-  let _state;
-  let _dataList;
+const admin = (state = {}, action) => {
+  // let _state;
+  // let _dataList;
 
   switch (action.type) {
-    case SELECT_DATA_SUCCESS:
+    // case APPROVE_SUCCESS:
 
-      _state = Immutable.fromJS({
-        id: action.id,
-        data: action.data,
-      });
-      return state.merge(_state);
+    //   _dataList = state.dataList.filter(data =>
+    //     Number.parseInt(data.get('id'), 10) !== Number.parseInt(action.id, 10),
+    //   );
+    //   _state = Immutable.fromJS({
+    //     id: '',
+    //     message: action.message,
+    //     dataList: _dataList,
+    //   });
+    //   return state.merge(_state);
 
-    case APPROVE_SUCCESS:
+    // case REJECT_SUCCESS:
 
-      _dataList = state.dataList.filter(data =>
-        Number.parseInt(data.get('id'), 10) !== Number.parseInt(action.id, 10),
-      );
-      _state = Immutable.fromJS({
-        id: '',
-        message: action.message,
-        dataList: _dataList,
-      });
-      return state.merge(_state);
+    //   _dataList = state.dataList.filter(data =>
+    //     Number.parseInt(data.get('id'), 10) !== Number.parseInt(action.id, 10),
+    //   );
+    //   _state = Immutable.fromJS({
+    //     id: '',
+    //     message: action.message,
+    //     dataList: _dataList,
+    //   });
+    //   console.log('>>> REJECT_SUCCESS');
+    //   return state.merge(_state);
 
-    case REJECT_SUCCESS:
-
-      _dataList = state.dataList.filter(data =>
-        Number.parseInt(data.get('id'), 10) !== Number.parseInt(action.id, 10),
-      );
-      _state = Immutable.fromJS({
-        id: '',
-        message: action.message,
-        dataList: _dataList,
-      });
-      console.log('>>> REJECT_SUCCESS');
-      return state.merge(_state);
-
-    case SEARCH_SUCCESS:
-
-      _state = Immutable.fromJS({
-        total: action.total,
-        pages: action.pages,
-        page: action.page,
-        dataList: [
-          ...action.dataList,
-        ],
-      });
-      return state.merge(_state);
-
-    case LOAD_NEXT_PAGE_SUCCESS:
-
-      _state = Immutable.fromJS({
-        total: action.total,
-        pages: action.pages,
-        page: action.page,
-        dataList: [
-          ...state.dataList,
-          ...action.dataList,
-        ],
-      });
-      return state.merge(_state);
-
-    case CANCEL_SELECTION:
-      _state = Immutable.fromJS({
-        id: '',
-        data: null,
-      });
-      return state.merge(_state);
-
-    case SET_LOADING:
-      _state = Immutable.fromJS({
-        loading: action.loading,
-      });
-      return state.merge(_state);
-
-    case SET_SEARCH_INFO:
-      _state = Immutable.fromJS({
-        keyword: action.keyword,
-      });
-      return state.merge(_state);
-
-    case SET_SORT_INFO:
-      _state = Immutable.fromJS({
-        sortField: action.field,
-        sortDesc: action.desc,
-      });
-      return state.merge(_state);
+    // case CANCEL_SELECTION:
+    //   _state = Immutable.fromJS({
+    //     id: '',
+    //     data: null,
+    //   });
+    //   return state.merge(_state);
 
     default:
       return state;
