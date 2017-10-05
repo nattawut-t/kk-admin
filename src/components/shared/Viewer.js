@@ -227,9 +227,7 @@ class Viewer extends Component {
       // imageData,
     } = this.state;
 
-    const { status } = data;
-
-    console.log('viewer.status: ', status);
+    const { Status } = data;
 
     const rejectActions = [
       <FlatButton
@@ -315,7 +313,7 @@ class Viewer extends Component {
                     style={styles.button}
                     icon={<Done />}
                     onClick={() => this.handleApproveClick(id)}
-                    disabled={status !== 'created'}
+                    disabled={Status !== 'created'}
                   />
                   <RaisedButton
                     label="ปฏิเสธ"
@@ -323,7 +321,7 @@ class Viewer extends Component {
                     style={styles.button}
                     icon={<Clear />}
                     onClick={this.handleRejectClick}
-                    disabled={status !== 'created'}
+                    disabled={Status !== 'created'}
                   />
                   <RaisedButton
                     label="ส่งกู้รายอื่น"
@@ -342,7 +340,7 @@ class Viewer extends Component {
                     style={styles.button}
                     icon={<ModeEdit />}
                     onClick={() => this.handleEditClick(id)}
-                    disabled={status !== 'created'}
+                    disabled={Status !== 'created'}
                   />
                   <RaisedButton
                     label="ยกเลิก"

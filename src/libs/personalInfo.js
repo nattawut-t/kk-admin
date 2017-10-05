@@ -1,7 +1,9 @@
-// import moment from 'moment';
+import moment from 'moment';
 
 export const data = (raw = {}) => {
   const {
+    Status,
+    //
     dateReq,
     prefixTH,
     firstNameTH,
@@ -72,20 +74,22 @@ export const data = (raw = {}) => {
     etc,
   } = raw;
 
-  const _dateReg = Date.parse(dateReq);
-  const _dateExp = Date.parse(dateExp);
-  const _birthDate = Date.parse(birthDate);
-  const _employmentDate = Date.parse(employmentDate);
+  const dateReqValid = Date.parse(dateReq);
+  const dateExpValid = Date.parse(dateExp);
+  const birthDateValid = Date.parse(birthDate);
+  const employmentDateValid = Date.parse(employmentDate);
   const env = process.env.NODE_ENV;
 
-  console.log('pi.dateReq: ', _dateReg);
+  console.log('pi.dateReq: ', dateReqValid);
 
   if (env === 'test') {
     return {
-      dateReq: _dateReg || new Date(),
-      dateExp: _dateExp || new Date(2020, 1, 1),
-      birthDate: _birthDate || new Date(1984, 5, 9),
-      employmentDate: _employmentDate || new Date(2017, 1, 1),
+      dateReq: dateReqValid ? moment(dateReq).toDate() : new Date(),
+      dateExp: dateExpValid ? moment(dateExp).toDate() : new Date(2020, 1, 1),
+      birthDate: birthDateValid ? moment(birthDate).toDate() : new Date(1984, 5, 9),
+      employmentDate: employmentDateValid ? moment(employmentDate).toDate() : new Date(2017, 1, 1),
+      //
+      Status,
       //
       prefixTH: prefixTH || 'MR',
       firstNameTH: firstNameTH || 'ณัฐวุฒิ',
@@ -158,10 +162,12 @@ export const data = (raw = {}) => {
     };
   }
   return {
-    dateReq: _dateReg || new Date(),
-    dateExp: _dateExp || null,
-    birthDate: _birthDate || null,
-    employmentDate: _employmentDate || null,
+    dateReq: dateReqValid ? moment(dateReq).toDate() : null,
+    dateExp: dateExpValid ? moment(dateExp).toDate() : null,
+    birthDate: birthDateValid ? moment(birthDate).toDate() : null,
+    employmentDate: employmentDateValid ? moment(employmentDate).toDate() : null,
+    //
+    Status,
     //
     prefixTH: prefixTH || '',
     firstNameTH: firstNameTH || '',
