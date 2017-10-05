@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import Viewer from '../../components/shared/Viewer';
 import { cancelSelection } from '../../actions/admin';
 import { approve, reject } from '../../reducers/admin';
-import { edit, loadDocuments, loadDocument } from '../../reducers/lead';
+import { loadDocuments, loadDocument } from '../../reducers/lead';
+import { edit } from '../../reducers/draft';
 
 const transform = (state, key) => {
   if (state && key) {

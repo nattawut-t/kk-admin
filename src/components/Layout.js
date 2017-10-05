@@ -26,7 +26,7 @@ const Main = ({ children }) =>
   </div>;
 
 Main.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.object.isRequired,
 };
 
 export default Main;

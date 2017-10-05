@@ -19,7 +19,7 @@ import {
   loadNextPageSuccess,
   searchSuccess,
   setSearchInfo,
-  editSuccess,
+  // editSuccess,
   saveSuccess,
   loadDocumentsSuccess,
   selectDataSuccess,
@@ -46,7 +46,7 @@ import {
   // dateFormat,
   // isAdmin,
 } from '../libs/config';
-import { parseLeadIn as parseIn, split } from '../libs/lead';
+import { parseLeadIn as parseIn } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
 import { handleError } from '../handlers/api';
 
@@ -255,40 +255,6 @@ export function uploadDocument(field, path, name, data, docType, callback) {
         dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
         setTimeout(() => dispatch(notify('')), loadingTime);
       });
-  };
-}
-
-export function edit(id, callback) {
-  return dispatch => {
-    dispatch(setLoading(true));
-
-    const _url = url(`/${id}`);
-    const promise = getJson(_url);
-
-    setTimeout(() =>
-      promise.then(response => {
-        const { data } = response;
-        const lead = parseIn(data);
-        const {
-          agreement,
-          personalInfo,
-          loanInfo,
-          additionalInfo,
-        } = split(lead);
-
-        dispatch(editSuccess(id, agreement, personalInfo, loanInfo, additionalInfo));
-
-        if (callback) {
-          callback();
-        }
-
-        dispatch(setLoading(false));
-      })
-        .catch(error => {
-          console.log('>>> edit.error: ', error);
-          dispatch(setLoading(false));
-        })
-      , loadingTime);
   };
 }
 

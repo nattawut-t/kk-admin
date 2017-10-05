@@ -1,6 +1,6 @@
 import {
   portalUrl,
-  putJson,
+  getJson,
 } from '../libs/request';
 
 import agreement from '../libs/agreement';
@@ -8,8 +8,10 @@ import personalInfo from '../libs/personalInfo';
 import loanInfo from '../libs/loanInfo';
 import additionalInfo from '../libs/additionalInfo';
 
-import { isAdmin } from '../libs/config';
+import { loadingTime } from '../libs/config';
 import { handleError } from '../handlers/api';
+import { notify, loading } from './notification';
+import { parseLeadIn as parseIn, split } from '../libs/lead';
 
 export const GET_SUCCESS = 'draft/GET_SUCCESS';
 export const getSuccess = data => ({
@@ -29,7 +31,14 @@ export const saveSuccess = data => ({
   data,
 });
 
-const url = (postfix = '') => portalUrl(`/api/work/leads${postfix}`);
+export const EDIT_SUCCESS = 'draft/EDIT_SUCCESS';
+export const editSuccess = (id, data) => ({
+  type: EDIT_SUCCESS,
+  id,
+  data,
+});
+
+const url = (postfix = '') => portalUrl(`/admin/leads${postfix}`);
 const parse = (raw = {}) =>
   Object.assign(
     agreement.data(raw),
@@ -39,74 +48,104 @@ const parse = (raw = {}) =>
   );
 
 const initialState = {
+  id: '',
+  editing: false,
   data: parse(),
 };
 
 export const get = callback =>
-  dispatch => {
-    if (!isAdmin()) {
-      putJson(url(), {})
-        .then(response => {
-          const { data: { data } } = response;
-          const _draft = JSON.parse(data);
+  async dispatch => {
+    dispatch(getSuccess({}));
 
-          dispatch(getSuccess(parse(_draft)));
-
-          if (callback) {
-            callback();
-          }
-        })
-        .catch(error => handleError(error));
-    }
-  };
-
-
-export const save = (_data, callback) =>
-  async (dispatch, getState) => {
-    if (!isAdmin()) {
-      try {
-        const draft = getState().draft.data;
-        const _draft = Object.assign(draft, _data);
-        const { data: { data } } = await putJson(url(), _draft);
-
-        dispatch(saveSuccess(data));
-
-        if (callback) {
-          callback();
-        }
-
-        return true;
-      } catch (error) {
-        // console.log('error: ', error);
-        handleError(error);
-        return false;
-      }
-    }
-
-    dispatch(saveSuccess(_data));
     if (callback) {
       callback();
     }
   };
 
+export const save = (_data, callback) =>
+  async dispatch => {
+    dispatch(saveSuccess(_data));
+
+    if (callback) {
+      callback();
+    }
+  };
+
+export const edit = (id, callback) =>
+  async dispatch => {
+    dispatch(loading(true));
+
+    const _url = url(`/${id}`);
+
+    try {
+      const { data } = await getJson(_url);
+
+      console.log('edit.data: ', data);
+
+      setTimeout(() => {
+        const lead = parseIn(data);
+        const {
+          personalInfo,
+          loanInfo,
+          additionalInfo,
+        } = split(lead);
+
+        dispatch(editSuccess(
+          id,
+          Object.assign(
+            { isConsent: true },
+            personalInfo,
+            loanInfo,
+            additionalInfo,
+          ),
+        ));
+
+        if (callback) {
+          callback();
+        }
+
+        dispatch(notify());
+        dispatch(loading());
+      }, loadingTime);
+    } catch (error) {
+      dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+
+      setTimeout(() => {
+        dispatch(notify());
+        dispatch(loading());
+      }, loadingTime);
+
+      handleError(error);
+    }
+  };
 
 const draft = (state = initialState, action) => {
   let _state;
-  let _data;
-  let mobile;
+  // let _data;
+  // let mobile;
 
   switch (action.type) {
-    case GET_SUCCESS:
+    // case GET_SUCCESS:
 
-      mobile = localStorage.getItem('username') || '';
-      _data = Object.assign(action.data, { workTel2: mobile });
-      _state = Object.assign(
-        state,
-        {
-          data: _data,
-        },
-      );
+    //   mobile = localStorage.getItem('username') || '';
+    //   _data = Object.assign(action.data, { workTel2: mobile });
+    //   _state = Object.assign(
+    //     state,
+    //     {
+    //       data: _data,
+    //     },
+    //   );
 
+    //   return _state;
+
+    case EDIT_SUCCESS:
+
+      _state = {
+        id: action.id,
+        data: action.data,
+        editing: true,
+      };
+      console.log('EDIT_SUCCESS');
       return _state;
 
     case SAVE_SUCCESS:
