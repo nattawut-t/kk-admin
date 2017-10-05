@@ -80,11 +80,11 @@ module.exports = {
       title: 'Money Table',
       template: '../webpack/template.html',
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('test'),
-      },
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     NODE_ENV: JSON.stringify('test'),
+    //   },
+    // }),
   ],
   performance: { hints: false },
 };

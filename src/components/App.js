@@ -27,12 +27,18 @@ import LibraryBooks from 'material-ui/svg-icons/av/library-books';
 import LinearScale from 'material-ui/svg-icons/editor/linear-scale';
 
 import ProductInfo from './ProductInfo';
-import Main from './Main';
+import Layout from './Layout';
 import Login from '../containers/Login';
 import AdminLogin from '../containers/AdminLogin';
 import AdminIndex from '../containers/admin/Index';
 import Index from '../containers/lead/Index';
 import Landing from './Landing';
+
+import Agreement from '../containers/lead/Agreement';
+import PersonalInfo from '../containers/lead/PersonalInfo';
+import LoanInfo from '../containers/lead/LoanInfo';
+import AdditionalInfo from '../containers/lead/AdditionalInfo';
+import Summary from '../containers/lead/Summary';
 
 import { isAdmin } from '../libs/config';
 import Logo from '../../assets/asset-1-4-x@3x.png';
@@ -225,7 +231,14 @@ class App extends React.Component {
                 </div>
                 <div className={`${!authenticated ? 'col-12' : 'contain'}`}>
                   <Switch>
-                    <Route path="/borrow-request" component={Main} />
+                    {/* <Route path="/borrow-request" component={Main} /> */}
+
+                    <Route path="/summary" render={() => <Layout><Summary /></Layout>} />
+                    <Route path="/additional-info" render={() => <Layout><AdditionalInfo /></Layout>} />
+                    <Route path="/loan-info" render={() => <Layout><LoanInfo /></Layout>} />
+                    <Route path="/personal-info" render={() => <Layout><PersonalInfo /></Layout>} />
+                    <Route path="/borrow-request" render={() => <Layout><Agreement /></Layout>} />
+
                     <Route path="/leads" component={Index} />
                     <Route path="/admin/leads" component={AdminIndex} />
                     <Route path="*" exact component={ProductInfo} />

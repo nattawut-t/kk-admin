@@ -41,6 +41,8 @@ export const parseLeadIn = ({
 
 export const split = data => {
   const {
+    isConsent,
+    //
     dateReq,
     prefixTH,
     firstNameTH,
@@ -164,6 +166,8 @@ export const split = data => {
     fileName5,
     fileName6,
   } = data || {};
+
+  const agreement = { isConsent: isConsent || false };
 
   const personalInfo = {
     dateReq: dateReq ? moment(dateReq).toDate() : null,
@@ -315,6 +319,7 @@ export const split = data => {
   };
 
   return {
+    agreement,
     personalInfo,
     loanInfo,
     additionalInfo,

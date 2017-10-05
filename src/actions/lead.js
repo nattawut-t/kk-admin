@@ -93,9 +93,10 @@ export const saveDraftSuccess = data => ({
   data,
 });
 
-export const editSuccess = (id, personalInfo, loanInfo, additionalInfo) => ({
+export const editSuccess = (id, agreement, personalInfo, loanInfo, additionalInfo) => ({
   type: EDIT_SUCCESS,
   id,
+  agreement,
   personalInfo,
   loanInfo,
   additionalInfo,

@@ -187,7 +187,10 @@ class Viewer extends Component {
     const { edit } = this.props;
     if (edit) {
       const { history } = this.props;
-      edit(id, () => history.push('/personal-info'));
+      edit(id, () => {
+        console.log('edit callback');
+        history.push('/personal-info');
+      });
     }
   };
 

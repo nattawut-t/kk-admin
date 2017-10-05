@@ -91,7 +91,7 @@ export const data = (raw = {}) => {
       //
       Status,
       //
-      prefixTH: prefixTH || 'MR',
+      prefixTH: prefixTH || 'นาย',
       firstNameTH: firstNameTH || 'ณัฐวุฒิ',
       lastNameTH: lastNameTH || 'ธรรมรัตน์เมธี',
       nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),

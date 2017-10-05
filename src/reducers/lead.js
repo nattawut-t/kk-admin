@@ -269,9 +269,14 @@ export function edit(id, callback) {
       promise.then(response => {
         const { data } = response;
         const lead = parseIn(data);
-        const { personalInfo, loanInfo, additionalInfo } = split(lead);
+        const {
+          agreement,
+          personalInfo,
+          loanInfo,
+          additionalInfo,
+        } = split(lead);
 
-        dispatch(editSuccess(id, personalInfo, loanInfo, additionalInfo));
+        dispatch(editSuccess(id, agreement, personalInfo, loanInfo, additionalInfo));
 
         if (callback) {
           callback();
