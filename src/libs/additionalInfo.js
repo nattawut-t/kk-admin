@@ -83,6 +83,63 @@ export const data = (raw = {}) => {
   // conjugalLastnameMsg,
   // conjugalOccupationMsg,
   // conjugalIncomeMsg,
+
+  const env = process.env.NODE_ENV;
+
+  if (env === 'test') {
+    return {
+      ref1Prefix: 'นางสาว',
+      ref1Firstname: 'จิราพร',
+      ref1Lastname: 'ธรรมรัตน์เมธี',
+      ref1Relationship: 'พี่น้อง',
+      ref1MobileNo: '0840008888',
+      ref1WorkTelephone: ref1WorkTelephone || '',
+      ref1HomeTelephone: '0350000000',
+      //
+      ref2Prefix: ref2Prefix || '',
+      ref2Firstname: ref2Firstname || '',
+      ref2Lastname: ref2Lastname || '',
+      ref2Relationship: ref2Relationship || '',
+      ref2MobileNo: ref2MobileNo || '',
+      ref2WorkTelephone: ref2WorkTelephone || '',
+      ref2HomeTelephone: ref2HomeTelephone || '',
+      //
+      conjugalPrefix: conjugalPrefix || '',
+      conjugalFirstname: conjugalFirstname || '',
+      conjugalLastname: conjugalLastname || '',
+      conjugalOccupation: conjugalOccupation || '',
+      conjugalIncome: conjugalIncome || 0,
+      children: children || 0,
+      //
+      shippingHouseNo: shippingHouseNo || '',
+      shippingMoo: shippingMoo || '',
+      shippingVillage: shippingVillage || '',
+      shippingFloor: shippingFloor || '',
+      shippingSoi: shippingSoi || '',
+      shippingRoad: shippingRoad || '',
+      shippingPostalCode: shippingPostalCode || '',
+      shippingProvinceCode: shippingProvinceCode || '',
+      shippingAmphurCode: shippingAmphurCode || '',
+      shippingTambolCode: shippingTambolCode || '',
+      shippingProvinceCodeName: shippingProvinceCodeName || '',
+      shippingAmphurCodeName: shippingAmphurCodeName || '',
+      shippingTambolCodeName: shippingTambolCodeName || '',
+      sendingAddress: sendingAddress || 'current',
+      //
+      isConsent2: isConsent2 || false,
+      //
+      files: files || [],
+      //
+      fileName0: fileName0 || '',
+      fileName1: fileName1 || '',
+      fileName2: fileName2 || '',
+      fileName3: fileName3 || '',
+      fileName4: fileName4 || '',
+      fileName5: fileName5 || '',
+      fileName6: fileName6 || '',
+    };
+  }
+
   return {
     ref1Prefix: ref1Prefix || '',
     ref1Firstname: ref1Firstname || '',

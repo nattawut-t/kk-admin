@@ -44,7 +44,7 @@ import {
   pageSize,
   loadingTime,
   // dateFormat,
-  isAdmin,
+  // isAdmin,
 } from '../libs/config';
 import { parseLeadIn as parseIn, split } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
@@ -86,13 +86,12 @@ const State = Record({
 
 const initialState = new State();
 
-const searchUrl = (page = 1) => isAdmin()
-  ? portalUrl('/admin/leads')
-  : portalUrl(`/api/work/leads?page=${page}`);
-
+// const searchUrl = () => portalUrl('/admin/leads');
 const uploadUrl = () => portalUrl('/api/work/leads/doc');
-const saveUrl = () => portalUrl('/api/work/leads');
-const saveAdminUrl = id => portalUrl(`/admin/leads/${id}`);
+// const saveUrl = () => portalUrl('/admin/leads');
+// const saveAdminUrl = id => portalUrl(`/admin/leads/${id}`);
+
+const url = (postfix = '') => portalUrl(`/admin/leads${postfix}`);
 
 function _loadNextPage(currentPage = 1, nextPage = 2) {
   return (dispatch, getState) => {
@@ -103,8 +102,8 @@ function _loadNextPage(currentPage = 1, nextPage = 2) {
     const total = state.get('total') || 0;
 
     if ((currentPage * pageSize) < total) {
-      const url = searchUrl(nextPage);
-      const promise = getJson(url);
+      const _url = url(nextPage);
+      const promise = getJson(_url);
 
       setTimeout(() =>
         promise.then(response => {
@@ -125,18 +124,18 @@ function _loadNextPage(currentPage = 1, nextPage = 2) {
   };
 }
 
-function _searchData(page = 1) {
+function _searchData() {
   return dispatch => {
     dispatch(setLoading(true));
     dispatch(cancelSelection());
 
-    const url = searchUrl(page);
-    const promise = getJson(url);
+    const _url = url();
+    const promise = getJson(_url);
 
     setTimeout(() =>
       promise
         .then(({ data }) => {
-          const _data = isAdmin() ? data.entries : data;
+          const _data = data.entries;
           const dataList = _data ? parseLeadsIn(_data) : [];
 
           dispatch(searchSuccess(dataList, 0, 0, 0));
@@ -195,15 +194,10 @@ export function save(callback) {
 
     console.log('save.date: ', data.dateReq, data.birthDate, data.dateExp, data.employmentDate);
 
-    let url = saveUrl();
-    let request = postJson;
+    const _url = editing ? url(`/${id}`) : url();
+    const request = editing ? putJson : postJson;
 
-    if (editing) {
-      url = saveAdminUrl(id);
-      request = putJson;
-    }
-
-    request(url, data)
+    request(_url, data)
       .then(() => {
         dispatch(notify('บันทึกข้อมูลเสร็จสมบูรณ์'));
         dispatch(saveSuccess());
@@ -268,8 +262,8 @@ export function edit(id, callback) {
   return dispatch => {
     dispatch(setLoading(true));
 
-    const url = portalUrl(`/admin/leads/${id}`);
-    const promise = getJson(url);
+    const _url = url(`/${id}`);
+    const promise = getJson(_url);
 
     setTimeout(() =>
       promise.then(response => {
@@ -298,9 +292,9 @@ export function loadDocuments(id, callback) {
   return dispatch => {
     dispatch(setLoading(true));
 
-    const url = portalUrl(`/admin/leads/${id}/media`);
+    const _url = url(`/${id}/media`);
 
-    getJson(url)
+    getJson(_url)
       .then(response => {
         const { data } = response;
 
@@ -323,10 +317,10 @@ export function loadDocument(id, callback) {
   return dispatch => {
     dispatch(setLoading(true));
 
-    const url = portalUrl(`/admin/media/${id}`);
-    console.log('url: ', url);
+    const _url = portalUrl(`/admin/media/${id}`);
+    console.log('url: ', _url);
 
-    getJson(url)
+    getJson(_url)
       .then(response => {
         const { data } = response;
 
@@ -364,9 +358,7 @@ export function selectData(rowIndex) {
         const newId = `${data.get('ID') || ''}`;
 
         if (newId !== oldId) {
-          const _endpoint = isAdmin()
-            ? `/admin/leads/${newId}`
-            : `/api/work/leads/${newId}`;
+          const _endpoint = `/admin/leads/${newId}`;
           const url = portalUrl(_endpoint);
           const promise = getJson(url);
 

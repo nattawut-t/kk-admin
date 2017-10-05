@@ -6,7 +6,6 @@ import {
   sortData,
   selectData,
 } from '../../reducers/lead';
-// import { selectData } from '../../reducers/lead';
 import { dateFormat } from '../../libs/config';
 
 const schema = [

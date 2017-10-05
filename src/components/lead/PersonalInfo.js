@@ -21,10 +21,10 @@ import MaritalStatus from '../shared/MaritalStatus';
 import AddressStatus from '../shared/AddressStatus';
 import Location from '../shared/Location';
 import Tel from '../shared/Tel';
-import {
-  // dateFormat,
-  isAdmin,
-} from '../../libs/config';
+// import {
+//   // dateFormat,
+//   isAdmin,
+// } from '../../libs/config';
 import { data as parse } from '../../libs/personalInfo';
 
 let DateTimeFormat;
@@ -75,7 +75,7 @@ const styles = {
 };
 
 const emptyInputMessage = 'กรุณากรอกข้อมูล';
-const requiredMessage = (required, value) => (required && !value) ? emptyInputMessage : '';
+// const requiredMessage = (required, value) => (required && !value) ? emptyInputMessage : '';
 
 const validateBirthDate = value => {
   const age = moment().diff(value, 'years');
@@ -331,97 +331,45 @@ class PersonalInfo extends Component {
     });
   }
 
-  handleChange = (e, required = false) => {
-    const { name, value } = e.target;
-    const msgKey = `${name}msg`;
-
-    this.setState({
-      [name]: value,
-      [msgKey]: requiredMessage(required, value),
-      [`${name}Valid`]: !required || (required && value),
-    }, () => this.validate());
+  handleChange = e => {
+    const { target: { name, value } } = e;
+    this.setState({ [name]: value }, () => this.validate());
   };
 
   handleSalaryChange = e => {
     const { target: { name, value } } = e;
-
-    this.setState({
-      [name]: Number.parseFloat(value) || 0,
-      [`${name}msg`]: validateSalary(value),
-    }, () => this.validate());
+    this.setState({ [name]: Number.parseFloat(value) || 0 }, () => this.validate());
   };
 
-  handleMoneyChange = (e, required = false) => {
-    const { name, value } = e.target;
-    const msgKey = `${name}msg`;
-    const number = Number.parseFloat(value) || 0;
-    const msg = (required && number <= 0) ? 'กรุณากรอกข้อมูล' : '';
-
-    this.setState({
-      [name]: number,
-      [msgKey]: msg,
-    }, () => this.validate());
+  handleMoneyChange = e => {
+    const { target: { name, value } } = e;
+    this.setState({ [name]: Number.parseFloat(value) || 0 }, () => this.validate());
   };
 
-  handleEmailChange = (e, required = false) => {
-    const { name, value } = e.target;
-    const msgKey = `${name}msg`;
-    let msg = '';
-
-    if (required && !value.trim()) {
-      msg = 'กรุณากรอกข้อมูล';
-    } else {
-      msg = !value.trim() || emailRegex.test(value)
-        ? ''
-        : 'รูปแบบไม่ถูกต้อง';
-    }
-
-    this.setState({
-      [name]: value,
-      [msgKey]: msg,
-    }, () => this.validate());
+  handleEmailChange = e => {
+    const { target: { name, value } } = e;
+    this.setState({ [name]: value }, () => this.validate());
   };
 
   handleIdcardNoChange = e => {
     const { target: { value } } = e;
-    const message = validateIdcardNo(value);
-
-    console.log('handleIdcardNoChange', message);
-
-    this.setState({
-      idCard: value,
-      idCardmsg: message,
-    }, () => this.validate());
+    this.setState({ idCard: value }, () => this.validate());
   };
 
   handleDateExpChange = (e, value) => {
-    const message = validateDateExp(value);
-
-    this.setState({
-      dateExp: value,
-      dateExpmsg: message,
-    }, () => this.validate());
+    this.setState({ dateExp: value }, () => this.validate());
   };
 
   handleEmploymentDateChange = (e, value) => {
-    this.setState({
-      employmentDate: value,
-      employmentDatemsg: validateEmploymentDate(value),
-    }, () => this.validate());
+    this.setState({ employmentDate: value }, () => this.validate());
   };
 
   handleBirthDateChange = (e, value) => {
-    this.setState({
-      birthDate: value,
-      birthDatemsg: validateBirthDate(value),
-    }, () => this.validate());
+    this.setState({ birthDate: value }, () => this.validate());
   };
 
-  handleNumberChange = (name, value, errorMessage = '') => {
-    this.setState({
-      [name]: value,
-      [`${name}msg`]: errorMessage,
-    }, () => this.validate());
+  handleNumberChange = (name, value) => {
+    this.setState({ [name]: value }, () => this.validate());
   };
 
   handleLocationChange = (valueField, nameField, value, name) => {
@@ -464,7 +412,7 @@ class PersonalInfo extends Component {
       this.setState({ [messageKey]: messageValue });
     }
 
-    console.log(messageKey, messageValue, rentalFee, etc);
+    // console.log(messageKey, messageValue, rentalFee, etc);
 
     this.setState({ [key]: value }, () => this.validate());
   };
@@ -778,7 +726,7 @@ class PersonalInfo extends Component {
       position,
       positionmsg,
       workTel2,
-      // workTel2msg,
+      workTel2msg,
       homeTel2,
       homeTel2msg,
       detailRent,
@@ -839,7 +787,7 @@ class PersonalInfo extends Component {
     } = this.state;
 
     const { message } = this.props;
-    const _isAdmin = isAdmin();
+    // const _isAdmin = isAdmin();
 
     return (
       <div>
@@ -1480,15 +1428,25 @@ class PersonalInfo extends Component {
             <CardText>
               <div className="row">
                 <div className="col-sm-4" >
-                  <TextField
+                  {/* <TextField
                     id="workTel2"
                     name="workTel2"
                     floatingLabelText="เบอร์โทรศัพท์มือถือ"
                     value={workTel2}
-                    onChange={e => this.handleChange(e, true)}
+                    errorText={workTel2msg}
+                    onChange={this.handleNumberChange}
                     maxLength="10"
                     fullWidth
-                    readOnly={!_isAdmin}
+                  /> */}
+
+                  <Tel
+                    id="workTel2"
+                    name="workTel2"
+                    label="เบอร์โทรศัพท์มือถือ"
+                    value={workTel2}
+                    handleChange={this.handleNumberChange}
+                    errorText={workTel2msg}
+                    required
                   />
                 </div>
                 <div className="col-sm-4" >
