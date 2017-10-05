@@ -23,8 +23,19 @@ const styles = {
   TitleText: {
     color: 'white',
   },
+  inputStyle: {
+    display: 'none',
+  },
+  labelStyle: {
+    top: 'auto',
+    pointerEvents: 'all',
+    cursor: 'pointer',
+    backgroundColor: '#019ac9',
+    color: '#fff',
+    padding: '10px 20px',
+    borderRadius: '4px',
+  },
 };
-
 class IdentityInfo extends Component {
 
   componentWillMount() {
@@ -208,13 +219,17 @@ class IdentityInfo extends Component {
                   />
                 </div>
                 <div className="col-2">
-                  <TextField
-                    type="file"
-                    id="file"
-                    name="file"
-                    onChange={e => this.handleChange(e, true, 'identity')}
-                    style={{ width: '105px' }}
-                  />
+                  <label style={styles.labelStyle} htmlFor="file">
+                    เลือกไฟล์
+                    <TextField
+                      type="file"
+                      id="file"
+                      name="file"
+                      onChange={e => this.handleChange(e, true, 'identity')}
+                      underlineShow={false}
+                      style={styles.inputStyle}
+                    />
+                  </label>
                 </div>
               </div>
             </CardText>
