@@ -25,6 +25,7 @@ import {
   // dateFormat,
   isAdmin,
 } from '../../libs/config';
+import { data as parse } from '../../libs/personalInfo';
 
 let DateTimeFormat;
 
@@ -522,170 +523,172 @@ class PersonalInfo extends Component {
   };
 
   save = path => {
-    const {
-      prefixTH,
-      firstNameTH,
-      lastNameTH,
-      prefixEN,
-      firstNameEN,
-      lastNameEN,
-      idCard,
-      status,
-      //
-      department,
-      position,
-      workTel2,
-      homeTel2,
-      detailRent,
-      workTel,
-      // workTelValid,
-      telExtension,
-      //
-      number,
-      moo,
-      village,
-      soi,
-      road,
-      //
-      province,
-      amphurCode,
-      tambolCode,
-      //
-      provinceName,
-      amphurCodeName,
-      tambolCodeName,
-      zipCode,
-      //
-      number2,
-      moo2,
-      village2,
-      soi2,
-      road2,
-      zipCode2,
-      province2,
-      amphurCode2,
-      tambolCode2,
-      province2Name,
-      amphurCode2Name,
-      tambolCode2Name,
-      //
-      isSameAddress,
-      jobCompanyName,
-      email,
-      jobSalary,
-      ot,
-      //
-      officeNumber,
-      officeMoo,
-      officeVillage,
-      officeSoi,
-      officeRoad,
-      officeProvince,
-      officeAmphurCode,
-      officeTambolCode,
-      officeProvinceName,
-      officeAmphurCodeName,
-      officeTambolCodeName,
-      officeZipCode,
-      //
-      rentalFee,
-      etc,
-    } = this.state;
+    // const {
+    //   prefixTH,
+    //   firstNameTH,
+    //   lastNameTH,
+    //   prefixEN,
+    //   firstNameEN,
+    //   lastNameEN,
+    //   idCard,
+    //   status,
+    //   //
+    //   department,
+    //   position,
+    //   workTel2,
+    //   homeTel2,
+    //   detailRent,
+    //   workTel,
+    //   // workTelValid,
+    //   telExtension,
+    //   //
+    //   number,
+    //   moo,
+    //   village,
+    //   soi,
+    //   road,
+    //   //
+    //   province,
+    //   amphurCode,
+    //   tambolCode,
+    //   //
+    //   provinceName,
+    //   amphurCodeName,
+    //   tambolCodeName,
+    //   zipCode,
+    //   //
+    //   number2,
+    //   moo2,
+    //   village2,
+    //   soi2,
+    //   road2,
+    //   zipCode2,
+    //   province2,
+    //   amphurCode2,
+    //   tambolCode2,
+    //   province2Name,
+    //   amphurCode2Name,
+    //   tambolCode2Name,
+    //   //
+    //   isSameAddress,
+    //   jobCompanyName,
+    //   email,
+    //   jobSalary,
+    //   ot,
+    //   //
+    //   officeNumber,
+    //   officeMoo,
+    //   officeVillage,
+    //   officeSoi,
+    //   officeRoad,
+    //   officeProvince,
+    //   officeAmphurCode,
+    //   officeTambolCode,
+    //   officeProvinceName,
+    //   officeAmphurCodeName,
+    //   officeTambolCodeName,
+    //   officeZipCode,
+    //   //
+    //   rentalFee,
+    //   etc,
+    // } = this.state;
 
-    let {
-      dateReq,
-      birthDate,
-      dateExp,
-      employmentDate,
-    } = this.state;
+    // let {
+    //   dateReq,
+    //   birthDate,
+    //   dateExp,
+    //   employmentDate,
+    // } = this.state;
 
-    dateReq = moment(dateReq, 'DD/MM/YYYY').toDate();
-    birthDate = moment(birthDate, 'DD/MM/YYYY').toDate();
-    dateExp = moment(dateExp, 'DD/MM/YYYY').toDate();
-    employmentDate = moment(employmentDate, 'DD/MM/YYYY').toDate();
+    // dateReq = moment(dateReq, 'DD/MM/YYYY').toDate();
+    // birthDate = moment(birthDate, 'DD/MM/YYYY').toDate();
+    // dateExp = moment(dateExp, 'DD/MM/YYYY').toDate();
+    // employmentDate = moment(employmentDate, 'DD/MM/YYYY').toDate();
 
-    const data = {
-      dateReq,
-      prefixTH,
-      firstNameTH,
-      lastNameTH,
-      prefixEN,
-      firstNameEN,
-      lastNameEN,
-      idCard,
-      dateExp,
-      status,
-      //
-      department,
-      position,
-      workTel2,
-      homeTel2,
-      detailRent,
-      workTel,
-      // workTelValid,
-      telExtension,
-      //
-      number,
-      moo,
-      village,
-      soi,
-      road,
-      //
-      province,
-      amphurCode,
-      tambolCode,
-      //
-      provinceName,
-      amphurCodeName,
-      tambolCodeName,
+    // const data = {
+    //   dateReq,
+    //   prefixTH,
+    //   firstNameTH,
+    //   lastNameTH,
+    //   prefixEN,
+    //   firstNameEN,
+    //   lastNameEN,
+    //   idCard,
+    //   dateExp,
+    //   status,
+    //   //
+    //   department,
+    //   position,
+    //   workTel2,
+    //   homeTel2,
+    //   detailRent,
+    //   workTel,
+    //   // workTelValid,
+    //   telExtension,
+    //   //
+    //   number,
+    //   moo,
+    //   village,
+    //   soi,
+    //   road,
+    //   //
+    //   province,
+    //   amphurCode,
+    //   tambolCode,
+    //   //
+    //   provinceName,
+    //   amphurCodeName,
+    //   tambolCodeName,
 
-      zipCode,
-      //
-      number2,
-      moo2,
-      village2,
-      soi2,
-      road2,
-      province2,
-      amphurCode2,
-      tambolCode2,
-      province2Name,
-      amphurCode2Name,
-      tambolCode2Name,
-      zipCode2,
-      //
-      isSameAddress,
-      jobCompanyName,
-      birthDate,
-      email,
-      employmentDate,
-      jobSalary,
-      ot,
-      //
-      officeNumber,
-      officeMoo,
-      officeVillage,
-      officeSoi,
-      officeRoad,
-      officeProvince,
-      officeAmphurCode,
-      officeTambolCode,
-      officeProvinceName,
-      officeAmphurCodeName,
-      officeTambolCodeName,
-      officeZipCode,
-      //
-      rentalFee,
-      etc,
-    };
+    //   zipCode,
+    //   //
+    //   number2,
+    //   moo2,
+    //   village2,
+    //   soi2,
+    //   road2,
+    //   province2,
+    //   amphurCode2,
+    //   tambolCode2,
+    //   province2Name,
+    //   amphurCode2Name,
+    //   tambolCode2Name,
+    //   zipCode2,
+    //   //
+    //   isSameAddress,
+    //   jobCompanyName,
+    //   birthDate,
+    //   email,
+    //   employmentDate,
+    //   jobSalary,
+    //   ot,
+    //   //
+    //   officeNumber,
+    //   officeMoo,
+    //   officeVillage,
+    //   officeSoi,
+    //   officeRoad,
+    //   officeProvince,
+    //   officeAmphurCode,
+    //   officeTambolCode,
+    //   officeProvinceName,
+    //   officeAmphurCodeName,
+    //   officeTambolCodeName,
+    //   officeZipCode,
+    //   //
+    //   rentalFee,
+    //   etc,
+    // };
 
+    const data = parse(this.state);
     const { saveDraft, history } = this.props;
+
     saveDraft(data, () => history.push(path));
   };
 
   handleBackClick = e => {
     e.preventDefault();
-    this.save('/identity-info');
+    this.save('/borrow-request');
   };
 
   handleNextClick = e => {

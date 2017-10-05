@@ -23,9 +23,9 @@ export const getFailed = () => ({
   // data,
 });
 
-export const SAVE_PERSONAL_INFO_SUCCESS = 'draft/SAVE_PERSONAL_INFO_SUCCESS';
-export const savePersonalInfoSuccess = data => ({
-  type: SAVE_PERSONAL_INFO_SUCCESS,
+export const SAVE_SUCCESS = 'draft/SAVE_SUCCESS';
+export const saveSuccess = data => ({
+  type: SAVE_SUCCESS,
   data,
 });
 
@@ -63,19 +63,29 @@ export const get = callback =>
 
 export const save = (_data, callback) =>
   async (dispatch, getState) => {
-    try {
-      const draft = getState().draft.data;
-      const _draft = Object.assign(draft, _data);
-      const { data: { data } } = await putJson(url(), _draft);
+    if (!isAdmin()) {
+      try {
+        const draft = getState().draft.data;
+        const _draft = Object.assign(draft, _data);
+        const { data: { data } } = await putJson(url(), _draft);
 
-      dispatch(savePersonalInfoSuccess(data));
+        dispatch(saveSuccess(data));
 
-      if (callback) {
-        callback();
+        if (callback) {
+          callback();
+        }
+
+        return true;
+      } catch (error) {
+        // console.log('error: ', error);
+        handleError(error);
+        return false;
       }
-    } catch (error) {
-      console.log('error: ', error);
-      handleError(error);
+    }
+
+    dispatch(saveSuccess(_data));
+    if (callback) {
+      callback();
     }
   };
 
@@ -98,6 +108,14 @@ const draft = (state = initialState, action) => {
       );
 
       return _state;
+
+    case SAVE_SUCCESS:
+
+      _state = {
+        data: Object.assign(state.data, action.data),
+      };
+      return _state;
+
 
     default:
       return state;

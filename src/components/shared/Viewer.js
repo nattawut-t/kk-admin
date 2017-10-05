@@ -229,6 +229,8 @@ class Viewer extends Component {
 
     const { status } = data;
 
+    console.log('viewer.status: ', status);
+
     const rejectActions = [
       <FlatButton
         label="ยกเลิก"
@@ -329,12 +331,12 @@ class Viewer extends Component {
                     icon={<Redo />}
                     disabled
                   />
-                  <RaisedButton
+                  {/* <RaisedButton
                     label="เอกสาร"
                     style={styles.button}
                     icon={<ModeEdit />}
                     onClick={this.handleDocumentClick}
-                  />
+                  /> */}
                   <RaisedButton
                     label="แก้ไข"
                     style={styles.button}
