@@ -21,29 +21,20 @@ import IconMenu from 'material-ui/IconMenu';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import Divider from 'material-ui/Divider';
-// import ContentCopy from 'material-ui/svg-icons/content/content-copy';
-import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import List from 'material-ui/svg-icons/action/list';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
 import LinearScale from 'material-ui/svg-icons/editor/linear-scale';
 
 import ProductInfo from './ProductInfo';
-import BorrowStatus from './BorrowStatus';
 import Main from './Main';
 import Login from '../containers/Login';
 import AdminLogin from '../containers/AdminLogin';
-// import History from './History';
-import Agreement from '../containers/lead/Agreement';
-import PersonalInfo from '../containers/lead/PersonalInfo';
-import LoanInfo from '../containers/lead/LoanInfo';
-import AdditionalInfo from '../containers/lead/AdditionalInfo';
-import Summary from '../containers/lead/Summary';
-
 import AdminIndex from '../containers/admin/Index';
 import Index from '../containers/lead/Index';
-import { isAdmin } from '../libs/config';
+import Landing from './Landing';
 
+import { isAdmin } from '../libs/config';
 import Logo from '../../assets/asset-1-4-x@3x.png';
 
 const muiTheme = getMuiTheme({
@@ -88,10 +79,9 @@ const styles = {
 
 const Logged = ({ onSignoutClick }) => (
   <div>
-    <IconButton><AccountCircle /></IconButton>
     <IconMenu
       iconButtonElement={
-        <IconButton><MoreVertIcon /></IconButton>
+        <IconButton><MoreVertIcon color="#ffffff" /></IconButton>
       }
       targetOrigin={{ horizontal: 'right', vertical: 'top' }}
       anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
@@ -144,9 +134,10 @@ class App extends React.Component {
         <Router>
           <MuiThemeProvider>
             <Switch>
+              <Route exact path="/" component={Landing} />
               <Route path="/login" component={Login} />
               <Route path="/admin/login" component={AdminLogin} />
-              <Route path="*" exact component={Login} />
+              <Route path="*" exact component={Landing} />
             </Switch>
           </MuiThemeProvider>
         </Router>
@@ -234,14 +225,7 @@ class App extends React.Component {
                 </div>
                 <div className={`${!authenticated ? 'col-12' : 'contain'}`}>
                   <Switch>
-                    <Route path="/product-info" component={ProductInfo} />
                     <Route path="/borrow-request" component={Main} />
-                    <Route path="/borrow-status" component={BorrowStatus} />
-                    <Route path="/summary" component={Summary} />
-                    <Route path="/additional-info" component={AdditionalInfo} />
-                    <Route path="/loan-info" component={LoanInfo} />
-                    <Route path="/personal-info" component={PersonalInfo} />
-                    <Route path="/borrow-request" component={Agreement} />
                     <Route path="/leads" component={Index} />
                     <Route path="/admin/leads" component={AdminIndex} />
                     <Route path="*" exact component={ProductInfo} />

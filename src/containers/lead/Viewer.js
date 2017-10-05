@@ -11,14 +11,13 @@ const transform = (state, key) => {
       ? data.toJS()
       : data;
 
-    console.log('ctn.data: ', data);
-
     return data;
   }
   return null;
 };
 
 const mapStateToProps = state => ({
+  id: state.lead.get('id') || '',
   data: transform(state.lead, 'data'),
   loading: state.lead.get('loading') || false,
   documents: transform(state.lead, 'documents'),

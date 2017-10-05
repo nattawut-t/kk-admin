@@ -16,13 +16,13 @@ import 'intl/locale-data/jsonp/th-TH';
 
 import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
-import Identity from '../shared/Identity';
+// import Identity from '../shared/Identity';
 import MaritalStatus from '../shared/MaritalStatus';
 import AddressStatus from '../shared/AddressStatus';
 import Location from '../shared/Location';
 import Tel from '../shared/Tel';
 import {
-  dateFormat,
+  // dateFormat,
   isAdmin,
 } from '../../libs/config';
 
@@ -38,6 +38,8 @@ if (areIntlLocalesSupported(['th', 'th-TH'])) {
 }
 
 const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+const telRegex = /^\d{9,10}$/;
+const idcardNoRegex = /^\d{13}$/;
 
 const styles = {
   button: {
@@ -58,305 +60,275 @@ const styles = {
   },
   marginBottom: {
     marginBottom: '20px',
+    borderRadius: '6px',
+    boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.16)',
   },
   sectionTitle: {
     backgroundColor: '#019ac9',
+    borderTopLeftRadius: '6px',
+    borderTopRightRadius: '6px',
   },
   TitleText: {
     color: 'white',
   },
 };
 
-const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+const emptyInputMessage = 'กรุณากรอกข้อมูล';
+const requiredMessage = (required, value) => (required && !value) ? emptyInputMessage : '';
+
+const validateBirthDate = value => {
+  const age = moment().diff(value, 'years');
+
+  if (!value) {
+    return emptyInputMessage;
+  } else if ((age < 20) || (age > 60)) {
+    return 'ผู้สมัครต้องมีอายุระหว่าง 20 - 60 ปี';
+  }
+
+  return '';
+};
+
+const validateDateExp = value => {
+  const diff = moment().diff(value, 'days');
+
+  if (!value) {
+    return emptyInputMessage;
+  } else if (diff >= 0) {
+    return 'วันหมดอายุบัตรประชาชนไม่ถูกต้อง';
+  }
+
+  return '';
+};
+
+const validateEmploymentDate = value => {
+  const diff = moment().diff(value, 'days');
+
+  if (!value) {
+    return emptyInputMessage;
+  } else if (diff < 0) {
+    return 'วันที่เริ่มงานไม่ถูกต้อง';
+  }
+
+  return '';
+};
+
+const validateSalary = value => {
+  const salary = Number.parseFloat(value) || 0;
+
+  if (!salary) {
+    return emptyInputMessage;
+  } else if (salary < 8000) {
+    return 'เงินเดือนต้องไม่ต่ำกว่า 8,000 บาท';
+  }
+
+  return '';
+};
+
+const validateEmail = value => {
+  if (!value) {
+    return emptyInputMessage;
+  } else if (!emailRegex.test(value)) {
+    return 'รูปแบบอีเมลไม่ถูกต้อง';
+  }
+  return '';
+};
+
+const validateTel = (value, required = false) => {
+  if (required && !value) {
+    return emptyInputMessage;
+  }
+
+  if (value && !telRegex.test(value)) {
+    return 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง';
+  }
+
+  return '';
+};
+
+const validateIdcardNo = value => {
+  if (!value) {
+    return emptyInputMessage;
+  } else if (!idcardNoRegex.test(value)) {
+    return 'รูปแบบเลขบัตรประชาชนไม่ถูกต้อง';
+  }
+  return '';
+};
+
+const rentalFeeTypes = ['เช่าอยู่', 'กำลังผ่อนชำระ'];
+const validateRentalFee = (value, type) => {
+  const rentalFee = Number.parseFloat(value) || 0;
+
+  if (rentalFeeTypes.indexOf(type) > -1 && !rentalFee) {
+    return emptyInputMessage;
+  }
+
+  return '';
+};
+
+const etcTypes = ['อื่นๆ'];
+const validateEtc = (value, type) => {
+  if (etcTypes.indexOf(type) > -1 && !value) {
+    return emptyInputMessage;
+  }
+  return '';
+};
+
+const validationKeys = [
+  // 'dateReq',
+  'prefixTH',
+  'firstNameTH',
+  'lastNameTH',
+  'prefixEN',
+  'firstNameEN',
+  'lastNameEN',
+  'idCard',
+  // 'dateExp',
+  'status',
+  // 'workTel2',
+  // 'homeTel2',
+  // 'workTel',
+  'detailRent',
+  'jobCompanyName',
+  // 'birthDate',
+  // 'email',
+  // 'employmentDate',
+  // 'jobSalary',
+];
+// const messageKeys = [
+//   'prefixTH',
+//   'firstNameTH',
+//   'lastNameTH',
+//   'prefixEN',
+//   'firstNameEN',
+//   'lastNameEN',
+//   'idCard',
+//   'dateExp',
+//   'status',
+//   'workTel2',
+//   'homeTel2',
+//   'workTel',
+//   'telExtension',
+//   'jobCompanyName',
+//   'birthDate',
+//   'email',
+//   'employmentDate',
+//   'jobSalary',
+// ];
 
 class PersonalInfo extends Component {
 
   componentWillMount() {
-    const { data } = this.props;
     window.scrollTo(0, 0);
-
-    if (data) {
-      this.setState(data,
-        () => {
-          this.initialRequireMessage();
-          const valid = this.validate();
-          this.setState({ valid });
-        });
-    } else {
-      this.initialState();
-      this.initialRequireMessage();
-      const valid = this.validate();
-      this.setState({ valid });
-    }
+    console.log('pi.componentWillMount');
+    const { getDraft } = this.props;
+    getDraft();
   }
 
-  initialState = () => {
-    const env = process.env.NODE_ENV;
-
-    switch (env) {
-      case 'test':
-        this.state = {
-          dateReq: new Date(),
-          prefixTH: 'นางสาว',
-          firstNameTH: 'ณัฐ',
-          firstNameTHmsg: '',
-          lastNameTH: 'ธรรม',
-          lastNameTHmsg: '',
-          prefixEN: 'Mr.',
-          firstNameEN: 'Natt',
-          firstNameENmsg: '',
-          lastNameEN: 'Tamm',
-          lastNameENmsg: '',
-          idCard: '1720900004217',
-          idCardmsg: '',
-          idCardValid: true,
-          dateExp: new Date(2010, 1, 1),
-          dateExpmsg: '',
-          status: 'โสด',
-          department: 'IT',
-          departmentmsg: '',
-          position: 'SE',
-          positionmsg: '',
-          workTel2: '020001111',
-          workTel2Valid: false,
-          workTel2msg: '',
-          homeTel2: '0350001111',
-          homeTel2msg: '',
-          homeTel2Valid: false,
-          detailRent: 'ของตนเอง',
-          workTel: '020001111',
-          workTelmsg: '',
-          workTelValid: false,
-          telExtension: '02',
-          number: '88/46',
-          moo: '5',
-          village: 'Apple Condo',
-          soi: 'Bearing 34/2',
-          road: 'Sukhumvit 107',
-          province: '00001',
-          amphurCode: '00036',
-          tambolCode: '',
-          provinceName: '',
-          amphurCodeName: '',
-          tambolCodeName: '',
-          zipCode: '10270',
-          number2: '',
-          moo2: '',
-          village2: '',
-          soi2: '',
-          road2: '',
-          province2: '',
-          amphurCode2: '',
-          tambolCode2: '',
-          province2Name: '',
-          amphurCode2Name: '',
-          tambolCode2Name: '',
-          zipCode2: '',
-          isSameAddress: false,
-          jobCompanyName: 'Paysbuy',
-          jobCompanyNamemsg: '',
-          valid: false,
-          rentalFee: '',
-          etc: '',
-          birthDate: new Date(1984, 5, 9),
-          birthDatemsg: '',
-          email: 'x@y.com',
-          emailmsg: '',
-          employmentDate: new Date(2017, 1, 1),
-          employmentDatemsg: '',
-          jobSalary: 100000,
-          jobSalarymsg: '',
-          //
-          officeNumber: '1203',
-          officeMoo: '5',
-          officeVillage: 'กัญญาเฮาส์',
-          officeSoi: '4',
-          officeRoad: 'รัชดาภิเษก',
-          officeProvince: '',
-          officeAmphurCode: '',
-          officeTambolCode: '',
-          officeProvinceName: '',
-          officeAmphurCodeName: '',
-          officeTambolCodeName: '',
-          officeZipCode: '72170',
-          //
-        };
-        break;
-
-      default:
-        this.state = {
-          dateReq: moment().format(dateFormat),
-          prefixTH: '',
-          firstNameTH: '',
-          firstNameTHmsg: '',
-          lastNameTH: '',
-          lastNameTHmsg: '',
-          prefixEN: '',
-          firstNameEN: '',
-          firstNameENmsg: '',
-          lastNameEN: '',
-          lastNameENmsg: '',
-          idCard: '',
-          idCardmsg: '',
-          idCardValid: false,
-          dateExp: null,
-          dateExpmsg: '',
-          status: '',
-          department: '',
-          departmentmsg: '',
-          position: '',
-          positionmsg: '',
-          workTel2: '',
-          workTel2Valid: false,
-          workTel2msg: '',
-          homeTel2: '',
-          homeTel2msg: '',
-          homeTel2Valid: false,
-          detailRent: '',
-          workTel: '',
-          workTelmsg: '',
-          workTelValid: false,
-          telExtension: '',
-          number: '',
-          moo: '',
-          village: '',
-          soi: '',
-          road: '',
-          province: '',
-          amphurCode: '',
-          tambolCode: '',
-          provinceName: '',
-          amphurCodeName: '',
-          tambolCodeName: '',
-          zipCode: '',
-          number2: '',
-          moo2: '',
-          village2: '',
-          soi2: '',
-          road2: '',
-          province2: '',
-          amphurCode2: '',
-          tambolCode2: '',
-          province2Name: '',
-          amphurCode2Name: '',
-          tambolCode2Name: '',
-          zipCode2: '',
-          isSameAddress: false,
-          jobCompanyName: '',
-          jobCompanyNamemsg: '',
-          valid: false,
-          rentalFee: '',
-          etc: '',
-          birthDate: null,
-          birthDatemsg: '',
-          email: '',
-          emailmsg: '',
-          employmentDate: null,
-          employmentDatemsg: '',
-          jobSalary: 0,
-          jobSalarymsg: '',
-          //
-          officeNumber: '',
-          officeMoo: '',
-          officeVillage: '',
-          officeSoi: '',
-          officeRoad: '',
-          officeProvince: '',
-          officeAmphurCode: '',
-          officeTambolCode: '',
-          officeProvinceName: '',
-          officeAmphurCodeName: '',
-          officeTambolCodeName: '',
-          officeZipCode: '',
-          //
-        };
-        break;
-    }
-  };
+  componentDidMount() {
+    const { data } = this.props;
+    this.setState(data, () => this.validate());
+  }
 
   validate = () => {
-    const keys = [
-      'dateReq',
-      'prefixTH',
-      'firstNameTH',
-      'lastNameTH',
-      'prefixEN',
-      'firstNameEN',
-      'lastNameEN',
-      'idCard',
-      // 'idCardValid',
-      'dateExp',
-      'status',
-      'workTel2',
-      // 'workTel2Valid',
-      'homeTel2',
-      // 'homeTel2Valid',
-      'detailRent',
-      'workTel',
-      'jobCompanyName',
-      'birthDate',
-      'email',
-      'employmentDate',
-      'jobSalary',
-    ];
-    const invalid = keys
+    validationKeys
       .map(key => ({
         key,
         value: this.state[key],
       }))
-      .find(({ value }) => !value);
+      .forEach(({ key, value }) => this.setState({
+        [`${key}msg`]: !value ? emptyInputMessage : '',
+      }));
 
-    const { email, jobSalary } = this.state;
-    const salary = Number.parseFloat(jobSalary) || 0;
-    const valid = emailRegex.test(email) && salary > 0;
+    const {
+      email,
+      jobSalary,
+      birthDate,
+      dateExp,
+      employmentDate,
+      workTel,
+      workTel2,
+      homeTel2,
+      //
+      detailRent,
+      etc,
+      rentalFee,
+      //
+      idCard,
+    } = this.state;
 
-    // console.log('pi.invalid: ', invalid);
+    this.setState({
+      birthDatemsg: validateBirthDate(birthDate),
+      dateExpmsg: validateDateExp(dateExp),
+      jobSalarymsg: validateSalary(jobSalary),
+      emailmsg: validateEmail(email),
+      employmentDatemsg: validateEmploymentDate(employmentDate),
+      workTelmsg: validateTel(workTel, true),
+      workTel2msg: validateTel(workTel2, true),
+      homeTel2msg: validateTel(homeTel2, true),
+      etcmsg: validateEtc(etc, detailRent),
+      rentalFeemsg: validateRentalFee(rentalFee, detailRent),
+      idCardmsg: validateIdcardNo(idCard),
+    }, () => {
+      const {
+        prefixTHmsg,
+        firstNameTHmsg,
+        lastNameTHmsg,
+        prefixENmsg,
+        firstNameENmsg,
+        lastNameENmsg,
+        statusmsg,
+        //
+        idCardmsg,
+        //
+        workTel2msg,
+        homeTel2msg,
+        workTelmsg,
+        //
+        detailRentmsg,
+        etcmsg,
+        rentalFeemsg,
+        //
+        jobCompanyNamemsg,
+        birthDatemsg,
+        dateExpmsg,
+        emailmsg,
+        employmentDatemsg,
+        jobSalarymsg,
+      } = this.state;
 
-    return !invalid && valid;
+      const message = [
+        prefixTHmsg,
+        firstNameTHmsg,
+        lastNameTHmsg,
+        //
+        prefixENmsg,
+        firstNameENmsg,
+        lastNameENmsg,
+        statusmsg,
+        //
+        idCardmsg,
+        //
+        workTel2msg,
+        homeTel2msg,
+        workTelmsg,
+        //
+        detailRentmsg,
+        etcmsg,
+        rentalFeemsg,
+        //
+        jobCompanyNamemsg,
+        birthDatemsg,
+        dateExpmsg,
+        emailmsg,
+        employmentDatemsg,
+        jobSalarymsg,
+      ].find(msg => msg);
+
+      console.log('errorMessage: ', message);
+
+      this.setState({ valid: !message });
+    });
   }
-
-  initialRequireMessage = () => {
-    const keys = [
-      'prefixTH',
-      'firstNameTH',
-      'lastNameTH',
-      'prefixEN',
-      'firstNameEN',
-      'lastNameEN',
-      'idCard',
-      'dateExp',
-      'status',
-      'workTel2',
-      'homeTel2',
-      'workTel',
-      'telExtension',
-      'jobCompanyName',
-      'birthDate',
-      'email',
-      'employmentDate',
-      'jobSalary',
-    ];
-    keys
-      .map(key => ({
-        key,
-        value: this.state[key],
-      }))
-      .forEach(({ key, value }) => {
-        const msgKey = `${key}msg`;
-        const msg = requiredMessage(true, value);
-        this.setState({ [msgKey]: msg });
-      });
-
-    ['workTel', 'workTel2', 'homeTel2']
-      .map(key => ({
-        key,
-        value: this.state[key],
-      }))
-      .forEach(({ key, value }) => {
-        const valid = /^\d{9,10}$/.test(value);
-        this.setState({ [`${key}Valid`]: valid });
-      });
-  };
 
   handleChange = (e, required = false) => {
     const { name, value } = e.target;
@@ -366,10 +338,16 @@ class PersonalInfo extends Component {
       [name]: value,
       [msgKey]: requiredMessage(required, value),
       [`${name}Valid`]: !required || (required && value),
-    }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    }, () => this.validate());
+  };
+
+  handleSalaryChange = e => {
+    const { target: { name, value } } = e;
+
+    this.setState({
+      [name]: Number.parseFloat(value) || 0,
+      [`${name}msg`]: validateSalary(value),
+    }, () => this.validate());
   };
 
   handleMoneyChange = (e, required = false) => {
@@ -378,24 +356,16 @@ class PersonalInfo extends Component {
     const number = Number.parseFloat(value) || 0;
     const msg = (required && number <= 0) ? 'กรุณากรอกข้อมูล' : '';
 
-    console.log(name, value, number);
-
     this.setState({
       [name]: number,
       [msgKey]: msg,
-    }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    }, () => this.validate());
   };
 
   handleEmailChange = (e, required = false) => {
     const { name, value } = e.target;
     const msgKey = `${name}msg`;
     let msg = '';
-    // const valid = !value || !emailRegex.test(value);
-
-    // console.log(name, valid);
 
     if (required && !value.trim()) {
       msg = 'กรุณากรอกข้อมูล';
@@ -408,83 +378,94 @@ class PersonalInfo extends Component {
     this.setState({
       [name]: value,
       [msgKey]: msg,
-      // [`${name}Valid`]: valid,
-    }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    }, () => this.validate());
+  };
+
+  handleIdcardNoChange = e => {
+    const { target: { value } } = e;
+    const message = validateIdcardNo(value);
+
+    console.log('handleIdcardNoChange', message);
+
+    this.setState({
+      idCard: value,
+      idCardmsg: message,
+    }, () => this.validate());
   };
 
   handleDateExpChange = (e, value) => {
-    this.setState({ dateExp: value },
-      () => {
-        const msg = requiredMessage(true, value);
-        this.setState({ dateExpmsg: msg },
-          () => {
-            const valid = this.validate();
-            this.setState({ valid });
-          },
-        );
-      });
+    const message = validateDateExp(value);
+
+    this.setState({
+      dateExp: value,
+      dateExpmsg: message,
+    }, () => this.validate());
   };
 
   handleEmploymentDateChange = (e, value) => {
-    this.setState({ employmentDate: value },
-      () => {
-        const msg = requiredMessage(true, value);
-        this.setState({ employmentDatemsg: msg },
-          () => {
-            const valid = this.validate();
-            this.setState({ valid });
-          },
-        );
-      });
+    this.setState({
+      employmentDate: value,
+      employmentDatemsg: validateEmploymentDate(value),
+    }, () => this.validate());
   };
 
   handleBirthDateChange = (e, value) => {
-    this.setState({ birthDate: value },
-      () => {
-        const msg = requiredMessage(true, value);
-        this.setState({ birthDatemsg: msg },
-          () => {
-            const valid = this.validate();
-            this.setState({ valid });
-          },
-        );
-      });
+    this.setState({
+      birthDate: value,
+      birthDatemsg: validateBirthDate(value),
+    }, () => this.validate());
   };
 
   handleNumberChange = (name, value, errorMessage = '') => {
-    const msgKey = `${name}msg`;
-
     this.setState({
       [name]: value,
-      [msgKey]: errorMessage,
-      [`${name}Valid`]: !errorMessage,
-    }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+      [`${name}msg`]: errorMessage,
+    }, () => this.validate());
   };
 
   handleLocationChange = (valueField, nameField, value, name) => {
     this.setState({
       [valueField]: value,
       [nameField]: name,
-    },
-      () => {
-        const valid = this.validate();
-        this.setState({ valid });
-      },
-    );
+    }, () => this.validate());
   };
 
   handleLookupChange = (value, name, id) => {
-    console.log(value, name, id);
-    this.setState({ [id]: value }, () => {
-      const valid = this.validate();
-      this.setState({ valid });
-    });
+    this.setState({ [id]: value }, () => this.validate());
+  };
+
+  handleDetailRentChange = (value, name, key) => {
+    console.log(value, name, key);
+    const { rentalFee, etc } = this.state;
+    let messageKey = '';
+    let messageValue = '';
+
+    switch (value) {
+      case 'อื่นๆ':
+        messageKey = 'etcmsg';
+        messageValue = !etc ? 'กรุณากรอกข้อมูล' : '';
+        console.log(1);
+        break;
+
+      case 'เช่าอยู่':
+      case 'กำลังผ่อนชำระ':
+        messageKey = 'rentalFeemsg';
+        messageValue = !rentalFee ? 'กรุณากรอกข้อมูล' : '';
+        console.log(2);
+        break;
+
+      default:
+        console.log(3);
+        break;
+    }
+
+    if (messageValue) {
+      this.setState({ [messageKey]: messageValue });
+    }
+
+    console.log(messageKey, messageValue, rentalFee, etc);
+
+    this.setState({ [key]: value }, () => this.validate());
   };
 
   handleSameAddressChange = () => {
@@ -540,18 +521,8 @@ class PersonalInfo extends Component {
       });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-    history.push('/borrow-request');
-  };
-
-  handleNext = e => {
-    e.preventDefault();
-
+  save = path => {
     const {
-      // dateReq,
-      // dateExp,
-      // birthDate,
       prefixTH,
       firstNameTH,
       lastNameTH,
@@ -560,36 +531,49 @@ class PersonalInfo extends Component {
       lastNameEN,
       idCard,
       status,
+      //
       department,
       position,
       workTel2,
       homeTel2,
       detailRent,
       workTel,
-      workTelValid,
+      // workTelValid,
       telExtension,
+      //
       number,
       moo,
       village,
       soi,
       road,
+      //
       province,
       amphurCode,
       tambolCode,
+      //
       provinceName,
       amphurCodeName,
       tambolCodeName,
       zipCode,
+      //
       number2,
       moo2,
       village2,
       soi2,
       road2,
       zipCode2,
+      province2,
+      amphurCode2,
+      tambolCode2,
+      province2Name,
+      amphurCode2Name,
+      tambolCode2Name,
+      //
       isSameAddress,
       jobCompanyName,
       email,
       jobSalary,
+      ot,
       //
       officeNumber,
       officeMoo,
@@ -604,6 +588,8 @@ class PersonalInfo extends Component {
       officeTambolCodeName,
       officeZipCode,
       //
+      rentalFee,
+      etc,
     } = this.state;
 
     let {
@@ -629,38 +615,52 @@ class PersonalInfo extends Component {
       idCard,
       dateExp,
       status,
+      //
       department,
       position,
       workTel2,
       homeTel2,
       detailRent,
       workTel,
-      workTelValid,
+      // workTelValid,
       telExtension,
+      //
       number,
       moo,
       village,
       soi,
       road,
+      //
       province,
       amphurCode,
       tambolCode,
+      //
       provinceName,
       amphurCodeName,
       tambolCodeName,
+
       zipCode,
+      //
       number2,
       moo2,
       village2,
       soi2,
       road2,
+      province2,
+      amphurCode2,
+      tambolCode2,
+      province2Name,
+      amphurCode2Name,
+      tambolCode2Name,
       zipCode2,
+      //
       isSameAddress,
       jobCompanyName,
       birthDate,
       email,
       employmentDate,
       jobSalary,
+      ot,
       //
       officeNumber,
       officeMoo,
@@ -675,20 +675,37 @@ class PersonalInfo extends Component {
       officeTambolCodeName,
       officeZipCode,
       //
+      rentalFee,
+      etc,
     };
 
-    console.log('pi.next: ', data);
+    const { saveDraft, history } = this.props;
+    saveDraft(data, () => history.push(path));
+  };
 
-    const {
-      completePersonalInfo,
-      history,
-    } = this.props;
+  handleBackClick = e => {
+    e.preventDefault();
+    this.save('/identity-info');
+  };
 
-    completePersonalInfo(data, () => history.push('/loan-info'));
+  handleNextClick = e => {
+    e.preventDefault();
+    this.save('/loan-info');
+  };
+
+  handleLookupChange = (value, name, id) => {
+    this.setState({ [id]: value }, () => this.validate());
   };
 
   renderDetailRent() {
-    const { detailRent } = this.state;
+    const {
+      detailRent,
+      etc,
+      rentalFee,
+      etcmsg,
+      rentalFeemsg,
+    } = this.state;
+
     if (detailRent === 'อื่นๆ') {
       return (
         <div className="col-sm-4">
@@ -696,8 +713,9 @@ class PersonalInfo extends Component {
             id="etc"
             name="etc"
             floatingLabelText="โปรดระบุเหตุผลอื่นๆ"
-            value={this.state.etc}
+            value={etc}
             onChange={e => this.handleChange(e, true)}
+            errorText={etcmsg}
             maxLength="100"
             fullWidth
           />
@@ -709,10 +727,11 @@ class PersonalInfo extends Component {
           <TextField
             id="rentalFee"
             name="rentalFee"
-            floatingLabelText="ผ่อนชำระ/ค่าเช่าต่อเดือน"
-            value={this.state.rentalFee}
-            onChange={e => this.handleChange(e, true)}
-            maxLength="100"
+            floatingLabelText="ผ่อนชำระ / ค่าเช่าต่อเดือน"
+            value={rentalFee}
+            onChange={e => this.handleMoneyChange(e, true)}
+            errorText={rentalFeemsg}
+            maxLength="10"
             fullWidth
           />
         </div>
@@ -720,24 +739,37 @@ class PersonalInfo extends Component {
     }
     return '';
   }
+
   render() {
+    if (!this.state) {
+      return <div className="loader" />;
+    }
+
     const {
       dateReq,
+      //
       prefixTH,
       firstNameTH,
       firstNameTHmsg,
       lastNameTH,
       lastNameTHmsg,
+      //
       prefixEN,
       firstNameEN,
       firstNameENmsg,
       lastNameEN,
       lastNameENmsg,
+      //
       idCard,
       idCardmsg,
       dateExp,
       dateExpmsg,
       status,
+      birthDate,
+      birthDatemsg,
+      email,
+      emailmsg,
+      //
       department,
       departmentmsg,
       position,
@@ -750,6 +782,7 @@ class PersonalInfo extends Component {
       workTel,
       workTelmsg,
       telExtension,
+      //
       number,
       moo,
       village,
@@ -762,6 +795,7 @@ class PersonalInfo extends Component {
       amphurCodeName,
       tambolCodeName,
       zipCode,
+      //
       number2,
       moo2,
       village2,
@@ -774,17 +808,16 @@ class PersonalInfo extends Component {
       amphurCode2Name,
       tambolCode2Name,
       zipCode2,
+      //
       isSameAddress,
       jobCompanyName,
       jobCompanyNamemsg,
-      birthDate,
-      birthDatemsg,
-      email,
-      emailmsg,
       employmentDate,
       employmentDatemsg,
       jobSalary,
       jobSalarymsg,
+      ot,
+      otmsg,
       //
       officeNumber,
       officeMoo,
@@ -807,19 +840,19 @@ class PersonalInfo extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleNext}>
+        <form onSubmit={this.handleNextClick}>
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
                 title="ข้อมูลทั่วไป"
                 titleStyle={styles.TitleText}
-                style={{ backgroundColor: '#019bc9' }}
+                style={{ backgroundColor: '#019bc9', borderTopLeftRadius: '6px', borderTopRightRadius: '6px' }}
               />
             </div>
             <CardText>
               <div className="row" >
                 <div
-                  className="col-12"
+                  className="col-sm-12"
                   style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
@@ -908,14 +941,14 @@ class PersonalInfo extends Component {
               </div>
               <div className="row">
                 <div className="col-sm-6">
-                  <Identity
+                  <TextField
                     id="idCard"
                     name="idCard"
-                    label="เลขบัตรประชาชน"
                     value={idCard}
-                    handleChange={this.handleNumberChange}
+                    floatingLabelText="เลขบัตรประชาชน"
                     errorText={idCardmsg}
-                    required
+                    onChange={this.handleIdcardNoChange}
+                    fullWidth
                   />
                 </div>
                 <div className="col-sm-6">
@@ -1007,7 +1040,7 @@ class PersonalInfo extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-sm-6">
+                <div className="col-sm-4">
                   <DatePicker
                     id="employmentDate"
                     name="employmentDate"
@@ -1022,14 +1055,25 @@ class PersonalInfo extends Component {
                     locale="th-TH"
                   />
                 </div>
-                <div className="col-sm-6">
+                <div className="col-sm-4">
                   <TextField
                     id="jobSalary"
                     name="jobSalary"
                     value={jobSalary}
                     floatingLabelText="เงินเดือน"
-                    onChange={e => this.handleMoneyChange(e, true)}
+                    onChange={e => this.handleSalaryChange(e, true)}
                     errorText={jobSalarymsg}
+                    fullWidth
+                  />
+                </div>
+                <div className="col-sm-4">
+                  <TextField
+                    id="ot"
+                    name="ot"
+                    value={ot}
+                    floatingLabelText="OT, COM, โบนัส"
+                    onChange={e => this.handleMoneyChange(e)}
+                    errorText={otmsg}
                     fullWidth
                   />
                 </div>
@@ -1134,7 +1178,12 @@ class PersonalInfo extends Component {
                     provinceName={officeProvinceName}
                     amphurName={officeAmphurCodeName}
                     tambolName={officeTambolCodeName}
-                    handleChange={this.handleLocationChange}
+                    handleChange={(valueField, nameField, value, name) => this.handleLocationChange(
+                      valueField,
+                      nameField,
+                      value,
+                      name,
+                    )}
                   />
                 </div>
               </div>
@@ -1237,7 +1286,12 @@ class PersonalInfo extends Component {
                     provinceName={provinceName}
                     amphurName={amphurCodeName}
                     tambolName={tambolCodeName}
-                    handleChange={this.handleLocationChange}
+                    handleChange={(valueField, nameField, value, name) => this.handleLocationChange(
+                      valueField,
+                      nameField,
+                      value,
+                      name,
+                    )}
                   />
                 </div>
               </div>
@@ -1285,7 +1339,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="บ้านเลขที่"
                     value={number2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="10"
                     fullWidth
                   />
@@ -1297,7 +1351,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="หมู่ที่"
                     value={moo2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="3"
                     fullWidth
                   />
@@ -1309,7 +1363,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
                     value={village2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="100"
                     fullWidth
                   />
@@ -1323,7 +1377,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="ซอย"
                     value={soi2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="100"
                     fullWidth
                   />
@@ -1335,34 +1389,68 @@ class PersonalInfo extends Component {
                     floatingLabelText="ถนน"
                     value={road2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="100"
                     fullWidth
                   />
                 </div>
               </div>
-              <div className="row">
-                <div className="col">
-                  <Location
-                    id="location1"
-                    name="location1"
-                    provinceValueField="province2"
-                    provinceNameField="province2Name"
-                    amphurValueField="amphurCode2"
-                    amphurNameField="amphurCode2Name"
-                    tambolValueField="tambolCode2"
-                    tambolNameField="tambolCode2Name"
-                    provinceValue={province2}
-                    amphurValue={amphurCode2}
-                    tambolValue={tambolCode2}
-                    provinceName={province2Name}
-                    amphurName={amphurCode2Name}
-                    tambolName={tambolCode2Name}
-                    handleChange={this.handleLocationChange}
-                    disabled={isSameAddress}
-                  />
+              {isSameAddress
+                ? <div className="row">
+                  <div className="col-4">
+                    <TextField
+                      floatingLabelText="จังหวัด"
+                      value={province2Name}
+                      readOnly
+                      fullWidth
+                    />
+                  </div>
+                  <div className="col-4">
+                    <TextField
+                      floatingLabelText="อำเภอ / เขต"
+                      value={amphurCode2Name}
+                      readOnly
+                      fullWidth
+                    />
+                  </div>
+                  <div className="col-4">
+                    <TextField
+                      floatingLabelText="ตำบล / แขวง"
+                      value={tambolCode2Name}
+                      readOnly
+                      fullWidth
+                    />
+                  </div>
                 </div>
-              </div>
+                : <div className="row">
+                  <div className="col">
+                    <Location
+                      id="location1"
+                      name="location1"
+                      provinceValueField="province2"
+                      provinceNameField="province2Name"
+                      amphurValueField="amphurCode2"
+                      amphurNameField="amphurCode2Name"
+                      tambolValueField="tambolCode2"
+                      tambolNameField="tambolCode2Name"
+                      provinceValue={province2}
+                      amphurValue={amphurCode2}
+                      tambolValue={tambolCode2}
+                      provinceName={province2Name}
+                      amphurName={amphurCode2Name}
+                      tambolName={tambolCode2Name}
+                      handleChange={(valueField, nameField, value, name) =>
+                        this.handleLocationChange(
+                          valueField,
+                          nameField,
+                          value,
+                          name,
+                        )}
+                      disabled={isSameAddress}
+                    />
+                  </div>
+                </div>
+              }
               <div className="row">
                 <div className="col-sm-4">
                   <TextField
@@ -1371,7 +1459,7 @@ class PersonalInfo extends Component {
                     floatingLabelText="รหัสไปรษณีย์"
                     value={zipCode2}
                     onChange={e => this.handleChange(e, true)}
-                    disabled={isSameAddress}
+                    readOnly={isSameAddress}
                     maxLength="5"
                     fullWidth
                   />
@@ -1397,7 +1485,7 @@ class PersonalInfo extends Component {
                     onChange={e => this.handleChange(e, true)}
                     maxLength="10"
                     fullWidth
-                    disabled={!_isAdmin}
+                    readOnly={!_isAdmin}
                   />
                 </div>
                 <div className="col-sm-4" >
@@ -1432,7 +1520,7 @@ class PersonalInfo extends Component {
                     value={detailRent}
                     label="สถานภาพที่อยู่อาศัย"
                     required
-                    onSelectItem={this.handleLookupChange}
+                    onSelectItem={this.handleDetailRentChange}
                   />
                 </div>
                 {this.renderDetailRent()}
@@ -1446,7 +1534,7 @@ class PersonalInfo extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                onClick={this.handleBack}
+                onClick={this.handleBackClick}
               />
               <RaisedButton
                 type="submit"
@@ -1473,14 +1561,13 @@ class PersonalInfo extends Component {
 PersonalInfo.propTypes = {
   message: PropTypes.string,
   history: PropTypes.object.isRequired,
-  data: PropTypes.object,
-  completePersonalInfo: PropTypes.func.isRequired,
-  // saveDraft: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  getDraft: PropTypes.func.isRequired,
+  saveDraft: PropTypes.func.isRequired,
 };
 
 PersonalInfo.defaultProps = {
   message: '',
-  data: null,
 };
 
 export default withRouter(PersonalInfo);

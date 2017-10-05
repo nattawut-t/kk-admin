@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Component from '../../components/shared/ReferenceInfo';
-import { isAdmin } from '../../libs/config';
+// import { isAdmin } from '../../libs/config';
 
 const transform = (state, key) => {
   if (state && key) {
@@ -13,7 +13,7 @@ const transform = (state, key) => {
         ref2Firstname,
         ref2Lastname,
         ref2Relationship,
-        ref2Mobile,
+        ref2MobileNo,
         ref2WorkTelephone,
         ref2HomeTelephone,
       } = data;
@@ -23,7 +23,7 @@ const transform = (state, key) => {
         firstName: ref2Firstname,
         lastName: ref2Lastname,
         relationship: ref2Relationship,
-        mobile: ref2Mobile,
+        mobile: ref2MobileNo,
         workTel: ref2WorkTelephone,
         homeTel: ref2HomeTelephone,
       };
@@ -32,13 +32,13 @@ const transform = (state, key) => {
   return null;
 };
 
-const getState = state => isAdmin()
-  ? state.admin
-  : state.lead;
+// const getState = state => isAdmin()
+//   ? state.admin
+//   : state.lead;
 
-const mapStateToProps = state => ({
-  id: getState(state).get('id') || '',
-  data: transform(getState(state), 'data'),
+const mapStateToProps = ({ lead }) => ({
+  id: lead.get('id') || '',
+  data: transform(lead, 'data'),
 });
 
 export default connect(

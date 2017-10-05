@@ -48,6 +48,15 @@
   padding-top: 64px;
 }
 
+._clear::before,
+._clear::after{
+  display: table;
+  content: "";
+}
+._clear::after{
+  clear: both;
+}
+
 @media screen and (max-width: 991px){
   .main-container{
     padding-left: 0;

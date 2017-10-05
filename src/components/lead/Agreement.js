@@ -5,6 +5,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
+import Snackbar from 'material-ui/Snackbar';
+
 import CardFooter from '../shared/CardFooter';
 
 const styles = {
@@ -15,7 +17,7 @@ const styles = {
     minWidth: '157px',
     height: '40px',
     borderRadius: '3px',
-    padding: '2px',
+    padding: '0px',
     boxShadow: '0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12)',
   },
   overlayStyle: {
@@ -49,23 +51,39 @@ class Agreement extends Component {
 
   componentWillMount() {
     window.scrollTo(0, 0);
+    console.log('agree.componentWillMount');
+    const { getDraft } = this.props;
+    getDraft();
+  }
+
+  componentDidMount() {
+    const { data } = this.props;
+
+    console.log('agree.componentDidMount', data);
+
+    this.setState(data);
   }
 
   handleChange = () => {
-    const { isConsent, acceptAgreement } = this.props;
-    acceptAgreement(!isConsent);
+    const { isConsent } = this.state;
+    this.setState({ isConsent: !isConsent });
   };
 
-  handleNext = () => {
-    const { history } = this.props;
-    history.push('/personal-info');
+  handleNextClick = () => {
+    const { isConsent } = this.state;
+    const { saveDraft, history } = this.props;
+    saveDraft({ isConsent }, () => history.push('/identity-info'));
   };
 
   render() {
-    const {
-      isConsent,
-      editing,
-    } = this.props;
+    if (!this.state) {
+      return <div className="loader" />;
+    }
+
+    const { isConsent } = this.state;
+    const { message } = this.props;
+
+    console.log('agree.render: ', isConsent);
 
     return (
       <div>
@@ -101,7 +119,7 @@ class Agreement extends Component {
                   id="isConsent"
                   name="isConsent"
                   label="ฉันยินยอมข้อตกลงและเงื่อนไขการใช้บริการ"
-                  checked={isConsent || editing}
+                  checked={isConsent}
                   disabled={false}
                   style={styles.checkbox}
                   onCheck={this.handleChange}
@@ -119,22 +137,33 @@ class Agreement extends Component {
                 style={styles.raisedButton}
                 disabled={!isConsent}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
-                onClick={this.handleNext}
+                onClick={this.handleNextClick}
                 buttonStyle={styles.buttonStyle}
               />
             </div>
           </div>
         </CardFooter>
+        <Snackbar
+          open={message !== ''}
+          message={message}
+          autoHideDuration={4000}
+        />
       </div>
     );
   }
 }
 
 Agreement.propTypes = {
+  message: PropTypes.string,
   history: PropTypes.object.isRequired,
-  isConsent: PropTypes.bool.isRequired,
-  editing: PropTypes.bool.isRequired,
-  acceptAgreement: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  // editing: PropTypes.bool.isRequired,
+  getDraft: PropTypes.func.isRequired,
+  saveDraft: PropTypes.func.isRequired,
+};
+
+Agreement.defaultProps = {
+  message: '',
 };
 
 export default withRouter(Agreement);

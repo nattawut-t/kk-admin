@@ -41,6 +41,8 @@ import LoanInfo from '../../containers/shared/LoanInfo';
 import Reference1Info from '../../containers/shared/Reference1Info';
 import Reference2Info from '../../containers/shared/Reference2Info';
 import ShippingAddress from '../../containers/shared/ShippingAddress';
+// import Document from '../../containers/shared/Document';
+
 import { isAdmin } from '../../libs/config';
 
 const styles = {
@@ -116,6 +118,13 @@ const infos = [
     // icon: 'perm_identity',
     component: <ShippingAddress />,
   },
+  // {
+  //   id: 10,
+  //   name: 'document',
+  //   label: 'เอกสาร',
+  //   // icon: 'perm_identity',
+  //   component: <Document />,
+  // },
 ];
 
 class Viewer extends Component {
@@ -146,7 +155,7 @@ class Viewer extends Component {
   handleRejectClick = id => {
     const { reject } = this.props;
     const { remark } = this.state;
-    console.log('>>> ', reject, remark);
+
     if (reject) {
       reject(id, remark, () => {
         this.setState({ reject: false });
@@ -183,10 +192,8 @@ class Viewer extends Component {
   };
 
   handleDocumentClick = () => {
-    const { data, loadDocuments } = this.props;
-    if (loadDocuments) {
-      const { id } = data;
-      console.log(id);
+    const { id, loadDocuments } = this.props;
+    if (id && loadDocuments) {
       loadDocuments(id, () => this.setState({ doc: true }));
     }
   };
@@ -204,7 +211,8 @@ class Viewer extends Component {
   };
 
   render() {
-    const { data, loading, documents } = this.props;
+    const { id, data, loading, documents } = this.props;
+    // console.log('render.documents: ', documents);
 
     if (!data || loading) {
       return <div className="loader" />;
@@ -218,7 +226,8 @@ class Viewer extends Component {
       doc,
       // imageData,
     } = this.state;
-    const { id, status } = data;
+
+    const { status } = data;
 
     const rejectActions = [
       <FlatButton
@@ -405,7 +414,7 @@ class Viewer extends Component {
                 <TableHeaderColumn style={{ width: '20%', textAlign: 'center' }}>รหัส</TableHeaderColumn>
                 <TableHeaderColumn style={{ width: '30%', textAlign: 'center' }}>ชื่อ</TableHeaderColumn>
                 <TableHeaderColumn style={{ width: '30%', textAlign: 'center' }}>ประเภท</TableHeaderColumn>
-                <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>เปิด</TableHeaderColumn>
+                <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>ดู</TableHeaderColumn>
                 <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>ลบ</TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -465,6 +474,7 @@ class Viewer extends Component {
 }
 
 Viewer.propTypes = {
+  id: PropTypes.string,
   history: PropTypes.object.isRequired,
   data: PropTypes.object,
   loading: PropTypes.bool,
@@ -478,6 +488,7 @@ Viewer.propTypes = {
 };
 
 Viewer.defaultProps = {
+  id: '',
   data: null,
   loading: false,
   approve: null,

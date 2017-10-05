@@ -1,15 +1,15 @@
 import Immutable, { Record } from 'immutable';
-import moment from 'moment';
+// import moment from 'moment';
 import {
   approveSuccess,
   rejectSuccess,
-  searchSuccess,
-  loadNextPageSuccess,
+  // searchSuccess,
+  // loadNextPageSuccess,
   setLoading,
-  selectDataSuccess,
-  cancelSelection,
-  setSortInfo,
-  setSearchInfo,
+  // selectDataSuccess,
+  // cancelSelection,
+  // setSortInfo,
+  // setSearchInfo,
   SELECT_DATA_SUCCESS,
   APPROVE_SUCCESS,
   REJECT_SUCCESS,
@@ -24,149 +24,106 @@ import {
   portalUrl,
   postJson,
   putJson,
-  getJson,
+  // getJson,
 } from '../libs/request';
 import {
-  pageSize,
+  // pageSize,
   loadingTime,
   // dateFormat,
 } from '../libs/config';
-import { parseLeadIn } from '../libs/lead';
-import { parseLeadsIn } from '../libs/leads';
+// import { parseLeadIn } from '../libs/lead';
+// import { parseLeadsIn } from '../libs/leads';
 
 const State = Record({
   id: '',
   message: '',
   //
   data: null,
-  dataList: [],
-  total: 0,
-  pages: 0,
-  page: 0,
+  // dataList: [],
+  // total: 0,
+  // pages: 0,
+  // page: 0,
   //
-  keyword: '',
-  sortField: '',
-  sortDesc: false,
+  // keyword: '',
+  // sortField: '',
+  // sortDesc: false,
   loading: false,
 });
 const initialState = new State();
 const endpoint = '/admin/leads';
 
-// const parseLeadIn = ({
-//   ID,
-//   CreatedAt,
-//   UpdatedAt,
-//   DeletedAt,
-//   UserID,
-//   Email,
-//   IDCard,
-//   MobileNo,
-//   BirthDate,
-//   TicketID,
-//   Status,
-//   ReferenceID,
-//   Data,
-// }) => {
-//   let entry = JSON.parse(Data) || {};
-//   const { prefixTH, firstNameTH, lastNameTH } = entry;
-//   const nameTH = `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim();
+// function _searchData(page = 1) {
+//   return dispatch => {
+//     dispatch(setLoading(true));
+//     dispatch(cancelSelection());
 
-//   entry = Object.assign({
-//     ID,
-//     CreatedAt,
-//     UpdatedAt,
-//     DeletedAt,
-//     UserID,
-//     Email,
-//     IDCard,
-//     MobileNo,
-//     BirthDate,
-//     TicketID,
-//     Status,
-//     ReferenceID,
-//   },
-//     entry,
-//     { nameTH },
-//   );
+//     const _endpoint = `${endpoint}?page=${page}`;
+//     const url = portalUrl(_endpoint);
+//     const promise = getJson(url);
 
-//   return entry;
-// };
+//     setTimeout(() =>
+//       promise.then(response => {
+//         const { data } = response;
+//         const {
+//           count,
+//           entries,
+//           numOfPages,
+//           page,
+//         } = data;
 
-// const parseLeadsIn = entries =>
-//   entries ? entries.map(entry => parseLeadIn(entry)) : {};
+//         console.log('>>> entries: ', entries);
+//         const dataList = entries ? parseLeadsIn(entries) : [];
 
-function _searchData(page = 1) {
-  return dispatch => {
-    dispatch(setLoading(true));
-    dispatch(cancelSelection());
+//         dispatch(searchSuccess(dataList, count, numOfPages, page));
+//         return dispatch(setLoading(false));
+//       })
+//         .catch(error => {
+//           console.log('>>> error: ', error);
+//           dispatch(setLoading(false));
+//         })
+//       , loadingTime);
+//   };
+// }
 
-    const _endpoint = `${endpoint}?page=${page}`;
-    const url = portalUrl(_endpoint);
-    const promise = getJson(url);
+// function _loadNextPage(currentPage = 1, nextPage = 2) {
+//   return (dispatch, getState) => {
+//     dispatch(setLoading(true));
+//     dispatch(cancelSelection());
 
-    setTimeout(() =>
-      promise.then(response => {
-        const { data } = response;
-        const {
-          count,
-          entries,
-          numOfPages,
-          page,
-        } = data;
+//     const state = getState().admin;
+//     const total = state.get('total') || 0;
 
-        console.log('>>> entries: ', entries);
-        const dataList = entries ? parseLeadsIn(entries) : [];
+//     if ((currentPage * pageSize) < total) {
+//       const _endpoint = `${endpoint}?page=${nextPage}`;
+//       const url = portalUrl(_endpoint);
+//       const promise = getJson(url);
 
-        dispatch(searchSuccess(dataList, count, numOfPages, page));
-        return dispatch(setLoading(false));
-      })
-        .catch(error => {
-          console.log('>>> error: ', error);
-          dispatch(setLoading(false));
-        })
-      , loadingTime);
-  };
-}
+//       setTimeout(() =>
+//         promise.then(response => {
+//           const { data } = response;
+//           const {
+//             count,
+//             entries,
+//             numOfPages,
+//             page,
+//           } = data;
 
-function _loadNextPage(currentPage = 1, nextPage = 2) {
-  return (dispatch, getState) => {
-    dispatch(setLoading(true));
-    dispatch(cancelSelection());
+//           console.log('>>> entries: ', entries);
+//           const dataList = entries ? parseLeadsIn(entries) : [];
 
-    const state = getState().admin;
-    const total = state.get('total') || 0;
+//           dispatch(loadNextPageSuccess(dataList, count, numOfPages, page));
+//           return dispatch(setLoading(false));
+//         })
+//           .catch(error => {
+//             console.log('>>> error: ', error);
+//             dispatch(setLoading(false));
+//           })
+//         , loadingTime);
+//     }
 
-    if ((currentPage * pageSize) < total) {
-      const _endpoint = `${endpoint}?page=${nextPage}`;
-      const url = portalUrl(_endpoint);
-      const promise = getJson(url);
-
-      setTimeout(() =>
-        promise.then(response => {
-          const { data } = response;
-          const {
-            count,
-            entries,
-            numOfPages,
-            page,
-          } = data;
-
-          console.log('>>> entries: ', entries);
-          const dataList = entries ? parseLeadsIn(entries) : [];
-
-          dispatch(loadNextPageSuccess(dataList, count, numOfPages, page));
-          return dispatch(setLoading(false));
-        })
-          .catch(error => {
-            console.log('>>> error: ', error);
-            dispatch(setLoading(false));
-          })
-        , loadingTime);
-    }
-
-    dispatch(setLoading(false));
-  };
-}
+//     dispatch(setLoading(false));
+//   };
+// }
 
 export function approve(id) {
   return dispatch => {
@@ -226,300 +183,300 @@ export function reject(id, remark, callback) {
   };
 }
 
-export function searchData(keyword) {
-  return dispatch => {
-    dispatch(setSearchInfo(keyword));
-    return dispatch(_searchData());
-  };
-}
+// export function searchData(keyword) {
+//   return dispatch => {
+//     dispatch(setSearchInfo(keyword));
+//     return dispatch(_searchData());
+//   };
+// }
 
-export function sortData(field, desc) {
-  return dispatch => {
-    dispatch(setSortInfo(field, desc));
-    return dispatch(_searchData());
-  };
-}
+// export function sortData(field, desc) {
+//   return dispatch => {
+//     dispatch(setSortInfo(field, desc));
+//     return dispatch(_searchData());
+//   };
+// }
 
-export function loadNextPage() {
-  console.log('>>> admin');
-  return (dispatch, getState) => {
-    const state = getState().admin;
-    const loading = state.get('loading');
+// export function loadNextPage() {
+//   console.log('>>> admin');
+//   return (dispatch, getState) => {
+//     const state = getState().admin;
+//     const loading = state.get('loading');
 
-    if (!loading) {
-      const page = state.get('page') || 1;
-      return dispatch(_loadNextPage(page, page + 1));
-    }
+//     if (!loading) {
+//       const page = state.get('page') || 1;
+//       return dispatch(_loadNextPage(page, page + 1));
+//     }
 
-    return dispatch(setLoading(false));
-  };
-}
+//     return dispatch(setLoading(false));
+//   };
+// }
 
-export function selectData(rowIndex) {
-  return (dispatch, getState) => {
-    dispatch(setLoading(true));
+// export function selectData(rowIndex) {
+//   return (dispatch, getState) => {
+//     dispatch(setLoading(true));
 
-    const state = getState().admin;
-    const oldId = state.get('id');
-    const dataList = state.get('dataList');
+//     const state = getState().admin;
+//     const oldId = state.get('id');
+//     const dataList = state.get('dataList');
 
-    if (dataList) {
-      const data = dataList.get(rowIndex);
+//     if (dataList) {
+//       const data = dataList.get(rowIndex);
 
-      if (data) {
-        const newId = `${data.get('ID') || ''}`;
+//       if (data) {
+//         const newId = `${data.get('ID') || ''}`;
 
-        if (newId !== oldId) {
-          const _endpoint = `${endpoint}/${newId}`;
-          const url = portalUrl(_endpoint);
-          const promise = getJson(url);
+//         if (newId !== oldId) {
+//           const _endpoint = `${endpoint}/${newId}`;
+//           const url = portalUrl(_endpoint);
+//           const promise = getJson(url);
 
-          setTimeout(() =>
-            promise.then(response => {
-              const { data } = response;
+//           setTimeout(() =>
+//             promise.then(response => {
+//               const { data } = response;
 
-              const {
-                ID,
-                Status,
-                //
-                dateReq,
-                prefixTH,
-                firstNameTH,
-                lastNameTH,
-                prefixEN,
-                firstNameEN,
-                lastNameEN,
-                idCard,
-                dateExp,
-                birthDate,
-                status,
-                //
-                jobCompanyName,
-                department,
-                position,
-                employmentDate,
-                jobSalary,
-                workTel,
-                telExtension,
-                officeNumber,
-                officeMoo,
-                officeVillage,
-                officeSoi,
-                officeRoad,
-                officeProvinceName,
-                officeAmphurCodeName,
-                officeTambolCodeName,
-                officeZipCode,
-                //
-                number,
-                moo,
-                village,
-                soi,
-                road,
-                province,
-                amphurCode,
-                tambolCode,
-                provinceName,
-                amphurCodeName,
-                tambolCodeName,
-                zipCode,
-                //
-                number2,
-                moo2,
-                village2,
-                soi2,
-                road2,
-                province2,
-                amphurCode2,
-                tambolCode2,
-                province2Name,
-                amphurCode2Name,
-                tambolCode2Name,
-                zipCode2,
-                //
-                workTel2,
-                homeTel2,
-                email,
-                detailRent,
-                //
-                loanAmount,
-                installmentNumber,
-                beneficiary,
-                loanBeneficiaryName,
-                accumulateDebt,
-                creditCardTotal,
-                paymentHistoryExists,
-                pLoanApplicationHositoryExists,
-                overdueDebtExists,
-                bankAccountNo,
-                bankAccountName,
-                bankCode,
-                bankName,
-                bankBranchName,
-                //
-                ref1Prefix,
-                ref1Firstname,
-                ref1Lastname,
-                ref1Relationship,
-                ref1Mobile,
-                ref1WorkTelephone,
-                ref1HomeTelephone,
-                //
-                ref2Prefix,
-                ref2Firstname,
-                ref2Lastname,
-                ref2Relationship,
-                ref2Mobile,
-                ref2WorkTelephone,
-                ref2HomeTelephone,
-                //
-                shippingHouseNo,
-                shippingMoo,
-                shippingVillage,
-                shippingFloor,
-                shippingSoi,
-                shippingRoad,
-                shippingProvinceCodeName,
-                shippingAmphurCodeName,
-                shippingTambolCodeName,
-                shippingPostalCode,
-                //
-                fileName0,
-                fileName1,
-                fileName2,
-                fileName3,
-                fileName4,
-                fileName5,
-                fileName6,
-              } = parseLeadIn(data);
+//               const {
+//                 ID,
+//                 Status,
+//                 //
+//                 dateReq,
+//                 prefixTH,
+//                 firstNameTH,
+//                 lastNameTH,
+//                 prefixEN,
+//                 firstNameEN,
+//                 lastNameEN,
+//                 idCard,
+//                 dateExp,
+//                 birthDate,
+//                 status,
+//                 //
+//                 jobCompanyName,
+//                 department,
+//                 position,
+//                 employmentDate,
+//                 jobSalary,
+//                 workTel,
+//                 telExtension,
+//                 officeNumber,
+//                 officeMoo,
+//                 officeVillage,
+//                 officeSoi,
+//                 officeRoad,
+//                 officeProvinceName,
+//                 officeAmphurCodeName,
+//                 officeTambolCodeName,
+//                 officeZipCode,
+//                 //
+//                 number,
+//                 moo,
+//                 village,
+//                 soi,
+//                 road,
+//                 province,
+//                 amphurCode,
+//                 tambolCode,
+//                 provinceName,
+//                 amphurCodeName,
+//                 tambolCodeName,
+//                 zipCode,
+//                 //
+//                 number2,
+//                 moo2,
+//                 village2,
+//                 soi2,
+//                 road2,
+//                 province2,
+//                 amphurCode2,
+//                 tambolCode2,
+//                 province2Name,
+//                 amphurCode2Name,
+//                 tambolCode2Name,
+//                 zipCode2,
+//                 //
+//                 workTel2,
+//                 homeTel2,
+//                 email,
+//                 detailRent,
+//                 //
+//                 loanAmount,
+//                 installmentNumber,
+//                 beneficiary,
+//                 loanBeneficiaryName,
+//                 accumulateDebt,
+//                 creditCardTotal,
+//                 paymentHistoryExists,
+//                 pLoanApplicationHositoryExists,
+//                 overdueDebtExists,
+//                 bankAccountNo,
+//                 bankAccountName,
+//                 bankCode,
+//                 bankName,
+//                 bankBranchName,
+//                 //
+//                 ref1Prefix,
+//                 ref1Firstname,
+//                 ref1Lastname,
+//                 ref1Relationship,
+//                 ref1MobileNo,
+//                 ref1WorkTelephone,
+//                 ref1HomeTelephone,
+//                 //
+//                 ref2Prefix,
+//                 ref2Firstname,
+//                 ref2Lastname,
+//                 ref2Relationship,
+//                 ref2MobileNo,
+//                 ref2WorkTelephone,
+//                 ref2HomeTelephone,
+//                 //
+//                 shippingHouseNo,
+//                 shippingMoo,
+//                 shippingVillage,
+//                 shippingFloor,
+//                 shippingSoi,
+//                 shippingRoad,
+//                 shippingProvinceCodeName,
+//                 shippingAmphurCodeName,
+//                 shippingTambolCodeName,
+//                 shippingPostalCode,
+//                 //
+//                 fileName0,
+//                 fileName1,
+//                 fileName2,
+//                 fileName3,
+//                 fileName4,
+//                 fileName5,
+//                 fileName6,
+//               } = parseLeadIn(data);
 
-              const entry = {
-                id: ID,
-                status: Status,
-                //
-                dateReq: dateReq ? moment(dateReq).toDate() : null,
-                nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
-                nameEN: `${prefixEN || ''} ${firstNameEN || ''} ${lastNameEN || ''}`.trim(),
-                idcardNo: idCard,
-                idcardExpiry: dateExp ? moment(dateExp).toDate() : null,
-                birthDate: birthDate ? moment(birthDate).toDate() : null,
-                maritalStatus: status,
-                //
-                companyName: jobCompanyName,
-                department,
-                position,
-                employmentDate: employmentDate ? moment(employmentDate).toDate() : null,
-                salary: jobSalary,
-                //
-                officeTel: workTel,
-                officeTelExt: telExtension,
-                officeNumber,
-                officeMoo,
-                officeVillage,
-                officeSoi,
-                officeRoad,
-                officeProvinceName,
-                officeAmphurCodeName,
-                officeTambolCodeName,
-                officeZipCode,
-                //
-                number,
-                moo,
-                village,
-                soi,
-                road,
-                province,
-                amphurCode,
-                tambolCode,
-                provinceName,
-                amphurCodeName,
-                tambolCodeName,
-                zipCode,
-                //
-                number2,
-                moo2,
-                village2,
-                soi2,
-                road2,
-                province2,
-                amphurCode2,
-                tambolCode2,
-                province2Name,
-                amphurCode2Name,
-                tambolCode2Name,
-                zipCode2,
-                //
-                workTel2,
-                homeTel2,
-                email,
-                detailRent,
-                //
-                loanAmount,
-                installmentNumber,
-                beneficiary: (beneficiary === 'others') ? loanBeneficiaryName : beneficiary,
-                loanBeneficiaryName,
-                accumulateDebt,
-                creditCardTotal,
-                paymentHistoryExists,
-                pLoanApplicationHositoryExists,
-                overdueDebtExists,
-                bankAccountNo,
-                bankAccountName,
-                bankCode,
-                bankName,
-                bankBranchName,
-                //
-                ref1Prefix,
-                ref1Firstname,
-                ref1Lastname,
-                ref1Relationship,
-                ref1Mobile,
-                ref1WorkTelephone,
-                ref1HomeTelephone,
-                //
-                ref2Prefix,
-                ref2Firstname,
-                ref2Lastname,
-                ref2Relationship,
-                ref2Mobile,
-                ref2WorkTelephone,
-                ref2HomeTelephone,
-                //
-                shippingHouseNo,
-                shippingMoo,
-                shippingVillage,
-                shippingFloor,
-                shippingSoi,
-                shippingRoad,
-                shippingProvinceCodeName,
-                shippingAmphurCodeName,
-                shippingTambolCodeName,
-                shippingPostalCode,
-                //
-                fileName0,
-                fileName1,
-                fileName2,
-                fileName3,
-                fileName4,
-                fileName5,
-                fileName6,
-              };
+//               const entry = {
+//                 id: ID,
+//                 status: Status,
+//                 //
+//                 dateReq: dateReq ? moment(dateReq).toDate() : null,
+//                 nameTH: `${prefixTH || ''} ${firstNameTH || ''} ${lastNameTH || ''}`.trim(),
+//                 nameEN: `${prefixEN || ''} ${firstNameEN || ''} ${lastNameEN || ''}`.trim(),
+//                 idcardNo: idCard,
+//                 idcardExpiry: dateExp ? moment(dateExp).toDate() : null,
+//                 birthDate: birthDate ? moment(birthDate).toDate() : null,
+//                 maritalStatus: status,
+//                 //
+//                 companyName: jobCompanyName,
+//                 department,
+//                 position,
+//                 employmentDate: employmentDate ? moment(employmentDate).toDate() : null,
+//                 salary: jobSalary,
+//                 //
+//                 officeTel: workTel,
+//                 officeTelExt: telExtension,
+//                 officeNumber,
+//                 officeMoo,
+//                 officeVillage,
+//                 officeSoi,
+//                 officeRoad,
+//                 officeProvinceName,
+//                 officeAmphurCodeName,
+//                 officeTambolCodeName,
+//                 officeZipCode,
+//                 //
+//                 number,
+//                 moo,
+//                 village,
+//                 soi,
+//                 road,
+//                 province,
+//                 amphurCode,
+//                 tambolCode,
+//                 provinceName,
+//                 amphurCodeName,
+//                 tambolCodeName,
+//                 zipCode,
+//                 //
+//                 number2,
+//                 moo2,
+//                 village2,
+//                 soi2,
+//                 road2,
+//                 province2,
+//                 amphurCode2,
+//                 tambolCode2,
+//                 province2Name,
+//                 amphurCode2Name,
+//                 tambolCode2Name,
+//                 zipCode2,
+//                 //
+//                 workTel2,
+//                 homeTel2,
+//                 email,
+//                 detailRent,
+//                 //
+//                 loanAmount,
+//                 installmentNumber,
+//                 beneficiary: (beneficiary === 'others') ? loanBeneficiaryName : beneficiary,
+//                 loanBeneficiaryName,
+//                 accumulateDebt,
+//                 creditCardTotal,
+//                 paymentHistoryExists,
+//                 pLoanApplicationHositoryExists,
+//                 overdueDebtExists,
+//                 bankAccountNo,
+//                 bankAccountName,
+//                 bankCode,
+//                 bankName,
+//                 bankBranchName,
+//                 //
+//                 ref1Prefix,
+//                 ref1Firstname,
+//                 ref1Lastname,
+//                 ref1Relationship,
+//                 ref1MobileNo,
+//                 ref1WorkTelephone,
+//                 ref1HomeTelephone,
+//                 //
+//                 ref2Prefix,
+//                 ref2Firstname,
+//                 ref2Lastname,
+//                 ref2Relationship,
+//                 ref2MobileNo,
+//                 ref2WorkTelephone,
+//                 ref2HomeTelephone,
+//                 //
+//                 shippingHouseNo,
+//                 shippingMoo,
+//                 shippingVillage,
+//                 shippingFloor,
+//                 shippingSoi,
+//                 shippingRoad,
+//                 shippingProvinceCodeName,
+//                 shippingAmphurCodeName,
+//                 shippingTambolCodeName,
+//                 shippingPostalCode,
+//                 //
+//                 fileName0,
+//                 fileName1,
+//                 fileName2,
+//                 fileName3,
+//                 fileName4,
+//                 fileName5,
+//                 fileName6,
+//               };
 
-              dispatch(selectDataSuccess(`${ID}`, entry));
-              return dispatch(setLoading(false));
-            })
-              .catch(error => {
-                console.log('>>> selectData.error: ', error);
-                dispatch(setLoading(false));
-              })
-            , loadingTime);
-        } else {
-          dispatch(cancelSelection());
-        }
-      }
-    }
-  };
-}
+//               dispatch(selectDataSuccess(`${ID}`, entry));
+//               return dispatch(setLoading(false));
+//             })
+//               .catch(error => {
+//                 console.log('>>> selectData.error: ', error);
+//                 dispatch(setLoading(false));
+//               })
+//             , loadingTime);
+//         } else {
+//           dispatch(cancelSelection());
+//         }
+//       }
+//     }
+//   };
+// }
 
 const admin = (state = initialState, action) => {
   let _state;

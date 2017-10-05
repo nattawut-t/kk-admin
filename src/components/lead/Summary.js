@@ -8,8 +8,24 @@ import Checkbox from 'material-ui/Checkbox';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Snackbar from 'material-ui/Snackbar';
+import DatePicker from 'material-ui/DatePicker';
+
+import areIntlLocalesSupported from 'intl-locales-supported';
+import IntlPolyfill from 'intl';
+import 'intl/locale-data/jsonp/th-TH';
 
 import { isAdmin } from '../../libs/config';
+
+let DateTimeFormat;
+
+/**
+ * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
+ */
+if (areIntlLocalesSupported(['th', 'th-TH'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+}
 
 const styles = {
   button: {
@@ -57,7 +73,9 @@ class Summary extends Component {
       idCard,
       idCardValid,
       dateExp,
+      birthDate,
       status,
+      //
       department,
       position,
       workTel2,
@@ -65,6 +83,7 @@ class Summary extends Component {
       detailRent,
       workTel,
       telExtension,
+      //
       number,
       moo,
       village,
@@ -77,6 +96,7 @@ class Summary extends Component {
       amphurCodeName,
       tambolCodeName,
       zipCode,
+      //
       number2,
       moo2,
       village2,
@@ -105,14 +125,14 @@ class Summary extends Component {
       ref1Firstname,
       ref1Lastname,
       ref1Relationship,
-      ref1Mobile,
+      ref1MobileNo,
       ref1WorkTelephone,
       ref1HomeTelephone,
       ref2Prefix,
       ref2Firstname,
       ref2Lastname,
       ref2Relationship,
-      ref2Mobile,
+      ref2MobileNo,
       ref2WorkTelephone,
       ref2HomeTelephone,
       //
@@ -129,6 +149,14 @@ class Summary extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      //
+      fileName0,
+      fileName1,
+      fileName2,
+      fileName3,
+      fileName4,
+      fileName5,
+      fileName6,
     } = data;
 
     this.setState({
@@ -142,7 +170,9 @@ class Summary extends Component {
       idCard,
       idCardValid,
       dateExp,
+      birthDate,
       status,
+      //
       department,
       position,
       workTel2,
@@ -150,6 +180,7 @@ class Summary extends Component {
       detailRent,
       workTel,
       telExtension,
+      //
       number,
       moo,
       village,
@@ -162,6 +193,7 @@ class Summary extends Component {
       amphurCodeName,
       tambolCodeName,
       zipCode,
+      //
       number2,
       moo2,
       village2,
@@ -190,14 +222,14 @@ class Summary extends Component {
       ref1Firstname,
       ref1Lastname,
       ref1Relationship,
-      ref1Mobile,
+      ref1MobileNo,
       ref1WorkTelephone,
       ref1HomeTelephone,
       ref2Prefix,
       ref2Firstname,
       ref2Lastname,
       ref2Relationship,
-      ref2Mobile,
+      ref2MobileNo,
       ref2WorkTelephone,
       ref2HomeTelephone,
       //
@@ -214,6 +246,14 @@ class Summary extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      //
+      fileName0,
+      fileName1,
+      fileName2,
+      fileName3,
+      fileName4,
+      fileName5,
+      fileName6,
     });
 
     window.scrollTo(0, 0);
@@ -224,19 +264,22 @@ class Summary extends Component {
     this.setState({ isConsent: !isConsent });
   };
 
-  handleBack = () => {
+  handleBackClick = () => {
     const { history } = this.props;
     history.push('/additional-info');
   };
 
-  handleNext = e => {
+  handleNextClick = e => {
     e.preventDefault();
-    const { save, history } = this.props;
+
+    const { save } = this.props;
     save(() => {
       if (isAdmin()) {
-        return history.push('/admin/leads');
+        // history.push('/admin/leads');
+        window.location.href = '/admin/leads';
       }
-      return history.push('/product-info');
+      // history.push('/leads');
+      window.location.href = '/leads';
     });
   };
 
@@ -250,8 +293,8 @@ class Summary extends Component {
       firstNameEN,
       lastNameEN,
       idCard,
-      // idCardValid,
       dateExp,
+      birthDate,
       status,
       department,
       position,
@@ -300,14 +343,14 @@ class Summary extends Component {
       ref1Firstname,
       ref1Lastname,
       ref1Relationship,
-      ref1Mobile,
+      ref1MobileNo,
       ref1WorkTelephone,
       ref1HomeTelephone,
       ref2Prefix,
       ref2Firstname,
       ref2Lastname,
       ref2Relationship,
-      ref2Mobile,
+      ref2MobileNo,
       ref2WorkTelephone,
       ref2HomeTelephone,
       //
@@ -326,6 +369,14 @@ class Summary extends Component {
       shippingTambolCodeName,
       //
       isConsent,
+      //
+      fileName0,
+      fileName1,
+      fileName2,
+      fileName3,
+      fileName4,
+      fileName5,
+      fileName6,
     } = this.state;
 
     const { message } = this.props;
@@ -562,11 +613,12 @@ class Summary extends Component {
             <CardText>
               <div className="row">
                 <div className="col-12">
-                  <TextField
-                    value={dateReq}
+                  <DatePicker
                     floatingLabelText="วันที่คำขอ"
-                    fullWidth
-                    readOnly
+                    value={dateReq}
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
+                    disabled
                   />
                 </div>
               </div>
@@ -623,7 +675,7 @@ class Summary extends Component {
                 </div>
               </div>
               <div className="row">
-                <div className="col-4">
+                <div className="col-6">
                   <TextField
                     value={idCard}
                     floatingLabelText="เลขบัตรประชาชน"
@@ -631,15 +683,27 @@ class Summary extends Component {
                     readOnly
                   />
                 </div>
-                <div className="col-4">
-                  <TextField
+                <div className="col-6">
+                  <DatePicker
                     value={dateExp}
                     floatingLabelText="วันหมดอายุบัตรประชาชน"
-                    fullWidth
-                    readOnly
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
+                    disabled
                   />
                 </div>
-                <div className="col-4">
+              </div>
+              <div className="row">
+                <div className="col-6">
+                  <DatePicker
+                    value={birthDate}
+                    floatingLabelText="วันเกิด"
+                    DateTimeFormat={DateTimeFormat}
+                    locale="th-TH"
+                    disabled
+                  />
+                </div>
+                <div className="col-6">
                   <TextField
                     value={status}
                     floatingLabelText="สถานภาพสมรส"
@@ -995,9 +1059,9 @@ class Summary extends Component {
                 </div>
                 <div className="col-3">
                   <TextField
-                    id="ref1Mobile"
-                    name="ref1Mobile"
-                    value={ref1Mobile}
+                    id="ref1MobileNo"
+                    name="ref1MobileNo"
+                    value={ref1MobileNo}
                     floatingLabelText="เบอร์โทรศัพท์มือถือ"
                     fullWidth
                     readOnly
@@ -1068,8 +1132,8 @@ class Summary extends Component {
               <div className="row">
                 <div className="col-3">
                   <TextField
-                    id="ref2Mobile"
-                    name="ref2Mobile"
+                    id="ref2MobileNo"
+                    name="ref2MobileNo"
                     value={ref2Relationship}
                     floatingLabelText="ความสัมพันธ์"
                     fullWidth
@@ -1078,9 +1142,9 @@ class Summary extends Component {
                 </div>
                 <div className="col-3">
                   <TextField
-                    id="ref2Mobile"
-                    name="ref2Mobile"
-                    value={ref2Mobile}
+                    id="ref2MobileNo"
+                    name="ref2MobileNo"
+                    value={ref2MobileNo}
                     floatingLabelText="เบอร์โทรศัพท์มือถือ"
                     fullWidth
                     readOnly
@@ -1243,6 +1307,7 @@ class Summary extends Component {
                     id="fileName0"
                     name="fileName0"
                     floatingLabelText="สำเนาบัตรประชาชน"
+                    value={fileName0}
                     fullWidth
                     readOnly
                   />
@@ -1252,6 +1317,7 @@ class Summary extends Component {
                     id="fileName1"
                     name="fileName1"
                     floatingLabelText="สลิปเงินเดือน (เดือนล่าสุด)"
+                    value={fileName1}
                     fullWidth
                     readOnly
                   />
@@ -1264,6 +1330,7 @@ class Summary extends Component {
                     id="fileName2"
                     name="fileName2"
                     floatingLabelText="สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน"
+                    value={fileName2}
                     fullWidth
                     readOnly
                   />
@@ -1273,6 +1340,7 @@ class Summary extends Component {
                     id="fileName3"
                     name="fileName3"
                     floatingLabelText="ทะเบียนบ้าน"
+                    value={fileName3}
                     fullWidth
                     readOnly
                   />
@@ -1285,6 +1353,7 @@ class Summary extends Component {
                     id="fileName4"
                     name="fileName4"
                     floatingLabelText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #1"
+                    value={fileName4}
                     fullWidth
                     readOnly
                   />
@@ -1294,6 +1363,7 @@ class Summary extends Component {
                     id="fileName5"
                     name="fileName5"
                     floatingLabelText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #2"
+                    value={fileName5}
                     fullWidth
                     readOnly
                   />
@@ -1306,6 +1376,7 @@ class Summary extends Component {
                     id="fileName6"
                     name="fileName6"
                     floatingLabelText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #3"
+                    value={fileName6}
                     fullWidth
                     readOnly
                   />
@@ -1372,7 +1443,7 @@ class Summary extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                onClick={this.handleBack}
+                onClick={this.handleBackClick}
               />
               <RaisedButton
                 type="submit"
@@ -1382,7 +1453,7 @@ class Summary extends Component {
                 style={styles.button}
                 disabled={!isConsent}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
-                onClick={this.handleNext}
+                onClick={this.handleNextClick}
               />
             </div>
           </div>

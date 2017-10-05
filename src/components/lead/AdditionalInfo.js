@@ -12,7 +12,6 @@ import Snackbar from 'material-ui/Snackbar';
 import PrefixTh from '../shared/PrefixTh';
 import Relationship from '../shared/Relationship';
 import Location from '../shared/Location';
-import Mobile from '../shared/Mobile';
 import Tel from '../shared/Tel';
 
 const styles = {
@@ -30,228 +29,87 @@ const styles = {
   },
 };
 
-const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+const requiredMessage = (required, value) =>
+  (required && !value) ? 'กรุณากรอกข้อมูล' : '';
+
+const validationKeys = [
+  'ref1Prefix',
+  'ref1Firstname',
+  'ref1Lastname',
+  'ref1Relationship',
+  'ref1MobileNo',
+  'ref1HomeTelephone',
+  'isConsent2',
+];
+
+const messageKeys = [
+  'ref1Prefix',
+  'ref1Firstname',
+  'ref1Lastname',
+  'ref1Relationship',
+  'ref1MobileNo',
+  'ref1HomeTelephone',
+];
 
 class AdditionalInfo extends Component {
 
   componentWillMount() {
-    const { data } = this.props;
     window.scrollTo(0, 0);
-
-    if (data) {
-      this.setState(data,
-        () => {
-          this.initialRequireMessage();
-          const valid = this.validate();
-          this.setState({ valid });
-        });
-    } else {
-      this.initialState();
-      this.initialRequireMessage();
-      const valid = this.validate();
-      this.setState({ valid });
-    }
+    const { getDraft } = this.props;
+    getDraft();
   }
 
-  initialState = () => {
-    const env = process.env.NODE_ENV;
-    switch (env) {
-      case 'test':
-        this.state = {
-          ref1Prefix: 'MR',
-          ref1PrefixMsg: '',
-          ref1Firstname: 'Panit',
-          ref1FirstnameMsg: '',
-          ref1Lastname: 'Tamm',
-          ref1LastnameMsg: '',
-          ref1Relationship: 'คู่สมรส',
-          ref1Mobile: '0627609997',
-          ref1MobileMsg: '',
-          ref1WorkTelephone: '021112222',
-          ref1WorkTelephoneMsg: '',
-          ref1HomeTelephone: '020001111',
-          ref1HomeTelephoneMsg: '',
-          ref2Prefix: 'MRS',
-          ref2PrefixMsg: '',
-          ref2Firstname: 'Jira',
-          ref2FirstnameMsg: '',
-          ref2Lastname: 'Tamm',
-          ref2LastnameMsg: '',
-          ref2Relationship: 'พี่น้อง',
-          ref2Mobile: '0840001111',
-          ref2MobileMsg: '',
-          ref2WorkTelephone: '021112222',
-          ref2WorkTelephoneMsg: '',
-          ref2HomeTelephone: '022223333',
-          ref2HomeTelephoneMsg: '',
-          conjugalPrefix: '',
-          conjugalPrefixMsg: '',
-          conjugalFirstname: '',
-          conjugalFirstnameMsg: '',
-          conjugalLastname: '',
-          conjugalLastnameMsg: '',
-          conjugalOccupation: '',
-          conjugalOccupationMsg: '',
-          conjugalIncome: '',
-          conjugalIncomeMsg: '',
-          children: '',
-          childrenMsg: '',
-          isConsent2: false,
-          shippingHouseNo: '',
-          shippingMoo: '',
-          shippingVillage: '',
-          shippingFloor: '',
-          shippingSoi: '',
-          shippingRoad: '',
-          shippingPostalCode: '',
-          shippingProvinceCode: '',
-          shippingAmphurCode: '',
-          shippingTambolCode: '',
-          shippingProvinceCodeName: '',
-          shippingAmphurCodeName: '',
-          shippingTambolCodeName: '',
-          //
-          files: [],
-          // not to send
-          fileName0: '',
-          fileName1: '',
-          filename2: '',
-          fileName3: '',
-          fileName4: '',
-          filename5: '',
-          fileName6: '',
-          //
-          identity: null,
-          account: null,
-          household_registration: null,
-          payslip: null,
-          statement_1: null,
-          statement_2: null,
-          statement_3: null,
-          //
-          shippingAddress: 'current',
-          valid: false,
-          // not to send
-        };
+  componentDidMount() {
+    const { data } = this.props;
 
-        break;
-
-      default:
-        this.state = {
-          ref1Prefix: '',
-          ref1PrefixMsg: '',
-          ref1Firstname: '',
-          ref1FirstnameMsg: '',
-          ref1Lastname: '',
-          ref1LastnameMsg: '',
-          ref1Relationship: '',
-          ref1Mobile: '',
-          ref1MobileMsg: '',
-          ref1WorkTelephone: '',
-          ref1WorkTelephoneMsg: '',
-          ref1HomeTelephone: '',
-          ref1HomeTelephoneMsg: '',
-          ref2Prefix: '',
-          ref2PrefixMsg: '',
-          ref2Firstname: '',
-          ref2FirstnameMsg: '',
-          ref2Lastname: '',
-          ref2LastnameMsg: '',
-          ref2Relationship: '',
-          ref2Mobile: '',
-          ref2MobileMsg: '',
-          ref2WorkTelephone: '',
-          ref2WorkTelephoneMsg: '',
-          ref2HomeTelephone: '',
-          ref2HomeTelephoneMsg: '',
-          conjugalPrefix: '',
-          conjugalPrefixMsg: '',
-          conjugalFirstname: '',
-          conjugalFirstnameMsg: '',
-          conjugalLastname: '',
-          conjugalLastnameMsg: '',
-          conjugalOccupation: '',
-          conjugalOccupationMsg: '',
-          conjugalIncome: '',
-          conjugalIncomeMsg: '',
-          children: '',
-          childrenMsg: '',
-          isConsent2: false,
-          shippingHouseNo: '',
-          shippingMoo: '',
-          shippingVillage: '',
-          shippingFloor: '',
-          shippingSoi: '',
-          shippingRoad: '',
-          shippingPostalCode: '',
-          shippingProvinceCode: '',
-          shippingAmphurCode: '',
-          shippingTambolCode: '',
-          shippingProvinceCodeName: '',
-          shippingAmphurCodeName: '',
-          shippingTambolCodeName: '',
-          //
-          files: [],
-          // not to send
-          fileName0: '',
-          fileName1: '',
-          filename2: '',
-          fileName3: '',
-          fileName4: '',
-          filename5: '',
-          fileName6: '',
-          //
-          identity: null,
-          account: null,
-          household_registration: null,
-          payslip: null,
-          statement_1: null,
-          statement_2: null,
-          statement_3: null,
-          //
-          shippingAddress: 'current',
-          valid: false,
-          // not to send
-        };
-        break;
-    }
-  };
+    this.setState(data,
+      () => {
+        this.initialMessage();
+        const valid = this.validate();
+        this.setState({ valid });
+      });
+  }
 
   validate = () => {
-    const keys = [
-      'ref1Prefix',
-      'ref1Firstname',
-      'ref1Lastname',
-      'ref1Relationship',
-      'ref1Mobile',
-      'ref1HomeTelephone',
-      // 'fileName0',
-      'isConsent2',
-    ];
-
-    const invalid = keys
+    const invalid = validationKeys
       .map(key => ({
         key,
         value: this.state[key],
       }))
       .find(({ value }) => !value);
 
-    // console.log('invalid: ', invalid);
+    const {
+      sendingAddress,
+      shippingHouseNo,
+      shippingMoo,
+      shippingVillage,
+      shippingSoi,
+      shippingRoad,
+      shippingProvinceCode,
+      shippingAmphurCode,
+      shippingTambolCode,
+      shippingPostalCode,
+    } = this.state;
 
-    return !invalid;
+    const valid = (sendingAddress === 'current') ||
+      (sendingAddress === 'office') ||
+      (sendingAddress === 'others' &&
+        shippingHouseNo &&
+        shippingMoo &&
+        shippingVillage &&
+        shippingSoi &&
+        shippingRoad &&
+        shippingProvinceCode &&
+        shippingAmphurCode &&
+        shippingTambolCode &&
+        shippingPostalCode
+      );
+
+    return !invalid && valid;
   };
 
-  initialRequireMessage = () => {
-    const keys = [
-      'ref1Prefix',
-      'ref1Firstname',
-      'ref1Lastname',
-      'ref1Relationship',
-      'ref1Mobile',
-      'ref1HomeTelephone',
-      // 'isConsent2',
-    ];
-    keys
+  initialMessage = () => {
+    messageKeys
       .map(key => ({
         key,
         value: this.state[key],
@@ -262,10 +120,10 @@ class AdditionalInfo extends Component {
         this.setState({ [msgKey]: msg });
       });
 
-    const { shippingAddress } = this.state;
+    const { sendingAddress } = this.state;
     this.handleShippingAddressChange({
       target: {
-        value: shippingAddress,
+        value: sendingAddress,
       },
     });
   };
@@ -294,57 +152,123 @@ class AdditionalInfo extends Component {
   handleShippingAddressChange = e => {
     const { target: { value } } = e;
 
-    this.setState({ shippingAddress: value },
+    this.setState({ sendingAddress: value },
       () => {
-        this.setState({
-          shippingHouseNo: '',
-          shippingMoo: '',
-          shippingVillage: '',
-          shippingFloor: '',
-          shippingSoi: '',
-          shippingRoad: '',
-          shippingPostalCode: '',
-          shippingProvinceCode: '',
-          shippingAmphurCode: '',
-          shippingTambolCode: '',
-          shippingProvinceCodeName: '',
-          shippingAmphurCodeName: '',
-          shippingTambolCodeName: '',
-        });
+        // this.setState({
+        //   shippingHouseNo: '',
+        //   shippingMoo: '',
+        //   shippingVillage: '',
+        //   shippingFloor: '',
+        //   shippingSoi: '',
+        //   shippingRoad: '',
+        //   shippingPostalCode: '',
+        //   shippingProvinceCode: '',
+        //   shippingAmphurCode: '',
+        //   shippingTambolCode: '',
+        //   shippingProvinceCodeName: '',
+        //   shippingAmphurCodeName: '',
+        //   shippingTambolCodeName: '',
+        // });
 
-        const { personalInfo } = this.props;
-
-        if (value === 'current' && personalInfo) {
-          const {
-            number,
-            moo,
-            village,
-            soi,
-            road,
-            province,
-            amphurCode,
-            tambolCode,
-            provinceName,
-            amphurCodeName,
-            tambolCodeName,
-            zipCode,
-          } = personalInfo;
-
-          this.setState({
-            shippingHouseNo: number,
-            shippingMoo: moo,
-            shippingVillage: village,
-            shippingSoi: soi,
-            shippingRoad: road,
-            shippingPostalCode: zipCode,
-            shippingProvinceCode: province,
-            shippingAmphurCode: amphurCode,
-            shippingTambolCode: tambolCode,
-            shippingProvinceCodeName: provinceName,
-            shippingAmphurCodeName: amphurCodeName,
-            shippingTambolCodeName: tambolCodeName,
-          });
+        if (this.shippingLocation) {
+          this.shippingLocation.initialize();
         }
+
+        const {
+          number,
+          moo,
+          village,
+          soi,
+          road,
+          province,
+          amphurCode,
+          tambolCode,
+          provinceName,
+          amphurCodeName,
+          tambolCodeName,
+          zipCode,
+          //
+          officeNumber,
+          officeMoo,
+          officeVillage,
+          officeFloor,
+          officeSoi,
+          officeRoad,
+          officeProvince,
+          officeAmphurCode,
+          officeTambolCode,
+          officeProvinceName,
+          officeAmphurCodeName,
+          officeTambolCodeName,
+          officeZipCode,
+          //
+          shippingHouseNo,
+          shippingMoo,
+          shippingVillage,
+          shippingSoi,
+          shippingRoad,
+          shippingPostalCode,
+        } = this.state;
+
+        const message = 'กรุณากรอกข้อมูล';
+
+        switch (value) {
+          case 'current':
+            this.setState({
+              shippingHouseNo: number,
+              shippingMoo: moo,
+              shippingVillage: village,
+              shippingFloor: 1,
+              shippingSoi: soi,
+              shippingRoad: road,
+              shippingProvinceCode: province,
+              shippingAmphurCode: amphurCode,
+              shippingTambolCode: tambolCode,
+              shippingProvinceCodeName: provinceName,
+              shippingAmphurCodeName: amphurCodeName,
+              shippingTambolCodeName: tambolCodeName,
+              shippingPostalCode: zipCode,
+            });
+            break;
+
+          case 'office':
+            this.setState({
+              shippingHouseNo: officeNumber,
+              shippingMoo: officeMoo,
+              shippingVillage: officeVillage,
+              shippingFloor: officeFloor,
+              shippingSoi: officeSoi,
+              shippingRoad: officeRoad,
+              shippingProvinceCode: officeProvince,
+              shippingAmphurCode: officeAmphurCode,
+              shippingTambolCode: officeTambolCode,
+              shippingProvinceCodeName: officeProvinceName,
+              shippingAmphurCodeName: officeAmphurCodeName,
+              shippingTambolCodeName: officeTambolCodeName,
+              shippingPostalCode: officeZipCode,
+            });
+            break;
+
+          default:
+            this.setState({
+              shippingHouseNoMsg: !shippingHouseNo ? message : '',
+              shippingMooMsg: !shippingMoo ? message : '',
+              shippingVillageMsg: !shippingVillage ? message : '',
+              shippingSoiMsg: !shippingSoi ? message : '',
+              shippingRoadMsg: !shippingRoad ? message : '',
+              // shippingProvinceCode: officeProvince,
+              // shippingAmphurCode: officeAmphurCode,
+              // shippingTambolCode: officeTambolCode,
+              // shippingProvinceCodeName: officeProvinceName,
+              // shippingAmphurCodeName: officeAmphurCodeName,
+              // shippingTambolCodeName: officeTambolCodeName,
+              shippingPostalCodeMsg: !shippingPostalCode ? message : '',
+            });
+            break;
+        }
+
+        const valid = this.validate();
+        this.setState({ valid });
       },
     );
   };
@@ -398,7 +322,7 @@ class AdditionalInfo extends Component {
   };
 
   handleNumberChange = (name, value, errorMessage = '') => {
-    const msgKey = `${name}msg`;
+    const msgKey = `${name}Msg`;
 
     this.setState({
       [name]: value,
@@ -410,51 +334,29 @@ class AdditionalInfo extends Component {
     });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-    history.push('/loan-info');
-  };
-
-  handleNext = e => {
-    e.preventDefault();
-
+  save = path => {
     const {
       ref1Prefix,
-      ref1PrefixMsg,
       ref1Firstname,
-      ref1FirstnameMsg,
       ref1Lastname,
-      ref1LastnameMsg,
       ref1Relationship,
-      ref1Mobile,
-      ref1MobileMsg,
+      ref1MobileNo,
       ref1WorkTelephone,
-      ref1WorkTelephoneMsg,
       ref1HomeTelephone,
-      ref1HomeTelephoneMsg,
+      //
       ref2Prefix,
-      ref2PrefixMsg,
       ref2Firstname,
-      ref2FirstnameMsg,
       ref2Lastname,
-      ref2LastnameMsg,
       ref2Relationship,
-      ref2Mobile,
-      ref2MobileMsg,
+      ref2MobileNo,
       ref2WorkTelephone,
-      ref2WorkTelephoneMsg,
       ref2HomeTelephone,
-      ref2HomeTelephoneMsg,
+      //
       conjugalPrefix,
-      conjugalPrefixMsg,
       conjugalFirstname,
-      conjugalFirstnameMsg,
       conjugalLastname,
-      conjugalLastnameMsg,
       conjugalOccupation,
-      conjugalOccupationMsg,
       conjugalIncome,
-      conjugalIncomeMsg,
       children,
       //
       shippingHouseNo,
@@ -470,7 +372,7 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
-      shippingAddress,
+      sendingAddress,
       //
       identity,
       account,
@@ -504,41 +406,26 @@ class AdditionalInfo extends Component {
 
     const data = {
       ref1Prefix,
-      ref1PrefixMsg,
       ref1Firstname,
-      ref1FirstnameMsg,
       ref1Lastname,
-      ref1LastnameMsg,
       ref1Relationship,
-      ref1Mobile,
-      ref1MobileMsg,
+      ref1MobileNo,
       ref1WorkTelephone,
-      ref1WorkTelephoneMsg,
       ref1HomeTelephone,
-      ref1HomeTelephoneMsg,
+      //
       ref2Prefix,
-      ref2PrefixMsg,
       ref2Firstname,
-      ref2FirstnameMsg,
       ref2Lastname,
-      ref2LastnameMsg,
       ref2Relationship,
-      ref2Mobile,
-      ref2MobileMsg,
+      ref2MobileNo,
       ref2WorkTelephone,
-      ref2WorkTelephoneMsg,
       ref2HomeTelephone,
-      ref2HomeTelephoneMsg,
+      //
       conjugalPrefix,
-      conjugalPrefixMsg,
       conjugalFirstname,
-      conjugalFirstnameMsg,
       conjugalLastname,
-      conjugalLastnameMsg,
       conjugalOccupation,
-      conjugalOccupationMsg,
       conjugalIncome,
-      conjugalIncomeMsg,
       children,
       //
       shippingHouseNo,
@@ -554,7 +441,7 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
-      shippingAddress,
+      sendingAddress,
       //
       isConsent2,
       files,
@@ -576,13 +463,20 @@ class AdditionalInfo extends Component {
       fileName6,
     };
 
-    console.log(files, data);
+    console.log('ai.handleNextClick.data: ', data);
 
-    const { completeAdditionalInfo, history } = this.props;
+    const { saveDraft, history } = this.props;
+    saveDraft(data, () => history.push(path));
+  }
 
-    completeAdditionalInfo(data, () => history.push('/summary'));
-    // const { history } = this.props;
-    // history.push('/summary');
+  handleBackClick = e => {
+    e.preventDefault();
+    this.save('/loan-info');
+  };
+
+  handleNextClick = e => {
+    e.preventDefault();
+    this.save('/summary');
   };
 
   handleFileNameChange = () => { };
@@ -604,228 +498,340 @@ class AdditionalInfo extends Component {
       shippingProvinceCodeName,
       shippingAmphurCodeName,
       shippingTambolCodeName,
+      //
+      shippingHouseNoMsg,
+      shippingMooMsg,
+      shippingVillageMsg,
+      shippingSoiMsg,
+      shippingRoadMsg,
+      shippingPostalCodeMsg,
     } = this.state;
+
+    // console.log(
+    //   'shipping: ',
+    //   shippingProvinceCode,
+    //   shippingAmphurCode,
+    //   shippingTambolCode,
+    //   shippingProvinceCodeName,
+    //   shippingAmphurCodeName,
+    //   shippingTambolCodeName,
+    // );
 
     switch (type) {
       case 'current':
-        _render = <div className="col-12">
-          <div className="row">
-            <div className="col-4">
-              <TextField
-                id="shippingHouseNo"
-                name="shippingHouseNo"
-                floatingLabelText="บ้านเลขที่"
-                value={shippingHouseNo}
-                maxLength="10"
-                disabled
-                fullWidth
-              />
-            </div>
-            <div className="col-4">
-              <TextField
-                id="shippingMoo"
-                name="shippingMoo"
-                floatingLabelText="หมู่ที่"
-                value={shippingMoo}
-                maxLength="3"
-                disabled
-                fullWidth
-              />
-            </div>
-            <div className="col-4">
-              <TextField
-                id="shippingVillage"
-                name="shippingVillage"
-                floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
-                value={shippingVillage}
-                maxLength="100"
-                fullWidth
-                disabled
-              />
-            </div>
+        _render = <div>
+
+          <div className="col-3">
+            <TextField
+              id="shippingHouseNo"
+              name="shippingHouseNo"
+              floatingLabelText="บ้านเลขที่"
+              value={shippingHouseNo}
+              readOnly
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col-4">
-              <TextField
-                id="shippingSoi"
-                name="shippingSoi"
-                floatingLabelText="ซอย"
-                value={shippingSoi}
-                maxLength="100"
-                disabled
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="shippingRoad"
-                name="shippingRoad"
-                floatingLabelText="ถนน"
-                value={shippingRoad}
-                maxLength="100"
-                disabled
-                fullWidth
-              />
-            </div>
+          <div className="col-3">
+            <TextField
+              id="shippingMoo"
+              name="shippingMoo"
+              floatingLabelText="หมู่ที่"
+              value={shippingMoo}
+              readOnly
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col-4">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="จังหวัด"
-                value={shippingProvinceCodeName}
-                maxLength="5"
-                disabled
-                fullWidth
-              />
-            </div>
-            <div className="col-4">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="อำเภอ / เขต"
-                value={shippingAmphurCodeName}
-                maxLength="5"
-                disabled
-                fullWidth
-              />
-            </div>
-            <div className="col-4">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="ตำบล / แขวง"
-                value={shippingTambolCodeName}
-                maxLength="5"
-                disabled
-                fullWidth
-              />
-            </div>
+          <div className="col-6">
+            <TextField
+              id="shippingVillage"
+              name="shippingVillage"
+              floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+              value={shippingVillage}
+              fullWidth
+              readOnly
+            />
           </div>
-          <div className="row">
-            <div className="col-4">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="รหัสไปรษณีย์"
-                value={shippingPostalCode}
-                maxLength="5"
-                disabled
-                fullWidth
-              />
-            </div>
+          <div className="col-6">
+            <TextField
+              id="shippingSoi"
+              name="shippingSoi"
+              floatingLabelText="ซอย"
+              value={shippingSoi}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-6">
+            <TextField
+              id="shippingRoad"
+              name="shippingRoad"
+              floatingLabelText="ถนน"
+              value={shippingRoad}
+              maxLength="100"
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="จังหวัด"
+              value={shippingProvinceCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="อำเภอ / เขต"
+              value={shippingAmphurCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="ตำบล / แขวง"
+              value={shippingTambolCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="รหัสไปรษณีย์"
+              value={shippingPostalCode}
+              readOnly
+              fullWidth
+            />
+          </div>
+        </div>;
+        break;
+
+      case 'office':
+        _render = <div>
+
+          <div className="col-3">
+            <TextField
+              id="shippingHouseNo"
+              name="shippingHouseNo"
+              floatingLabelText="บ้านเลขที่"
+              value={shippingHouseNo}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-3">
+            <TextField
+              id="shippingMoo"
+              name="shippingMoo"
+              floatingLabelText="หมู่ที่"
+              value={shippingMoo}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-6">
+            <TextField
+              id="shippingVillage"
+              name="shippingVillage"
+              floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+              value={shippingVillage}
+              fullWidth
+              readOnly
+            />
+          </div>
+          <div className="col-2">
+            <TextField
+              id="shippingSoi"
+              name="shippingSoi"
+              floatingLabelText="ชั้น"
+              value={shippingFloor}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingSoi"
+              name="shippingSoi"
+              floatingLabelText="ซอย"
+              value={shippingSoi}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-6">
+            <TextField
+              id="shippingRoad"
+              name="shippingRoad"
+              floatingLabelText="ถนน"
+              value={shippingRoad}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="จังหวัด"
+              value={shippingProvinceCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="อำเภอ / เขต"
+              value={shippingAmphurCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="ตำบล / แขวง"
+              value={shippingTambolCodeName}
+              readOnly
+              fullWidth
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="รหัสไปรษณีย์"
+              value={shippingPostalCode}
+              readOnly
+              fullWidth
+            />
           </div>
         </div>;
         break;
 
       default:
-        _render = <div className="col-10">
-          <div className="row">
-            <div className="col">
-              <TextField
-                id="shippingHouseNo"
-                name="shippingHouseNo"
-                floatingLabelText="บ้านเลขที่"
-                value={shippingHouseNo}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="10"
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="shippingMoo"
-                name="shippingMoo"
-                floatingLabelText="หมู่ที่"
-                value={shippingMoo}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="3"
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="shippingFloor"
-                name="shippingFloor"
-                floatingLabelText="ชั้น"
-                value={shippingFloor}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="3"
-                fullWidth
-              />
-            </div>
+        _render = <div>
+          <div className="col-3">
+            <TextField
+              id="shippingHouseNo"
+              name="shippingHouseNo"
+              floatingLabelText="บ้านเลขที่"
+              value={shippingHouseNo}
+              errorText={shippingHouseNoMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="10"
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col-12">
-              <TextField
-                id="shippingVillage"
-                name="shippingVillage"
-                floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
-                value={shippingVillage}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="100"
-                fullWidth
-              />
-            </div>
+          <div className="col-3">
+            <TextField
+              id="shippingMoo"
+              name="shippingMoo"
+              floatingLabelText="หมู่ที่"
+              value={shippingMoo}
+              errorText={shippingMooMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="3"
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col">
-              <TextField
-                id="shippingSoi"
-                name="shippingSoi"
-                floatingLabelText="ซอย"
-                value={shippingSoi}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="100"
-                fullWidth
-              />
-            </div>
-            <div className="col">
-              <TextField
-                id="shippingRoad"
-                name="shippingRoad"
-                floatingLabelText="ถนน"
-                value={shippingRoad}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="100"
-                fullWidth
-              />
-            </div>
+          <div className="col-6">
+            <TextField
+              id="shippingVillage"
+              name="shippingVillage"
+              floatingLabelText="ชื่อหมู่บ้าน / อาคาร"
+              value={shippingVillage}
+              errorText={shippingVillageMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="100"
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col">
-              <Location
-                id="location1"
-                name="location1"
-                provinceValueField="shippingProvinceCode"
-                provinceNameField="shippingProvinceCodeName"
-                amphurValueField="shippingAmphurCode"
-                amphurNameField="shippingAmphurCodeName"
-                tambolValueField="shippingTambolCode"
-                tambolNameField="shippingTambolCodeName"
-                provinceValue={shippingProvinceCode}
-                amphurValue={shippingAmphurCode}
-                tambolValue={shippingTambolCode}
-                provinceName={shippingProvinceCodeName}
-                amphurName={shippingAmphurCodeName}
-                tambolName={shippingTambolCodeName}
-                handleChange={this.handleLocationChange}
-              />
-            </div>
+          <div className="col-2">
+            <TextField
+              id="shippingFloor"
+              name="shippingFloor"
+              floatingLabelText="ชั้น"
+              value={shippingFloor}
+              onChange={({ target: { value } }) =>
+                this.setState({
+                  shippingFloor: Number.parseFloat(value) || 0,
+                })
+              }
+              maxLength="3"
+              fullWidth
+            />
           </div>
-          <div className="row">
-            <div className="col">
-              <TextField
-                id="shippingPostalCode"
-                name="shippingPostalCode"
-                floatingLabelText="รหัสไปรษณีย์"
-                value={shippingPostalCode}
-                onChange={e => this.handleChange(e, true)}
-                maxLength="5"
-                fullWidth
-              />
-            </div>
+          <div className="col-4">
+            <TextField
+              id="shippingSoi"
+              name="shippingSoi"
+              floatingLabelText="ซอย"
+              value={shippingSoi}
+              errorText={shippingSoiMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="100"
+              fullWidth
+            />
+          </div>
+          <div className="col-6">
+            <TextField
+              id="shippingRoad"
+              name="shippingRoad"
+              floatingLabelText="ถนน"
+              value={shippingRoad}
+              errorText={shippingRoadMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="100"
+              fullWidth
+            />
+          </div>
+          <div className="col-12">
+            <Location
+              id="location1"
+              name="location1"
+              provinceValueField="shippingProvinceCode"
+              provinceNameField="shippingProvinceCodeName"
+              amphurValueField="shippingAmphurCode"
+              amphurNameField="shippingAmphurCodeName"
+              tambolValueField="shippingTambolCode"
+              tambolNameField="shippingTambolCodeName"
+              provinceValue={shippingProvinceCode}
+              amphurValue={shippingAmphurCode}
+              tambolValue={shippingTambolCode}
+              provinceName={shippingProvinceCodeName}
+              amphurName={shippingAmphurCodeName}
+              tambolName={shippingTambolCodeName}
+              handleChange={this.handleLocationChange}
+              required
+              ref={node => {
+                this.shippingLocation = node;
+              }}
+            />
+          </div>
+          <div className="col-4">
+            <TextField
+              id="shippingPostalCode"
+              name="shippingPostalCode"
+              floatingLabelText="รหัสไปรษณีย์"
+              value={shippingPostalCode}
+              errorText={shippingPostalCodeMsg}
+              onChange={e => this.handleChange(e, true)}
+              maxLength="10"
+              fullWidth
+            />
           </div>
         </div>;
     }
@@ -834,6 +840,10 @@ class AdditionalInfo extends Component {
   };
 
   render() {
+    if (!this.state) {
+      return <div className="loader" />;
+    }
+
     const {
       ref1Prefix,
       ref1Firstname,
@@ -841,8 +851,8 @@ class AdditionalInfo extends Component {
       ref1Lastname,
       ref1LastnameMsg,
       ref1Relationship,
-      ref1Mobile,
-      ref1MobileMsg,
+      ref1MobileNo,
+      ref1MobileNoMsg,
       ref1WorkTelephone,
       ref1WorkTelephoneMsg,
       ref1HomeTelephone,
@@ -853,8 +863,8 @@ class AdditionalInfo extends Component {
       ref2Lastname,
       ref2LastnameMsg,
       ref2Relationship,
-      ref2Mobile,
-      ref2MobileMsg,
+      ref2MobileNo,
+      ref2MobileNoMsg,
       ref2WorkTelephone,
       ref2WorkTelephoneMsg,
       ref2HomeTelephone,
@@ -871,7 +881,7 @@ class AdditionalInfo extends Component {
       conjugalIncomeMsg,
       children,
       childrenMsg,
-      shippingAddress,
+      sendingAddress,
       //
       fileName0,
       fileName1,
@@ -892,10 +902,12 @@ class AdditionalInfo extends Component {
       isConsent2,
       //
       valid,
+      //
+      status,
     } = this.state;
 
-    const { personalInfo, message } = this.props;
-    const status = personalInfo ? personalInfo.status : '';
+    const { message } = this.props;
+    // const status = personalInfo ? personalInfo.status : '';
 
     return (
       <div>
@@ -957,12 +969,12 @@ class AdditionalInfo extends Component {
                 </div>
                 <div className="col-3">
                   <Tel
-                    id="ref1Mobile"
-                    name="ref1Mobile"
+                    id="ref1MobileNo"
+                    name="ref1MobileNo"
                     label="เบอร์โทรศัพท์มือถือ"
-                    value={ref1Mobile}
+                    value={ref1MobileNo}
                     handleChange={this.handleNumberChange}
-                    errorText={ref1MobileMsg}
+                    errorText={ref1MobileNoMsg}
                     required
                   />
                 </div>
@@ -1048,13 +1060,13 @@ class AdditionalInfo extends Component {
                   />
                 </div>
                 <div className="col-3">
-                  <Mobile
-                    id="ref2Mobile"
-                    name="ref2Mobile"
-                    value={ref2Mobile}
+                  <Tel
+                    id="ref2MobileNo"
+                    name="ref2MobileNo"
+                    value={ref2MobileNo}
                     label="เบอร์โทรศัพท์มือถือ"
-                    errorText={ref2MobileMsg}
-                    onChange={this.handleLookupChange}
+                    handleChange={this.handleNumberChange}
+                    errorText={ref2MobileNoMsg}
                     fullWidth
                   />
                 </div>
@@ -1065,7 +1077,7 @@ class AdditionalInfo extends Component {
                     value={ref2WorkTelephone}
                     label="เบอร์โทรศัพท์ที่ทำงาน"
                     errorText={ref2WorkTelephoneMsg}
-                    handleChange={this.handleLookupChange}
+                    handleChange={this.handleNumberChange}
                     fullWidth
                   />
                 </div>
@@ -1076,7 +1088,7 @@ class AdditionalInfo extends Component {
                     value={ref2HomeTelephone}
                     label="เบอร์โทรศัพท์บ้าน"
                     errorText={ref2HomeTelephoneMsg}
-                    handleChange={this.handleLookupChange}
+                    handleChange={this.handleNumberChange}
                     fullWidth
                   />
                 </div>
@@ -1190,8 +1202,8 @@ class AdditionalInfo extends Component {
               <div className="row">
                 <div className="col-12">
                   <RadioButtonGroup
-                    name="shippingAddress"
-                    defaultSelected={shippingAddress}
+                    name="sendingAddress"
+                    defaultSelected={sendingAddress}
                     onChange={e => this.handleShippingAddressChange(e)}
                   >
                     <RadioButton
@@ -1208,7 +1220,7 @@ class AdditionalInfo extends Component {
                     />
                   </RadioButtonGroup>
                 </div>
-                {this.renderShippingAddress(shippingAddress)}
+                {this.renderShippingAddress(sendingAddress)}
               </div>
             </CardText>
           </Card>
@@ -1450,7 +1462,7 @@ class AdditionalInfo extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                onClick={this.handleBack}
+                onClick={this.handleBackClick}
               />
               <RaisedButton
                 type="submit"
@@ -1460,7 +1472,7 @@ class AdditionalInfo extends Component {
                 style={styles.button}
                 disabled={!valid}
                 icon={<FontIcon className="muidocs-icon-custom-github" />}
-                onClick={this.handleNext}
+                onClick={this.handleNextClick}
               />
             </div>
           </div>
@@ -1475,18 +1487,31 @@ class AdditionalInfo extends Component {
   }
 }
 
+// AdditionalInfo.propTypes = {
+//   history: PropTypes.object.isRequired,
+//   data: PropTypes.object,
+//   personalInfo: PropTypes.object,
+//   uploadFile: PropTypes.func.isRequired,
+//   save: PropTypes.func.isRequired,
+//   message: PropTypes.string,
+// };
+
+// AdditionalInfo.defaultProps = {
+//   data: null,
+//   personalInfo: null,
+//   message: '',
+// };
+
 AdditionalInfo.propTypes = {
-  history: PropTypes.object.isRequired,
-  data: PropTypes.object,
-  personalInfo: PropTypes.object,
-  uploadFile: PropTypes.func.isRequired,
-  completeAdditionalInfo: PropTypes.func.isRequired,
   message: PropTypes.string,
+  history: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  getDraft: PropTypes.func.isRequired,
+  saveDraft: PropTypes.func.isRequired,
+  uploadFile: PropTypes.func.isRequired,
 };
 
 AdditionalInfo.defaultProps = {
-  data: null,
-  personalInfo: null,
   message: '',
 };
 

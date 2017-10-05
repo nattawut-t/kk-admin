@@ -29,97 +29,37 @@ const styles = {
 
 const requiredMessage = (required, value) => (required && !value) ? 'กรุณากรอกข้อมูล' : '';
 
+const keys = [
+  'loanAmount',
+  'installmentNumber',
+  // 'bankAccountNo',
+  // 'bankAccountName',
+  // 'bankBranchName',
+];
+
 class LoanInfo extends Component {
 
   componentWillMount() {
-    const { data } = this.props;
     window.scrollTo(0, 0);
-
-    if (data) {
-      this.setState(data,
-        () => {
-          this.initialRequireMessage();
-          const valid = this.validate();
-          this.setState({ valid });
-        });
-    } else {
-      this.initialState();
-      this.initialRequireMessage();
-      const valid = this.validate();
-      this.setState({ valid });
-    }
+    console.log('li.componentWillMount');
+    const { getDraft } = this.props;
+    getDraft();
   }
 
-  initialState = () => {
-    const env = process.env.NODE_ENV;
+  componentDidMount() {
+    const { data } = this.props;
 
-    switch (env) {
-      case 'test':
-        this.state = {
-          loanAmount: 100000,
-          loanAmountMsg: '',
-          installmentNumber: '12',
-          installmentNumberMsg: '',
-          beneficiary: 'others',
-          loanBeneficiaryName: 'Panit',
-          loanBeneficiaryNameMsg: '',
-          accumulateDebt: 10000,
-          accumulateDebtMsg: '',
-          creditCardTotal: 10000,
-          creditCardTotalMsg: '',
-          paymentHistoryExists: '1',
-          pLoanApplicationHositoryExists: '0',
-          overdueDebtExists: '1',
-          bankAccountNo: '',
-          bankAccountNoMsg: '',
-          bankAccountName: '',
-          bankAccountNameMsg: '',
-          bankCode: '',
-          bankCodeMsg: '',
-          bankName: '',
-          bankBranchName: '',
-          valid: false,
-        };
-        break;
+    console.log('li.componentDidMount', data);
 
-      default:
-        this.state = {
-          loanAmount: 0,
-          loanAmountMsg: '',
-          installmentNumber: 0,
-          installmentNumberMsg: '',
-          beneficiary: 'myself',
-          loanBeneficiaryName: '',
-          loanBeneficiaryNameMsg: '',
-          accumulateDebt: 0,
-          accumulateDebtMsg: '',
-          creditCardTotal: 0,
-          creditCardTotalMsg: '',
-          paymentHistoryExists: '0',
-          pLoanApplicationHositoryExists: '0',
-          overdueDebtExists: '0',
-          bankAccountNo: '',
-          bankAccountNoMsg: '',
-          bankAccountName: '',
-          bankAccountNameMsg: '',
-          bankCode: '',
-          bankCodeMsg: '',
-          bankName: '',
-          bankBranchName: '',
-          valid: false,
-        };
-        break;
-    }
-  };
+    this.setState(data,
+      () => {
+        this.initialMessage();
+        const valid = this.validate();
+        this.setState({ valid });
+      });
+  }
 
   validate = () => {
-    const keys = [
-      'loanAmount',
-      'installmentNumber',
-      // 'bankAccountNo',
-      // 'bankAccountName',
-      // 'bankBranchName',
-    ];
     const invalid = keys
       .map(key => ({
         key,
@@ -133,14 +73,7 @@ class LoanInfo extends Component {
     return !invalid && _valid;
   }
 
-  initialRequireMessage = () => {
-    const keys = [
-      'loanAmount',
-      'installmentNumber',
-      // 'bankAccountNo',
-      // 'bankAccountName',
-      // 'bankBranchName',
-    ];
+  initialMessage = () => {
     keys
       .map(key => ({
         key,
@@ -267,14 +200,7 @@ class LoanInfo extends Component {
     });
   };
 
-  handleBack = () => {
-    const { history } = this.props;
-    history.push('/personal-info');
-  };
-
-  handleNext = e => {
-    e.preventDefault();
-
+  save = path => {
     const {
       loanAmount,
       installmentNumber,
@@ -309,13 +235,25 @@ class LoanInfo extends Component {
       bankBranchName,
     };
 
-    const { completeLoanInfo, history } = this.props;
-    completeLoanInfo(data, () => history.push('/additional-info'));
+    const { saveDraft, history } = this.props;
+    saveDraft(data, () => history.push(path));
+  };
 
-    // const { history } = this.props;
+  handleBackClick = e => {
+    e.preventDefault();
+    this.save('/personal-info');
+  };
+
+  handleNextClick = e => {
+    e.preventDefault();
+    this.save('/additional-info');
   };
 
   render() {
+    if (!this.state) {
+      return <div className="loader" />;
+    }
+
     const {
       loanAmount,
       loanAmountMsg,
@@ -345,7 +283,7 @@ class LoanInfo extends Component {
 
     return (
       <div>
-        <form onSubmit={this.handleNext}>
+        <form onSubmit={this.handleNextClick}>
           <Card style={styles.marginBottom}>
             <div style={styles.sectionTitle}>
               <CardHeader
@@ -522,7 +460,7 @@ class LoanInfo extends Component {
                     floatingLabelText="เลขที่บัญชี"
                     onChange={e => this.handleBankAccountNoChange(e)}
                     errorText={bankAccountNoMsg}
-                    maxLength="10"
+                    maxLength="50"
                     fullWidth
                   />
                 </div>
@@ -644,7 +582,7 @@ class LoanInfo extends Component {
                 labelPosition="before"
                 style={styles.button}
                 containerElement="label"
-                onClick={this.handleBack}
+                onClick={this.handleBackClick}
               />
               <RaisedButton
                 type="submit"
@@ -671,13 +609,13 @@ class LoanInfo extends Component {
 LoanInfo.propTypes = {
   message: PropTypes.string,
   history: PropTypes.object.isRequired,
-  data: PropTypes.object,
-  completeLoanInfo: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+  getDraft: PropTypes.func.isRequired,
+  saveDraft: PropTypes.func.isRequired,
 };
 
 LoanInfo.defaultProps = {
   message: '',
-  data: null,
 };
 
 export default withRouter(LoanInfo);

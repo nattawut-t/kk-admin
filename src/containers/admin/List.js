@@ -5,7 +5,8 @@ import {
   searchData,
   sortData,
   selectData,
-} from '../../reducers/admin';
+} from '../../reducers/lead';
+// import { selectData } from '../../reducers/lead';
 import { dateFormat } from '../../libs/config';
 
 const schema = [
@@ -65,8 +66,8 @@ const schema = [
   },
 ];
 
-const mapStateToProps = ({ admin }) => ({
-  dataList: admin.get('dataList'),
+const mapStateToProps = ({ lead }) => ({
+  dataList: lead.get('dataList'),
   tableSchemas: schema,
 });
 

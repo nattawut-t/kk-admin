@@ -1,29 +1,20 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/AdditionalInfo';
-import { completeAdditionalInfo, uploadDocument } from '../../reducers/lead';
-
-const transform = (state, key) => {
-  if (state && key) {
-    const data = state.lead.get(key);
-    return (data && typeof data.toJS === 'function')
-      ? data.toJS()
-      : data;
-  }
-  return null;
-};
+import { uploadDocument } from '../../reducers/lead';
+import { get, save } from '../../reducers/draft';
 
 const mapStateToProps = state => ({
-  data: transform(state, 'additionalInfo'),
-  personalInfo: transform(state, 'personalInfo'),
-  message: state.lead.get('message') || '',
+  data: state.draft.data,
   loading: state.lead.get('loading') || false,
   editing: state.lead.get('editing') || false,
+  message: state.lead.get('message') || '',
 });
 
 const mapDispatchToProps = dispatch => ({
+  getDraft: callback => dispatch(get(callback)),
+  saveDraft: (data, callback) => dispatch(save(data, callback)),
   uploadFile: (field, path, name, data, docType, callback) =>
     dispatch(uploadDocument(field, path, name, data, docType, callback)),
-  completeAdditionalInfo: (data, callback) => dispatch(completeAdditionalInfo(data, callback)),
 });
 
 export default connect(
