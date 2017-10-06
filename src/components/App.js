@@ -26,7 +26,6 @@ import LibraryBooks from 'material-ui/svg-icons/av/library-books';
 import Layout from './Layout';
 import AdminLogin from '../containers/AdminLogin';
 import AdminIndex from '../containers/admin/Index';
-import Landing from './Landing';
 
 import PersonalInfo from '../containers/lead/PersonalInfo';
 import LoanInfo from '../containers/lead/LoanInfo';
@@ -132,10 +131,10 @@ class App extends React.Component {
         <Router>
           <MuiThemeProvider>
             <Switch>
-              <Route exact path="/" component={Landing} />
+              {/* <Route exact path="/" component={Landing} /> */}
               <Route path="/login" component={AdminLogin} />
               {/* <Route path="/admin/login" component={AdminLogin} /> */}
-              <Route path="*" exact component={Landing} />
+              <Route path="*" exact component={AdminLogin} />
             </Switch>
           </MuiThemeProvider>
         </Router>

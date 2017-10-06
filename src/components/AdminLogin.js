@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-// import RaisedButton from 'material-ui/RaisedButton';
 import { grey500, white } from 'material-ui/styles/colors';
-// import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
+
+import Logo from '../../assets/asset-1-4-x@3x.png';
 
 const styles = {
   loginContainer: {
@@ -75,7 +75,10 @@ class AdminLogin extends Component {
       <div className="app-login">
         <div className="row" style={{ padding: '33px 0' }}>
           <div style={styles.loginContainer}>
-            <span className="section-header header">ยินดีต้อนรับสู่ มันนี่เทเบิล</span>
+            <div className="loginLogo" style={styles.Logo}>
+              <img src={Logo} alt="Logo" style={styles.LogoImg} />
+            </div>
+            <span className="section-header header">ยินดีต้อนรับสู่ KK Admin</span>
             <span className="section-header sub-header">เข้าสู่ระบบด้วยชื่อผู้ใช้ของคุณ</span>
             <Paper style={styles.paper} zDepth={2}>
 
