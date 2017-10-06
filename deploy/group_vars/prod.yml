@@ -1,4 +1,4 @@
 env: prod
 
-domain_app: mtwork.moneytable.com
-mtc_server_root: /var/www/{{ env }}-mtwork.dashboard
+domain_app: admin.kk.moneytable.com
+mtc_server_root: /var/www/kkadmin.dashboard
