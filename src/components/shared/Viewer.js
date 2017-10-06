@@ -314,6 +314,7 @@ class Viewer extends Component {
                   style={styles.button}
                   icon={<Done />}
                   onClick={() => this.handleApproveClick(id)}
+                  disabled={Status !== 'created'}
                 />
                 <RaisedButton
                   label="ปฏิเสธ"
@@ -340,6 +341,7 @@ class Viewer extends Component {
                   style={styles.button}
                   icon={<ModeEdit />}
                   onClick={() => this.handleEditClick(id)}
+                  disabled={Status !== 'created'}
                 />
                 <RaisedButton
                   label="ยกเลิก"
