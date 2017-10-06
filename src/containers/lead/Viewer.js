@@ -2,8 +2,9 @@ import { connect } from 'react-redux';
 import Viewer from '../../components/shared/Viewer';
 import { cancelSelection } from '../../actions/lead';
 import { approve, reject } from '../../reducers/admin';
-import { loadDocuments, loadDocument } from '../../reducers/lead';
+import { loadDocuments } from '../../reducers/lead';
 import { edit } from '../../reducers/draft';
+import { getUrl } from '../../reducers/document';
 
 const transform = (state, key) => {
   if (state && key) {
@@ -30,7 +31,8 @@ const mapDispatchToProps = dispatch => ({
   cancel: () => dispatch(cancelSelection()),
   edit: (id, callback) => dispatch(edit(id, callback)),
   loadDocuments: (id, callback) => dispatch(loadDocuments(id, callback)),
-  loadDocument: callback => dispatch(loadDocument(callback)),
+  // loadDocument: callback => dispatch(loadDocument(callback)),
+  loadDocument: (id, callback) => dispatch(getUrl(id, callback)),
 });
 
 export default connect(

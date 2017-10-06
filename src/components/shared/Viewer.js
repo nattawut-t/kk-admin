@@ -136,6 +136,7 @@ class Viewer extends Component {
     reject: false,
     doc: false,
     imageData: null,
+    url: '',
   };
 
   handleChipClick = (id, component) => {
@@ -170,7 +171,10 @@ class Viewer extends Component {
   };
 
   handleCloseDialog = key => {
-    this.setState({ [key]: false });
+    this.setState({
+      [key]: false,
+      url: '',
+    });
   };
 
   handleRejectOpenClick = () => {
@@ -203,10 +207,9 @@ class Viewer extends Component {
   };
 
   handleDocumentViewClick = id => {
-    console.log(id);
     const { loadDocument } = this.props;
     if (loadDocument) {
-      loadDocument(id, () => { });
+      loadDocument(id, url => this.setState({ url }));
     }
   };
 
@@ -228,10 +231,12 @@ class Viewer extends Component {
       remark,
       reject,
       doc,
-      // imageData,
+      url,
     } = this.state;
 
     const { Status } = data;
+
+    console.log('viewer.status: ', Status);
 
     const rejectActions = [
       <FlatButton
@@ -309,7 +314,6 @@ class Viewer extends Component {
                   style={styles.button}
                   icon={<Done />}
                   onClick={() => this.handleApproveClick(id)}
-                  disabled={Status !== 'created'}
                 />
                 <RaisedButton
                   label="ปฏิเสธ"
@@ -373,11 +377,29 @@ class Viewer extends Component {
         </Dialog>
         <Dialog
           title="เอกสาร"
+          actions={[
+            <FlatButton
+              label="ปิด"
+              primary
+              onClick={() => this.setState({ url: '' })}
+            />,
+          ]}
+          modal
+          open={url !== ''}
+          onRequestClose={() => this.setState({ url: '' })}
+        >
+          <div>
+            <img alt="" src={url} style={{ maxWidth: '100%', height: 'auto' }} />
+          </div>
+        </Dialog>
+        <Dialog
+          title="เอกสาร"
           actions={documentActions}
           modal={false}
           open={doc}
           onRequestClose={() => this.handleCloseDialog('doc')}
         >
+
           <Table
             fixedHeader
             fixedFooter
