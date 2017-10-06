@@ -104,13 +104,13 @@ const validateDateExp = value => {
 const validateEmploymentDate = value => {
   const diff = moment().diff(value, 'days');
 
-  if (!value) {
-    return emptyInputMessage;
-  } else if (diff < 0) {
-    return 'วันที่เริ่มงานไม่ถูกต้อง';
-  }
+  // if (!value) {
+  //   return emptyInputMessage;
+  // } else if (diff < 0) {
+  //   return 'วันที่เริ่มงานไม่ถูกต้อง';
+  // }
 
-  return '';
+  return (value && diff < 0) ? 'วันที่เริ่มงานไม่ถูกต้อง' : '';
 };
 
 const validateSalary = value => {
