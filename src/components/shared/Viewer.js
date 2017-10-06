@@ -332,12 +332,12 @@ class Viewer extends Component {
                   icon={<Redo />}
                   disabled
                 />
-                {/* <RaisedButton
-                    label="เอกสาร"
-                    style={styles.button}
-                    icon={<ModeEdit />}
-                    onClick={this.handleDocumentClick}
-                  /> */}
+                <RaisedButton
+                  label="เอกสาร"
+                  style={styles.button}
+                  icon={<ModeEdit />}
+                  onClick={this.handleDocumentClick}
+                />
                 <RaisedButton
                   label="แก้ไข"
                   style={styles.button}
