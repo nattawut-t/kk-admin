@@ -24,58 +24,54 @@ const handleSearchClick = (searchData, input) => {
 const ButtonBar = ({ searchData, loading }) => {
   let input;
   return (
-    <div>
-      <div className="row" >
-        <div className="col-12" >&nbsp;</div>
+    <div className="row">
+      <div className="col-12" >&nbsp;</div>
+      <div className="col-1" />
+      <div
+        className="col-7"
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+        }}
+      >
+        <span>สถาน:</span>
+        <IconButton style={{ color: '#8B8C8D' }}>
+          <i className="material-icons">account_circle</i>
+        </IconButton>
+        <span>อยู่ระหว่างการพิจารณา</span>
+        <IconButton style={{ color: '#8B8C8D' }}>
+          <i className="material-icons">check_circle</i>
+        </IconButton>
+        <span>อนุมัติ</span>
+        <IconButton style={{ color: '#8B8C8D' }}>
+          <i className="material-icons">block</i>
+        </IconButton>
+        <span>ปฏิเสธ</span>
+        <IconButton style={{ color: '#8B8C8D' }}>
+          <i className="material-icons">priority_high</i>
+        </IconButton>
+        <span>เกิดข้อผิดพลาด</span>
       </div>
-      <div className="row">
-        <div className="col-1" />
-        <div
-          className="col-5"
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-          }}
-        >
-          <span>สถาน:</span>
-          <IconButton style={{ color: '#8B8C8D' }}>
-            <i className="material-icons">account_circle</i>
-          </IconButton>
-          <span>Created</span>
-          <IconButton style={{ color: '#8B8C8D' }}>
-            <i className="material-icons">check_circle</i>
-          </IconButton>
-          <span>Approved</span>
-          <IconButton style={{ color: '#8B8C8D' }}>
-            <i className="material-icons">block</i>
-          </IconButton>
-          <span>Rejected</span>
-          <IconButton style={{ color: '#8B8C8D' }}>
-            <i className="material-icons">priority_high</i>
-          </IconButton>
-          <span>Error</span>
-        </div>
-        <div
-          className="col-5"
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-          }}
-        >
-          <RaisedButton
-            label="โหลดใหม่"
-            style={styles.button}
-            icon={<Refresh />}
-            onClick={() => handleSearchClick(searchData, input)}
-            display={loading}
-            primary
-          />
-        </div>
-        <div className="col-1" />
+      <div
+        className="col-3"
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+        }}
+      >
+        <RaisedButton
+          label="โหลดใหม่"
+          style={styles.button}
+          icon={<Refresh />}
+          onClick={() => handleSearchClick(searchData, input)}
+          display={loading}
+          primary
+        />
       </div>
-    </div>
+      <div className="col-1" />
+    </div >
   );
 };
 
