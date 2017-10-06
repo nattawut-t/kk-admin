@@ -1,5 +1,8 @@
-import moment from 'moment';
-// import { dateFormat } from '../libs/config';
+// import moment from 'moment';
+import agreement from './agreement';
+import personalInfo from './personalInfo';
+import loanInfo from './loanInfo';
+import additionalInfo from './additionalInfo';
 
 export const parseLeadIn = ({
   ID,
@@ -17,6 +20,12 @@ export const parseLeadIn = ({
   Data,
 }) => {
   const data = JSON.parse(Data) || {};
+  const merged = Object.assign(
+    agreement.data(data),
+    personalInfo.data(data),
+    loanInfo.data(data),
+    additionalInfo.data(data),
+  );
 
   const _data = Object.assign({
     ID,
@@ -32,296 +41,15 @@ export const parseLeadIn = ({
     Status,
     ReferenceID,
   },
-    data,
-    // { nameTH },
+    merged,
   );
 
   return _data;
 };
 
-export const split = data => {
-  const {
-    isConsent,
-    //
-    dateReq,
-    prefixTH,
-    firstNameTH,
-    lastNameTH,
-    prefixEN,
-    firstNameEN,
-    lastNameEN,
-    idCard,
-    dateExp,
-    status,
-    //
-    department,
-    position,
-    workTel2,
-    homeTel2,
-    detailRent,
-    workTel,
-    telExtension,
-    //
-    number,
-    moo,
-    village,
-    soi,
-    road,
-    province,
-    amphurCode,
-    tambolCode,
-    provinceName,
-    amphurCodeName,
-    tambolCodeName,
-    zipCode,
-    //
-    number2,
-    moo2,
-    village2,
-    soi2,
-    road2,
-    zipCode2,
-    isSameAddress,
-    jobCompanyName,
-    birthDate,
-    email,
-    employmentDate,
-    jobSalary,
-    ot,
-    //
-    officeNumber,
-    officeMoo,
-    officeVillage,
-    officeFloor,
-    officeSoi,
-    officeRoad,
-    officeProvince,
-    officeAmphurCode,
-    officeTambolCode,
-    officeProvinceName,
-    officeAmphurCodeName,
-    officeTambolCodeName,
-    officeZipCode,
-    //
-    loanAmount,
-    installmentNumber,
-    beneficiary,
-    loanBeneficiaryName,
-    accumulateDebt,
-    creditCardTotal,
-    paymentHistoryExists,
-    pLoanApplicationHositoryExists,
-    overdueDebtExists,
-    bankAccountNo,
-    bankAccountName,
-    bankCode,
-    bankName,
-    bankBranchName,
-    //
-    ref1Prefix,
-    ref1Firstname,
-    ref1Lastname,
-    ref1Relationship,
-    ref1MobileNo,
-    ref1WorkTelephone,
-    ref1HomeTelephone,
-    ref2Prefix,
-    ref2Firstname,
-    ref2Lastname,
-    ref2Relationship,
-    ref2MobileNo,
-    ref2WorkTelephone,
-    ref2HomeTelephone,
-    conjugalPrefix,
-    conjugalFirstname,
-    conjugalLastname,
-    conjugalOccupation,
-    conjugalIncome,
-    children,
-    //
-    shippingHouseNo,
-    shippingMoo,
-    shippingVillage,
-    shippingFloor,
-    shippingSoi,
-    shippingRoad,
-    shippingPostalCode,
-    shippingProvinceCode,
-    shippingAmphurCode,
-    shippingTambolCode,
-    shippingProvinceCodeName,
-    shippingAmphurCodeName,
-    shippingTambolCodeName,
-    sendingAddress,
-    //
-    isConsent2,
-    //
-    files,
-    //
-    fileName0,
-    fileName1,
-    fileName2,
-    fileName3,
-    fileName4,
-    fileName5,
-    fileName6,
-  } = data || {};
-
-  const agreement = { isConsent: isConsent || false };
-
-  const personalInfo = {
-    dateReq: dateReq ? moment(dateReq).toDate() : null,
-    prefixTH: prefixTH || '',
-    firstNameTH: firstNameTH || '',
-    lastNameTH: lastNameTH || '',
-    prefixEN: prefixEN || '',
-    firstNameEN: firstNameEN || '',
-    lastNameEN: lastNameEN || '',
-    idCard: idCard || '',
-    dateExp: dateExp ? moment(dateExp).toDate() : null,
-    status: status || '',
-    //
-    department: department || '',
-    position: position || '',
-    workTel2: workTel2 || '',
-    homeTel2: homeTel2 || '',
-    detailRent: detailRent || '',
-    workTel: workTel || '',
-    telExtension: telExtension || '',
-    //
-    number: number || '',
-    moo: moo || '',
-    village: village || '',
-    soi: soi || '',
-    road: road || '',
-    province: province || '',
-    amphurCode: amphurCode || '',
-    tambolCode: tambolCode || '',
-    provinceName: provinceName || '',
-    amphurCodeName: amphurCodeName || '',
-    tambolCodeName: tambolCodeName || '',
-    zipCode: zipCode || '',
-    //
-    number2: number2 || '',
-    moo2: moo2 || '',
-    village2: village2 || '',
-    soi2: soi2 || '',
-    road2: road2 || '',
-    zipCode2: zipCode2 || '',
-    isSameAddress: isSameAddress || false,
-    jobCompanyName: jobCompanyName || '',
-    ot: ot || 0,
-    birthDate: birthDate ? moment(birthDate).toDate() : null,
-    email: email || '',
-    employmentDate: employmentDate ? moment(employmentDate).toDate() : null,
-    jobSalary: jobSalary || 0,
-    //
-    officeNumber: officeNumber || '',
-    officeMoo: officeMoo || '',
-    officeVillage: officeVillage || '',
-    officeFloor: officeFloor || 1,
-    officeSoi: officeSoi || '',
-    officeRoad: officeRoad || '',
-    officeProvince: officeProvince || '',
-    officeAmphurCode: officeAmphurCode || '',
-    officeTambolCode: officeTambolCode || '',
-    officeProvinceName: officeProvinceName || '',
-    officeAmphurCodeName: officeAmphurCodeName || '',
-    officeTambolCodeName: officeTambolCodeName || '',
-    officeZipCode: officeZipCode || '',
-  };
-
-  const loanInfo = {
-    loanAmount: loanAmount || 0,
-    installmentNumber: installmentNumber || 0,
-    beneficiary: beneficiary || 'myself',
-    loanBeneficiaryName: loanBeneficiaryName || '',
-    accumulateDebt: accumulateDebt || 0,
-    creditCardTotal: creditCardTotal || 0,
-    //
-    paymentHistoryExists: paymentHistoryExists || '0',
-    pLoanApplicationHositoryExists: pLoanApplicationHositoryExists || '0',
-    overdueDebtExists: overdueDebtExists || '0',
-    //
-    bankAccountNo: bankAccountNo || '',
-    bankAccountName: bankAccountName || '',
-    bankCode: bankCode || '',
-    bankName: bankName || '',
-    bankBranchName: bankBranchName || '',
-  };
-  // ref1PrefixMsg,
-  // ref1FirstnameMsg,
-  // ref1LastnameMsg,
-  // ref1MobileNoMsg,
-  // ref1WorkTelephoneMsg,
-  // ref1HomeTelephoneMsg,
-  // ref2PrefixMsg,
-  // ref2FirstnameMsg,
-  // ref2MobileNoMsg,
-  // ref2LastnameMsg,
-  // ref2WorkTelephoneMsg,
-  // ref2HomeTelephoneMsg,
-  // conjugalPrefixMsg,
-  // conjugalFirstnameMsg,
-  // conjugalLastnameMsg,
-  // conjugalOccupationMsg,
-  // conjugalIncomeMsg,
-  const additionalInfo = {
-    ref1Prefix: ref1Prefix || '',
-    ref1Firstname: ref1Firstname || '',
-    ref1Lastname: ref1Lastname || '',
-    ref1Relationship: ref1Relationship || '',
-    ref1MobileNo: ref1MobileNo || '',
-    ref1WorkTelephone: ref1WorkTelephone || '',
-    ref1HomeTelephone: ref1HomeTelephone || '',
-    //
-    ref2Prefix: ref2Prefix || '',
-    ref2Firstname: ref2Firstname || '',
-    ref2Lastname: ref2Lastname || '',
-    ref2Relationship: ref2Relationship || '',
-    ref2MobileNo: ref2MobileNo || '',
-    ref2WorkTelephone: ref2WorkTelephone || '',
-    ref2HomeTelephone: ref2HomeTelephone || '',
-    //
-    conjugalPrefix: conjugalPrefix || '',
-    conjugalFirstname: conjugalFirstname || '',
-    conjugalLastname: conjugalLastname || '',
-    conjugalOccupation: conjugalOccupation || '',
-    conjugalIncome: conjugalIncome || 0,
-    children: children || 0,
-    //
-    shippingHouseNo: shippingHouseNo || '',
-    shippingMoo: shippingMoo || '',
-    shippingVillage: shippingVillage || '',
-    shippingFloor: shippingFloor || '',
-    shippingSoi: shippingSoi || '',
-    shippingRoad: shippingRoad || '',
-    shippingPostalCode: shippingPostalCode || '',
-    shippingProvinceCode: shippingProvinceCode || '',
-    shippingAmphurCode: shippingAmphurCode || '',
-    shippingTambolCode: shippingTambolCode || '',
-    shippingProvinceCodeName: shippingProvinceCodeName || '',
-    shippingAmphurCodeName: shippingAmphurCodeName || '',
-    shippingTambolCodeName: shippingTambolCodeName || '',
-    sendingAddress: sendingAddress || 'current',
-    //
-    isConsent2: isConsent2 || false,
-    //
-    files: files || [],
-    //
-    fileName0: fileName0 || '',
-    fileName1: fileName1 || '',
-    fileName2: fileName2 || '',
-    fileName3: fileName3 || '',
-    fileName4: fileName4 || '',
-    fileName5: fileName5 || '',
-    fileName6: fileName6 || '',
-  };
-
-  return {
-    agreement,
-    personalInfo,
-    loanInfo,
-    additionalInfo,
-  };
-};
+export const split = data => ({
+  agreement: agreement.data(data),
+  personalInfo: personalInfo.data(data),
+  loanInfo: loanInfo.data(data),
+  additionalInfo: additionalInfo.data(data),
+});
