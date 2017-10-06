@@ -1,5 +1,5 @@
 import Immutable, { Record } from 'immutable';
-import moment from 'moment';
+// import moment from 'moment';
 import {
   ACCEPT_AGREEMENT_SUCCESS,
   COMPLETE_PERSONAL_INFO_SUCCESS,
@@ -20,7 +20,7 @@ import {
   searchSuccess,
   setSearchInfo,
   // editSuccess,
-  saveSuccess,
+  // saveSuccess,
   loadDocumentsSuccess,
   selectDataSuccess,
   //
@@ -36,8 +36,8 @@ import {
   portalUrl,
   // adminUrl,
   postForm,
-  postJson,
-  putJson,
+  // postJson,
+  // putJson,
   getJson,
 } from '../libs/request';
 import {
@@ -169,48 +169,6 @@ export function sortData(field, desc) {
   return dispatch => {
     dispatch(setSortInfo(field, desc));
     return dispatch(_searchData());
-  };
-}
-
-export function save(callback) {
-  return (dispatch, getState) => {
-    const _state = getState().lead;
-
-    const id = _state.get('id') || 0;
-    const editing = _state.get('editing') || false;
-    const data = getState().draft.data;
-
-    console.log('lead.reducer: ', data);
-
-    const _dateReq = moment(data.dateReq, 'DD/MM/YYYY').toDate();
-    data.dateReq = moment(_dateReq).format();
-    data.birthDate = moment(data.birthDate).format();
-    data.dateExp = moment(data.dateExp).format();
-    data.employmentDate = moment(data.employmentDate).format();
-
-    console.log('save.date: ', data.dateReq, data.birthDate, data.dateExp, data.employmentDate);
-
-    const _url = editing ? url(`/${id}`) : url();
-    const request = editing ? putJson : postJson;
-
-    request(_url, data)
-      .then(() => {
-        dispatch(notify('บันทึกข้อมูลเสร็จสมบูรณ์'));
-        dispatch(saveSuccess());
-
-        setTimeout(() => {
-          dispatch(notify(''));
-
-          if (callback) {
-            callback();
-          }
-        }, loadingTime);
-      })
-      .catch(error => {
-        console.log('>>> save.error: ', error);
-        dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify('')), loadingTime);
-      });
   };
 }
 

@@ -14,8 +14,6 @@ import areIntlLocalesSupported from 'intl-locales-supported';
 import IntlPolyfill from 'intl';
 import 'intl/locale-data/jsonp/th-TH';
 
-import { isAdmin } from '../../libs/config';
-
 let DateTimeFormat;
 
 /**
@@ -271,16 +269,8 @@ class Summary extends Component {
 
   handleNextClick = e => {
     e.preventDefault();
-
-    const { save } = this.props;
-    save(() => {
-      if (isAdmin()) {
-        // history.push('/admin/leads');
-        window.location.href = '/admin/leads';
-      }
-      // history.push('/leads');
-      window.location.href = '/leads';
-    });
+    const { save, history } = this.props;
+    save(() => history.push('/leads'));
   };
 
   render() {

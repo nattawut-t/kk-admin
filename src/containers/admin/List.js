@@ -46,10 +46,13 @@ const schema = [
   },
   {
     id: 3,
-    name: 'CreatedAt',
+    name: 'dateReq',
     label: 'วันที่สร้างคำขอกู้',
     widthPercentage: 25,
-    format: value => moment(value).format(dateFormat),
+    format: value => {
+      console.log(value);
+      return (value && Date.parse(value)) ? moment(value).format(dateFormat) : '';
+    },
   },
   {
     id: 4,

@@ -1,16 +1,15 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/Summary';
-import { save } from '../../reducers/lead';
+import { submit } from '../../reducers/draft';
 
 const mapStateToProps = state => ({
   data: state.draft.data,
-  loading: state.lead.get('loading') || false,
-  // editing: state.lead.get('editing') || false,
-  message: state.lead.get('message') || '',
+  loading: state.notification.loading,
+  message: state.notification.message,
 });
 
 const mapDispatchToProps = dispatch => ({
-  save: callback => dispatch(save(callback)),
+  save: callback => dispatch(submit(callback)),
 });
 
 export default connect(
