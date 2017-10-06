@@ -24,8 +24,8 @@ import List from 'material-ui/svg-icons/action/list';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
 
 import Layout from './Layout';
-import AdminLogin from '../containers/AdminLogin';
-import AdminIndex from '../containers/admin/Index';
+import Login from '../containers/Login';
+import Index from '../containers/admin/Index';
 
 import PersonalInfo from '../containers/lead/PersonalInfo';
 import LoanInfo from '../containers/lead/LoanInfo';
@@ -132,9 +132,9 @@ class App extends React.Component {
           <MuiThemeProvider>
             <Switch>
               {/* <Route exact path="/" component={Landing} /> */}
-              <Route path="/login" component={AdminLogin} />
+              <Route path="/login" component={Login} />
               {/* <Route path="/admin/login" component={AdminLogin} /> */}
-              <Route path="*" exact component={AdminLogin} />
+              <Route path="*" exact component={Login} />
             </Switch>
           </MuiThemeProvider>
         </Router>
@@ -203,8 +203,8 @@ class App extends React.Component {
                     <Route path="/loan-info" render={() => <Layout><LoanInfo /></Layout>} />
                     <Route path="/personal-info" render={() => <Layout><PersonalInfo /></Layout>} />
 
-                    <Route path="/leads" component={AdminIndex} />
-                    <Route path="*" exact component={AdminIndex} />
+                    <Route path="/leads" component={Index} />
+                    <Route path="*" exact component={Index} />
                   </Switch>
                 </div>
               </div>
