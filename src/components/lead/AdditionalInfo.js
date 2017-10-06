@@ -32,6 +32,11 @@ const styles = {
 const requiredMessage = (required, value) =>
   (required && !value) ? 'กรุณากรอกข้อมูล' : '';
 
+const getDocName = (docs, type) => {
+  const doc = docs.find(({ docType }) => docType === type);
+  return (doc) ? doc.filename : '';
+};
+
 const validationKeys = [
   'ref1Prefix',
   'ref1Firstname',
@@ -295,7 +300,7 @@ class AdditionalInfo extends Component {
     );
   };
 
-  handleFileChange = (e, required = false, docType, fileName) => {
+  handleFileChange = (e, required = false, _docType) => {
     const { target: { files, name, value } } = e;
 
     if (files && files.length > 0) {
@@ -306,17 +311,32 @@ class AdditionalInfo extends Component {
 
       formData.append('filename', _fileName);
       formData.append('file', file);
-      formData.append('docType', docType);
+      formData.append('docType', _docType);
 
-      console.log(fileName);
-      // this.setState({ [fileName]: value });
+      console.log('handleFileChange', uploadFile);
 
-      uploadFile(name, value, _fileName, formData, docType, _file => {
-        console.log('callback: ', docType, _file, fileName, value);
-        this.setState({
-          [docType]: _file,
-          [fileName]: _fileName,
-        });
+      uploadFile(name, value, _fileName, formData, _docType, doc => {
+        // console.log('callback: ', docType, doc, fileName, value);
+
+        // const { id } = doc;
+        let { files } = this.state;
+        files = files || [];
+
+        const _doc = files.find(({ docType }) => docType === _docType);
+
+        if (_doc) {
+          _doc.id = doc.id;
+          // identity.path = doc.path;
+          _doc.docType = doc.docType;
+          _doc.filename = doc.filename;
+        } else {
+          files.push(doc);
+        }
+
+        // console.log('files: ', files);
+
+        this.setState({ files });
+        // this.getImageUrl(id);
       });
     }
   };
@@ -335,138 +355,139 @@ class AdditionalInfo extends Component {
   };
 
   save = path => {
-    const {
-      ref1Prefix,
-      ref1Firstname,
-      ref1Lastname,
-      ref1Relationship,
-      ref1MobileNo,
-      ref1WorkTelephone,
-      ref1HomeTelephone,
-      //
-      ref2Prefix,
-      ref2Firstname,
-      ref2Lastname,
-      ref2Relationship,
-      ref2MobileNo,
-      ref2WorkTelephone,
-      ref2HomeTelephone,
-      //
-      conjugalPrefix,
-      conjugalFirstname,
-      conjugalLastname,
-      conjugalOccupation,
-      conjugalIncome,
-      children,
-      //
-      shippingHouseNo,
-      shippingMoo,
-      shippingVillage,
-      shippingFloor,
-      shippingSoi,
-      shippingRoad,
-      shippingPostalCode,
-      shippingProvinceCode,
-      shippingAmphurCode,
-      shippingTambolCode,
-      shippingProvinceCodeName,
-      shippingAmphurCodeName,
-      shippingTambolCodeName,
-      sendingAddress,
-      //
-      identity,
-      account,
-      household_registration,
-      payslip,
-      statement_1,
-      statement_2,
-      statement_3,
-      //
-      fileName0,
-      fileName1,
-      fileName2,
-      fileName3,
-      fileName4,
-      fileName5,
-      fileName6,
-      //
-      isConsent2,
-      //
-    } = this.state;
+    // const {
+    //   ref1Prefix,
+    //   ref1Firstname,
+    //   ref1Lastname,
+    //   ref1Relationship,
+    //   ref1MobileNo,
+    //   ref1WorkTelephone,
+    //   ref1HomeTelephone,
+    //   //
+    //   ref2Prefix,
+    //   ref2Firstname,
+    //   ref2Lastname,
+    //   ref2Relationship,
+    //   ref2MobileNo,
+    //   ref2WorkTelephone,
+    //   ref2HomeTelephone,
+    //   //
+    //   conjugalPrefix,
+    //   conjugalFirstname,
+    //   conjugalLastname,
+    //   conjugalOccupation,
+    //   conjugalIncome,
+    //   children,
+    //   //
+    //   shippingHouseNo,
+    //   shippingMoo,
+    //   shippingVillage,
+    //   shippingFloor,
+    //   shippingSoi,
+    //   shippingRoad,
+    //   shippingPostalCode,
+    //   shippingProvinceCode,
+    //   shippingAmphurCode,
+    //   shippingTambolCode,
+    //   shippingProvinceCodeName,
+    //   shippingAmphurCodeName,
+    //   shippingTambolCodeName,
+    //   sendingAddress,
+    //   //
+    //   identity,
+    //   account,
+    //   household_registration,
+    //   payslip,
+    //   statement_1,
+    //   statement_2,
+    //   statement_3,
+    //   //
+    //   fileName0,
+    //   fileName1,
+    //   fileName2,
+    //   fileName3,
+    //   fileName4,
+    //   fileName5,
+    //   fileName6,
+    //   //
+    //   isConsent2,
+    //   //
+    // } = this.state;
 
-    let files = [];
-    files.push(identity);
-    files.push(account);
-    files.push(household_registration);
-    files.push(payslip);
-    files.push(statement_1);
-    files.push(statement_2);
-    files.push(statement_3);
-    files = files.filter(file => file);
+    // // let files = [];
+    // // files.push(identity);
+    // // files.push(account);
+    // // files.push(household_registration);
+    // // files.push(payslip);
+    // // files.push(statement_1);
+    // // files.push(statement_2);
+    // // files.push(statement_3);
+    // // files = files.filter(file => file);
 
-    const data = {
-      ref1Prefix,
-      ref1Firstname,
-      ref1Lastname,
-      ref1Relationship,
-      ref1MobileNo,
-      ref1WorkTelephone,
-      ref1HomeTelephone,
-      //
-      ref2Prefix,
-      ref2Firstname,
-      ref2Lastname,
-      ref2Relationship,
-      ref2MobileNo,
-      ref2WorkTelephone,
-      ref2HomeTelephone,
-      //
-      conjugalPrefix,
-      conjugalFirstname,
-      conjugalLastname,
-      conjugalOccupation,
-      conjugalIncome,
-      children,
-      //
-      shippingHouseNo,
-      shippingMoo,
-      shippingVillage,
-      shippingFloor,
-      shippingSoi,
-      shippingRoad,
-      shippingPostalCode,
-      shippingProvinceCode,
-      shippingAmphurCode,
-      shippingTambolCode,
-      shippingProvinceCodeName,
-      shippingAmphurCodeName,
-      shippingTambolCodeName,
-      sendingAddress,
-      //
-      isConsent2,
-      files,
-      //
-      identity,
-      account,
-      household_registration,
-      payslip,
-      statement_1,
-      statement_2,
-      statement_3,
-      //
-      fileName0,
-      fileName1,
-      fileName2,
-      fileName3,
-      fileName4,
-      fileName5,
-      fileName6,
-    };
+    // const data = {
+    //   ref1Prefix,
+    //   ref1Firstname,
+    //   ref1Lastname,
+    //   ref1Relationship,
+    //   ref1MobileNo,
+    //   ref1WorkTelephone,
+    //   ref1HomeTelephone,
+    //   //
+    //   ref2Prefix,
+    //   ref2Firstname,
+    //   ref2Lastname,
+    //   ref2Relationship,
+    //   ref2MobileNo,
+    //   ref2WorkTelephone,
+    //   ref2HomeTelephone,
+    //   //
+    //   conjugalPrefix,
+    //   conjugalFirstname,
+    //   conjugalLastname,
+    //   conjugalOccupation,
+    //   conjugalIncome,
+    //   children,
+    //   //
+    //   shippingHouseNo,
+    //   shippingMoo,
+    //   shippingVillage,
+    //   shippingFloor,
+    //   shippingSoi,
+    //   shippingRoad,
+    //   shippingPostalCode,
+    //   shippingProvinceCode,
+    //   shippingAmphurCode,
+    //   shippingTambolCode,
+    //   shippingProvinceCodeName,
+    //   shippingAmphurCodeName,
+    //   shippingTambolCodeName,
+    //   sendingAddress,
+    //   //
+    //   isConsent2,
+    //   files,
+    //   //
+    //   identity,
+    //   account,
+    //   household_registration,
+    //   payslip,
+    //   statement_1,
+    //   statement_2,
+    //   statement_3,
+    //   //
+    //   fileName0,
+    //   fileName1,
+    //   fileName2,
+    //   fileName3,
+    //   fileName4,
+    //   fileName5,
+    //   fileName6,
+    // };
 
-    console.log('ai.handleNextClick.data: ', data);
+    // console.log('ai.handleNextClick.data: ', data);
 
-    const { saveDraft, history } = this.props;
-    saveDraft(data, () => history.push(path));
+    const { saveDraft, history, data } = this.props;
+    const _data = Object.assign(data, this.state);
+    saveDraft(_data, () => history.push(path));
   }
 
   handleBackClick = e => {
@@ -883,14 +904,6 @@ class AdditionalInfo extends Component {
       childrenMsg,
       sendingAddress,
       //
-      fileName0,
-      fileName1,
-      fileName2,
-      fileName3,
-      fileName4,
-      fileName5,
-      fileName6,
-      //
       fileName0Msg,
       fileName1Msg,
       fileName2Msg,
@@ -904,10 +917,18 @@ class AdditionalInfo extends Component {
       valid,
       //
       status,
+      //
+      files,
     } = this.state;
 
     const { message } = this.props;
-    // const status = personalInfo ? personalInfo.status : '';
+    const fileName0 = getDocName(files, 'identity');
+    const fileName1 = getDocName(files, 'payslip');
+    const fileName2 = getDocName(files, 'account');
+    const fileName3 = getDocName(files, 'household_registration');
+    const fileName4 = getDocName(files, 'statement_1');
+    const fileName5 = getDocName(files, 'statement_2');
+    const fileName6 = getDocName(files, 'statement_3');
 
     return (
       <div>

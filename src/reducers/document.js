@@ -33,7 +33,7 @@ const initialState = {
   files: [],
 };
 
-const url = (postfix = '') => portalUrl(`/api/work/leads/doc${postfix}`);
+const url = (postfix = '') => portalUrl(`/admin/leads/doc${postfix}`);
 
 export const uploadDocument = (field, path, name, data, docType, callback) =>
   async dispatch => {

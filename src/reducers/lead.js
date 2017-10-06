@@ -10,8 +10,8 @@ import {
   LOAD_NEXT_PAGE_SUCCESS,
   SEARCH_SUCCESS,
   SET_LOADING,
-  uploadDocumentSuccess,
-  notify,
+  // uploadDocumentSuccess,
+  // notify,
   //
   setLoading,
   setSortInfo,
@@ -35,7 +35,7 @@ import {
 import {
   portalUrl,
   // adminUrl,
-  postForm,
+  // postForm,
   // postJson,
   // putJson,
   getJson,
@@ -86,7 +86,7 @@ const State = Record({
 
 const initialState = new State();
 
-const uploadUrl = () => portalUrl('/api/work/leads/doc');
+// const uploadUrl = () => portalUrl('/api/work/leads/doc');
 const url = (postfix = '') => portalUrl(`/admin/leads${postfix}`);
 
 function _loadNextPage(currentPage = 1, nextPage = 2) {
@@ -172,45 +172,45 @@ export function sortData(field, desc) {
   };
 }
 
-export function uploadDocument(field, path, name, data, docType, callback) {
-  return dispatch => {
-    const _url = uploadUrl();
+// export function uploadDocument(field, path, name, data, docType, callback) {
+//   return dispatch => {
+//     const _url = uploadUrl();
 
-    postForm(_url, data, false)
-      .then(response => {
-        const { data } = response;
-        const { id, filename } = data;
+//     postForm(_url, data, false)
+//       .then(response => {
+//         const { data } = response;
+//         const { id, filename } = data;
 
-        // {
-        //   filename: "Free Fall Desktop Wallpapers - HD Wallpapers.jpg"
-        //   id: 1087
-        //   docType,
-        //   path,
-        // }
+//         // {
+//         //   filename: "Free Fall Desktop Wallpapers - HD Wallpapers.jpg"
+//         //   id: 1087
+//         //   docType,
+//         //   path,
+//         // }
 
-        console.log(data, path);
+//         console.log(data, path);
 
-        dispatch(uploadDocumentSuccess(field, path, filename, docType));
+//         dispatch(uploadDocumentSuccess(field, path, filename, docType));
 
-        if (callback) {
-          callback({
-            id,
-            filename,
-            docType,
-            path,
-          });
-        }
+//         if (callback) {
+//           callback({
+//             id,
+//             filename,
+//             docType,
+//             path,
+//           });
+//         }
 
-        dispatch(notify('อัพโหลดเอกสารแล้ว'));
-        setTimeout(() => dispatch(notify('')), loadingTime);
-      })
-      .catch(error => {
-        console.log('>>> uploadFile.error: ', error);
-        dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-        setTimeout(() => dispatch(notify('')), loadingTime);
-      });
-  };
-}
+//         dispatch(notify('อัพโหลดเอกสารแล้ว'));
+//         setTimeout(() => dispatch(notify('')), loadingTime);
+//       })
+//       .catch(error => {
+//         console.log('>>> uploadFile.error: ', error);
+//         dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+//         setTimeout(() => dispatch(notify('')), loadingTime);
+//       });
+//   };
+// }
 
 export function loadDocuments(id, callback) {
   console.log('loadDocuments');

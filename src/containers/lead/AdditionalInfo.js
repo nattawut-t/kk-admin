@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Component from '../../components/lead/AdditionalInfo';
-import { uploadDocument } from '../../reducers/lead';
+import { uploadDocument } from '../../reducers/document';
 import { get, save } from '../../reducers/draft';
 
 const mapStateToProps = state => ({
