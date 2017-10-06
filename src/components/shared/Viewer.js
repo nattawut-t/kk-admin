@@ -250,16 +250,9 @@ class Viewer extends Component {
 
     const documentActions = [
       <FlatButton
-        label="ยกเลิก"
+        label="ปิด"
         primary
         onClick={() => this.handleCloseDialog('doc')}
-      />,
-      <FlatButton
-        label="ปฏิเสธ"
-        primary
-        keyboardFocused
-        disabled={!remark}
-        onClick={() => this.handleRejectClick(id)}
       />,
     ];
 
