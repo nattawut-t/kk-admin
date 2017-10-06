@@ -43,7 +43,7 @@ import Reference2Info from '../../containers/shared/Reference2Info';
 import ShippingAddress from '../../containers/shared/ShippingAddress';
 // import Document from '../../containers/shared/Document';
 
-import { isAdmin } from '../../libs/config';
+// import { isAdmin } from '../../libs/config';
 
 const styles = {
   button: {
@@ -301,78 +301,58 @@ class Viewer extends Component {
             <Component />
           </CardText>
           <CardActions>
-            {isAdmin()
-              ? <div className="row">
-                <div
-                  className="col-12"
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                  }}
-                >
-                  <RaisedButton
-                    label="อนุมัติ"
-                    primary
-                    style={styles.button}
-                    icon={<Done />}
-                    onClick={() => this.handleApproveClick(id)}
-                    disabled={Status !== 'created'}
-                  />
-                  <RaisedButton
-                    label="ปฏิเสธ"
-                    secondary
-                    style={styles.button}
-                    icon={<Clear />}
-                    onClick={this.handleRejectOpenClick}
-                    disabled
-                  />
-                  <RaisedButton
-                    label="ส่งกู้รายอื่น"
-                    style={styles.button}
-                    icon={<Redo />}
-                    disabled
-                  />
-                  {/* <RaisedButton
+            <div className="row">
+              <div
+                className="col-12"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                }}
+              >
+                <RaisedButton
+                  label="อนุมัติ"
+                  primary
+                  style={styles.button}
+                  icon={<Done />}
+                  onClick={() => this.handleApproveClick(id)}
+                  disabled={Status !== 'created'}
+                />
+                <RaisedButton
+                  label="ปฏิเสธ"
+                  secondary
+                  style={styles.button}
+                  icon={<Clear />}
+                  onClick={this.handleRejectOpenClick}
+                  disabled
+                />
+                <RaisedButton
+                  label="ส่งกู้รายอื่น"
+                  style={styles.button}
+                  icon={<Redo />}
+                  disabled
+                />
+                {/* <RaisedButton
                     label="เอกสาร"
                     style={styles.button}
                     icon={<ModeEdit />}
                     onClick={this.handleDocumentClick}
                   /> */}
-                  <RaisedButton
-                    label="แก้ไข"
-                    style={styles.button}
-                    icon={<ModeEdit />}
-                    onClick={() => this.handleEditClick(id)}
-                    disabled={Status !== 'created'}
-                  />
-                  <RaisedButton
-                    label="ยกเลิก"
-                    style={styles.button}
-                    icon={<Undo />}
-                    onClick={this.handleCancelClick}
-                  />
-                </div>
+                <RaisedButton
+                  label="แก้ไข"
+                  style={styles.button}
+                  icon={<ModeEdit />}
+                  onClick={() => this.handleEditClick(id)}
+                  disabled={Status !== 'created'}
+                />
+                <RaisedButton
+                  label="ยกเลิก"
+                  style={styles.button}
+                  icon={<Undo />}
+                  onClick={this.handleCancelClick}
+                />
               </div>
-              : <div className="row">
-                <div
-                  className="col-12"
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                  }}
-                >
-                  <RaisedButton
-                    label="ปิด"
-                    style={styles.button}
-                    icon={<Undo />}
-                    onClick={this.handleCancelClick}
-                    secondary
-                  />
-                </div>
-              </div>
-            }
+            </div>
 
           </CardActions>
         </Card >

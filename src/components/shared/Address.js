@@ -41,8 +41,8 @@ class CurrentAddress extends Component {
     road: '',
     floor: '',
     provinceName: '',
-    amphurCodeName: '',
-    tambolCodeName: '',
+    amphurName: '',
+    tambolName: '',
     zipCode: '',
     useFloor: false,
   };
@@ -65,8 +65,8 @@ class CurrentAddress extends Component {
       road,
       floor,
       provinceName,
-      amphurCodeName,
-      tambolCodeName,
+      amphurName,
+      tambolName,
       zipCode,
       useFloor,
     } = this.state;
@@ -173,10 +173,10 @@ class CurrentAddress extends Component {
             </div>
             <div className="col-4">
               <TextField
-                id="amphurCodeName"
-                name="amphurCodeName"
+                id="amphurName"
+                name="amphurName"
                 floatingLabelText="อำเภอ"
-                value={amphurCodeName}
+                value={amphurName}
                 onChange={e => this.handleChange(e, true)}
                 fullWidth
                 readOnly
@@ -184,10 +184,10 @@ class CurrentAddress extends Component {
             </div>
             <div className="col-4">
               <TextField
-                id="tambolCodeName"
-                name="tambolCodeName"
+                id="tambolName"
+                name="tambolName"
                 floatingLabelText="ตำบล"
-                value={tambolCodeName}
+                value={tambolName}
                 onChange={e => this.handleChange(e, true)}
                 fullWidth
                 readOnly

@@ -7,6 +7,8 @@ const transform = (state, key) => {
     let data = state.get(key);
     data = data ? data.toJS() : null;
 
+    console.log('shippingAddress.container.data: ', data);
+
     if (data) {
       const {
         shippingHouseNo,
@@ -38,10 +40,6 @@ const transform = (state, key) => {
   }
   return null;
 };
-
-// const getState = state => isAdmin()
-//   ? state.admin
-//   : state.lead;
 
 const mapStateToProps = ({ lead }) => ({
   id: lead.get('id') || '',

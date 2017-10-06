@@ -50,24 +50,6 @@ const styles = {
 };
 
 class WorkingInfo extends Component {
-  state = {
-    companyName: '',
-    department: '',
-    position: '',
-    employmentDate: '',
-    salary: 0,
-    officeTel: '',
-    officeTelExt: '',
-    officeNumber: '',
-    officeMoo: '',
-    officeVillage: '',
-    officeSoi: '',
-    officeRoad: '',
-    officeProvinceName: '',
-    officeAmphurCodeName: '',
-    officeTambolCodeName: '',
-    officeZipCode: '',
-  };
 
   componentWillMount() {
     const { data } = this.props;
@@ -80,7 +62,7 @@ class WorkingInfo extends Component {
 
   render() {
     const {
-      companyName,
+      jobCompanyName,
       department,
       position,
       employmentDate,
@@ -110,9 +92,9 @@ class WorkingInfo extends Component {
           <div className="row">
             <div className="col-12">
               <TextField
-                id="companyName"
-                name="companyName"
-                value={companyName}
+                id="jobCompanyName"
+                name="jobCompanyName"
+                value={jobCompanyName}
                 floatingLabelText="ชื่อบริษัท"
                 fullWidth
                 readOnly
