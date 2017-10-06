@@ -27,22 +27,25 @@ export const parseLeadIn = ({
     additionalInfo.data(data),
   );
 
-  const _data = Object.assign({
-    ID,
-    CreatedAt,
-    UpdatedAt,
-    DeletedAt,
-    UserID,
-    Email,
-    IDCard,
-    MobileNo,
-    BirthDate,
-    TicketID,
-    Status,
-    ReferenceID,
-  },
+  const _data = Object.assign(
     merged,
+    {
+      ID,
+      CreatedAt,
+      UpdatedAt,
+      DeletedAt,
+      UserID,
+      Email,
+      IDCard,
+      MobileNo,
+      BirthDate,
+      TicketID,
+      Status,
+      ReferenceID,
+    },
   );
+
+  console.log('lead.parse: ', _data);
 
   return _data;
 };

@@ -1,5 +1,5 @@
 import Immutable, { Record } from 'immutable';
-// import moment from 'moment';
+
 import {
   ACCEPT_AGREEMENT_SUCCESS,
   COMPLETE_PERSONAL_INFO_SUCCESS,
@@ -10,20 +10,14 @@ import {
   LOAD_NEXT_PAGE_SUCCESS,
   SEARCH_SUCCESS,
   SET_LOADING,
-  // uploadDocumentSuccess,
-  // notify,
-  //
   setLoading,
   setSortInfo,
   cancelSelection,
   loadNextPageSuccess,
   searchSuccess,
   setSearchInfo,
-  // editSuccess,
-  // saveSuccess,
   loadDocumentsSuccess,
   selectDataSuccess,
-  //
   EDIT_SUCCESS,
   SAVE_SUCCESS,
   LOAD_DOCUMENTS_SUCCESS,
@@ -34,10 +28,6 @@ import {
 } from '../actions/lead';
 import {
   portalUrl,
-  // adminUrl,
-  // postForm,
-  // postJson,
-  // putJson,
   getJson,
 } from '../libs/request';
 import {
