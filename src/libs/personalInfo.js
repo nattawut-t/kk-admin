@@ -80,8 +80,6 @@ export const data = (raw = {}) => {
   const employmentDateValid = Date.parse(employmentDate);
   const env = process.env.NODE_ENV;
 
-  console.log('pi.dateReq: ', dateReqValid);
-
   if (env === 'test') {
     return {
       dateReq: dateReqValid ? moment(dateReq).toDate() : new Date(),

@@ -45,8 +45,6 @@ export const parseLeadIn = ({
     },
   );
 
-  console.log('lead.parse: ', _data);
-
   return _data;
 };
 
