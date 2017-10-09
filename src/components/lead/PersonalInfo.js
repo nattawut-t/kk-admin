@@ -38,7 +38,7 @@ if (areIntlLocalesSupported(['th', 'th-TH'])) {
   DateTimeFormat = IntlPolyfill.DateTimeFormat;
 }
 
-const emailRegex = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const telRegex = /^\d{9,10}$/;
 const idcardNoRegex = /^\d{13}$/;
 
