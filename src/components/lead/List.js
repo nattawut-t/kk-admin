@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { List as ImmList } from 'immutable';
 import IconButton from 'material-ui/IconButton';
 import {
@@ -36,9 +37,17 @@ class List extends Component {
 
   handleViewClick = id => {
     const { selectData } = this.props;
-    console.log('handleViewClick: ', id, selectData);
+    // console.log('handleViewClick: ', id, selectData);
     if (selectData) {
       selectData(id, () => { });
+    }
+  };
+
+  handleEditClick = id => {
+    const { edit, history } = this.props;
+    // console.log('handleViewClick: ', id, selectData);
+    if (edit) {
+      edit(id, () => history.push('/personal-info'));
     }
   };
 
@@ -157,6 +166,7 @@ class List extends Component {
                       <IconButton
                         tooltip="แก้ไข"
                         style={{ color: '#8B8C8D' }}
+                        onClick={() => this.handleEditClick(id)}
                       >
                         <i className="material-icons">mode_edit</i>
                       </IconButton>
@@ -199,8 +209,10 @@ List.propTypes = {
   sortData: PropTypes.func,
   dataList: PropTypes.any,
   selectData: PropTypes.func,
+  edit: PropTypes.func,
   loadDocuments: PropTypes.func,
   tableSchemas: PropTypes.array,
+  history: PropTypes.object.isRequired,
 };
 
 List.defaultProps = {
@@ -209,7 +221,8 @@ List.defaultProps = {
   dataList: [],
   tableSchemas: [],
   selectData: null,
+  edit: null,
   loadDocuments: null,
 };
 
-export default List;
+export default withRouter(List);

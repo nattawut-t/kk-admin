@@ -14,7 +14,7 @@ import Done from 'material-ui/svg-icons/action/done';
 import Clear from 'material-ui/svg-icons/content/clear';
 import Redo from 'material-ui/svg-icons/content/redo';
 import Undo from 'material-ui/svg-icons/content/undo';
-import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+// import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import {
   Card,
   CardActions,
@@ -329,19 +329,19 @@ class Viewer extends Component {
                   icon={<Redo />}
                   disabled
                 />
-                <RaisedButton
+                {/* <RaisedButton
                   label="เอกสาร"
                   style={styles.button}
                   icon={<ModeEdit />}
                   onClick={this.handleDocumentClick}
-                />
-                <RaisedButton
+                /> */}
+                {/* <RaisedButton
                   label="แก้ไข"
                   style={styles.button}
                   icon={<ModeEdit />}
                   onClick={() => this.handleEditClick(id)}
                   disabled={Status !== 'created'}
-                />
+                /> */}
                 <RaisedButton
                   label="ยกเลิก"
                   style={styles.button}

@@ -7,6 +7,7 @@ import {
   select,
 } from '../../reducers/lead';
 import { loadDocuments } from '../../reducers/document';
+import { edit } from '../../reducers/draft';
 import { dateFormat } from '../../libs/config';
 
 const schema = [
@@ -75,6 +76,7 @@ const mapDispatchToProps = dispatch => ({
   loadData: () => dispatch(searchData()),
   // sortData: (sortField, sortDesc) => dispatch(sortData(sortField, sortDesc)),
   selectData: (id, callback) => dispatch(select(id, callback)),
+  edit: (id, callback) => dispatch(edit(id, callback)),
   loadDocuments: (id, callback) => dispatch(loadDocuments(id, callback)),
 });
 
