@@ -81,40 +81,47 @@ const initialState = new State();
 // const uploadUrl = () => portalUrl('/api/work/leads/doc');
 const url = (postfix = '') => portalUrl(`/admin/leads${postfix}`);
 
-function _loadNextPage(currentPage = 1, nextPage = 2) {
-  return (dispatch, getState) => {
-    dispatch(setLoading(true));
+const _loadNextPage = (currentPage = 1, nextPage = 2) =>
+  async (dispatch, getState) => {
+    dispatch(loading(true));
     dispatch(cancelSelection());
 
     const state = getState().lead;
     const total = state.get('total') || 0;
 
+    console.log('nextPage: ', nextPage);
+    console.log('total: ', total);
+
     if ((currentPage * pageSize) < total) {
-      const _url = url(nextPage);
-      const promise = getJson(_url);
+      const _url = url(`?page=${nextPage}`);
 
-      setTimeout(() =>
-        promise.then(response => {
-          const { data } = response;
-          const dataList = data ? parseLeadsIn(data) : [];
+      try {
+        const { data } = await getJson(_url);
+        console.log(data);
+        const { count, entries, numOfPages, page } = data;
+        console.log(count, entries, numOfPages, page);
+        const dataList = entries ? parseLeadsIn(entries) : [];
 
-          dispatch(loadNextPageSuccess(dataList, 0, 0, 0));
-          return dispatch(setLoading(false));
-        })
-          .catch(error => {
-            console.log('>>> error: ', error);
-            dispatch(setLoading(false));
-          })
-        , loadingTime);
+        dispatch(loadNextPageSuccess(dataList, count, numOfPages, page));
+      } catch (error) {
+        dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+
+        setTimeout(() => {
+          dispatch(notify());
+          dispatch(loading());
+        }, loadingTime);
+
+        handleError(error);
+      }
     }
 
-    dispatch(setLoading(false));
+    dispatch(notify());
+    dispatch(loading());
   };
-}
 
 function _searchData() {
   return dispatch => {
-    dispatch(setLoading(true));
+    dispatch(loading(true));
     dispatch(cancelSelection());
 
     const _url = url();
@@ -123,11 +130,11 @@ function _searchData() {
     setTimeout(() =>
       promise
         .then(({ data }) => {
-          const _data = data.entries;
-          const dataList = _data ? parseLeadsIn(_data) : [];
+          const { count, entries, numOfPages, page } = data;
+          const dataList = entries ? parseLeadsIn(entries) : [];
 
-          dispatch(searchSuccess(dataList, 0, 0, 0));
-          dispatch(setLoading(false));
+          dispatch(searchSuccess(dataList, count, numOfPages, page));
+          dispatch(loading());
         })
         .catch(error => handleError(error))
       , loadingTime);

@@ -11,24 +11,9 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 
-import File from '../shared/File';
+import FileManager from '../../containers/shared/FileManager';
 
 class List extends Component {
-  static propTypes = {
-    loadData: PropTypes.func,
-    sortData: PropTypes.func,
-    dataList: PropTypes.any,
-    selectData: PropTypes.func,
-    tableSchemas: PropTypes.array,
-  };
-
-  static defaultProps = {
-    loadData: null,
-    sortData: null,
-    dataList: [],
-    tableSchemas: [],
-    selectData: null,
-  };
 
   state = {
     sortField: '',
@@ -42,11 +27,10 @@ class List extends Component {
     }
   }
 
-  handleCellClick = e => {
-    const { selectData } = this.props;
-    if (selectData) {
-      const rowIndex = Number.parseInt(e, 10);
-      selectData(rowIndex);
+  handleDocumentClick = id => {
+    const { loadDocuments } = this.props;
+    if (loadDocuments) {
+      loadDocuments(id);
     }
   };
 
@@ -155,6 +139,7 @@ class List extends Component {
                         style={{ color: '#8B8C8D' }}
                         data-toggle="modal"
                         data-target="#exampleModal"
+                        onClick={() => this.handleDocumentClick(id)}
                       >
                         <i className="material-icons">description</i>
                       </IconButton>
@@ -186,20 +171,19 @@ class List extends Component {
 
         <div>
           <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-dialog modal-lg" style={{ top: '50px' }} role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <h5 className="modal-title" id="exampleModalLabel">เอกสาร</h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div className="modal-body">
-                  <File />
+                  <FileManager />
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-primary">Save changes</button>
                 </div>
               </div>
             </div>
@@ -209,5 +193,23 @@ class List extends Component {
     );
   }
 }
+
+List.propTypes = {
+  loadData: PropTypes.func,
+  sortData: PropTypes.func,
+  dataList: PropTypes.any,
+  selectData: PropTypes.func,
+  loadDocuments: PropTypes.func,
+  tableSchemas: PropTypes.array,
+};
+
+List.defaultProps = {
+  loadData: null,
+  sortData: null,
+  dataList: [],
+  tableSchemas: [],
+  selectData: null,
+  loadDocuments: null,
+};
 
 export default List;

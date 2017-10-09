@@ -44,6 +44,8 @@
     "space-before-function-paren": 0,
     "async-await/space-after-async": 2,
     "async-await/space-after-await": 2,
-    "consistent-return": 0
+    "consistent-return": 0,
+    "react/no-string-refs": 0,
+    "react/no-find-dom-node": 0
   }
 }

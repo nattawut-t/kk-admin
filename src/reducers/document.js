@@ -16,9 +16,9 @@ export const uploadDocumentSuccess = (field, path, name, docType) => ({
   docType,
 });
 
-export const DOWNLOAD_DOCUMENTS_SUCCESS = 'document/DOWNLOAD_DOCUMENTS_SUCCESS';
-export const downloadDocumentsSuccess = documents => ({
-  type: DOWNLOAD_DOCUMENTS_SUCCESS,
+export const LOAD_DOCUMENTS_SUCCESS = 'document/DOWNLOAD_DOCUMENTS_SUCCESS';
+export const loadDocumentsSuccess = documents => ({
+  type: LOAD_DOCUMENTS_SUCCESS,
   documents,
 });
 
@@ -30,7 +30,7 @@ export const downloadDocumentsSuccess = documents => ({
 // });
 
 const initialState = {
-  files: [],
+  documents: [],
 };
 
 const url = (postfix = '') => portalUrl(`/admin/leads/doc${postfix}`);
@@ -70,7 +70,7 @@ export const uploadDocument = (field, path, name, data, docType, callback) =>
     }
   };
 
-export function downloadDocuments(id, callback) {
+export function loadDocuments(id, callback) {
   return dispatch => {
     dispatch(loading(true));
 
@@ -82,7 +82,7 @@ export function downloadDocuments(id, callback) {
 
         console.log('documents: ', data);
 
-        dispatch(downloadDocumentsSuccess(data));
+        dispatch(loadDocumentsSuccess(data));
         if (callback) {
           callback();
         }
@@ -189,8 +189,8 @@ export const deleteDocument = (id, callback) =>
 
 const document = (state = initialState, action) => {
   switch (action.type) {
-    // case NOTIFY:
-    //   return { message: action.message };
+    case LOAD_DOCUMENTS_SUCCESS:
+      return { documents: action.documents };
 
     default:
       return state;

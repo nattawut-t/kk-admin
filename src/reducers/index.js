@@ -6,6 +6,7 @@ import test from './test';
 import admin from './admin';
 import draft from './draft';
 import notification from './notification';
+import document from './document';
 
 const rootReducer = combineReducers({
   lead,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   admin,
   draft,
   notification,
+  document,
 });
 
 export default rootReducer;
