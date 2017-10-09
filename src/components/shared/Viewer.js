@@ -337,6 +337,8 @@ class Viewer extends Component {
                   style={styles.button}
                   icon={<ModeEdit />}
                   onClick={this.handleDocumentClick}
+                  data-toggle="modal"
+                  data-target="#exampleModal"
                 />
                 <RaisedButton
                   label="แก้ไข"
@@ -379,10 +381,6 @@ class Viewer extends Component {
           </div>
         </Dialog>
         <div>
-          <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Launch demo modal
-          </button>
-
           <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-lg" role="document">
               <div className="modal-content">

@@ -4,7 +4,7 @@ import List from '../../components/lead/List';
 import {
   searchData,
   // sortData,
-  selectData,
+  select,
 } from '../../reducers/lead';
 import { dateFormat } from '../../libs/config';
 
@@ -73,7 +73,7 @@ const mapStateToProps = ({ lead }) => ({
 const mapDispatchToProps = dispatch => ({
   loadData: () => dispatch(searchData()),
   // sortData: (sortField, sortDesc) => dispatch(sortData(sortField, sortDesc)),
-  selectData: rowIndex => dispatch(selectData(rowIndex)),
+  selectData: (id, callback) => dispatch(select(id, callback)),
 });
 
 export default connect(

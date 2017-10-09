@@ -36,6 +36,8 @@ import {
   // dateFormat,
   // isAdmin,
 } from '../libs/config';
+
+import { notify, loading } from './notification';
 import { parseLeadIn as parseIn } from '../libs/lead';
 import { parseLeadsIn } from '../libs/leads';
 import { handleError } from '../handlers/api';
@@ -304,6 +306,55 @@ export function selectData(rowIndex) {
     }
   };
 }
+
+export const select = (id, callback) =>
+  async (dispatch, getState) => {
+    dispatch(loading(true));
+
+    const state = getState().lead;
+    const oldId = state.get('id');
+
+    console.log('select: ', id);
+
+    if (id !== oldId) {
+      const _url = url(`/${id}`);
+
+      try {
+        const { data } = await getJson(_url);
+
+        setTimeout(() => {
+          const raw = parseIn(data);
+          const { ID } = raw;
+          const _data = Object.assign(
+            agreement.data(raw),
+            personalInfo.data(raw),
+            loanInfo.data(raw),
+            additionalInfo.data(raw),
+          );
+
+          dispatch(selectDataSuccess(`${ID}`, _data));
+
+          if (callback) {
+            callback();
+          }
+
+          dispatch(notify());
+          dispatch(loading());
+        }, loadingTime);
+      } catch (error) {
+        dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+
+        setTimeout(() => {
+          dispatch(notify());
+          dispatch(loading());
+        }, loadingTime);
+
+        handleError(error);
+      }
+    } else {
+      dispatch(cancelSelection());
+    }
+  };
 
 const lead = (state = initialState, action) => {
   let _state;

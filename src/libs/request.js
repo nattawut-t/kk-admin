@@ -33,6 +33,8 @@ export function adminUrl(endpoint) {
 
 export function portalUrl(endpoint) {
   const { NODE_ENV } = process.env;
+  // console.log(NODE_ENV);
+  // return `https://portal.moneytable.com${endpoint}`;
 
   switch (NODE_ENV) {
     case 'prod':
@@ -83,6 +85,19 @@ export function getJson(url, authenticate = true) {
 
   return axios(options);
 }
+
+export const deleteJson = (url, authenticate = true) => {
+  if (authenticate) {
+    axios.defaults.headers.common.Authorization = localStorage.getItem('token');
+  }
+  const options = {
+    method: 'GET',
+    url,
+    headers: { 'Content-Type': 'application/json' },
+  };
+
+  return axios(options);
+};
 
 export function getImage(url, authenticate = true) {
   if (authenticate) {

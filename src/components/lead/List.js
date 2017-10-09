@@ -42,10 +42,17 @@ class List extends Component {
 
   handleCellClick = e => {
     const { selectData } = this.props;
-    console.log(selectData);
     if (selectData) {
       const rowIndex = Number.parseInt(e, 10);
       selectData(rowIndex);
+    }
+  };
+
+  handleViewClick = id => {
+    const { selectData } = this.props;
+    console.log('handleViewClick: ', id, selectData);
+    if (selectData) {
+      selectData(id, () => { });
     }
   };
 
@@ -76,7 +83,6 @@ class List extends Component {
           height="450px"
           fixedHeader
           fixedFooter
-          onCellClick={e => this.handleCellClick(e)}
         >
           <TableHeader
             displaySelectAll={false}
@@ -97,6 +103,9 @@ class List extends Component {
                   </TableHeaderColumn>
                 );
               })}
+              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>เอกสาร</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>รายละเอียด</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>แก้ไข</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -138,6 +147,31 @@ class List extends Component {
                         </TableRowColumn>
                       );
                     })}
+                    <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
+                      <IconButton
+                        tooltip="เอกสาร"
+                        style={{ color: '#8B8C8D' }}
+                      >
+                        <i className="material-icons">description</i>
+                      </IconButton>
+                    </TableRowColumn>
+                    <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
+                      <IconButton
+                        tooltip="รายละเอียด"
+                        style={{ color: '#8B8C8D' }}
+                        onClick={() => this.handleViewClick(id)}
+                      >
+                        <i className="material-icons">format_list_bulleted</i>
+                      </IconButton>
+                    </TableRowColumn>
+                    <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
+                      <IconButton
+                        tooltip="แก้ไข"
+                        style={{ color: '#8B8C8D' }}
+                      >
+                        <i className="material-icons">mode_edit</i>
+                      </IconButton>
+                    </TableRowColumn>
                   </TableRow>
                 );
               })
