@@ -16,6 +16,11 @@ server {
     ssl_certificate /etc/nginx/ssl/moneytable.pem;
     ssl_certificate_key /etc/nginx/ssl/moneytable.key;
 
+    location /assets/ {
+        root /var/www/kkadmin.dashboard/;
+        autoindex off;
+    }
+
     location / {
         try_files $uri $uri/ /index.html;
     }
@@ -26,6 +31,12 @@ server {
     server_name {{ domain_app }};
     root {{ mtc_server_root }};
     index index.html;
+
+    location /assets/ {
+        root /var/www/kkadmin.dashboard/;
+        autoindex off;
+    }
+
     location / {
         try_files $uri $uri/ /index.html;
     }
