@@ -15,6 +15,9 @@
       }
     }
   },
+  "globals": {
+    "$": true
+  },
   "rules": {
     "arrow-parens": [
       "error",
