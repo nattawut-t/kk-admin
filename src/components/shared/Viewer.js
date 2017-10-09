@@ -41,6 +41,8 @@ import LoanInfo from '../../containers/shared/LoanInfo';
 import Reference1Info from '../../containers/shared/Reference1Info';
 import Reference2Info from '../../containers/shared/Reference2Info';
 import ShippingAddress from '../../containers/shared/ShippingAddress';
+
+import File from './File';
 // import Document from '../../containers/shared/Document';
 
 // import { isAdmin } from '../../libs/config';
@@ -231,7 +233,7 @@ class Viewer extends Component {
       remark,
       reject,
       doc,
-      url,
+      // url,
     } = this.state;
 
     const { Status } = data;
@@ -376,23 +378,31 @@ class Viewer extends Component {
             </div>
           </div>
         </Dialog>
-        <Dialog
-          title="เอกสาร"
-          actions={[
-            <FlatButton
-              label="ปิด"
-              primary
-              onClick={() => this.setState({ url: '' })}
-            />,
-          ]}
-          modal
-          open={url !== ''}
-          onRequestClose={() => this.setState({ url: '' })}
-        >
-          <div>
-            <img alt="" src={url} style={{ maxWidth: '100%', height: 'auto' }} />
+        <div>
+          <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Launch demo modal
+          </button>
+
+          <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog modal-lg" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <File />
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
           </div>
-        </Dialog>
+        </div>
         <Dialog
           title="เอกสาร"
           actions={documentActions}
