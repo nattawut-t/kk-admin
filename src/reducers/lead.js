@@ -5,26 +5,20 @@ import {
   COMPLETE_PERSONAL_INFO_SUCCESS,
   COMPLETE_LOAN_INFO_SUCCESS,
   COMPLETE_ADDITIONAL_INFO_SUCCESS,
-  UPLOAD_DOCUMENT_SUCCESS,
-  NOTIFY,
   LOAD_NEXT_PAGE_SUCCESS,
   SEARCH_SUCCESS,
-  SET_LOADING,
   setLoading,
   setSortInfo,
   cancelSelection,
   loadNextPageSuccess,
   searchSuccess,
   setSearchInfo,
-  loadDocumentsSuccess,
+  // loadDocumentsSuccess,
   selectDataSuccess,
   EDIT_SUCCESS,
   SAVE_SUCCESS,
-  LOAD_DOCUMENTS_SUCCESS,
   SELECT_DATA_SUCCESS,
   CANCEL_SELECTION,
-  GET_DRAFT_SUCCESS,
-  SET_SORT_INFO,
 } from '../actions/lead';
 import {
   portalUrl,
@@ -78,7 +72,6 @@ const State = Record({
 
 const initialState = new State();
 
-// const uploadUrl = () => portalUrl('/api/work/leads/doc');
 const url = (postfix = '') => portalUrl(`/admin/leads${postfix}`);
 
 const _loadNextPage = (currentPage = 1, nextPage = 2) =>
@@ -168,102 +161,6 @@ export function sortData(field, desc) {
   return dispatch => {
     dispatch(setSortInfo(field, desc));
     return dispatch(_searchData());
-  };
-}
-
-// export function uploadDocument(field, path, name, data, docType, callback) {
-//   return dispatch => {
-//     const _url = uploadUrl();
-
-//     postForm(_url, data, false)
-//       .then(response => {
-//         const { data } = response;
-//         const { id, filename } = data;
-
-//         // {
-//         //   filename: "Free Fall Desktop Wallpapers - HD Wallpapers.jpg"
-//         //   id: 1087
-//         //   docType,
-//         //   path,
-//         // }
-
-//         console.log(data, path);
-
-//         dispatch(uploadDocumentSuccess(field, path, filename, docType));
-
-//         if (callback) {
-//           callback({
-//             id,
-//             filename,
-//             docType,
-//             path,
-//           });
-//         }
-
-//         dispatch(notify('อัพโหลดเอกสารแล้ว'));
-//         setTimeout(() => dispatch(notify('')), loadingTime);
-//       })
-//       .catch(error => {
-//         console.log('>>> uploadFile.error: ', error);
-//         dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
-//         setTimeout(() => dispatch(notify('')), loadingTime);
-//       });
-//   };
-// }
-
-export function loadDocuments(id, callback) {
-  console.log('loadDocuments');
-  return dispatch => {
-    dispatch(setLoading(true));
-
-    const _url = url(`/${id}/media`);
-
-    getJson(_url)
-      .then(response => {
-        const { data } = response;
-
-        console.log('documents: ', data);
-
-        dispatch(loadDocumentsSuccess(data));
-        if (callback) {
-          callback();
-        }
-        setTimeout(() => dispatch(setLoading(false)), loadingTime);
-      })
-      .catch(error => {
-        console.log('>>> edit.error: ', error);
-        dispatch(setLoading(false));
-      });
-  };
-}
-
-export function loadDocument(id, callback) {
-  return dispatch => {
-    dispatch(setLoading(true));
-
-    const _url = portalUrl(`/admin/media/${id}`);
-    console.log('url: ', _url);
-
-    getJson(_url)
-      .then(response => {
-        const { data } = response;
-
-        console.log('document: ', data);
-
-        // const contentType = headers['x-content-type'];
-        // const mediaSrc = window.URL.createObjectURL(new Blob([data], { type: contentType }));
-
-        // dispatch(loadDocumentSuccess(data));
-        if (callback) {
-          callback({});
-        }
-        // setTimeout(() => dispatch(setLoading(false)), loadingTime);
-        dispatch(setLoading(false));
-      })
-      .catch(error => {
-        console.log('>>> edit.error: ', error);
-        dispatch(setLoading(false));
-      });
   };
 }
 
@@ -369,20 +266,8 @@ const lead = (state = initialState, action) => {
   let loanInfo;
   let additionalInfo;
   let data;
-  let documents;
-  // let lead;
 
   switch (action.type) {
-    case GET_DRAFT_SUCCESS:
-
-      _state = Immutable.fromJS({
-        agreement: action.agreement,
-        personalInfo: action.personalInfo,
-        loanInfo: action.loanInfo,
-        additionalInfo: action.additionalInfo,
-      });
-      return state.merge(_state);
-
     case CANCEL_SELECTION:
 
       _state = Immutable.fromJS({
@@ -396,13 +281,6 @@ const lead = (state = initialState, action) => {
       _state = Immutable.fromJS({
         id: action.id,
         data: action.data,
-      });
-      return state.merge(_state);
-
-    case LOAD_DOCUMENTS_SUCCESS:
-
-      _state = Immutable.fromJS({
-        documents: action.documents,
       });
       return state.merge(_state);
 
@@ -490,41 +368,6 @@ const lead = (state = initialState, action) => {
         data,
       });
 
-      return state.merge(_state);
-
-    case UPLOAD_DOCUMENT_SUCCESS:
-
-      documents = state.get('documents');
-      documents = Object.assign(documents, {
-        [action.docType]: {
-          field: action.field,
-          path: action.path,
-          name: action.name,
-        },
-      });
-      _state = Immutable.fromJS({ documents });
-
-      return state.merge(_state);
-
-    case NOTIFY:
-      _state = Immutable.fromJS({
-        // notify: action.notify,
-        message: action.message,
-      });
-
-      return state.merge(_state);
-
-    case SET_LOADING:
-      _state = Immutable.fromJS({
-        loading: action.loading,
-      });
-      return state.merge(_state);
-
-    case SET_SORT_INFO:
-      _state = Immutable.fromJS({
-        sortField: action.field,
-        sortDesc: action.desc,
-      });
       return state.merge(_state);
 
     default:

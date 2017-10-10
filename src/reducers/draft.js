@@ -47,6 +47,12 @@ export const submitSuccess = () => ({
   type: SUBMIT_SUCCESS,
 });
 
+export const SET_ID = 'lead/SET_ID';
+export const setId = id => ({
+  type: SET_ID,
+  id,
+});
+
 const url = (postfix = '') => portalUrl(`/admin/leads${postfix}`);
 const parse = (raw = {}) =>
   Object.assign(
@@ -179,22 +185,16 @@ export const edit = (id, callback) =>
 
 const draft = (state = initialState, action) => {
   let _state;
-  // let _data;
-  // let mobile;
 
   switch (action.type) {
-    // case GET_SUCCESS:
-
-    //   mobile = localStorage.getItem('username') || '';
-    //   _data = Object.assign(action.data, { workTel2: mobile });
-    //   _state = Object.assign(
-    //     state,
-    //     {
-    //       data: _data,
-    //     },
-    //   );
-
-    //   return _state;
+    case SET_ID:
+      _state = {
+        id: action.id,
+        data: state.data,
+        editing: state.editing,
+      };
+      console.log('SET_ID', _state);
+      return _state;
 
     case EDIT_SUCCESS:
 
@@ -203,7 +203,6 @@ const draft = (state = initialState, action) => {
         data: action.data,
         editing: true,
       };
-      console.log('EDIT_SUCCESS', _state);
       return _state;
 
     case SAVE_SUCCESS:
@@ -214,7 +213,6 @@ const draft = (state = initialState, action) => {
           data: Object.assign(state.data, action.data),
         },
       );
-      console.log(SAVE_SUCCESS, _state);
       return _state;
 
     case SUBMIT_SUCCESS:

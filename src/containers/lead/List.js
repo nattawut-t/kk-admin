@@ -3,11 +3,10 @@ import moment from 'moment';
 import List from '../../components/lead/List';
 import {
   searchData,
-  // sortData,
   select,
 } from '../../reducers/lead';
 import { loadDocuments } from '../../reducers/document';
-import { edit } from '../../reducers/draft';
+import { edit, setId } from '../../reducers/draft';
 import { dateFormat } from '../../libs/config';
 
 const schema = [
@@ -77,6 +76,7 @@ const mapDispatchToProps = dispatch => ({
   // sortData: (sortField, sortDesc) => dispatch(sortData(sortField, sortDesc)),
   selectData: (id, callback) => dispatch(select(id, callback)),
   edit: (id, callback) => dispatch(edit(id, callback)),
+  setId: id => dispatch(setId(id)),
   loadDocuments: (id, callback) => dispatch(loadDocuments(id, callback)),
 });
 

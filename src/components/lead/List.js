@@ -29,9 +29,10 @@ class List extends Component {
   }
 
   handleDocumentClick = id => {
-    const { loadDocuments } = this.props;
-    if (loadDocuments) {
-      loadDocuments(id);
+    const { setId } = this.props;
+    console.log('setId', id, setId);
+    if (setId) {
+      setId(`${id}`);
     }
   };
 
@@ -146,9 +147,9 @@ class List extends Component {
                       <IconButton
                         tooltip="เอกสาร"
                         style={{ color: '#8B8C8D' }}
+                        onClick={() => this.handleDocumentClick(id)}
                         data-toggle="modal"
                         data-target="#exampleModal"
-                        onClick={() => this.handleDocumentClick(id)}
                       >
                         <i className="material-icons">description</i>
                       </IconButton>
@@ -210,7 +211,7 @@ List.propTypes = {
   dataList: PropTypes.any,
   selectData: PropTypes.func,
   edit: PropTypes.func,
-  loadDocuments: PropTypes.func,
+  setId: PropTypes.func,
   tableSchemas: PropTypes.array,
   history: PropTypes.object.isRequired,
 };
@@ -222,7 +223,7 @@ List.defaultProps = {
   tableSchemas: [],
   selectData: null,
   edit: null,
-  loadDocuments: null,
+  setId: null,
 };
 
 export default withRouter(List);

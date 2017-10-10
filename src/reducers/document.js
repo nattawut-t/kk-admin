@@ -70,30 +70,36 @@ export const uploadDocument = (field, path, name, data, docType, callback) =>
     }
   };
 
-export function loadDocuments(id, callback) {
-  return dispatch => {
+export const loadDocuments = (id, callback) =>
+  async dispatch => {
     dispatch(loading(true));
-
     const url = portalUrl(`/admin/leads/${id}/media`);
 
-    getJson(url)
-      .then(response => {
-        const { data } = response;
+    try {
+      const { data } = await getJson(url);
+      console.log('documents: ', data);
 
-        console.log('documents: ', data);
+      if (callback) {
+        callback(data);
+      }
 
-        dispatch(loadDocumentsSuccess(data));
-        if (callback) {
-          callback();
-        }
-        setTimeout(() => dispatch(loading(false)), loadingTime);
-      })
-      .catch(error => {
-        console.log('>>> edit.error: ', error);
+      // dispatch(loadDocumentsSuccess(data));
+
+      setTimeout(() => {
+        dispatch(notify());
         dispatch(loading());
-      });
+      }, loadingTime);
+    } catch (error) {
+      dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+
+      setTimeout(() => {
+        dispatch(notify());
+        dispatch(loading());
+      }, loadingTime);
+
+      handleError(error);
+    }
   };
-}
 
 export function downloadDocument(id, callback) {
   return dispatch => {
