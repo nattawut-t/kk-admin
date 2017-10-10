@@ -66,7 +66,7 @@ class WorkingInfo extends Component {
       department,
       position,
       employmentDate,
-      salary,
+      jobSalary,
       officeTel,
       officeTelExt,
       officeNumber,
@@ -139,9 +139,9 @@ class WorkingInfo extends Component {
             </div>
             <div className="col-6">
               <TextField
-                id="salary"
-                name="salary"
-                value={salary}
+                id="jobSalary"
+                name="jobSalary"
+                value={jobSalary}
                 floatingLabelText="เงินเดือน"
                 fullWidth
                 readOnly
