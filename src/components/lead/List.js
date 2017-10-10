@@ -113,6 +113,7 @@ class List extends Component {
             {(dataList instanceof ImmList)
               ? dataList.map((data, index) => {
                 const id = data.get('ID');
+                const Status = data.get('Status');
 
                 return (
                   <TableRow key={id}>
@@ -164,13 +165,16 @@ class List extends Component {
                       </IconButton>
                     </TableRowColumn>
                     <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
-                      <IconButton
-                        tooltip="แก้ไข"
-                        style={{ color: '#8B8C8D' }}
-                        onClick={() => this.handleEditClick(id)}
-                      >
-                        <i className="material-icons">mode_edit</i>
-                      </IconButton>
+                      {Status === 'created'
+                        ? <IconButton
+                          tooltip="แก้ไข"
+                          style={{ color: '#8B8C8D' }}
+                          onClick={() => this.handleEditClick(id)}
+                        >
+                          <i className="material-icons">mode_edit</i>
+                        </IconButton>
+                        : <div />
+                      }
                     </TableRowColumn>
                   </TableRow>
                 );
