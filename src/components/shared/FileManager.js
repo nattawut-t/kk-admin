@@ -29,7 +29,7 @@ class FileManager extends Component {
           showPreview: true,
           showRemove: true,
           showUpload: false,
-          showCancel: true,
+          showCancel: false,
           showUploadedThumbs: true,
         });
         // console.log('componentDidMount.urls: ', urls);
@@ -64,7 +64,7 @@ class FileManager extends Component {
             showPreview: true,
             showRemove: true,
             showUpload: false,
-            showCancel: true,
+            showCancel: false,
             showUploadedThumbs: true,
           });
           this.setState({ dont: true });
