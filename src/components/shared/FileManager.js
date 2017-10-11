@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { portalUrl } from '../../libs/request';
 import '../../styles/loader.scss';
+
+const url = portalUrl('/admin/leads/doc');
 
 class FileManager extends Component {
 
@@ -27,15 +30,25 @@ class FileManager extends Component {
         }));
 
         $('#file1').fileinput('destroy');
+        // const boundary = Math.random().toString().substr(2);
 
         setTimeout(() => {
           $('#file1').fileinput({
             theme: 'explorer-fa',
-            uploadUrl: '#',
+            uploadUrl: url,
             overwriteInitial: false,
             initialPreviewAsData: true,
             initialPreview: urls || [],
             initialPreviewConfig: config,
+            ajaxSettings: {
+              headers: {
+                Authorization: localStorage.getItem('token'),
+              },
+            },
+            uploadExtra: {
+              leadId: id,
+              docType: 'identity',
+            },
             language: 'en',
             showCaption: true,
             showPreview: true,
@@ -43,6 +56,13 @@ class FileManager extends Component {
             showUpload: false,
             showCancel: false,
             showUploadedThumbs: true,
+          });
+
+          $('#file1').on('filepreupload', (event, data) => {
+            const { files } = data;
+            data.form.append('file', files[0]);
+            data.form.append('docType', 'identity');
+            data.form.append('leadId', id);
           });
         }
           , 100);
