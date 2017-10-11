@@ -37,15 +37,15 @@ class FileManager extends Component {
       handler(id, documents => {
         const urls = documents.map(({ url }) => url);
         let i = 1;
-        const config = documents.map(({ Filename, DocType, url }) => ({
+        const config = documents.map(({ Filename, DocType, url, Size }) => ({
           caption: `${DocType} - ${Filename}`,
           width: '120px',
+          size: Size,
           url,
           key: i++,
         }));
 
         $('#file1').fileinput('destroy');
-        // const boundary = Math.random().toString().substr(2);
 
         setTimeout(() => {
           $('#file1').fileinput({
