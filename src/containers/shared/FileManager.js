@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Component from '../../components/shared/FileManager';
 // import Component from '../../components/test/Test2';
-import { loadDocuments } from '../../reducers/document';
+import { loadDocuments, deleteDocument } from '../../reducers/document';
 
 const mapStateToProps = ({ draft }) => ({
   id: draft.id,
@@ -9,6 +9,7 @@ const mapStateToProps = ({ draft }) => ({
 
 const mapDispatchToProps = dispatch => ({
   loadDocuments: (id, callback) => dispatch(loadDocuments(id, callback)),
+  deleteDocument: (id, callback) => dispatch(deleteDocument(id, callback)),
 });
 
 export default connect(

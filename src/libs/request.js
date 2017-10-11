@@ -91,7 +91,7 @@ export const deleteJson = (url, authenticate = true) => {
     axios.defaults.headers.common.Authorization = localStorage.getItem('token');
   }
   const options = {
-    method: 'GET',
+    method: 'DELETE',
     url,
     headers: { 'Content-Type': 'application/json' },
   };

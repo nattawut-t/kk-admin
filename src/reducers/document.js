@@ -2,6 +2,7 @@ import {
   portalUrl,
   postForm,
   getJson,
+  deleteJson,
 } from '../libs/request';
 import { notify, loading } from './notification';
 import { handleError } from '../handlers/api';
@@ -165,28 +166,29 @@ export const getUrl = (id, callback) =>
 export const deleteDocument = (id, callback) =>
   async dispatch => {
     dispatch(loading(true));
-    const _url = portalUrl(`/admin/media/${id}/url`);
+    const _url = portalUrl(`/admin/media/${id}`);
 
     try {
-      const { data: { url } } = await getJson(_url);
+      await deleteJson(_url);
 
-      // dispatch(notify('โหลดไฟล์เอกสาร'));
       setTimeout(() => {
         dispatch(notify());
         dispatch(loading());
 
         if (callback) {
-          callback(url);
+          callback(true);
         }
       }, loadingTime);
     } catch (error) {
-      // console.log('uploadDocument.error: ', error);
-
       dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
 
       setTimeout(() => {
         dispatch(notify());
         dispatch(loading());
+
+        if (callback) {
+          callback(false);
+        }
       }, loadingTime);
 
       handleError(error);

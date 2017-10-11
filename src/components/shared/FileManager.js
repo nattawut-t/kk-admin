@@ -6,7 +6,8 @@ import MenuItem from 'material-ui/MenuItem';
 import { portalUrl } from '../../libs/request';
 import '../../styles/loader.scss';
 
-const url = portalUrl('/admin/leads/doc');
+const uploadUrl = (postfix = '') => portalUrl(`/admin/leads/doc${postfix}`);
+const deleteUrl = (postfix = '') => portalUrl(`/admin/media${postfix}`);
 const docTypes = [
   <MenuItem key="identity" value="identity" primaryText="บัตรประชาชน" />,
   <MenuItem key="account" value="account" primaryText="สลิปเงินเดือน (เดือนล่าสุด)" />,
@@ -36,13 +37,12 @@ class FileManager extends Component {
     if (id && handler) {
       handler(id, documents => {
         const urls = documents.map(({ url }) => url);
-        let i = 1;
-        const config = documents.map(({ Filename, DocType, url, Size }) => ({
+        const config = documents.map(({ ID, Filename, DocType, Size }) => ({
+          key: ID,
           caption: `${DocType} - ${Filename}`,
           width: '120px',
           size: Size,
-          url,
-          key: i++,
+          url: deleteUrl(`/${id}`),
         }));
 
         $('#file1').fileinput('destroy');
@@ -50,7 +50,7 @@ class FileManager extends Component {
         setTimeout(() => {
           $('#file1').fileinput({
             theme: 'explorer-fa',
-            uploadUrl: url,
+            uploadUrl: uploadUrl(),
             overwriteInitial: false,
             initialPreviewAsData: true,
             initialPreview: urls || [],
@@ -78,11 +78,25 @@ class FileManager extends Component {
             const { files } = data;
             const { docType } = this.state;
 
-            console.log('docType: ', docType);
-
             data.form.append('file', files[0]);
             data.form.append('docType', docType);
             data.form.append('leadId', id);
+          });
+
+          $('#file1').on('filepredelete', (jqXHR, id) => {
+            const { deleteDocument } = this.props;
+
+            if (id && deleteDocument) {
+              deleteDocument(id, success => {
+                console.log('delete success');
+                if (success) {
+                  const { id, loadDocuments } = this.props;
+                  this.loadDocuments(id, loadDocuments);
+                }
+              });
+            }
+
+            return false;
           });
         }
           , 100);
@@ -139,6 +153,7 @@ class FileManager extends Component {
 FileManager.propTypes = {
   id: PropTypes.string.isRequired,
   loadDocuments: PropTypes.func.isRequired,
+  deleteDocument: PropTypes.func.isRequired,
 };
 
 export default FileManager;
