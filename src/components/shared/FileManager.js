@@ -119,7 +119,6 @@ class FileManager extends Component {
           </div>
           <br />
         </form>
-        {docType}
         <div className="col-12">
           <SelectField
             id="docType"
