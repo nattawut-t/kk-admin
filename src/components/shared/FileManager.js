@@ -4,49 +4,27 @@ import '../../styles/loader.scss';
 
 class FileManager extends Component {
 
-  state = {
-    done: false,
-    // urls: [],
-  };
-
   componentDidMount() {
     const { id, loadDocuments } = this.props;
-
-    if (id && loadDocuments) {
-      loadDocuments(id, documents => {
-        const urls = documents.map(({ url }) => url);
-
-        $('#file1').fileinput({
-          theme: 'explorer-fa',
-          uploadUrl: '#',
-          overwriteInitial: false,
-          initialPreviewAsData: true,
-          initialPreview: urls || [],
-          initialPreviewConfig: [
-          ],
-          language: 'en',
-          showCaption: true,
-          showPreview: true,
-          showRemove: true,
-          showUpload: false,
-          showCancel: false,
-          showUploadedThumbs: true,
-        });
-        // console.log('componentDidMount.urls: ', urls);
-      });
-    }
-
-    this.setState({ done: true });
+    this.loadDocuments(id, loadDocuments);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ dont: false });
-
     const { id, loadDocuments } = nextProps;
+    this.loadDocuments(id, loadDocuments);
+  }
 
-    if (id && loadDocuments) {
-      loadDocuments(id, documents => {
+  loadDocuments = (id, handler) => {
+    if (id && handler) {
+      handler(id, documents => {
         const urls = documents.map(({ url }) => url);
+        let i = 1;
+        const config = documents.map(({ Filename, DocType, url }) => ({
+          caption: `${DocType} - ${Filename}`,
+          width: '120px',
+          url,
+          key: i++,
+        }));
 
         $('#file1').fileinput('destroy');
 
@@ -57,8 +35,7 @@ class FileManager extends Component {
             overwriteInitial: false,
             initialPreviewAsData: true,
             initialPreview: urls || [],
-            initialPreviewConfig: [
-            ],
+            initialPreviewConfig: config,
             language: 'en',
             showCaption: true,
             showPreview: true,
@@ -67,20 +44,15 @@ class FileManager extends Component {
             showCancel: false,
             showUploadedThumbs: true,
           });
-          this.setState({ dont: true });
         }
           , 100);
       });
     }
-  }
+  };
 
   render() {
-    const { done } = this.state;
-    if (!done) {
-      return <div className="loader" />;
-    }
-
     const { id } = this.props;
+
     return (
       <form encType="multipart/form-data">
         <div
@@ -100,8 +72,6 @@ class FileManager extends Component {
           />
         </div>
         <br />
-        {/* <button type="submit" className="btn btn-primary">Submit</button>
-        <button type="reset" className="btn btn-default">Reset</button> */}
       </form>
     );
   }
@@ -111,9 +81,5 @@ FileManager.propTypes = {
   id: PropTypes.string.isRequired,
   loadDocuments: PropTypes.func.isRequired,
 };
-
-// FileManager.defaultProps = {
-//   id: '',
-// };
 
 export default FileManager;

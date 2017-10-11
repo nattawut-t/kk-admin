@@ -46,6 +46,7 @@
     "async-await/space-after-await": 2,
     "consistent-return": 0,
     "react/no-string-refs": 0,
-    "react/no-find-dom-node": 0
+    "react/no-find-dom-node": 0,
+    "no-plusplus": 0
   }
 }
