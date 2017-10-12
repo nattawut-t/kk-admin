@@ -10,8 +10,8 @@ const uploadUrl = (postfix = '') => portalUrl(`/admin/leads/doc${postfix}`);
 const deleteUrl = (postfix = '') => portalUrl(`/admin/media${postfix}`);
 const docTypes = [
   <MenuItem key="identity" value="identity" primaryText="บัตรประชาชน" />,
-  <MenuItem key="account" value="account" primaryText="สลิปเงินเดือน (เดือนล่าสุด)" />,
-  <MenuItem key="payslip" value="payslip" primaryText="สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน" />,
+  <MenuItem key="account" value="account" primaryText="สำเนาหน้าแรกสมุดบัญชีเงินฝากที่ใช้รับเงินเดือน" />,
+  <MenuItem key="payslip" value="payslip" primaryText="สลิปเงินเดือน (เดือนล่าสุด)" />,
   <MenuItem key="household_registration" value="household_registration" primaryText="ทะเบียนบ้าน" />,
   <MenuItem key="statement_1" value="statement_1" primaryText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #1" />,
   <MenuItem key="statement_2" value="statement_2" primaryText="แบงค์ Statement บัญชีเงินเดือน (ย้อนหลัง 6 เดือน) #2" />,
@@ -43,7 +43,10 @@ class FileManager extends Component {
           width: '120px',
           size: Size,
           url: deleteUrl(`/${id}`),
+          // downloadUrl: url,
         }));
+
+        console.log('documents: ', documents);
 
         $('#file1').fileinput('destroy');
 
@@ -71,6 +74,8 @@ class FileManager extends Component {
             showRemove: false,
             showUpload: false,
             showCancel: false,
+            // showDownload: true,
+            // downloadIcon: '<i class="glyphicon glyphicon-download"></i>',
             showUploadedThumbs: true,
           });
 
