@@ -33,7 +33,7 @@ class FileManager extends Component {
     this.loadDocuments(id, loadDocuments);
   }
 
-  loadDocuments = (id, handler) => {
+  loadDocuments = (id = this.props.id, handler = this.props.loadDocuments) => {
     if (id && handler) {
       handler(id, documents => {
         const urls = documents.map(({ url }) => url);
@@ -68,7 +68,7 @@ class FileManager extends Component {
             language: 'en',
             showCaption: true,
             showPreview: true,
-            showRemove: true,
+            showRemove: false,
             showUpload: false,
             showCancel: false,
             showUploadedThumbs: true,

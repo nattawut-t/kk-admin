@@ -82,9 +82,6 @@ const _loadNextPage = (currentPage = 1, nextPage = 2) =>
     const state = getState().lead;
     const total = state.get('total') || 0;
 
-    console.log('nextPage: ', nextPage);
-    console.log('total: ', total);
-
     if ((currentPage * pageSize) < total) {
       const _url = url(`?page=${nextPage}`);
 

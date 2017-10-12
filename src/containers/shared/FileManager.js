@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import Component from '../../components/shared/FileManager';
-// import Component from '../../components/test/Test2';
 import { loadDocuments, deleteDocument } from '../../reducers/document';
 
 const mapStateToProps = ({ draft }) => ({
