@@ -3,7 +3,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { FocusStyleManager } from '@blueprintjs/core';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import { store } from './store';
@@ -14,8 +13,9 @@ import './styles/loader.scss';
 
 injectTapEventPlugin();
 
-if (process.env.NODE_ENV === 'prod') Offline.install();
-FocusStyleManager.onlyShowFocusOnTabs();
+if (process.env.NODE_ENV === 'prod') {
+  Offline.install();
+}
 
 export const Root = () =>
   <Provider store={store}>
@@ -24,4 +24,6 @@ export const Root = () =>
     </BrowserRouter>
   </Provider>;
 
-if (!module.hot) render(<Root />, document.querySelector('react'));
+if (!module.hot) {
+  render(<Root />, document.querySelector('react'));
+}
