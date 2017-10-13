@@ -66,7 +66,7 @@ const ButtonBar = ({ searchData, loading }) => {
           style={styles.button}
           icon={<Refresh />}
           onClick={() => handleSearchClick(searchData, input)}
-          display={loading}
+          disabled={loading}
           primary
         />
       </div>
@@ -77,10 +77,11 @@ const ButtonBar = ({ searchData, loading }) => {
 
 ButtonBar.propTypes = {
   searchData: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
 };
 
 ButtonBar.defaultProps = {
+  loading: false,
 };
 
 export default ButtonBar;

@@ -84,7 +84,6 @@ export function getJson(url, authenticate = true, params = {}) {
     params,
   };
 
-  // console.log('getJson.options: ', options);
   return axios(options);
 }
 
