@@ -11,26 +11,31 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import uuid from 'uuid/v1';
 
 import FileManager from '../../containers/shared/FileManager';
+
+const sortIcon = sortType => (sortType === 'asc')
+  ? <i className="material-icons">expand_less</i>
+  : <i className="material-icons">expand_more</i>;
 
 class List extends Component {
 
   state = {
-    sortField: '',
-    sortDesc: true,
+    keyword: '',
+    sortBy: 'id',
+    sortType: 'desc',
   };
 
   componentWillMount() {
-    const { loadData } = this.props;
-    if (loadData) {
-      loadData();
+    const { searchData } = this.props;
+    if (searchData) {
+      searchData();
     }
   }
 
   handleDocumentClick = id => {
     const { setId } = this.props;
-    console.log('setId', id, setId);
     if (setId) {
       setId(`${id}`);
     }
@@ -38,7 +43,6 @@ class List extends Component {
 
   handleViewClick = id => {
     const { selectData } = this.props;
-    // console.log('handleViewClick: ', id, selectData);
     if (selectData) {
       selectData(id, () => { });
     }
@@ -46,35 +50,40 @@ class List extends Component {
 
   handleEditClick = id => {
     const { edit, history } = this.props;
-    // console.log('handleViewClick: ', id, selectData);
     if (edit) {
       edit(id, () => history.push('/personal-info'));
     }
   };
 
-  handleHeaderClick = field => {
-    const { sortField, sortDesc } = this.state;
-    this.setState({
-      sortDesc: (sortField !== field) ? false : !sortDesc,
-      sortField: field,
-    }, this.sortData);
-  };
+  handleSortClick = key => {
+    const { sortBy, sortType } = this.state;
+    const _switch = type => type === 'asc' ? 'desc' : 'asc';
 
-  sortData = () => {
-    const { sortField, sortDesc } = this.state;
-    const { sortData } = this.props;
-    sortData(sortField, sortDesc);
+    this.setState({
+      sortType: (sortBy !== key) ? 'asc' : _switch(sortType),
+      sortBy: key,
+    }, () => {
+      const { searchData } = this.props;
+      const { keyword, sortBy, sortType } = this.state;
+
+      console.log('handleSortClick: ', keyword, sortBy, sortType);
+
+      searchData(keyword, sortBy, sortType);
+    });
   };
 
   render() {
-    const { dataList, tableSchemas } = this.props;
-    // const { sortField, sortDesc } = this.state;
-    // const sortDirection = sortDesc => (!sortDesc)
-    //   ? <i className="material-icons">expand_less</i>
-    //   : <i className="material-icons">expand_more</i>;
+    // const { loading } = this.props;
+    // if (loading) {
+    //   return <div className="loader" />;
+    // }
+
+    const { dataList, tableSchemas, loading } = this.props;
+    const { sortBy, sortType } = this.state;
 
     return (
       <div>
+        <div className={loading ? 'loader' : ''} />
         <Table
           height="450px"
           fixedHeader
@@ -88,14 +97,29 @@ class List extends Component {
             <TableRow>
               <TableHeaderColumn style={{ width: '5%', textAlign: 'center' }}>#</TableHeaderColumn>
               {tableSchemas.map(col => {
-                const { id, label } = col;
+                const { id, label, sortKey } = col;
                 let { widthPercentage } = col;
                 widthPercentage = widthPercentage || 100;
+
                 return (
                   <TableHeaderColumn key={id} style={{ width: `${widthPercentage}%`, textAlign: 'center' }}>
-                    <div style={{ display: 'inline-block' }} >
-                      <span>{label}</span>
-                    </div>
+                    {sortKey
+                      ? <div style={{ display: 'inline-block' }} >
+                        <span>{label}</span>
+                        <IconButton
+                          tooltip={`Sort by ${label}`}
+                          onClick={() => this.handleSortClick(sortKey)}
+                        >
+                          {(sortBy === sortKey)
+                            ? sortIcon(sortType)
+                            : <i className="material-icons">more_vert</i>
+                          }
+                        </IconButton>
+                      </div>
+                      : <div style={{ display: 'inline-block' }} >
+                        <span>{label}</span>
+                      </div>
+                    }
                   </TableHeaderColumn>
                 );
               })}
@@ -116,7 +140,7 @@ class List extends Component {
                 const Status = data.get('Status');
 
                 return (
-                  <TableRow key={id}>
+                  <TableRow key={uuid()}>
                     <TableRowColumn style={{ width: '5%', textAlign: 'center' }}>
                       {index + 1}
                     </TableRowColumn>
@@ -210,24 +234,24 @@ class List extends Component {
 }
 
 List.propTypes = {
-  loadData: PropTypes.func,
-  sortData: PropTypes.func,
+  loading: PropTypes.bool,
   dataList: PropTypes.any,
+  tableSchemas: PropTypes.array,
+  searchData: PropTypes.func,
   selectData: PropTypes.func,
   edit: PropTypes.func,
   setId: PropTypes.func,
-  tableSchemas: PropTypes.array,
   history: PropTypes.object.isRequired,
 };
 
 List.defaultProps = {
-  loadData: null,
-  sortData: null,
-  dataList: [],
-  tableSchemas: [],
+  loading: false,
+  searchData: null,
   selectData: null,
   edit: null,
   setId: null,
+  dataList: [],
+  tableSchemas: [],
 };
 
 export default withRouter(List);

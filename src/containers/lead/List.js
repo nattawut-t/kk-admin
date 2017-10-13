@@ -4,6 +4,7 @@ import List from '../../components/lead/List';
 import {
   searchData,
   select,
+  // sortData,
 } from '../../reducers/lead';
 import { loadDocuments } from '../../reducers/document';
 import { edit, setId } from '../../reducers/draft';
@@ -13,6 +14,7 @@ const schema = [
   {
     id: 1,
     name: 'Status',
+    sortKey: 'status',
     label: 'สถานะคำข้อกู้',
     widthPercentage: 10,
     icon: status => {
@@ -42,12 +44,14 @@ const schema = [
   {
     id: 2,
     name: 'ID',
+    sortKey: 'id',
     label: 'เลขที่',
     widthPercentage: 10,
   },
   {
     id: 3,
-    name: 'CreatedAt',
+    name: 'dateReq',
+    // sortKey: 'dateReq',
     label: 'วันที่สร้างคำขอกู้',
     widthPercentage: 25,
     format: value => moment(value).format(dateFormat),
@@ -55,24 +59,27 @@ const schema = [
   {
     id: 4,
     name: 'TicketID',
+    sortKey: 'ticket_id',
     label: 'เลขที่อ้างอิง',
     widthPercentage: 20,
   },
   {
     id: 5,
     name: 'nameTH',
+    // sortKey: 'firstNameTH',
     label: 'ชื่อ/นามสกุล (TH)',
     widthPercentage: 30,
   },
 ];
 
-const mapStateToProps = ({ lead }) => ({
+const mapStateToProps = ({ lead, notification }) => ({
   dataList: lead.get('dataList'),
+  loading: notification.loading,
   tableSchemas: schema,
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadData: () => dispatch(searchData()),
+  searchData: (keyword, sortBy, sortType) => dispatch(searchData(keyword, sortBy, sortType)),
   // sortData: (sortField, sortDesc) => dispatch(sortData(sortField, sortDesc)),
   selectData: (id, callback) => dispatch(select(id, callback)),
   edit: (id, callback) => dispatch(edit(id, callback)),

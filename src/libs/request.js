@@ -73,7 +73,7 @@ export function putJson(url, data, authenticate = true) {
   return axios(options);
 }
 
-export function getJson(url, authenticate = true) {
+export function getJson(url, authenticate = true, params = {}) {
   if (authenticate) {
     axios.defaults.headers.common.Authorization = localStorage.getItem('token');
   }
@@ -81,8 +81,10 @@ export function getJson(url, authenticate = true) {
     method: 'GET',
     url,
     headers: { 'Content-Type': 'application/json' },
+    params,
   };
 
+  // console.log('getJson.options: ', options);
   return axios(options);
 }
 
