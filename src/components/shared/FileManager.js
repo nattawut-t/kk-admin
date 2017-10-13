@@ -37,13 +37,13 @@ class FileManager extends Component {
     if (id && handler) {
       handler(id, documents => {
         const urls = documents.map(({ url }) => url);
-        const config = documents.map(({ ID, Filename, DocType, Size }) => ({
+        const config = documents.map(({ ID, Filename, DocType, Size, url }) => ({
           key: ID,
           caption: `${DocType} - ${Filename}`,
           width: '120px',
           size: Size,
           url: deleteUrl(`/${id}`),
-          // downloadUrl: url,
+          downloadUrl: url,
         }));
 
         console.log('documents: ', documents);
@@ -74,7 +74,7 @@ class FileManager extends Component {
             showRemove: false,
             showUpload: false,
             showCancel: false,
-            // showDownload: true,
+            showDownload: true,
             // downloadIcon: '<i class="glyphicon glyphicon-download"></i>',
             showUploadedThumbs: true,
           });
