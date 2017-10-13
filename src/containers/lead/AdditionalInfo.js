@@ -3,11 +3,11 @@ import Component from '../../components/lead/AdditionalInfo';
 import { uploadDocument } from '../../reducers/document';
 import { get, save } from '../../reducers/draft';
 
-const mapStateToProps = state => ({
-  data: state.draft.data,
-  loading: state.lead.get('loading') || false,
-  editing: state.lead.get('editing') || false,
-  message: state.lead.get('message') || '',
+const mapStateToProps = ({ draft, lead, notification }) => ({
+  data: draft.data,
+  editing: lead.get('editing') || false,
+  loading: notification.loading,
+  message: notification.message,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,16 +1,15 @@
 import { connect } from 'react-redux';
-import ButtonBar from '../../components/shared/ButtonBar';
+import Component from '../../components/shared/ButtonBar';
 import { cancelSelection } from '../../actions/lead';
 import { searchData } from '../../reducers/lead';
 
-const mapStateToProps = ({ lead }) => ({
+const mapStateToProps = ({ lead, notification }) => ({
   id: lead.get('id'),
-  message: lead.get('message'),
-  loading: lead.get('loading'),
+  message: notification.message,
+  loading: notification.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
-  // approve: id => approve(dispatch, id),
   searchData: keyword => dispatch(searchData(keyword)),
   cancelSelection: () => dispatch(cancelSelection()),
 });
@@ -18,4 +17,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ButtonBar);
+)(Component);

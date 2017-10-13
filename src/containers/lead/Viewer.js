@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
-import Viewer from '../../components/shared/Viewer';
+import Component from '../../components/shared/Viewer';
 import { cancelSelection } from '../../actions/lead';
 import { approve, reject } from '../../reducers/admin';
-// import { loadDocuments } from '../../reducers/lead';
 import { edit } from '../../reducers/draft';
-// import { getUrl, loadDocuments } from '../../reducers/document';
 
 const transform = (state, key) => {
   if (state && key) {
@@ -18,11 +16,10 @@ const transform = (state, key) => {
   return null;
 };
 
-const mapStateToProps = state => ({
-  id: state.lead.get('id') || '',
-  data: transform(state.lead, 'data'),
-  loading: state.lead.get('loading') || false,
-  documents: transform(state.lead, 'documents'),
+const mapStateToProps = ({ lead, notification }) => ({
+  id: lead.get('id') || '',
+  data: transform(lead, 'data'),
+  loading: notification.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -30,11 +27,9 @@ const mapDispatchToProps = dispatch => ({
   reject: (id, remark, callback) => dispatch(reject(id, remark, callback)),
   cancel: () => dispatch(cancelSelection()),
   edit: (id, callback) => dispatch(edit(id, callback)),
-  // loadDocuments: (id, callback) => dispatch(loadDocuments(id, callback)),
-  // loadDocument: (id, callback) => dispatch(getUrl(id, callback)),
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Viewer);
+)(Component);

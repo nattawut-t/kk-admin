@@ -3,7 +3,7 @@ import Component from '../../components/shared/FileManager';
 import { loadDocuments, deleteDocument } from '../../reducers/document';
 
 const mapStateToProps = ({ draft }) => ({
-  id: draft.id,
+  id: `${draft.id}`,
 });
 
 const mapDispatchToProps = dispatch => ({

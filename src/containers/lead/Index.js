@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import Index from '../../components/lead/Index';
 import { loadNextPage } from '../../reducers/lead';
 
-const mapStateToProps = ({ lead }) => ({
+const mapStateToProps = ({ lead, notification }) => ({
   id: `${lead.get('id') || ''}`,
-  message: lead.get('message'),
-  loading: lead.get('loading'),
+  message: notification.message,
+  loading: notification.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
