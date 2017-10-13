@@ -20,7 +20,7 @@ import {
   getJson,
 } from '../libs/request';
 import {
-  pageSize,
+  // pageSize,
   loadingTime,
   // dateFormat,
   // isAdmin,
@@ -46,9 +46,9 @@ const State = Record({
   //
   lead: null,
   data: null,
-  notify: false,
-  message: '',
-  loading: false,
+  // notify: false,
+  // message: '',
+  // loading: false,
   identity: {},
   account: {},
   statement_1: {},
@@ -76,17 +76,18 @@ export const loadNextPage = (keyword = '', sortBy = 'id', sortType = 'desc') =>
 
     const state = getState().lead;
     const total = state.get('total') || 0;
-    const currentPage = state.get('page') || 1;
+    const dataList = state.get('dataList').toJS();
+    const page = state.get('page') || 1;
 
-    if ((currentPage * pageSize) < total) {
-      // const _url = url(`?sortBy=${sortBy}&sortType=${sortType}&page=${currentPage + 1}`);
+    if (dataList.length < total) {
+      const params = {
+        orderBy: sortBy,
+        orderType: sortType,
+        page: page + 1,
+      };
 
       try {
-        const { data } = await getJson(url(), {
-          orderBy: sortBy,
-          orderType: sortType,
-          page: currentPage + 1,
-        });
+        const { data } = await getJson(url(), true, params);
         const { count, entries, numOfPages, page } = data;
         const dataList = entries ? parseLeadsIn(entries) : [];
 
