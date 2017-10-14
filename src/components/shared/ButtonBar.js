@@ -1,23 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import Refresh from 'material-ui/svg-icons/navigation/refresh';
 
-const styles = {
-  button: {
-    margin: 12,
-  },
-  chip: {
-    margin: 2,
-  },
-};
-
-const handleSearchClick = (searchData, input) => {
-  console.log(searchData, input);
-  if (searchData && input) {
-    const value = input.value || '';
-    searchData(value);
+const handleSearchClick = searchData => {
+  // console.log(searchData, input);
+  if (searchData) {
+    // const value = input.value || '';
+    searchData();
   }
 };
 
@@ -61,14 +50,13 @@ const ButtonBar = ({ searchData, loading }) => {
           alignItems: 'center',
         }}
       >
-        <RaisedButton
-          label="โหลดใหม่"
-          style={styles.button}
-          icon={<Refresh />}
-          onClick={() => handleSearchClick(searchData, input)}
+        <button
+          className={!loading ? 'btn btn-primary' : 'btn'}
           disabled={loading}
-          primary
-        />
+          onClick={() => handleSearchClick(searchData, input)}
+        >
+          <i className="fa fa-refresh" aria-hidden="true" />&nbsp;&nbsp;โหลดใหม่
+        </button>
       </div>
       <div className="col-1" />
     </div >
@@ -77,11 +65,11 @@ const ButtonBar = ({ searchData, loading }) => {
 
 ButtonBar.propTypes = {
   searchData: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
 };
 
-ButtonBar.defaultProps = {
-  loading: false,
-};
+// ButtonBar.defaultProps = {
+//   loading: false,
+// };
 
 export default ButtonBar;

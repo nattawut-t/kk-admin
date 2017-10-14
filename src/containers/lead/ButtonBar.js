@@ -6,7 +6,7 @@ import { searchData } from '../../reducers/lead';
 const mapStateToProps = ({ lead, notification }) => ({
   id: lead.get('id'),
   message: notification.message,
-  loading: notification.loading,
+  loading: notification.loading || false,
 });
 
 const mapDispatchToProps = dispatch => ({
