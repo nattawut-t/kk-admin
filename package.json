@@ -1,7 +1,7 @@
 {
-  "name": "mt-work",
+  "name": "kk-admin",
   "version": "1.0.0",
-  "description": "MoneyTable Admin Application",
+  "description": "KK Admin Application",
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
