@@ -37,16 +37,31 @@ class FileManager extends Component {
     if (id && handler) {
       handler(id, documents => {
         const urls = documents.map(({ url }) => url);
-        const config = documents.map(({ ID, Filename, DocType, Size, url }) => ({
-          key: ID,
-          caption: `${DocType} - ${Filename}`,
-          width: '120px',
-          size: Size,
-          url: deleteUrl(`/${id}`),
-          downloadUrl: url,
-        }));
+        const config = documents.map(({ ID, Filename, DocType, Size, url }) => {
+          const ext = Filename.split('.').pop();
+
+          return (['jpg', 'jpeg', 'png'].indexOf(ext) > -1)
+            ? {
+              key: ID,
+              caption: `${DocType} - ${Filename}`,
+              width: '120px',
+              size: Size,
+              url: deleteUrl(`/${id}`),
+              downloadUrl: url,
+            }
+            : {
+              key: ID,
+              caption: `${DocType} - ${Filename}`,
+              width: '120px',
+              size: Size,
+              url: deleteUrl(`/${id}`),
+              downloadUrl: url,
+              type: ext,
+            };
+        });
 
         console.log('documents: ', documents);
+        console.log('config: ', config);
 
         $('#file1').fileinput('destroy');
 
@@ -54,8 +69,35 @@ class FileManager extends Component {
           $('#file1').fileinput({
             theme: 'explorer-fa',
             uploadUrl: uploadUrl(),
+            uploadAsync: false,
             overwriteInitial: false,
+            //
+            previewFileIcon: '<i class="fa fa-file"></i>',
+            preferIconicPreview: true,
+            previewFileIconSettings: {
+              doc: '<i class="fa fa-file-word-o text-primary"></i>',
+              xls: '<i class="fa fa-file-excel-o text-success"></i>',
+              ppt: '<i class="fa fa-file-powerpoint-o text-danger"></i>',
+              pdf: '<i class="fa fa-file-pdf-o text-danger"></i>',
+              zip: '<i class="fa fa-file-archive-o text-muted"></i>',
+              htm: '<i class="fa fa-file-code-o text-info"></i>',
+              txt: '<i class="fa fa-file-text-o text-info"></i>',
+              mov: '<i class="fa fa-file-movie-o text-warning"></i>',
+              mp3: '<i class="fa fa-file-audio-o text-warning"></i>',
+            },
+            previewFileExtSettings: {
+              doc: ext => ext.match(/(doc|docx)$/i),
+              xls: ext => ext.match(/(xls|xlsx)$/i),
+              ppt: ext => ext.match(/(ppt|pptx)$/i),
+              zip: ext => ext.match(/(zip|rar|tar|gzip|gz|7z)$/i),
+              htm: ext => ext.match(/(htm|html)$/i),
+              txt: ext => ext.match(/(txt|ini|csv|java|php|js|css)$/i),
+              mov: ext => ext.match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i),
+              mp3: ext => ext.match(/(mp3|wav)$/i),
+            },
+            //
             initialPreviewAsData: true,
+            // initialPreviewFileType: 'image',
             initialPreview: urls || [],
             initialPreviewConfig: config,
             ajaxSettings: {
