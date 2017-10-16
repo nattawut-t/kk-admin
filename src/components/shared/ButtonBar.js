@@ -68,8 +68,4 @@ ButtonBar.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-// ButtonBar.defaultProps = {
-//   loading: false,
-// };
-
 export default ButtonBar;

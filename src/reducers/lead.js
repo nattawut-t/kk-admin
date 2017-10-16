@@ -46,9 +46,7 @@ const State = Record({
   //
   lead: null,
   data: null,
-  // notify: false,
-  // message: '',
-  // loading: false,
+  //
   identity: {},
   account: {},
   statement_1: {},
