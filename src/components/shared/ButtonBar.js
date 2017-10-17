@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import IconButton from 'material-ui/IconButton';
+import { Button } from 'reactstrap';
+import { Icon } from 'react-fa';
 
 const handleSearchClick = searchData => {
   // console.log(searchData, input);
@@ -9,6 +11,12 @@ const handleSearchClick = searchData => {
     searchData();
   }
 };
+
+// const handleNewClick = switchMode => {
+//   if (switchMode) {
+//     switchMode('new');
+//   }
+// };
 
 const ButtonBar = ({ searchData, loading }) => {
   let input;
@@ -50,13 +58,21 @@ const ButtonBar = ({ searchData, loading }) => {
           alignItems: 'center',
         }}
       >
-        <button
-          className={!loading ? 'btn btn-primary' : 'btn'}
+        <Button
+          color="primary"
           disabled={loading}
           onClick={() => handleSearchClick(searchData, input)}
         >
-          <i className="fa fa-refresh" aria-hidden="true" />&nbsp;&nbsp;โหลดใหม่
-        </button>
+          <Icon name="refresh" />&nbsp;&nbsp;โหลดใหม่
+        </Button>
+        &nbsp;
+        {/* <Button
+          disabled={loading}
+          color="primary"
+          onClick={() => handleNewClick(switchMode)}
+        >
+          <Icon name="pencil-square-o" />&nbsp;&nbsp;เพิ่ม
+        </Button> */}
       </div>
       <div className="col-1" />
     </div >

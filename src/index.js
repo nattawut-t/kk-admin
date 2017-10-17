@@ -5,6 +5,8 @@ import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 import { store } from './store';
 import App from './containers/App';
 

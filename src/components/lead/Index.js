@@ -6,6 +6,7 @@ import Snackbar from 'material-ui/Snackbar';
 import ButtonBar from '../../containers/lead/ButtonBar';
 import List from '../../containers/lead/List';
 import Viewer from '../../containers/lead/Viewer';
+// import New from '../../components/shared/New';
 
 const Index = ({ id, loadNextPage, loading, message }) => (
   <div>
@@ -34,6 +35,9 @@ const Index = ({ id, loadNextPage, loading, message }) => (
     <Drawer width={800} openSecondary open={id !== ''} >
       <Viewer />
     </Drawer>
+    {/* <Drawer width={800} openSecondary open={false} >
+      <New />
+    </Drawer> */}
     <Snackbar
       open={message !== ''}
       message={message}

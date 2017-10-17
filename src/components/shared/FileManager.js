@@ -38,30 +38,27 @@ class FileManager extends Component {
       handler(id, documents => {
         const urls = documents.map(({ url }) => url);
         const config = documents.map(({ ID, Filename, DocType, Size, url }) => {
+          let _config = {
+            key: ID,
+            filename: Filename,
+            caption: `${DocType} - ${Filename}`,
+            width: '120px',
+            size: Size,
+            url: deleteUrl(`/${id}`),
+            downloadUrl: url,
+          };
           const ext = Filename.split('.').pop();
 
-          return (['jpg', 'jpeg', 'png'].indexOf(ext) > -1)
-            ? {
-              key: ID,
-              caption: `${DocType} - ${Filename}`,
-              width: '120px',
-              size: Size,
-              url: deleteUrl(`/${id}`),
-              downloadUrl: url,
-            }
-            : {
-              key: ID,
-              caption: `${DocType} - ${Filename}`,
-              width: '120px',
-              size: Size,
-              url: deleteUrl(`/${id}`),
-              downloadUrl: url,
-              type: ext,
-            };
+          if (['jpg', 'jpeg', 'png'].indexOf(ext) <= -1) {
+            _config = Object.assign(_config, { type: ext });
+          }
+
+          return _config;
         });
 
-        console.log('documents: ', documents);
-        console.log('config: ', config);
+        // console.log('urls: ', urls);
+        // console.log('documents: ', documents);
+        // console.log('config: ', config);
 
         $('#file1').fileinput('destroy');
 
