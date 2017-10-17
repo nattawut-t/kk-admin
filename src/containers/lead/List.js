@@ -51,7 +51,7 @@ const schema = [
   {
     id: 3,
     name: 'dateReq',
-    // sortKey: 'dateReq',
+    sortKey: 'dateReq',
     label: 'วันที่สร้างคำขอกู้',
     widthPercentage: 25,
     format: value => moment(value).format(dateFormat),
@@ -66,7 +66,7 @@ const schema = [
   {
     id: 5,
     name: 'nameTH',
-    // sortKey: 'firstNameTH',
+    sortKey: 'firstNameTH',
     label: 'ชื่อ/นามสกุล (TH)',
     widthPercentage: 30,
   },
