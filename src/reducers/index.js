@@ -7,6 +7,8 @@ import admin from './admin';
 import draft from './draft';
 import notification from './notification';
 import document from './document';
+import search from './search';
+import pagination from './pagination';
 
 const rootReducer = combineReducers({
   lead,
@@ -16,6 +18,8 @@ const rootReducer = combineReducers({
   draft,
   notification,
   document,
+  search,
+  pagination,
 });
 
 export default rootReducer;

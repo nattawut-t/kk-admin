@@ -1,30 +1,17 @@
 import Immutable, { Record } from 'immutable';
 
 import {
-  LOAD_NEXT_PAGE_SUCCESS,
-  SEARCH_SUCCESS,
-  // setLoading,
-  // setSearchInfo,
-  // setSortInfo,
   cancelSelection,
-  loadNextPageSuccess,
-  searchSuccess,
-  selectDataSuccess,
+  // selectDataSuccess,
   EDIT_SUCCESS,
   SAVE_SUCCESS,
-  SELECT_DATA_SUCCESS,
+  // SELECT_DATA_SUCCESS,
   CANCEL_SELECTION,
 } from '../actions/lead';
-import {
-  portalUrl,
-  getJson,
-} from '../libs/request';
-import {
-  // pageSize,
-  loadingTime,
-  // dateFormat,
-  // isAdmin,
-} from '../libs/config';
+
+import { updatePagination, handlePageChange } from './pagination';
+import { portalUrl, getJson } from '../libs/request';
+import { loadingTime } from '../libs/config';
 
 import { notify, loading } from './notification';
 import { parseLeadIn as parseIn } from '../libs/lead';
@@ -35,6 +22,25 @@ import agreement from '../libs/agreement';
 import personalInfo from '../libs/personalInfo';
 import loanInfo from '../libs/loanInfo';
 import additionalInfo from '../libs/additionalInfo';
+
+const SEARCH_SUCCESS = 'lead/SEARCH_SUCCESS';
+export const searchSuccess = dataList => ({
+  type: SEARCH_SUCCESS,
+  dataList,
+});
+
+const LOAD_NEXT_PAGE_SUCCESS = 'lead/LOAD_NEXT_PAGE_SUCCESS';
+export const loadNextPageSuccess = dataList => ({
+  type: LOAD_NEXT_PAGE_SUCCESS,
+  dataList,
+});
+
+const SELECT_DATA_SUCCESS = 'lead/SELECT_DATA_SUCCESS';
+export const selectDataSuccess = (id, data) => ({
+  type: SELECT_DATA_SUCCESS,
+  id,
+  data,
+});
 
 const State = Record({
   id: 0,
@@ -47,16 +53,8 @@ const State = Record({
   lead: null,
   data: null,
   //
-  identity: {},
-  account: {},
-  statement_1: {},
-  statement_2: {},
-  statement_3: {},
-  //
   dataList: [],
-  total: 0,
-  pages: 0,
-  page: 0,
+  params: {},
   //
   documents: [],
   //
@@ -67,29 +65,25 @@ const initialState = new State();
 
 const url = (postfix = '') => portalUrl(`/admin/leads${postfix}`);
 
-export const loadNextPage = (keyword = '', sortBy = 'id', sortType = 'desc') =>
+export const loadNextPage = () =>
   async (dispatch, getState) => {
     // dispatch(loading(true));
     dispatch(cancelSelection());
 
-    const state = getState().lead;
-    const total = state.get('total') || 0;
-    const dataList = state.get('dataList').toJS();
-    const page = state.get('page') || 1;
+    const { total, page } = getState().pagination;
+    const dataList = getState().lead.get('dataList').toJS();
 
     if (dataList.length < total) {
-      const params = {
-        orderBy: sortBy,
-        orderType: sortType,
-        page: page + 1,
-      };
+      dispatch(handlePageChange(page + 1));
+      const params = { ...getState().search };
 
       try {
         const { data } = await getJson(url(), true, params);
         const { count, entries, numOfPages, page } = data;
         const dataList = entries ? parseLeadsIn(entries) : [];
 
-        dispatch(loadNextPageSuccess(dataList, count, numOfPages, page));
+        dispatch(updatePagination(count, numOfPages, page));
+        dispatch(loadNextPageSuccess(dataList));
       } catch (error) {
         dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
 
@@ -106,32 +100,36 @@ export const loadNextPage = (keyword = '', sortBy = 'id', sortType = 'desc') =>
     // dispatch(loading());
   };
 
-export const searchData = (keyword = '', sortBy = 'id', sortType = 'desc') =>
-  async dispatch => {
+export const searchData = () =>
+  async (dispatch, getState) => {
     dispatch(loading(true));
     dispatch(cancelSelection());
 
     const _url = url();
-    const params = {
-      orderBy: sortBy,
-      orderType: sortType,
-    };
-    console.log('url: ', _url, params);
-    const promise = getJson(_url, true, params);
+    const params = { ...getState().search };
 
-    setTimeout(() =>
-      promise
-        .then(({ data }) => {
-          const { count, entries, numOfPages, page } = data;
-          const dataList = entries ? parseLeadsIn(entries) : [];
+    delete params.page;
 
-          // console.log('searchData: ', entries);
+    try {
+      const { data } = await getJson(_url, true, params);
+      const { count, entries, numOfPages, page } = data;
+      const dataList = entries ? parseLeadsIn(entries) : [];
 
-          dispatch(searchSuccess(dataList, count, numOfPages, page));
-          dispatch(loading());
-        })
-        .catch(error => handleError(error))
-      , loadingTime);
+      setTimeout(() => {
+        dispatch(updatePagination(count, numOfPages, page));
+        dispatch(searchSuccess(dataList));
+        dispatch(loading());
+      }, 1000);
+    } catch (error) {
+      dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));
+
+      setTimeout(() => {
+        dispatch(notify());
+        dispatch(loading());
+      }, loadingTime);
+
+      handleError(error);
+    }
   };
 
 export const select = (id, callback) =>
@@ -227,9 +225,6 @@ const lead = (state = initialState, action) => {
     case SEARCH_SUCCESS:
 
       _state = Immutable.fromJS({
-        total: action.total,
-        pages: action.pages,
-        page: action.page,
         dataList: [
           ...action.dataList,
         ],
@@ -239,9 +234,6 @@ const lead = (state = initialState, action) => {
     case LOAD_NEXT_PAGE_SUCCESS:
 
       _state = Immutable.fromJS({
-        total: action.total,
-        pages: action.pages,
-        page: action.page,
         dataList: [
           ...state.dataList,
           ...action.dataList,
