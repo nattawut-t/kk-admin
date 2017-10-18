@@ -12,7 +12,7 @@ import Criteria from '../../containers/search/Criteria';
 
 const Index = ({ id, loadNextPage, loading, message }) => (
   <div>
-    <Jumbotron>
+    <Jumbotron style={{ padding: '2rem 1rem' }}>
       <h5 className="display-4">Leads</h5>
       <hr className="my-2" />
       <p className="lead">Information for approval</p>

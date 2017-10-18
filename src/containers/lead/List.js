@@ -16,7 +16,7 @@ const schema = [
     id: 1,
     name: 'Status',
     sortKey: 'status',
-    label: 'สถานะคำข้อกู้',
+    label: 'Status',
     widthPercentage: 10,
     icon: status => {
       let icon;
@@ -46,14 +46,14 @@ const schema = [
     id: 2,
     name: 'ID',
     sortKey: 'id',
-    label: 'เลขที่',
+    label: 'ID',
     widthPercentage: 10,
   },
   {
     id: 3,
     name: 'dateReq',
     sortKey: 'dateReq',
-    label: 'วันที่สร้างคำขอกู้',
+    label: 'Requested date',
     widthPercentage: 25,
     format: value => moment(value).format(dateFormat),
   },
@@ -61,14 +61,14 @@ const schema = [
     id: 4,
     name: 'TicketID',
     sortKey: 'ticket_id',
-    label: 'เลขที่อ้างอิง',
+    label: 'Ticket ID',
     widthPercentage: 20,
   },
   {
     id: 5,
     name: 'nameTH',
     sortKey: 'firstNameTH',
-    label: 'ชื่อ/นามสกุล (TH)',
+    label: 'First / Last name (TH)',
     widthPercentage: 30,
   },
 ];

@@ -117,9 +117,9 @@ class List extends Component {
                   </TableHeaderColumn>
                 );
               })}
-              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>เอกสาร</TableHeaderColumn>
-              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>รายละเอียด</TableHeaderColumn>
-              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>แก้ไข</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>Documents</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>View</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>Edit</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -164,7 +164,7 @@ class List extends Component {
                     })}
                     <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
                       <IconButton
-                        tooltip="เอกสาร"
+                        tooltip="Documents"
                         style={{ color: '#8B8C8D' }}
                         onClick={() => this.handleDocumentClick(id)}
                         data-toggle="modal"
@@ -175,7 +175,7 @@ class List extends Component {
                     </TableRowColumn>
                     <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
                       <IconButton
-                        tooltip="รายละเอียด"
+                        tooltip="View"
                         style={{ color: '#8B8C8D' }}
                         onClick={() => this.handleViewClick(id)}
                       >
@@ -185,7 +185,7 @@ class List extends Component {
                     <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
                       {Status === 'created'
                         ? <IconButton
-                          tooltip="แก้ไข"
+                          tooltip="Edit"
                           style={{ color: '#8B8C8D' }}
                           onClick={() => this.handleEditClick(id)}
                         >
@@ -207,7 +207,7 @@ class List extends Component {
             <div className="modal-dialog modal-lg" style={{ top: '50px' }} role="document">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalLabel">เอกสาร</h5>
+                  <h5 className="modal-title" id="exampleModalLabel">Documents</h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
