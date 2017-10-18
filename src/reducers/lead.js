@@ -1,14 +1,5 @@
 import Immutable, { Record } from 'immutable';
 
-import {
-  cancelSelection,
-  // selectDataSuccess,
-  EDIT_SUCCESS,
-  SAVE_SUCCESS,
-  // SELECT_DATA_SUCCESS,
-  CANCEL_SELECTION,
-} from '../actions/lead';
-
 import { updatePagination, handlePageChange } from './pagination';
 import { portalUrl, getJson } from '../libs/request';
 import { loadingTime } from '../libs/config';
@@ -40,6 +31,11 @@ export const selectDataSuccess = (id, data) => ({
   type: SELECT_DATA_SUCCESS,
   id,
   data,
+});
+
+const CANCEL_SELECTION = 'lead/CANCEL_SELECTION';
+export const cancelSelection = () => ({
+  type: CANCEL_SELECTION,
 });
 
 const State = Record({
@@ -198,27 +194,6 @@ const lead = (state = initialState, action) => {
       _state = Immutable.fromJS({
         id: action.id,
         data: action.data,
-      });
-      return state.merge(_state);
-
-    case SAVE_SUCCESS:
-
-      _state = Immutable.fromJS({
-        id: 0,
-        editing: false,
-      });
-      return state.merge(_state);
-
-    case EDIT_SUCCESS:
-
-      _state = Immutable.fromJS({
-        id: action.id,
-        editing: true,
-        //
-        agreement: agreement.data({ isConsent: true }),
-        personalInfo: action.personalInfo,
-        loanInfo: action.loanInfo,
-        additionalInfo: action.additionalInfo,
       });
       return state.merge(_state);
 
