@@ -21,12 +21,6 @@ const sortIcon = sortType => (sortType === 'asc')
 
 class List extends Component {
 
-  state = {
-    keyword: '',
-    sortBy: 'id',
-    sortType: 'desc',
-  };
-
   componentWillMount() {
     const { searchData } = this.props;
     if (searchData) {
@@ -56,20 +50,15 @@ class List extends Component {
   };
 
   handleSortClick = key => {
-    const { sortBy, sortType } = this.state;
+    const { orderBy, orderType, handleSortChange, searchData } = this.props;
     const _switch = type => type === 'asc' ? 'desc' : 'asc';
 
-    this.setState({
-      sortType: (sortBy !== key) ? 'asc' : _switch(sortType),
-      sortBy: key,
-    }, () => {
-      const { searchData } = this.props;
-      const { keyword, sortBy, sortType } = this.state;
-
-      console.log('handleSortClick: ', keyword, sortBy, sortType);
-
-      searchData(keyword, sortBy, sortType);
+    handleSortChange({
+      orderType: (orderBy !== key) ? 'asc' : _switch(orderType),
+      orderBy: key,
     });
+
+    searchData();
   };
 
   render() {
@@ -78,8 +67,13 @@ class List extends Component {
     //   return <div className="loader" />;
     // }
 
-    const { dataList, tableSchemas, loading } = this.props;
-    const { sortBy, sortType } = this.state;
+    const {
+      dataList,
+      tableSchemas,
+      loading,
+      orderBy,
+      orderType,
+    } = this.props;
 
     return (
       <div>
@@ -110,8 +104,8 @@ class List extends Component {
                           tooltip={`Sort by ${label}`}
                           onClick={() => this.handleSortClick(sortKey)}
                         >
-                          {(sortBy === sortKey)
-                            ? sortIcon(sortType)
+                          {(orderBy === sortKey)
+                            ? sortIcon(orderType)
                             : <i className="material-icons">more_vert</i>
                           }
                         </IconButton>
@@ -237,8 +231,11 @@ List.propTypes = {
   loading: PropTypes.bool,
   dataList: PropTypes.any,
   tableSchemas: PropTypes.array,
+  orderBy: PropTypes.string,
+  orderType: PropTypes.string,
   searchData: PropTypes.func,
   selectData: PropTypes.func,
+  handleSortChange: PropTypes.func.isRequired,
   edit: PropTypes.func,
   setId: PropTypes.func,
   history: PropTypes.object.isRequired,

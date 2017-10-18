@@ -12,6 +12,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
+import Divider from 'material-ui/Divider';
 import withWidth, { LARGE } from 'material-ui/utils/withWidth';
 
 import Menu from 'material-ui/Menu';
@@ -22,6 +23,8 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
 import List from 'material-ui/svg-icons/action/list';
 import LibraryBooks from 'material-ui/svg-icons/av/library-books';
+
+import { Icon } from 'react-fa';
 
 import Layout from './Layout';
 import Login from '../containers/Login';
@@ -124,16 +127,13 @@ class App extends React.Component {
 
   render() {
     const authenticated = localStorage.getItem('token');
-    // const _isAdmin = isAdmin();
 
     if (!authenticated) {
       return (
         <Router>
           <MuiThemeProvider>
             <Switch>
-              {/* <Route exact path="/" component={Landing} /> */}
               <Route path="/login" component={Login} />
-              {/* <Route path="/admin/login" component={AdminLogin} /> */}
               <Route path="*" exact component={Login} />
             </Switch>
           </MuiThemeProvider>
@@ -145,20 +145,12 @@ class App extends React.Component {
       <Router>
         <MuiThemeProvider muiTheme={muiTheme}>
           <div>
-            <AppBar
-              title=""
-              className={`${!authenticated ? 'pc-hide' : ''}`}
-              iconElementRight={<Logged onSignoutClick={this.handleSignoutClick} />}
-              iconStyleRight={{ color: '#101010' }}
-              onClick={() => this.handleToggle()}
-              style={styles.AppBar}
-            />
+            <div style={{ marginLeft: '15px' }}>
+              <Icon name="angle-double-right" aria-hidden="true" onClick={() => this.handleToggle()} />
+            </div>
             <main>
-              <div className={`${!authenticated ? 'row' : 'main-container'}`}>
-                <div
-                  className={`${!authenticated ? 'col-0' : 'sidebar'}`}
-                  style={{ margin: 'inherit' }}
-                >
+              <div className="main-container">
+                <div>
                   <Drawer
                     docked
                     className={`${!authenticated ? 'pc-hide' : ''}`}
@@ -192,11 +184,19 @@ class App extends React.Component {
                         leftIcon={<List />}
                         style={styles.MenuItem}
                       />
+                      <Divider />
+                      <MenuItem
+                        primaryText="ออกจากระบบ"
+                        containerElement={<Link to="/leads" />}
+                        leftIcon={<List />}
+                        style={styles.MenuItem}
+                        onClick={this.handleSignoutClick}
+                      />
                     </Menu>
                   </Drawer>
 
                 </div>
-                <div className={`${!authenticated ? 'col-12' : 'contain'}`}>
+                <div className="col-12">
                   <Switch>
                     <Route path="/summary" render={() => <Layout><Summary /></Layout>} />
                     <Route path="/additional-info" render={() => <Layout><AdditionalInfo /></Layout>} />
@@ -211,7 +211,7 @@ class App extends React.Component {
             </main>
           </div>
         </MuiThemeProvider>
-      </Router>);
+      </Router >);
   }
 }
 

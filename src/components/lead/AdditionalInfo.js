@@ -316,9 +316,6 @@ class AdditionalInfo extends Component {
       console.log('handleFileChange', uploadFile);
 
       uploadFile(name, value, _fileName, formData, _docType, doc => {
-        // console.log('callback: ', docType, doc, fileName, value);
-
-        // const { id } = doc;
         let { files } = this.state;
         files = files || [];
 
@@ -326,17 +323,13 @@ class AdditionalInfo extends Component {
 
         if (_doc) {
           _doc.id = doc.id;
-          // identity.path = doc.path;
           _doc.docType = doc.docType;
           _doc.filename = doc.filename;
         } else {
           files.push(doc);
         }
 
-        // console.log('files: ', files);
-
         this.setState({ files });
-        // this.getImageUrl(id);
       });
     }
   };
@@ -355,136 +348,6 @@ class AdditionalInfo extends Component {
   };
 
   save = path => {
-    // const {
-    //   ref1Prefix,
-    //   ref1Firstname,
-    //   ref1Lastname,
-    //   ref1Relationship,
-    //   ref1MobileNo,
-    //   ref1WorkTelephone,
-    //   ref1HomeTelephone,
-    //   //
-    //   ref2Prefix,
-    //   ref2Firstname,
-    //   ref2Lastname,
-    //   ref2Relationship,
-    //   ref2MobileNo,
-    //   ref2WorkTelephone,
-    //   ref2HomeTelephone,
-    //   //
-    //   conjugalPrefix,
-    //   conjugalFirstname,
-    //   conjugalLastname,
-    //   conjugalOccupation,
-    //   conjugalIncome,
-    //   children,
-    //   //
-    //   shippingHouseNo,
-    //   shippingMoo,
-    //   shippingVillage,
-    //   shippingFloor,
-    //   shippingSoi,
-    //   shippingRoad,
-    //   shippingPostalCode,
-    //   shippingProvinceCode,
-    //   shippingAmphurCode,
-    //   shippingTambolCode,
-    //   shippingProvinceCodeName,
-    //   shippingAmphurCodeName,
-    //   shippingTambolCodeName,
-    //   sendingAddress,
-    //   //
-    //   identity,
-    //   account,
-    //   household_registration,
-    //   payslip,
-    //   statement_1,
-    //   statement_2,
-    //   statement_3,
-    //   //
-    //   fileName0,
-    //   fileName1,
-    //   fileName2,
-    //   fileName3,
-    //   fileName4,
-    //   fileName5,
-    //   fileName6,
-    //   //
-    //   isConsent2,
-    //   //
-    // } = this.state;
-
-    // // let files = [];
-    // // files.push(identity);
-    // // files.push(account);
-    // // files.push(household_registration);
-    // // files.push(payslip);
-    // // files.push(statement_1);
-    // // files.push(statement_2);
-    // // files.push(statement_3);
-    // // files = files.filter(file => file);
-
-    // const data = {
-    //   ref1Prefix,
-    //   ref1Firstname,
-    //   ref1Lastname,
-    //   ref1Relationship,
-    //   ref1MobileNo,
-    //   ref1WorkTelephone,
-    //   ref1HomeTelephone,
-    //   //
-    //   ref2Prefix,
-    //   ref2Firstname,
-    //   ref2Lastname,
-    //   ref2Relationship,
-    //   ref2MobileNo,
-    //   ref2WorkTelephone,
-    //   ref2HomeTelephone,
-    //   //
-    //   conjugalPrefix,
-    //   conjugalFirstname,
-    //   conjugalLastname,
-    //   conjugalOccupation,
-    //   conjugalIncome,
-    //   children,
-    //   //
-    //   shippingHouseNo,
-    //   shippingMoo,
-    //   shippingVillage,
-    //   shippingFloor,
-    //   shippingSoi,
-    //   shippingRoad,
-    //   shippingPostalCode,
-    //   shippingProvinceCode,
-    //   shippingAmphurCode,
-    //   shippingTambolCode,
-    //   shippingProvinceCodeName,
-    //   shippingAmphurCodeName,
-    //   shippingTambolCodeName,
-    //   sendingAddress,
-    //   //
-    //   isConsent2,
-    //   files,
-    //   //
-    //   identity,
-    //   account,
-    //   household_registration,
-    //   payslip,
-    //   statement_1,
-    //   statement_2,
-    //   statement_3,
-    //   //
-    //   fileName0,
-    //   fileName1,
-    //   fileName2,
-    //   fileName3,
-    //   fileName4,
-    //   fileName5,
-    //   fileName6,
-    // };
-
-    // console.log('ai.handleNextClick.data: ', data);
-
     const { saveDraft, history, data } = this.props;
     const _data = Object.assign(data, this.state);
     saveDraft(_data, () => history.push(path));
