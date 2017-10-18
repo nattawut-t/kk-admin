@@ -8,6 +8,7 @@ import {
 } from '../../reducers/lead';
 import { loadDocuments } from '../../reducers/document';
 import { edit, setId } from '../../reducers/draft';
+import { handleSortChange } from '../../reducers/search';
 import { dateFormat } from '../../libs/config';
 
 const schema = [
@@ -72,15 +73,17 @@ const schema = [
   },
 ];
 
-const mapStateToProps = ({ lead, notification }) => ({
+const mapStateToProps = ({ lead, notification, search }) => ({
   dataList: lead.get('dataList'),
   loading: notification.loading,
   tableSchemas: schema,
+  orderBy: search.orderBy,
+  orderType: search.orderType,
 });
 
 const mapDispatchToProps = dispatch => ({
   searchData: (keyword, sortBy, sortType) => dispatch(searchData(keyword, sortBy, sortType)),
-  // sortData: (sortField, sortDesc) => dispatch(sortData(sortField, sortDesc)),
+  handleSortChange: e => dispatch(handleSortChange(e)),
   selectData: (id, callback) => dispatch(select(id, callback)),
   edit: (id, callback) => dispatch(edit(id, callback)),
   setId: id => dispatch(setId(id)),
