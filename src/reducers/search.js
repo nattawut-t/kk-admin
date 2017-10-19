@@ -12,7 +12,7 @@ export const handleChange = (name, value) => ({
 export const handleDateChange = (name, value) => ({
   type: HANDLE_CHANGE,
   name,
-  value: moment(value).format('YYYY-MM-DD'),
+  value: value ? moment(value).format('YYYY-MM-DD') : null,
 });
 
 const initialState = {

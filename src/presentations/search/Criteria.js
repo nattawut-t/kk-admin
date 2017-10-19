@@ -20,6 +20,9 @@ if (areIntlLocalesSupported(['th', 'th-TH'])) {
   DateTimeFormat = IntlPolyfill.DateTimeFormat;
 }
 
+let fromInput;
+let toInput;
+
 const Criteria = ({ search, loading, handleChange, handleDateChange }) =>
   <div>
     <div className="col-6">
@@ -44,30 +47,64 @@ const Criteria = ({ search, loading, handleChange, handleDateChange }) =>
         onChange={({ target: { name, value } }) => handleChange(name, value)}
       />
     </div>
-    <div className="col-6">
+    <div className="col-6" style={{ display: 'flex' }}>
       <DatePicker
         id="reqDateStart"
         name="reqDateStart"
         mode="landscape"
         floatingLabelText="From"
         onChange={(e, value) => handleDateChange('reqDateStart', value)}
-        fullWidth
         autoOk
         DateTimeFormat={DateTimeFormat}
         locale="th-TH"
+        ref={node => {
+          fromInput = node.refs.input.input;
+        }}
+      />
+      <i
+        className="fa fa-times"
+        aria-hidden="true"
+        style={{
+          position: 'relative',
+          top: '40px',
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          handleDateChange('reqDateStart', null);
+          if (fromInput) {
+            fromInput.value = null;
+          }
+        }}
       />
     </div>
-    <div className="col-6">
+    <div className="col-6" style={{ display: 'flex' }}>
       <DatePicker
         id="reqDateStop"
         name="reqDateStop"
         mode="landscape"
         floatingLabelText="To"
         onChange={(e, value) => handleDateChange('reqDateStop', value)}
-        fullWidth
         autoOk
         DateTimeFormat={DateTimeFormat}
         locale="th-TH"
+        ref={node => {
+          toInput = node.refs.input.input;
+        }}
+      />
+      <i
+        className="fa fa-times"
+        aria-hidden="true"
+        style={{
+          position: 'relative',
+          top: '40px',
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          handleDateChange('reqDateStop', null);
+          if (toInput) {
+            toInput.value = '';
+          }
+        }}
       />
     </div>
     <div className="col-12">&nbsp;</div>
