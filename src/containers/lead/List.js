@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
 import moment from 'moment';
+
 import List from '../../components/lead/List';
-import {
-  searchData,
-  select,
-  // sortData,
-} from '../../reducers/lead';
+import { searchData, select } from '../../reducers/lead';
 import { loadDocuments } from '../../reducers/document';
 import { edit, setId } from '../../reducers/draft';
-import { handleSortChange } from '../../reducers/search';
+import { handleChange } from '../../reducers/search';
 import { dateFormat } from '../../libs/config';
 
 const schema = [
@@ -82,8 +79,8 @@ const mapStateToProps = ({ lead, notification, search }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  searchData: (keyword, sortBy, sortType) => dispatch(searchData(keyword, sortBy, sortType)),
-  handleSortChange: e => dispatch(handleSortChange(e)),
+  searchData: () => dispatch(searchData()),
+  handleChange: (name, value) => dispatch(handleChange(name, value)),
   selectData: (id, callback) => dispatch(select(id, callback)),
   edit: (id, callback) => dispatch(edit(id, callback)),
   setId: id => dispatch(setId(id)),

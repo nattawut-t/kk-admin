@@ -50,14 +50,12 @@ class List extends Component {
   };
 
   handleSortClick = key => {
-    const { orderBy, orderType, handleSortChange, searchData } = this.props;
+    const { orderBy, orderType, handleChange, searchData } = this.props;
     const _switch = type => type === 'asc' ? 'desc' : 'asc';
+    const _orderType = (orderBy !== key) ? 'asc' : _switch(orderType);
 
-    handleSortChange({
-      orderType: (orderBy !== key) ? 'asc' : _switch(orderType),
-      orderBy: key,
-    });
-
+    handleChange('orderType', _orderType);
+    handleChange('orderBy', key);
     searchData();
   };
 
@@ -235,7 +233,7 @@ List.propTypes = {
   orderType: PropTypes.string,
   searchData: PropTypes.func,
   selectData: PropTypes.func,
-  handleSortChange: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
   edit: PropTypes.func,
   setId: PropTypes.func,
   history: PropTypes.object.isRequired,

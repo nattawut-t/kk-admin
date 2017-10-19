@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 import Component from '../../presentations/search/Criteria';
 import { searchData } from '../../reducers/lead';
-import { handleSearchChange } from '../../reducers/search';
+import { handleChange, handleDateChange } from '../../reducers/search';
 
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
   search: criteria => dispatch(searchData(criteria)),
-  handleChange: e => dispatch(handleSearchChange(e)),
+  handleChange: (name, value) => dispatch(handleChange(name, value)),
+  handleDateChange: (name, value) => dispatch(handleDateChange(name, value)),
 });
 
 export default connect(

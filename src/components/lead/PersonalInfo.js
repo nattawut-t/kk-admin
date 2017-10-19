@@ -16,15 +16,11 @@ import 'intl/locale-data/jsonp/th-TH';
 
 import PrefixTh from '../shared/PrefixTh';
 import PrefixEn from '../shared/PrefixEn';
-// import Identity from '../shared/Identity';
 import MaritalStatus from '../shared/MaritalStatus';
 import AddressStatus from '../shared/AddressStatus';
 import Location from '../shared/Location';
 import Tel from '../shared/Tel';
-// import {
-//   // dateFormat,
-//   isAdmin,
-// } from '../../libs/config';
+
 import { data as parse } from '../../libs/personalInfo';
 
 let DateTimeFormat;
