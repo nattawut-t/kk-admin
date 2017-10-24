@@ -25,7 +25,6 @@ const initialState = {
 const search = (state = initialState, action) => {
   switch (action.type) {
     case HANDLE_CHANGE:
-      console.log(HANDLE_CHANGE, action);
       return Object.assign(state, { [action.name]: action.value });
 
     default:
