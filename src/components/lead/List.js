@@ -115,9 +115,9 @@ class List extends Component {
                   </TableHeaderColumn>
                 );
               })}
-              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>Documents</TableHeaderColumn>
-              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>View</TableHeaderColumn>
-              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>Edit</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>เอกสาร</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>ดูรายละเอียด</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>แก้ไข</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -160,7 +160,7 @@ class List extends Component {
                         </TableRowColumn>
                       );
                     })}
-                    <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
+                    <TableRowColumn style={{ width: '9%', textAlign: 'center' }}>
                       <IconButton
                         tooltip="Documents"
                         style={{ color: '#8B8C8D' }}
@@ -171,7 +171,7 @@ class List extends Component {
                         <i className="material-icons">description</i>
                       </IconButton>
                     </TableRowColumn>
-                    <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
+                    <TableRowColumn style={{ width: '8%', textAlign: 'center' }}>
                       <IconButton
                         tooltip="View"
                         style={{ color: '#8B8C8D' }}
@@ -180,7 +180,7 @@ class List extends Component {
                         <i className="material-icons">format_list_bulleted</i>
                       </IconButton>
                     </TableRowColumn>
-                    <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
+                    <TableRowColumn style={{ width: '8%', textAlign: 'center' }}>
                       {Status === 'created'
                         ? <IconButton
                           tooltip="Edit"
