@@ -173,20 +173,20 @@ class App extends React.Component {
 
                     <Menu>
                       <MenuItem
-                        primaryText="Add New Lead"
+                        primaryText="เพิ่มคำขอกู้"
                         containerElement={<Link to="/personal-info" />}
                         leftIcon={<LibraryBooks />}
                         style={styles.MenuItem}
                       />
                       <MenuItem
-                        primaryText="Lead Information"
+                        primaryText="รายการคำขอกู้"
                         containerElement={<Link to="/leads" />}
                         leftIcon={<List />}
                         style={styles.MenuItem}
                       />
                       <Divider />
                       <MenuItem
-                        primaryText="Sign Out"
+                        primaryText="ออกจากระบบ"
                         containerElement={<Link to="/leads" />}
                         leftIcon={<List />}
                         style={styles.MenuItem}

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import Component from '../../components/shared/ButtonBar';
-import { cancelSelection } from '../../actions/lead';
-import { searchData } from '../../reducers/lead';
+import { searchData, cancelSelection } from '../../reducers/lead';
 // import { switchMode } from '../../reducers/draft';
 
 const mapStateToProps = ({ lead, notification }) => ({

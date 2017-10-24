@@ -11,23 +11,23 @@ const ButtonBar = () =>
       alignItems: 'center',
     }}
   >
-    <span>Status:</span>
+    <span>สถานะ:</span>
     <IconButton style={{ color: '#8B8C8D' }}>
       <i className="material-icons">account_circle</i>
     </IconButton>
-    <span>Created</span>
+    <span>อยู่ระหว่างการพิจารณา</span>
     <IconButton style={{ color: '#8B8C8D' }}>
       <i className="material-icons">check_circle</i>
     </IconButton>
-    <span>Aproved</span>
+    <span>อนุมัติ</span>
     <IconButton style={{ color: '#8B8C8D' }}>
       <i className="material-icons">block</i>
     </IconButton>
-    <span>Rejected</span>
+    <span>ปฏิเสธ</span>
     <IconButton style={{ color: '#8B8C8D' }}>
       <i className="material-icons">priority_high</i>
     </IconButton>
-    <span>Error</span>
+    <span>เกิดข้อผิดพลาด</span>
   </div>;
 
 export default ButtonBar;

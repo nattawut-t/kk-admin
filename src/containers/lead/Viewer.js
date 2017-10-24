@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Component from '../../components/shared/Viewer';
-import { cancelSelection } from '../../actions/lead';
 import { approve, reject } from '../../reducers/admin';
+import { cancelSelection } from '../../reducers/lead';
 import { edit } from '../../reducers/draft';
 
 const transform = (state, key) => {
