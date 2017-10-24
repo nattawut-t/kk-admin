@@ -66,19 +66,21 @@ export const loadNextPage = () =>
     // dispatch(loading(true));
     dispatch(cancelSelection());
 
-    const { total, page } = getState().pagination;
-    const dataList = getState().lead.get('dataList').toJS();
+    const state = getState();
+    const { total, page } = state.pagination;
+    const dataList = state.lead.get('dataList').toJS();
 
     if (dataList.length < total) {
-      dispatch(handlePageChange(page + 1));
-      const params = { ...getState().search };
+      const nextPage = page + 1;
+      dispatch(handlePageChange(nextPage));
+      const params = Object.assign(state.search, state.pagination);
 
       try {
         const { data } = await getJson(url(), true, params);
-        const { count, entries, numOfPages, page } = data;
+        const { count, entries, numOfPages } = data;
         const dataList = entries ? parseLeadsIn(entries) : [];
 
-        dispatch(updatePagination(count, numOfPages, page));
+        dispatch(updatePagination(count, numOfPages, nextPage));
         dispatch(loadNextPageSuccess(dataList));
       } catch (error) {
         dispatch(notify('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง'));

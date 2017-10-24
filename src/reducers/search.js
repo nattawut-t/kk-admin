@@ -20,7 +20,6 @@ const initialState = {
   orderType: 'desc',
   firstName: '',
   idcard: '',
-  page: 1,
 };
 
 const search = (state = initialState, action) => {

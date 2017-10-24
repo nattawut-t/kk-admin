@@ -29,7 +29,6 @@ const pagination = (state = initialState, action) => {
       };
 
     case HANDLE_PAGE_CHANGE:
-      console.log(HANDLE_PAGE_CHANGE, action);
       return Object.assign(state, { page: action.page });
 
     default:
