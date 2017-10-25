@@ -27,7 +27,7 @@ export function adminUrl(endpoint) {
       return `https://api.moneytable.com${endpoint}`;
 
     default:
-      return `http://dev-api.moneytable.com${endpoint}`;
+      return `https://dev-api.moneytable.com${endpoint}`;
   }
 }
 
