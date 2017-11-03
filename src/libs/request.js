@@ -41,7 +41,7 @@ export function portalUrl(endpoint) {
       return `https://portal.moneytable.com${endpoint}`;
 
     default:
-      return `http://dev-portal.moneytable.com${endpoint}`;
+      return `https://dev-portal.moneytable.com${endpoint}`;
   }
 }
 
