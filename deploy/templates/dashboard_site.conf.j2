@@ -1,4 +1,3 @@
-{% if use_ssl is defined and use_ssl %}
 server {
     listen 80;
     server_name {{ domain_app }};
@@ -25,20 +24,3 @@ server {
         try_files $uri $uri/ /index.html;
     }
 }
-{% else %}
-server {
-    listen 80;
-    server_name {{ domain_app }};
-    root {{ mtc_server_root }};
-    index index.html;
-
-    location /assets/ {
-        root /var/www/kkadmin.dashboard/;
-        autoindex off;
-    }
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-}
-{% endif %}
