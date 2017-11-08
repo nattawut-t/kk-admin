@@ -1,1 +1,1 @@
-# KK Admin
+# Admin Application
