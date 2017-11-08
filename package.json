@@ -4,8 +4,8 @@
   "description": "KK Admin Application",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
-    "build": "NODE_ENV=${NODE_ENV:=dev} && echo ${NODE_ENV} && rm -rf dist && ./node_modules/.bin/webpack --config webpack/webpack.config.${NODE_ENV}.js && cp -a assets/ dist/",
+    "start": "./node_modules/.bin/webpack-dev-server --open --config webpack.dev.js",
+    "build": "NODE_ENV=${NODE_ENV:=dev} && echo ${NODE_ENV} && rm -rf dist && ./node_modules/.bin/webpack --config webpack.${NODE_ENV}.js && cp -a assets/ dist/",
     "prod": "serve ./dist -s",
     "lint": "eslint src",
     "test": "jest",
@@ -56,6 +56,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "bootstrap": "4.0.0-beta",
     "bourbon": "^4.3.4",
+    "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.4",
     "eslint-import-resolver-webpack": "^0.8.3",
     "eslint-loader": "^1.9.0",
@@ -94,6 +95,8 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "styled-components": "^2.1.2",
-    "uuid": "^3.1.0"
+    "url-loader": "^0.6.2",
+    "uuid": "^3.1.0",
+    "webpack-merge": "^4.1.1"
   }
 }

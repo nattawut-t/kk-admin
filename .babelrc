@@ -1,7 +1,12 @@
 {
   "presets": [
-    "es2017",
     "react",
+    // supports ES6
+    // transform-async-to-generator
+    "es2017",
+    // needed for 
+    "es2015",
+    // suports arrow funciton and others advances of ES6
     "stage-0"
   ],
   "plugins": [
