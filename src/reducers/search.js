@@ -20,11 +20,13 @@ const initialState = {
   orderType: 'desc',
   firstName: '',
   idcard: '',
+  submitTo: [],
 };
 
 const search = (state = initialState, action) => {
   switch (action.type) {
     case HANDLE_CHANGE:
+      console.log(action);
       return Object.assign(state, { [action.name]: action.value });
 
     default:

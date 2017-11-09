@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Component from '../../presentations/search/Criteria';
+import Component from '../../components/search/Criteria';
 import { searchData } from '../../reducers/lead';
 import { handleChange, handleDateChange } from '../../reducers/search';
 
