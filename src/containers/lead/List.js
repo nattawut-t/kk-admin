@@ -13,8 +13,8 @@ const schema = [
     id: 1,
     name: 'Status',
     sortKey: 'status',
-    label: 'สถานะ',
-    widthPercentage: 10,
+    label: 'สถานะ (operation)',
+    widthPercentage: 15,
     icon: status => {
       let icon;
 
@@ -41,20 +41,27 @@ const schema = [
   },
   {
     id: 2,
+    name: 'KKStatus',
+    // sortKey: 'kk_status',
+    label: 'สถานะ (ลูกค้า)',
+    widthPercentage: 15,
+  },
+  {
+    id: 3,
     name: 'SubmitTo',
     // sortKey: 'submit_to',
     label: 'ช่องทางการกู้',
     widthPercentage: 15,
   },
   {
-    id: 3,
+    id: 4,
     name: 'ID',
     sortKey: 'id',
     label: 'เลขที่',
     widthPercentage: 10,
   },
   {
-    id: 4,
+    id: 5,
     name: 'dateReq',
     sortKey: 'dateReq',
     label: 'วันที่สร้างคำขอกู้',
@@ -62,18 +69,18 @@ const schema = [
     format: value => value ? moment(value).format(dateFormat) : '',
   },
   {
-    id: 5,
+    id: 6,
     name: 'TicketID',
     sortKey: 'ticket_id',
     label: 'รหัสอ้างอิง',
-    widthPercentage: 20,
+    widthPercentage: 15,
   },
   {
-    id: 6,
+    id: 7,
     name: 'nameTH',
     sortKey: 'firstNameTH',
     label: 'ชื่อ / นามสกุล (TH)',
-    widthPercentage: 30,
+    widthPercentage: 20,
   },
 ];
 

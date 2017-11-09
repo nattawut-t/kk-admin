@@ -19,6 +19,7 @@ export const parseLeadIn = ({
   ReferenceID,
   Data,
   SubmitTo,
+  KKStatus,
 }) => {
   const data = JSON.parse(Data) || {};
   const merged = Object.assign(
@@ -44,6 +45,7 @@ export const parseLeadIn = ({
       Status,
       ReferenceID,
       SubmitTo,
+      KKStatus,
     },
   );
 

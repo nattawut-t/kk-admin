@@ -11,6 +11,10 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+
 import uuid from 'uuid/v1';
 
 import FileManager from '../../containers/shared/FileManager';
@@ -60,11 +64,6 @@ class List extends Component {
   };
 
   render() {
-    // const { loading } = this.props;
-    // if (loading) {
-    //   return <div className="loader" />;
-    // }
-
     const {
       dataList,
       tableSchemas,
@@ -115,9 +114,7 @@ class List extends Component {
                   </TableHeaderColumn>
                 );
               })}
-              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>เอกสาร</TableHeaderColumn>
-              <TableHeaderColumn style={{ width: '10%', textAlign: 'center' }}>ดูรายละเอียด</TableHeaderColumn>
-              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }}>แก้ไข</TableHeaderColumn>
+              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }} />
             </TableRow>
           </TableHeader>
           <TableBody
@@ -129,7 +126,9 @@ class List extends Component {
             {(dataList instanceof ImmList)
               ? dataList.map((data, index) => {
                 const id = data.get('ID');
-                const Status = data.get('Status');
+                // const Status = data.get('Status');
+
+                // console.log(id, Status);
 
                 return (
                   <TableRow key={uuid()}>
@@ -160,37 +159,27 @@ class List extends Component {
                         </TableRowColumn>
                       );
                     })}
-                    <TableRowColumn style={{ width: '9%', textAlign: 'center' }}>
-                      <IconButton
-                        tooltip="Documents"
-                        style={{ color: '#8B8C8D' }}
-                        onClick={() => this.handleDocumentClick(id)}
-                        data-toggle="modal"
-                        data-target="#exampleModal"
+                    <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
+                      <IconMenu
+                        iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                        anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+                        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                       >
-                        <i className="material-icons">description</i>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn style={{ width: '8%', textAlign: 'center' }}>
-                      <IconButton
-                        tooltip="View"
-                        style={{ color: '#8B8C8D' }}
-                        onClick={() => this.handleViewClick(id)}
-                      >
-                        <i className="material-icons">format_list_bulleted</i>
-                      </IconButton>
-                    </TableRowColumn>
-                    <TableRowColumn style={{ width: '8%', textAlign: 'center' }}>
-                      {Status === 'created'
-                        ? <IconButton
-                          tooltip="Edit"
-                          style={{ color: '#8B8C8D' }}
+                        <MenuItem
+                          primaryText="เอกสาร"
+                          onClick={() => this.handleDocumentClick(id)}
+                          data-toggle="modal"
+                          data-target="#exampleModal"
+                        />
+                        <MenuItem
+                          primaryText="อนุมัติ / ปฏิเสธ"
+                          onClick={() => this.handleViewClick(id)}
+                        />
+                        <MenuItem
+                          primaryText="แก้ไข"
                           onClick={() => this.handleEditClick(id)}
-                        >
-                          <i className="material-icons">mode_edit</i>
-                        </IconButton>
-                        : <div />
-                      }
+                        />
+                      </IconMenu>
                     </TableRowColumn>
                   </TableRow>
                 );
