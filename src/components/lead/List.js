@@ -23,6 +23,25 @@ const sortIcon = sortType => (sortType === 'asc')
   ? <i className="material-icons">expand_less</i>
   : <i className="material-icons">expand_more</i>;
 
+const maps = (type, map, value, format) => {
+  if (map) {
+    if (type === 'icon') {
+      return (
+        <IconButton
+          tooltip={value}
+          style={{ color: '#8B8C8D' }}
+        >
+          <i className="material-icons">{map(value)}</i>
+        </IconButton>
+      );
+    }
+
+    return map(value);
+  }
+
+  return format ? format(value) : value;
+};
+
 class List extends Component {
 
   componentWillMount() {
@@ -98,7 +117,7 @@ class List extends Component {
                       ? <div style={{ display: 'inline-block' }} >
                         <span>{label}</span>
                         <IconButton
-                          tooltip={`Sort by ${label}`}
+                          tooltip={`เรียงตาม ${label}`}
                           onClick={() => this.handleSortClick(sortKey)}
                         >
                           {(orderBy === sortKey)
@@ -114,7 +133,7 @@ class List extends Component {
                   </TableHeaderColumn>
                 );
               })}
-              <TableHeaderColumn style={{ width: '7%', textAlign: 'center' }} />
+              <TableHeaderColumn style={{ width: '8%', textAlign: 'center' }} >การทำงาน</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -126,7 +145,7 @@ class List extends Component {
             {(dataList instanceof ImmList)
               ? dataList.map((data, index) => {
                 const id = data.get('ID');
-                // const Status = data.get('Status');
+                // const Status = data.get('KKStatus');
 
                 // console.log(id, Status);
 
@@ -136,7 +155,7 @@ class List extends Component {
                       {index + 1}
                     </TableRowColumn>
                     {tableSchemas.map(col => {
-                      const { id, name, icon, format } = col;
+                      const { id, name, type, map, format } = col;
                       const value = data.get(name);
                       let { widthPercentage } = col;
 
@@ -147,36 +166,28 @@ class List extends Component {
                           key={id}
                           style={{ width: `${widthPercentage}%`, textAlign: 'center' }}
                         >
-                          {(typeof icon === 'function')
-                            ? <IconButton
-                              tooltip={value}
-                              style={{ color: '#8B8C8D' }}
-                            >
-                              <i className="material-icons">{icon(value)}</i>
-                            </IconButton>
-                            : <span>{(typeof format === 'function') ? format(value) : value}</span>
-                          }
+                          {maps(type, map, value, format)}
                         </TableRowColumn>
                       );
                     })}
-                    <TableRowColumn style={{ width: '7%', textAlign: 'center' }}>
+                    <TableRowColumn style={{ width: '8%', textAlign: 'center' }}>
                       <IconMenu
                         iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
                         anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
                         targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                       >
                         <MenuItem
-                          primaryText="เอกสาร"
+                          primaryText="เอกสาร (เพิ่ม / ลบ / ดู)"
                           onClick={() => this.handleDocumentClick(id)}
                           data-toggle="modal"
                           data-target="#exampleModal"
                         />
                         <MenuItem
-                          primaryText="อนุมัติ / ปฏิเสธ"
+                          primaryText="คำขอกู้ (อนุมัติ / ปฏิเสธ)"
                           onClick={() => this.handleViewClick(id)}
                         />
                         <MenuItem
-                          primaryText="แก้ไข"
+                          primaryText="คำขอกู้ (แก้ไข)"
                           onClick={() => this.handleEditClick(id)}
                         />
                       </IconMenu>

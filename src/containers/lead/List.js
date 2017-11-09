@@ -15,7 +15,8 @@ const schema = [
     sortKey: 'status',
     label: 'สถานะ (operation)',
     widthPercentage: 15,
-    icon: status => {
+    type: 'icon',
+    map: status => {
       let icon;
 
       switch (status) {
@@ -45,6 +46,35 @@ const schema = [
     // sortKey: 'kk_status',
     label: 'สถานะ (ลูกค้า)',
     widthPercentage: 15,
+    map: status => {
+      switch (status) {
+        // KK
+        case '00': return 'สนใจ';
+        case '01': return 'ติดต่อไม่ได้';
+        case '02': return 'ติดต่อได้ รอเอกสาร';
+        case '03': return 'ติดต่อได้ให้โทรกลับ';
+        case '04': return 'ติดตามเอกสาร';
+        case '05': return 'รอผลการพิจารณา';
+        case '06': return 'อนุมัติ - ตามเสนอ';
+        case '07': return 'อนุมัติ - แก้ไขวงเงิน(ส่งกลับแก้ไข)';
+        case '08': return 'ปฎิเสธลูกค้า (Reject)';
+        case '09': return 'ลูกค้ายกเลิก (Cancel)';
+        case '10': return 'สำเร็จ (Success)';
+        case '11': return 'ส่งกลับแก้ไข';
+        case '12': return 'รอผลพิจารณา COC';
+        case '13': return 'ส่งกลับแก้ไข COC';
+        case '14': return 'อยู่ระหว่างดำเนินการ';
+        case '15': return 'รอติดต่อลูกค้า';
+        case '16': return 'Outbound';
+        // ITTP
+        case 'wait_consent': return 'รอเอกสารยอมรับ';
+        case 'approved': return 'อนุมัติ';
+        case 'rejected': return 'ปฏิเสธ';
+        case 'disbursted': return 'โอนเงินแล้ว';
+        //
+        default: return 'Unknown';
+      }
+    },
   },
   {
     id: 3,
